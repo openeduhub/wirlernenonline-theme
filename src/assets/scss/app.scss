@@ -67,12 +67,12 @@
 @include motion-ui-animations;
 
 // CUSTOM IMPORTS
-// from node_modules:
-@import 'swiper/src/swiper';
+//@import 'swiper/src/swiper';
 
 // others
 @import 'custom-colors';
 @import 'custom-typography';
 
 @import 'custom-scaffolding';
+@import 'custom-gutenberg-layout';
 @import 'custom';

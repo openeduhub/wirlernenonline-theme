@@ -1,15 +1,21 @@
 <?php
-function custom_post_type()
-{
-	register_post_type('projects',
-	array(
-		'labels'      => array(
-			'name'          => __('Projects'),
-			'singular_name' => __('Project'),
-		),
-		'public'      => true,
-		'has_archive' => true,
-	)
-);
+function create_eduSource() {
+
+    register_post_type( 'edusource',
+        // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'eduQuellen' ),
+                'singular_name' => __( 'eduQuelle' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'eduQuellen'),
+            'show_in_rest' => true,
+            'supports' => array('title','editor','author','excerpt','comments','revisions'),
+            'taxonomies' => array('post_tag'),
+        )
+    );
 }
-add_action('init', 'custom_post_type');
+// Hooking up our function to theme setup
+add_action( 'init', 'create_eduSource' );

@@ -2,6 +2,8 @@
 // Register scripts and stylesheets
 require_once(get_template_directory().'/functions/enqueue-scripts.php');
 
+require_once(get_template_directory().'/functions/custom-posts.php');
+
 // custom image sizes
 require_once(get_template_directory().'/functions/gutenberg-blocks.php');
 

@@ -5,10 +5,10 @@
 /* Layout */
 .main-content {
   // Margin-top would be for fixed header
-  // margin-top: $mobile-header-height;
-  // @include breakpoint(medium) {
-  //   margin-top: $header-height;
-  // }
+  margin-top: $mobile-header-height;
+  @include breakpoint(medium) {
+    margin-top: $header-height * 1.5;
+  }
   min-height: $mobile-fullheight-header-footer;
   @media screen and #{breakpoint(medium)} {
     min-height: $fullheight-header-footer;
@@ -17,27 +17,47 @@
 
 /* Header */
 .site-header {
+  z-index: 999;
   min-height: $mobile-header-height;
+  background-color: $white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: $global-transition;
+  &.hidden {
+    transform: translateY(-110%);
+    transition: $global-transition;
+  }
   @media screen and #{breakpoint(medium)} {
     min-height: $header-height;
+    .grid-x {
+      min-height: $header-height;
+    }
   }
   img.logo {
     height: calc(1 * #{$mobile-header-height - $gutter * 2});
     margin-left: auto; // Makes the logo right aligned in Title Bar
-    @media screen and #{breakpoint(medium)} {
-      height: calc(1 * #{$header-height - $gutter * 2});
-    }
+    // @media screen and #{breakpoint(medium)} {
+    //   height: calc(1 * #{$header-height - $gutter * 2});
+    // }
   }
 }
 /* Navigation */
 /* Footer */
 .site-footer {
+  overflow: hidden;
   min-height: $mobile-footer-height;
   @media and #{breakpoint(medium)} {
     min-height: $footer-height;
   }
 }
-/* Home */
+/* EduSource Filter */
+.page-template-page-eduquellen {
+  .filter-container {
+    margin-bottom: $space-large;
+  }
+}
 /* Page */
 /* Single */
 /* F6 */

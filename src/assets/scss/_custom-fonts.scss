@@ -1,10 +1,31 @@
-// @font-face {
-//     font-family: 'apercu-black';
-//     src: url('../fonts/apercu-black-web/apercu-black.eot');
-//     src: url('../fonts/apercu-black-web/apercu-black.eot?#iefix') format('embedded-opentype'),
-//          url('../fonts/apercu-black-web/apercu-black.woff') format('woff'),
-//          url('../fonts/apercu-black-web/apercu-black.woff2') format('woff2'),
-//          url('../fonts/apercu-black-web/apercu-black.ttf') format('truetype');
-//     font-weight: normal;
-//     font-style: normal;
-// }
+@font-face {
+    font-family: 'Montserrat-Bold';
+    // src: url('../fonts/apercu-black-web/apercu-black.eot');
+    src: url('../fonts/Montserrat/Montserrat-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-Medium';
+    // src: url('../fonts/apercu-black-web/apercu-black.eot');
+    src: url('../fonts/Montserrat/Montserrat-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Source-Serif-Regular';
+    // src: url('../fonts/apercu-black-web/apercu-black.eot');
+    src: url('../fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Source-Serif-Bold';
+    // src: url('../fonts/apercu-black-web/apercu-black.eot');
+    src: url('../fonts/Source_Serif_Pro/SourceSerifPro-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}

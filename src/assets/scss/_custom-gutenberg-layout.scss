@@ -1,0 +1,26 @@
+.wp-block-columns {
+  @include xy-grid-container;
+
+  &.fluid {
+    @include xy-grid-container(100%);
+  }
+
+  &.full {
+    @include xy-grid-container(100%, 0);
+  }
+}
+
+.wp-block-cover {
+  p {
+    font-size: $medium-font-size-h1 * 1.5px;
+    font-weight: $header-font-weight;
+    font-family: $header-font-family;
+  }
+}
+
+.wp-block-button {
+  a.wp-block-button__link {
+    @include button-style;
+    @include button-base;
+  }
+}
