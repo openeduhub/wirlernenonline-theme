@@ -1,0 +1,49 @@
+/* Globals */
+*:focus {
+   outline: 1px dotted $anchor-color;
+}
+/* Layout */
+.main-content {
+  // Margin-top would be for fixed header
+  // margin-top: $mobile-header-height;
+  // @include breakpoint(medium) {
+  //   margin-top: $header-height;
+  // }
+  min-height: $mobile-fullheight-header-footer;
+  @media screen and #{breakpoint(medium)} {
+    min-height: $fullheight-header-footer;
+  }
+}
+
+/* Header */
+.site-header {
+  min-height: $mobile-header-height;
+  @media screen and #{breakpoint(medium)} {
+    min-height: $header-height;
+  }
+  img.logo {
+    height: calc(1 * #{$mobile-header-height - $gutter * 2});
+    margin-left: auto; // Makes the logo right aligned in Title Bar
+    @media screen and #{breakpoint(medium)} {
+      height: calc(1 * #{$header-height - $gutter * 2});
+    }
+  }
+}
+/* Navigation */
+/* Footer */
+.site-footer {
+  min-height: $mobile-footer-height;
+  @media and #{breakpoint(medium)} {
+    min-height: $footer-height;
+  }
+}
+/* Home */
+/* Page */
+/* Single */
+/* F6 */
+.block-grid {
+  .cell {
+    margin-bottom: $space-medium;
+  }
+}
+/* Plugins */

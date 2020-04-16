@@ -1,0 +1,18 @@
+$colors: (
+  'primary-color': $primary-color,
+  'secondary-color': $secondary-color,
+  'success-color': $success-color,
+  'warning-color': $warning-color,
+  'alert-color': $alert-color,
+  'light-gray': $light-gray,
+  'medium-gray': $medium-gray,
+  'dark-gray': $dark-gray,
+);
+
+@each $color, $hex in $colors {
+  .#{$color}-bg {
+    background-color: $hex;
+  }
+}
+
+/* Backgrounds */

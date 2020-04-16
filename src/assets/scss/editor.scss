@@ -1,0 +1,15 @@
+@charset 'utf-8';
+@import 'custom-variables';
+@import 'custom-fonts';
+@import 'settings';
+
+
+.block-editor-writing-flow {
+    font-family: $body-font-family;
+    .editor-post-title__block {
+      .editor-post-title__input {
+        font-family: $header-font-family;
+        font-weight: $header-font-weight;
+      }
+    }
+}

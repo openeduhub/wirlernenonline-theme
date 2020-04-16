@@ -1,0 +1,66 @@
+/* Paragraph */
+p {
+  font-size: $global-font-size;
+  @include breakpoint(medium) {
+    font-size: $global-font-size;
+  }
+}
+/* Header */
+$medium-font-size-h1: map-deep-get($header-styles, medium, h1, font-size) * 1px;
+$medium-font-size-h2: map-deep-get($header-styles, medium, h2, font-size) * 1px;
+$medium-font-size-h3: map-deep-get($header-styles, medium, h3, font-size) * 1px;
+$medium-font-size-h4: map-deep-get($header-styles, medium, h4, font-size) * 1px;
+$medium-font-size-h5: map-deep-get($header-styles, medium, h5, font-size) * 1px;
+$medium-font-size-h6: map-deep-get($header-styles, medium, h6, font-size) * 1px;
+
+$small-font-size-h1: map-deep-get($header-styles, small, h1, font-size) * 1px;
+$small-font-size-h2: map-deep-get($header-styles, small, h2, font-size) * 1px;
+$small-font-size-h3: map-deep-get($header-styles, small, h3, font-size) * 1px;
+$small-font-size-h4: map-deep-get($header-styles, small, h4, font-size) * 1px;
+$small-font-size-h5: map-deep-get($header-styles, small, h5, font-size) * 1px;
+$small-font-size-h6: map-deep-get($header-styles, small, h6, font-size) * 1px;
+
+.font-size-h1 {
+  font-size: $small-font-size-h1;
+  @include breakpoint(medium) {
+    font-size: $medium-font-size-h1;
+  }
+}
+p.small,
+.small {
+  font-size: $small-font-size;
+}
+
+/* Links */
+a:active,
+a:focus,
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+select::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+  border: 0;
+  outline: 0;
+  outline: none;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: none;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.text-shadow {
+  text-shadow: $text-shadow;
+}

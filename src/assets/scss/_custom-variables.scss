@@ -1,0 +1,28 @@
+/* Spaces */
+//map-get($grid-column-gutter, medium)
+$gutter: 15px;
+$space-xxlarge: calc(12 * #{$gutter});
+$space-xlarge: calc(6 * #{$gutter});
+$space-large: calc(4 * #{$gutter});
+$space-medium: calc(2 * #{$gutter});
+$space-small: calc(1 * #{$gutter});
+$space-xsmall: calc(0.5 * #{$gutter});
+/* Heights */
+$footer-height: 200px;
+$mobile-footer-height: 200px;
+$header-height: 55px;
+$header-height-stuck: 100px;
+$mobile-header-height: 63px;
+$logo-height: 50px;
+$fullheight-header: calc(100vh - #{$header-height});
+$fullheight-header-footer: calc(100vh - #{$header-height + $footer-height});
+$mobile-fullheight-header-footer: calc(100vh - #{$mobile-header-height + $mobile-footer-height});
+$fullheight: calc(100vh);
+$halfheight: 100vh * 0.5;
+$twothirdheight: 100vh * 0.66666;
+/* Shadows */
+$shadow: 0 3px 1px 0 rgba(0,0,0,0.10);
+$text-shadow: 0 2px 4px rgba(0,0,0,0.50);
+/* Animation */
+$global-transition: all 0.8s ease;
+$global-transition-quick: all 0.1s ease;

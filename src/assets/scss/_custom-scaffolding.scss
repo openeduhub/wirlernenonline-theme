@@ -1,0 +1,68 @@
+/* This SASS contains Elements that can be used for framework like options, all concerning spacings */
+/* Spaces */
+.no-space {
+  margin: 0;
+}
+
+.no-space-bottom {
+  margin-bottom: 0;
+}
+
+.no-space-top {
+  margin-top: 0;
+}
+
+img.fullwidth {
+  width: 100%;
+  height: auto;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+/* Heights */
+.fullheight-header {
+  height: $fullheight-header;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.fullheight {
+  height: $fullheight;
+}
+
+.halfheight {
+  height: $halfheight;
+}
+
+.twothirdheight {
+  height: $twothirdheight;
+}
+
+.object-fit {
+  object-fit: cover;
+  min-width: 100%;
+}
+
+.space-top-header-height {
+  margin-top: $header-height;
+}
+
+/* Aspect Ratio Containers */
+.one-one-min-height-container {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  .one-one-min-height {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}
