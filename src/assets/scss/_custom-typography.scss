@@ -1,6 +1,6 @@
 /* Global */
 html, body {
-	font-size: 18px;
+	font-size: 20px;
 	font-family: $body-font-family;
 }
 /* Headlines */
@@ -9,13 +9,23 @@ h1, h2 {
 }
 /* Sans */
 .sans,
-label {
+label,
+.label {
+	font-family: 'Montserrat-Medium';
+	font-weight: normal;
+}
+/* Sans Bold */
+.title-bar-title {
 	font-family: $header-font-family;
 }
 /* Menus */
 .menu,
 .widget ul {
 	li {
+		&.current-menu-item > a,
+		&.current-menu-parent > a {
+			text-decoration: underline;
+		}
 		a {
 			font-family: $header-font-family;
 		}
@@ -24,17 +34,25 @@ label {
 /* Buttons */
 .button {
 	font-family: $header-font-family;
+	text-transform: uppercase;
 	&.success {
 		color: $black;
+		&:hover {
+			color: $black;
+		}
 	}
 }
 /* Special */
-.page-title.h1 {
-	color: $primary-color;
+.multi-select:after {
+	content: ", ";
+}
+.multi-select:last-child:after {
+	content: "";
 }
 /* Page */
 .page-title {
 	margin-bottom: $space-large;
+	margin-top: $space-medium;
 }
 
 /* Sizes */

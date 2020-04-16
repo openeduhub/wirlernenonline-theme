@@ -17,12 +17,28 @@
 		"oAP": "/dist/404.php",
 		"oF": 1
 		},
+	"/archive-edusource.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/dist/archive-edusource.php",
+		"oF": 1
+		},
 	"/archive.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 1,
 		"oA": 1,
 		"oAP": "/dist/archive.php",
+		"oF": 1
+		},
+	"/comments.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/dist/comments.php",
 		"oF": 1
 		},
 	"/dist": {
@@ -146,10 +162,10 @@
 	"/index.php": {
 		"cB": 0,
 		"ft": 8192,
-		"hM": 1,
-		"oA": 1,
+		"hM": 0,
+		"oA": 0,
 		"oAP": "/dist/index.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/node_modules": {
 		"ft": 65536,
@@ -195,14 +211,6 @@
 		"oO": 0,
 		"oS": 1
 		},
-	"/page-eduquellen.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 1,
-		"oAP": "/dist/page-eduquellen.php",
-		"oF": 1
-		},
 	"/page-style-tile.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -214,7 +222,7 @@
 	"/page.php": {
 		"cB": 0,
 		"ft": 8192,
-		"hM": 1,
+		"hM": 0,
 		"oA": 1,
 		"oAP": "/dist/page.php",
 		"oF": 1
@@ -255,6 +263,14 @@
 		"hM": 1,
 		"oA": 1,
 		"oAP": "/dist/search.php",
+		"oF": 1
+		},
+	"/single-edusource.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/dist/single-edusource.php",
 		"oF": 1
 		},
 	"/single.php": {
@@ -674,6 +690,17 @@
 		"iS": 143961,
 		"oA": 2,
 		"oAP": "/dist/assets/img/wir-lernen-online-logo.png",
+		"oF": 1,
+		"oIPL": 0,
+		"opt": 1,
+		"oT": 1,
+		"q": 100
+		},
+	"/src/assets/img/WLO-Logo-01.png": {
+		"ft": 32768,
+		"iS": 48012,
+		"oA": 2,
+		"oAP": "/dist/assets/img/WLO-Logo-01.png",
 		"oF": 1,
 		"oIPL": 0,
 		"opt": 1,
@@ -2024,9 +2051,49 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/template-parts/blocks/accordion.php",
+		"oF": 1
+		},
+	"/template-parts/blocks/home-hero.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/dist/template-parts/blocks/home-hero.php",
+		"oF": 1
+		},
+	"/template-parts/blocks/latest-students.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/template-parts/blocks/latest-students.php",
 		"oF": 0
+		},
+	"/template-parts/blocks/latest-teacher.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/dist/template-parts/blocks/latest-teacher.php",
+		"oF": 1
+		},
+	"/template-parts/edusource/attributes.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/dist/template-parts/edusource/attributes.php",
+		"oF": 1
+		},
+	"/template-parts/edusource/edu-card.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/dist/template-parts/edusource/edu-card.php",
+		"oF": 1
 		},
 	"/template-parts/page/content-page.php": {
 		"cB": 0,
@@ -2071,7 +2138,7 @@
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/src/assets/img/favicons/apple-touch-icon.png",
 	"iconImageWasSetByUser": 0,
-	"lastBuiltDate": 608736408.61661994
+	"lastBuiltDate": 608767110.30518603
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,

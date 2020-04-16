@@ -861,7 +861,7 @@ body {
   background: #fefefe;
   font-family: "Source-Serif-Regular", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-weight: normal;
-  line-height: 1.5;
+  line-height: 1.3;
   color: #313131;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -937,7 +937,7 @@ textarea {
   display: block;
   box-sizing: border-box;
   width: 100%;
-  height: 2.6333333333rem;
+  height: 2.4533333333rem;
   margin: 0 0 0.8rem;
   padding: 0.6666666667rem;
   border: 2px solid #D8D8D8;
@@ -947,7 +947,7 @@ textarea {
   font-family: inherit;
   font-size: 0.9rem;
   font-weight: normal;
-  line-height: 1.5;
+  line-height: 1.3;
   color: #313131;
   transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
   -webkit-appearance: none;
@@ -1153,7 +1153,7 @@ legend {
 }
 
 select {
-  height: 2.6333333333rem;
+  height: 2.4533333333rem;
   margin: 0 0 0.8rem;
   padding: 0.6666666667rem;
   -webkit-appearance: none;
@@ -1165,7 +1165,7 @@ select {
   font-family: inherit;
   font-size: 0.9rem;
   font-weight: normal;
-  line-height: 1.5;
+  line-height: 1.3;
   color: #313131;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28138, 138, 138%29'></polygon></svg>");
   background-origin: content-box;
@@ -1277,7 +1277,7 @@ td {
 p {
   margin-bottom: 1rem;
   font-size: inherit;
-  line-height: 1.6;
+  line-height: 1.4;
   text-rendering: optimizeLegibility;
 }
 
@@ -1406,7 +1406,7 @@ hr {
   margin: 1rem auto;
   border-top: 0;
   border-right: 0;
-  border-bottom: 1px solid #D8D8D8;
+  border-bottom: 1px solid #ECECEC;
   border-left: 0;
 }
 
@@ -1415,7 +1415,7 @@ ol,
 dl {
   margin-bottom: 1rem;
   list-style-position: outside;
-  line-height: 1.6;
+  line-height: 1.4;
 }
 
 li {
@@ -1452,7 +1452,7 @@ blockquote {
 }
 
 blockquote, blockquote p {
-  line-height: 1.6;
+  line-height: 1.4;
   color: #8a8a8a;
 }
 
@@ -1485,7 +1485,7 @@ kbd {
 
 .lead {
   font-size: 25px;
-  line-height: 1.6;
+  line-height: 1.4;
 }
 
 .stat {
@@ -5673,12 +5673,12 @@ h3 {
 }
 
 .button.warning, .button.warning.disabled, .button.warning[disabled], .button.warning.disabled:hover, .button.warning[disabled]:hover, .button.warning.disabled:focus, .button.warning[disabled]:focus {
-  background-color: #ffae00;
+  background-color: #FF779A;
   color: #fefefe;
 }
 
 .button.warning:hover, .button.warning:focus {
-  background-color: #cc8b00;
+  background-color: #ff2c62;
   color: #fefefe;
 }
 
@@ -5737,13 +5737,13 @@ h3 {
 }
 
 .button.hollow.warning, .button.hollow.warning.disabled, .button.hollow.warning[disabled], .button.hollow.warning.disabled:hover, .button.hollow.warning[disabled]:hover, .button.hollow.warning.disabled:focus, .button.hollow.warning[disabled]:focus {
-  border: 1px solid #ffae00;
-  color: #ffae00;
+  border: 1px solid #FF779A;
+  color: #FF779A;
 }
 
 .button.hollow.warning:hover, .button.hollow.warning:focus {
-  border-color: #805700;
-  color: #805700;
+  border-color: #bb0030;
+  color: #bb0030;
 }
 
 .button.hollow.alert, .button.hollow.alert.disabled, .button.hollow.alert[disabled], .button.hollow.alert.disabled:hover, .button.hollow.alert[disabled]:hover, .button.hollow.alert.disabled:focus, .button.hollow.alert[disabled]:focus {
@@ -5794,11 +5794,11 @@ h3 {
 }
 
 .button.clear.warning, .button.clear.warning.disabled, .button.clear.warning[disabled], .button.clear.warning.disabled:hover, .button.clear.warning[disabled]:hover, .button.clear.warning.disabled:focus, .button.clear.warning[disabled]:focus {
-  color: #ffae00;
+  color: #FF779A;
 }
 
 .button.clear.warning:hover, .button.clear.warning:focus {
-  color: #805700;
+  color: #bb0030;
 }
 
 .button.clear.alert, .button.clear.alert.disabled, .button.clear.alert[disabled], .button.clear.alert.disabled:hover, .button.clear.alert[disabled]:hover, .button.clear.alert.disabled:focus, .button.clear.alert[disabled]:focus {
@@ -5847,7 +5847,7 @@ h3 {
 }
 
 .button.dropdown.hollow.warning::after, .button.dropdown.clear.warning::after {
-  border-top-color: #ffae00;
+  border-top-color: #FF779A;
 }
 
 .button.dropdown.hollow.alert::after, .button.dropdown.clear.alert::after {
@@ -5889,8 +5889,8 @@ a.button:hover, a.button:focus {
 
 .button-group .button {
   margin: 0;
-  margin-right: 1px;
-  margin-bottom: 1px;
+  margin-right: 15px;
+  margin-bottom: 15px;
   font-size: 0.9rem;
   flex: 0 0 auto;
 }
@@ -5981,14 +5981,14 @@ a.button:hover, a.button:focus {
 .button-group[disabled]:hover,
 .button-group.disabled:focus,
 .button-group[disabled]:focus {
-  background-color: #ffae00;
+  background-color: #FF779A;
   color: #fefefe;
 }
 
 .button-group.warning .button:hover, .button-group.warning .button:focus,
 .button-group:hover,
 .button-group:focus {
-  background-color: #cc8b00;
+  background-color: #ff2c62;
   color: #fefefe;
 }
 
@@ -6056,13 +6056,13 @@ a.button:hover, a.button:focus {
 }
 
 .button-group.hollow.warning .button, .button-group.hollow.warning .button.disabled, .button-group.hollow.warning .button[disabled], .button-group.hollow.warning .button.disabled:hover, .button-group.hollow.warning .button[disabled]:hover, .button-group.hollow.warning .button.disabled:focus, .button-group.hollow.warning .button[disabled]:focus, .button-group.hollow .button.warning, .button-group.hollow .button.warning.disabled, .button-group.hollow .button.warning[disabled], .button-group.hollow .button.warning.disabled:hover, .button-group.hollow .button.warning[disabled]:hover, .button-group.hollow .button.warning.disabled:focus, .button-group.hollow .button.warning[disabled]:focus {
-  border: 1px solid #ffae00;
-  color: #ffae00;
+  border: 1px solid #FF779A;
+  color: #FF779A;
 }
 
 .button-group.hollow.warning .button:hover, .button-group.hollow.warning .button:focus, .button-group.hollow .button.warning:hover, .button-group.hollow .button.warning:focus {
-  border-color: #805700;
-  color: #805700;
+  border-color: #bb0030;
+  color: #bb0030;
 }
 
 .button-group.hollow.alert .button, .button-group.hollow.alert .button.disabled, .button-group.hollow.alert .button[disabled], .button-group.hollow.alert .button.disabled:hover, .button-group.hollow.alert .button[disabled]:hover, .button-group.hollow.alert .button.disabled:focus, .button-group.hollow.alert .button[disabled]:focus, .button-group.hollow .button.alert, .button-group.hollow .button.alert.disabled, .button-group.hollow .button.alert[disabled], .button-group.hollow .button.alert.disabled:hover, .button-group.hollow .button.alert[disabled]:hover, .button-group.hollow .button.alert.disabled:focus, .button-group.hollow .button.alert[disabled]:focus {
@@ -6113,11 +6113,11 @@ a.button:hover, a.button:focus {
 }
 
 .button-group.clear.warning .button, .button-group.clear.warning .button.disabled, .button-group.clear.warning .button[disabled], .button-group.clear.warning .button.disabled:hover, .button-group.clear.warning .button[disabled]:hover, .button-group.clear.warning .button.disabled:focus, .button-group.clear.warning .button[disabled]:focus, .button-group.clear .button.warning, .button-group.clear .button.warning.disabled, .button-group.clear .button.warning[disabled], .button-group.clear .button.warning.disabled:hover, .button-group.clear .button.warning[disabled]:hover, .button-group.clear .button.warning.disabled:focus, .button-group.clear .button.warning[disabled]:focus {
-  color: #ffae00;
+  color: #FF779A;
 }
 
 .button-group.clear.warning .button:hover, .button-group.clear.warning .button:focus, .button-group.clear .button.warning:hover, .button-group.clear .button.warning:focus {
-  color: #805700;
+  color: #bb0030;
 }
 
 .button-group.clear.alert .button, .button-group.clear.alert .button.disabled, .button-group.clear.alert .button[disabled], .button-group.clear.alert .button.disabled:hover, .button-group.clear.alert .button[disabled]:hover, .button-group.clear.alert .button.disabled:focus, .button-group.clear.alert .button[disabled]:focus, .button-group.clear .button.alert, .button-group.clear .button.alert.disabled, .button-group.clear .button.alert[disabled], .button-group.clear .button.alert.disabled:hover, .button-group.clear .button.alert[disabled]:hover, .button-group.clear .button.alert.disabled:focus, .button-group.clear .button.alert[disabled]:focus {
@@ -6220,7 +6220,7 @@ a.button:hover, a.button:focus {
   display: inline-block;
   padding: 0.33333rem 0.5rem;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 80%;
   line-height: 1;
   white-space: nowrap;
   cursor: default;
@@ -6244,7 +6244,7 @@ a.button:hover, a.button:focus {
 }
 
 .label.warning {
-  background: #ffae00;
+  background: #FF779A;
   color: #313131;
 }
 
@@ -6273,7 +6273,7 @@ a.button:hover, a.button:focus {
 }
 
 .progress.warning .progress-meter {
-  background-color: #ffae00;
+  background-color: #FF779A;
 }
 
 .progress.alert .progress-meter {
@@ -6674,7 +6674,7 @@ table.hover:not(.unstriped) tr:nth-of-type(even):hover {
 }
 
 .badge.warning {
-  background: #ffae00;
+  background: #FF779A;
   color: #313131;
 }
 
@@ -6762,7 +6762,7 @@ table.hover:not(.unstriped) tr:nth-of-type(even):hover {
 }
 
 .callout.warning {
-  background-color: #fff3d9;
+  background-color: #ffebf0;
   color: #313131;
 }
 
@@ -7643,14 +7643,14 @@ a.thumbnail image {
   display: block;
   width: 100%;
   height: 2px;
-  background: #fefefe;
-  box-shadow: 0 7px 0 #fefefe, 0 14px 0 #fefefe;
+  background: #003E82;
+  box-shadow: 0 7px 0 #003E82, 0 14px 0 #003E82;
   content: '';
 }
 
 .menu-icon:hover::after {
-  background: #D8D8D8;
-  box-shadow: 0 7px 0 #D8D8D8, 0 14px 0 #D8D8D8;
+  background: #003E82;
+  box-shadow: 0 7px 0 #003E82, 0 14px 0 #003E82;
 }
 
 .menu-icon.dark {
@@ -7797,7 +7797,7 @@ a.thumbnail image {
 
 .drilldown a {
   padding: 0.7rem 1rem;
-  background: #fefefe;
+  background: #ECECEC;
 }
 
 .drilldown .is-drilldown-submenu {
@@ -7806,7 +7806,7 @@ a.thumbnail image {
   left: 100%;
   z-index: -1;
   width: 100%;
-  background: #fefefe;
+  background: #ECECEC;
   transition: transform 0.15s linear;
 }
 
@@ -8791,9 +8791,9 @@ html.is-reveal-open body {
 }
 
 .title-bar {
-  padding: 0;
-  background: #313131;
-  color: #fefefe;
+  padding: 1rem;
+  background: #fefefe;
+  color: #003E82;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -8830,7 +8830,7 @@ html.is-reveal-open body {
 
 .top-bar,
 .top-bar ul {
-  background-color: #fefefe;
+  background-color: transparent;
 }
 
 .top-bar input {
@@ -10479,7 +10479,7 @@ ol.list-upper-roman {
 }
 
 .warning-color-bg {
-  background-color: #ffae00;
+  background-color: #FF779A;
 }
 
 .alert-color-bg {
@@ -10501,7 +10501,7 @@ ol.list-upper-roman {
 /* Backgrounds */
 /* Global */
 html, body {
-  font-size: 18px;
+  font-size: 20px;
   font-family: "Source-Serif-Regular", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
 }
 
@@ -10512,11 +10512,24 @@ h1, h2 {
 
 /* Sans */
 .sans,
-label {
+label,
+.label {
+  font-family: 'Montserrat-Medium';
+  font-weight: normal;
+}
+
+/* Sans Bold */
+.title-bar-title {
   font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
 }
 
 /* Menus */
+.menu li.current-menu-item > a, .menu li.current-menu-parent > a,
+.widget ul li.current-menu-item > a,
+.widget ul li.current-menu-parent > a {
+  text-decoration: underline;
+}
+
 .menu li a,
 .widget ul li a {
   font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
@@ -10525,20 +10538,30 @@ label {
 /* Buttons */
 .button {
   font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  text-transform: uppercase;
 }
 
 .button.success {
   color: #313131;
 }
 
+.button.success:hover {
+  color: #313131;
+}
+
 /* Special */
-.page-title.h1 {
-  color: #003E82;
+.multi-select:after {
+  content: ", ";
+}
+
+.multi-select:last-child:after {
+  content: "";
 }
 
 /* Page */
 .page-title {
   margin-bottom: calc(4 * 15px);
+  margin-top: calc(2 * 15px);
 }
 
 /* Sizes */
@@ -10715,7 +10738,7 @@ img.fullwidth {
   right: 0;
 }
 
-.wp-block-columns {
+.gutenberg-layout-container > * {
   padding-right: 0.75rem;
   padding-left: 0.75rem;
   max-width: 60rem;
@@ -10724,13 +10747,13 @@ img.fullwidth {
 }
 
 @media print, screen and (min-width: 40em) {
-  .wp-block-columns {
+  .gutenberg-layout-container > * {
     padding-right: 1rem;
     padding-left: 1rem;
   }
 }
 
-.wp-block-columns.fluid {
+.gutenberg-layout-container > *.fluid {
   padding-right: 0.75rem;
   padding-left: 0.75rem;
   max-width: 100%;
@@ -10739,13 +10762,13 @@ img.fullwidth {
 }
 
 @media print, screen and (min-width: 40em) {
-  .wp-block-columns.fluid {
+  .gutenberg-layout-container > *.fluid {
     padding-right: 1rem;
     padding-left: 1rem;
   }
 }
 
-.wp-block-columns.full {
+.gutenberg-layout-container > *.full {
   padding-right: 0;
   padding-left: 0;
   max-width: 100%;
@@ -10753,13 +10776,42 @@ img.fullwidth {
   margin-right: auto;
 }
 
-.wp-block-cover p {
-  font-size: 60px;
-  font-weight: 700;
-  font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+.gutenberg-layout-container {
+  /* F6 Overwrites */
+  /* Custom Blocks */
 }
 
-.wp-block-button a.wp-block-button__link {
+.gutenberg-layout-container .wp-block-cover {
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media print, screen and (min-width: 40em) {
+  .gutenberg-layout-container .wp-block-cover {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+}
+
+.gutenberg-layout-container .wp-block-cover .wp-block-cover__inner-container {
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media print, screen and (min-width: 40em) {
+  .gutenberg-layout-container .wp-block-cover .wp-block-cover__inner-container {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+}
+
+.gutenberg-layout-container .wp-block-button a.wp-block-button__link {
   display: inline-block;
   vertical-align: middle;
   margin: 0 0 1rem 0;
@@ -10773,20 +10825,39 @@ img.fullwidth {
   line-height: 1;
   text-align: center;
   cursor: pointer;
+  text-transform: uppercase;
 }
 
-.wp-block-button a.wp-block-button__link, .wp-block-button a.wp-block-button__link.disabled, .wp-block-button a.wp-block-button__link[disabled], .wp-block-button a.wp-block-button__link.disabled:hover, .wp-block-button a.wp-block-button__link[disabled]:hover, .wp-block-button a.wp-block-button__link.disabled:focus, .wp-block-button a.wp-block-button__link[disabled]:focus {
+.gutenberg-layout-container .wp-block-button a.wp-block-button__link, .gutenberg-layout-container .wp-block-button a.wp-block-button__link.disabled, .gutenberg-layout-container .wp-block-button a.wp-block-button__link[disabled], .gutenberg-layout-container .wp-block-button a.wp-block-button__link.disabled:hover, .gutenberg-layout-container .wp-block-button a.wp-block-button__link[disabled]:hover, .gutenberg-layout-container .wp-block-button a.wp-block-button__link.disabled:focus, .gutenberg-layout-container .wp-block-button a.wp-block-button__link[disabled]:focus {
   background-color: #003E82;
   color: #fefefe;
 }
 
-.wp-block-button a.wp-block-button__link:hover, .wp-block-button a.wp-block-button__link:focus {
+.gutenberg-layout-container .wp-block-button a.wp-block-button__link:hover, .gutenberg-layout-container .wp-block-button a.wp-block-button__link:focus {
   background-color: #00356f;
   color: #fefefe;
 }
 
-[data-whatinput='mouse'] .wp-block-button a.wp-block-button__link {
+[data-whatinput='mouse'] .gutenberg-layout-container .wp-block-button a.wp-block-button__link {
   outline: 0;
+}
+
+.gutenberg-layout-container .radius {
+  border-radius: 15px;
+}
+
+.gutenberg-layout-container .home-hero {
+  color: #fefefe;
+  font-weight: 700;
+  font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+}
+
+.gutenberg-layout-container .home-hero * {
+  color: #fefefe;
+}
+
+.gutenberg-layout-container .home-hero * .button.success {
+  color: #313131;
 }
 
 /* Globals */
@@ -10797,18 +10868,18 @@ img.fullwidth {
 /* Layout */
 .main-content {
   margin-top: 63px;
-  min-height: calc(100vh - 263px);
+  min-height: calc(100vh - 163px);
 }
 
 @media print, screen and (min-width: 40em) {
   .main-content {
-    margin-top: 150px;
+    margin-top: 100px;
   }
 }
 
 @media screen and (min-width: 40em) {
   .main-content {
-    min-height: calc(100vh - 300px);
+    min-height: calc(100vh - 200px);
   }
 }
 
@@ -10822,6 +10893,16 @@ img.fullwidth {
   left: 0;
   width: 100%;
   transition: all 0.8s ease;
+}
+
+@media print, screen and (max-width: 39.99875em) {
+  .site-header .top-bar {
+    background-color: #ECECEC;
+    padding-bottom: calc(2 * 15px);
+  }
+  .site-header .top-bar .menu {
+    margin-bottom: calc(2 * 15px);
+  }
 }
 
 .site-header.hidden {
@@ -10838,34 +10919,76 @@ img.fullwidth {
   }
 }
 
-.site-header img.logo {
-  height: calc(1 * 33px);
+.site-header a.mobile-logo-container {
   margin-left: auto;
 }
 
-/* Navigation */
-/* Footer */
-.site-footer {
-  overflow: hidden;
-  min-height: 200px;
+.site-header img.logo {
+  height: calc(1 * 33px);
 }
 
-@media and {
-  .site-footer {
-    min-height: 200px;
+@media screen and (min-width: 40em) {
+  .site-header img.logo {
+    height: auto;
+    margin-left: 0;
   }
 }
 
+/* Navigation */
+.is-dropdown-submenu {
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* Footer */
+.site-footer {
+  overflow: hidden;
+  background-color: #ECECEC;
+}
+
+.site-footer .grid-x {
+  min-height: 100px;
+}
+
+@media and {
+  .site-footer .grid-x {
+    min-height: 100px;
+  }
+}
+
+/* Pages */
 /* EduSource Filter */
-.page-template-page-eduquellen .filter-container {
+.page-template-archive-edusource .filter-container {
   margin-bottom: calc(4 * 15px);
 }
 
-/* Page */
-/* Single */
+/* Single EduSource */
+.single-edusource ul.attributes {
+  margin: 0;
+  list-style: none;
+}
+
+.single-edusource ul.attributes li {
+  padding-bottom: calc(2 * 15px);
+  padding-top: calc(2 * 15px);
+  border-bottom: 1px solid #ECECEC;
+}
+
+.single-edusource ul.attributes li:first-child {
+  border-top: 1px solid #ECECEC;
+}
+
 /* F6 */
 .block-grid .cell {
-  margin-bottom: calc(2 * 15px);
+  margin-bottom: calc(4 * 15px);
+}
+
+.button-group {
+  background-color: transparent;
+}
+
+.button-group:hover {
+  background-color: transparent;
 }
 
 /* Plugins */

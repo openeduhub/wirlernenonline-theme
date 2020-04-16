@@ -7,7 +7,7 @@
   // Margin-top would be for fixed header
   margin-top: $mobile-header-height;
   @include breakpoint(medium) {
-    margin-top: $header-height * 1.5;
+    margin-top: $header-height * 1;
   }
   min-height: $mobile-fullheight-header-footer;
   @media screen and #{breakpoint(medium)} {
@@ -25,6 +25,15 @@
   left: 0;
   width: 100%;
   transition: $global-transition;
+  @include breakpoint(small only) {
+    .top-bar {
+      background-color: $light-gray;
+      padding-bottom: $space-medium;
+      .menu {
+        margin-bottom: $space-medium;
+      }
+    }
+  }
   &.hidden {
     transform: translateY(-110%);
     transition: $global-transition;
@@ -35,35 +44,66 @@
       min-height: $header-height;
     }
   }
+  a.mobile-logo-container {
+    margin-left: auto;
+  }
   img.logo {
     height: calc(1 * #{$mobile-header-height - $gutter * 2});
-    margin-left: auto; // Makes the logo right aligned in Title Bar
-    // @media screen and #{breakpoint(medium)} {
-    //   height: calc(1 * #{$header-height - $gutter * 2});
-    // }
+    @media screen and #{breakpoint(medium)} {
+      height: auto;
+      margin-left: 0;
+    }
   }
 }
 /* Navigation */
+.is-dropdown-submenu {
+  border-radius: $global-radius;
+  box-shadow: $shadow;
+}
 /* Footer */
 .site-footer {
   overflow: hidden;
-  min-height: $mobile-footer-height;
-  @media and #{breakpoint(medium)} {
-    min-height: $footer-height;
+  background-color: $light-gray;
+  .grid-x {
+    min-height: $mobile-footer-height;
+    @media and #{breakpoint(medium)} {
+      min-height: $footer-height;
+    }
   }
 }
+/* Pages */
+
 /* EduSource Filter */
-.page-template-page-eduquellen {
+.page-template-archive-edusource {
   .filter-container {
     margin-bottom: $space-large;
   }
 }
-/* Page */
-/* Single */
+/* Single EduSource */
+.single-edusource {
+  ul.attributes {
+    margin: 0;
+    list-style: none;
+    li {
+      padding-bottom: $space-medium;
+      padding-top: $space-medium;
+      border-bottom: 1px solid $light-gray;
+    }
+    li:first-child {
+      border-top: 1px solid $light-gray;
+    }
+  }
+}
 /* F6 */
 .block-grid {
   .cell {
-    margin-bottom: $space-medium;
+    margin-bottom: $space-large;
+  }
+}
+.button-group {
+  background-color: transparent;
+  &:hover {
+    background-color: transparent;
   }
 }
 /* Plugins */
