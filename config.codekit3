@@ -71,6 +71,78 @@
 		"oAP": "/dist/functions.php",
 		"oF": 1
 		},
+	"/functions/custom-posts.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/functions/custom-posts.php",
+		"oF": 0
+		},
+	"/functions/custom-taxonomies.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/functions/custom-taxonomies.php",
+		"oF": 0
+		},
+	"/functions/disable-emoji.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/functions/disable-emoji.php",
+		"oF": 0
+		},
+	"/functions/enqueue-scripts.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/functions/enqueue-scripts.php",
+		"oF": 0
+		},
+	"/functions/features.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/functions/features.php",
+		"oF": 0
+		},
+	"/functions/gutenberg-blocks.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/functions/gutenberg-blocks.php",
+		"oF": 0
+		},
+	"/functions/image-sizes.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/functions/image-sizes.php",
+		"oF": 0
+		},
+	"/functions/menu.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/functions/menu.php",
+		"oF": 0
+		},
+	"/functions/tinymce.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/functions/tinymce.php",
+		"oF": 0
+		},
 	"/head.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -2096,6 +2168,14 @@
 		"oAP": "/dist/template-parts/page/content-page.php",
 		"oF": 1
 		},
+	"/template-parts/partials/newsletter-signup-form.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/template-parts/partials/newsletter-signup-form.php",
+		"oF": 0
+		},
 	"/template-parts/post/content-none.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -2147,7 +2227,7 @@
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/src/assets/img/favicons/apple-touch-icon.png",
 	"iconImageWasSetByUser": 0,
-	"lastBuiltDate": 608830493.66364801
+	"lastBuiltDate": 608831295.92953801
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,

@@ -56,6 +56,15 @@
   }
 }
 /* Navigation */
+.top-call-to-action-menu {
+  li {
+    a {
+      background-color: $success-color;
+      color: $black;
+      border-radius: $global-radius;
+    }
+  }
+}
 .is-dropdown-submenu {
   border-radius: $global-radius;
   box-shadow: $shadow;
