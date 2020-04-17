@@ -1,4 +1,4 @@
-jQuery(document).ready(function() { 
+jQuery(document).ready(function() {
   jQuery('.edu-filter').select2({ multiple: true});
 
   var filterStore = {
@@ -6,9 +6,12 @@ jQuery(document).ready(function() {
     fields: [],
     roles: [],
     licenses: [],
-  }; 
+    schooltype: [],
+    sourcetype: [],
+    tags: [],
+  };
 
-  var $grid = jQuery('.edu-list'); 
+  var $grid = jQuery('.edu-list');
   $grid.isotope({
     itemSelector: '.edu-item',
     masonry: {
@@ -23,28 +26,31 @@ jQuery(document).ready(function() {
       var fieldsResult = selectFilterResultsOr('fields', $this);
       var rolesResult = selectFilterResultsOr('roles', $this);
       var licensesResult = selectFilterResultsOr('licenses', $this);
+      var schooltypeResult = selectFilterResultsOr('schooltype', $this);
+      var sourcetypeResult = selectFilterResultsOr('sourcetype', $this);
+      var tagsResult = selectFilterResultsOr('tags', $this);
 
-      return searchResult && fieldsResult && rolesResult && licensesResult;
+      return searchResult && fieldsResult && rolesResult && licensesResult && schooltypeResult && sourcetypeResult && tagsResult;
     },
-  }); 
+  });
 
   $grid.isotope('on', 'arrangeComplete', function(filteredItems) {
     var $noMatchEl = $grid.find('.edu-filter__nomatch');
     if (filteredItems.length === 0) {
       if ($noMatchEl.length === 0) {
-        $grid.append('<div class="edu-filter__nomatch">Leider wurden keine Treffer gefunden</div>');
+        $grid.append('<div class="edu-filter__nomatch callout alert">Leider wurden keine Treffer gefunden</div>');
       }
     } else {
       $grid.find('.edu-filter__nomatch').remove();
     }
   });
 
-  resetFilters(); 
-  readFromURL(filterStore, $grid); 
+  resetFilters();
+  readFromURL(filterStore, $grid);
 
   function triggerSearch() {
     var searchInput = jQuery('.edu-filter__search').val();
-    filterStore.search = new RegExp(searchInput, 'gi'); 
+    filterStore.search = new RegExp(searchInput, 'gi');
 
     $grid.isotope();
   }
@@ -57,10 +63,10 @@ jQuery(document).ready(function() {
         if (entries === '') return false;
         entries = entries.includes(',') ? entries.split(',') : [entries];
         return entries.includes(entry);
-      }) 
+      })
     } else {
       return true;
-    } 
+    }
   }
 
   function selectFilterResultsOr(type, $el) {
@@ -71,10 +77,10 @@ jQuery(document).ready(function() {
         if (entries === '') return false;
         entries = entries.includes(',') ? entries.split(',') : [entries];
         return entries.includes(entry);
-      }) 
+      })
     } else {
       return true;
-    } 
+    }
   }
 
   function resetFilters() {
@@ -88,11 +94,14 @@ jQuery(document).ready(function() {
       fields: [],
       roles: [],
       licenses: [],
-    }; 
-  } 
+      schooltype: [],
+      sourcetype: [],
+      tags: [],
+    };
+  }
 
   jQuery('.edu-filter__search').on('keyup change',function(e) {
-    triggerSearch(); 
+    triggerSearch();
   });
 
   jQuery('.edu-filter').change(function(e) {
@@ -110,7 +119,7 @@ jQuery(document).ready(function() {
   jQuery('.edu-filter__reset').click(function(e) {
     resetFilters();
   });
-}); 
+});
 
 // Get query variable
 function getQueryVariable(variable) {
@@ -123,8 +132,8 @@ function getQueryVariable(variable) {
     return(false);
 }
 
-function readFromURL(store, $grid) { 
-  var qVars = ['fields', 'roles', 'licenses'];
+function readFromURL(store, $grid) {
+  var qVars = ['fields', 'roles', 'licenses', 'schooltype', 'sourcetype', 'tags'];
 
   for (var qv of qVars) {
     var read = getQueryVariable(qv);
