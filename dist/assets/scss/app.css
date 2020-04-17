@@ -10513,7 +10513,8 @@ h1, h2 {
 /* Sans */
 .sans,
 label,
-.label {
+.label,
+.select2-container {
   font-family: 'Montserrat-Medium';
   font-weight: normal;
 }
@@ -10992,7 +10993,7 @@ img.fullwidth {
   background-color: transparent;
 }
 
-/* Plugins */
+/* Edu Search */
 .select2-search__field {
   height: 37.4px;
 }
@@ -11043,5 +11044,9 @@ img.fullwidth {
 .select2-selection--multiple
 .select2-selection__rendered {
   margin-bottom: -8px;
+}
+
+.edu-filter__reset {
+  margin-top: 15px;
 }
 /*# sourceMappingURL=app.css.map */

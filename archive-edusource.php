@@ -7,20 +7,17 @@ get_header();?>
 		<div class="cell medium-8">
 			<h1 class="page-title"><?php the_title(); ?> finden</h1>
 		</div>
-		<?php /*
-		<div class="cell medium-4">
+		<div class="medium-4 cell">
 			<a href="<?php echo get_page_link( 1748 ); ?>">
-				<div class="callout">
-					<img class="margin-bottom-1" src="<?php echo get_stylesheet_directory_uri(); ?>/src/assets/img/add_source.png" alt="Quelle hinzufügen" />
+				<div class="callout margin-top-2">
 					<div class="card-section">
 						<h4>Neue Quelle Hinzufügen</h4>
 						<p> Es fehlt noch was?<br>Hier kannst du selber Quellen hinzufügen.</p>
-						<a class="button" href="<?php echo get_page_link( 1748 ); ?>" target="_blank">Quelle hinzufügen</a>
+						<a class="button tiny" href="<?php echo get_page_link( 1748 ); ?>" target="_blank">Quelle hinzufügen</a>
 					</div>
 				</div>
 			</a>
 		</div>
-		*/?>
 	</div>
 </div>
 <hr>
