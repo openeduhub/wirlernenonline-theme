@@ -21,9 +21,9 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 1,
+		"oA": 0,
 		"oAP": "/dist/archive-edusource.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/archive.php": {
 		"cB": 0,
@@ -748,7 +748,11 @@
 		"oA": 0,
 		"oAP": "/dist/assets/js/lernstoff.js",
 		"oF": 0,
+<<<<<<< HEAD
 		"sC": 0,
+=======
+		"sC": 2,
+>>>>>>> filter
 		"tS": 0
 		},
 	"/src/assets/js/portfolio.js": {
@@ -2227,7 +2231,11 @@
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/src/assets/img/favicons/apple-touch-icon.png",
 	"iconImageWasSetByUser": 0,
+<<<<<<< HEAD
 	"lastBuiltDate": 608832378.577209
+=======
+	"lastBuiltDate": 608835711.30836594
+>>>>>>> filter
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
