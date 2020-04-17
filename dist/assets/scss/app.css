@@ -10869,7 +10869,7 @@ img.fullwidth {
 /* Layout */
 .main-content {
   margin-top: 63px;
-  min-height: calc(100vh - 163px);
+  min-height: calc(100vh - 223px);
 }
 
 @media print, screen and (min-width: 40em) {
@@ -10954,7 +10954,7 @@ img.fullwidth {
 }
 
 .site-footer .grid-x {
-  min-height: 100px;
+  min-height: 160px;
 }
 
 @media and {
