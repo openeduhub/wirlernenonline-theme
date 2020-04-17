@@ -7,7 +7,7 @@
 		"uuidString": "CD596436-1EE7-428C-9CF1-9B011BEC2826"
 		}
 	],
-"creatorBuild": "31934",
+"creatorBuild": "32001",
 "files": {
 	"/404.php": {
 		"cB": 0,
@@ -75,73 +75,73 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 1,
+		"oA": 0,
 		"oAP": "/dist/functions/custom-posts.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/functions/custom-taxonomies.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 1,
+		"oA": 0,
 		"oAP": "/dist/functions/custom-taxonomies.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/functions/disable-emoji.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 1,
+		"oA": 0,
 		"oAP": "/dist/functions/disable-emoji.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/functions/enqueue-scripts.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 1,
+		"oA": 0,
 		"oAP": "/dist/functions/enqueue-scripts.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/functions/features.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 1,
+		"oA": 0,
 		"oAP": "/dist/functions/features.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/functions/gutenberg-blocks.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 1,
+		"oA": 0,
 		"oAP": "/dist/functions/gutenberg-blocks.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/functions/image-sizes.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 1,
+		"oA": 0,
 		"oAP": "/dist/functions/image-sizes.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/functions/menu.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 1,
+		"oA": 0,
 		"oAP": "/dist/functions/menu.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/functions/tinymce.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 1,
+		"oA": 0,
 		"oAP": "/dist/functions/tinymce.php",
-		"oF": 1
+		"oF": 0
 		},
 	"/head.php": {
 		"cB": 0,
@@ -171,7 +171,7 @@
 		"ft": 65536,
 		"oA": 1,
 		"oAP": "/dist/node_modules",
-		"oF": 0
+		"oF": 1
 		},
 	"/node_modules/foundation-sites/dist/js/foundation.esm.js": {
 		"bF": 0,
@@ -552,6 +552,17 @@
 		"oAP": "/dist/assets/fonts/Source_Serif_Pro/SourceSerifPro-SemiBold.ttf",
 		"oF": 1
 		},
+	"/src/assets/img/add_source.png": {
+		"ft": 32768,
+		"iS": 2106,
+		"oA": 0,
+		"oAP": "/dist/assets/img/add_source.png",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"oT": 1,
+		"q": 100
+		},
 	"/src/assets/img/Bananenbiegerei-Logo-White.png": {
 		"ft": 32768,
 		"iS": 9792,
@@ -726,7 +737,7 @@
 		"oA": 0,
 		"oAP": "/dist/assets/js/isotope.min.js",
 		"oF": 0,
-		"sC": 1,
+		"sC": 0,
 		"tS": 0
 		},
 	"/src/assets/js/lernstoff.js": {
@@ -737,7 +748,7 @@
 		"oA": 0,
 		"oAP": "/dist/assets/js/lernstoff.js",
 		"oF": 0,
-		"sC": 1,
+		"sC": 0,
 		"tS": 0
 		},
 	"/src/assets/js/portfolio.js": {
@@ -2157,6 +2168,14 @@
 		"oAP": "/dist/template-parts/page/content-page.php",
 		"oF": 1
 		},
+	"/template-parts/partials/newsletter-signup-form.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/template-parts/partials/newsletter-signup-form.php",
+		"oF": 0
+		},
 	"/template-parts/post/content-none.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -2172,6 +2191,22 @@
 		"oA": 1,
 		"oAP": "/dist/template-parts/post/content.php",
 		"oF": 1
+		},
+	"/template_add_source.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/template_add_source.php",
+		"oF": 0
+		},
+	"/template_add_tool.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/template_add_tool.php",
+		"oF": 0
 		},
 	"/yarn.lock": {
 		"cB": 0,
@@ -2192,7 +2227,7 @@
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/src/assets/img/favicons/apple-touch-icon.png",
 	"iconImageWasSetByUser": 0,
-	"lastBuiltDate": 608804657.148862
+	"lastBuiltDate": 608832378.577209
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
@@ -2788,6 +2823,10 @@
 			"active": 0,
 			"optionString": ""
 			},
+		"grouped-accessor-pairs": {
+			"active": 0,
+			"optionString": "'anyOrder'"
+			},
 		"guard-for-in": {
 			"active": 0,
 			"optionString": ""
@@ -2964,6 +3003,10 @@
 			"active": 1,
 			"optionString": "{'checkLoops': true}"
 			},
+		"no-constructor-return": {
+			"active": 0,
+			"optionString": ""
+			},
 		"no-continue": {
 			"active": 0,
 			"optionString": ""
@@ -2989,6 +3032,10 @@
 			"optionString": ""
 			},
 		"no-dupe-class-members": {
+			"active": 1,
+			"optionString": ""
+			},
+		"no-dupe-else-if": {
 			"active": 1,
 			"optionString": ""
 			},
@@ -3292,6 +3339,10 @@
 			"active": 0,
 			"optionString": ""
 			},
+		"no-setter-return": {
+			"active": 1,
+			"optionString": ""
+			},
 		"no-shadow": {
 			"active": 0,
 			"optionString": "{'builtinGlobals': false, 'hoist': 'functions', 'allow': []}"
@@ -3495,6 +3546,10 @@
 		"prefer-destructuring": {
 			"active": 0,
 			"optionString": "{'array': true, 'object': true}, {'enforceForRenamedProperties': false}"
+			},
+		"prefer-exponentiation-operator": {
+			"active": 0,
+			"optionString": ""
 			},
 		"prefer-named-capture-group": {
 			"active": 0,

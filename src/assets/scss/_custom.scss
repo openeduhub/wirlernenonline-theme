@@ -60,6 +60,15 @@
   border-radius: $global-radius;
   box-shadow: $shadow;
 }
+.top-call-to-action-menu {
+  li {
+    a {
+      background-color: $success-color;
+      border-radius: $global-radius;
+      color: $black;
+    }
+  }
+}
 /* Footer */
 .site-footer {
   overflow: hidden;
