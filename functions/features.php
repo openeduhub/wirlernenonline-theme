@@ -34,3 +34,18 @@ add_filter( 'upload_mimes', 'svg_support' );
 
 // Disable admin bar in site view
 show_admin_bar(false);
+
+
+function get_field_values($str) {
+  $field = get_field($str);
+
+  if (!is_array($field)) {
+    return null;
+  }
+
+  $values = array_map(function($v) {
+    return $v['value'];
+  }, $field);
+
+  return implode(',', $values);
+}

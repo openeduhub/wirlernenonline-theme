@@ -6,7 +6,7 @@
     <img class="margin-bottom-1" src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
   <?php endif; ?>
   <div class="card-section">
-    <h2><?php echo get_the_title($post->ID); ?></h2>
+    <h2 class="edu-item__title"><?php echo get_the_title($post->ID); ?></h2>
     <?php if( get_field( 'short_text', $post->ID ) ) : ?>
       <p><?php the_field( 'short_text', $post->ID ); ?></p>
     <?php endif; ?>
@@ -16,7 +16,7 @@
     <?php if( $licences ):
       foreach ($licences as $licence):?>
 
-        <span class="label success margin-right-1"><?php echo $licence[label]; ?></span>
+        <span class="label success margin-right-1"><?php echo $licence['label']; ?></span>
 
     <?php endforeach;
     ?>
