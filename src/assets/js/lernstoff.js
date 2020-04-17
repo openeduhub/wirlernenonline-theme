@@ -20,9 +20,9 @@ jQuery(document).ready(function() {
       var searchResult = filterStore.search ?
         $this.find('.edu-item__title').html().match(filterStore.search) :
         true;
-      var fieldsResult = selectFilterResults('fields', $this);
-      var rolesResult = selectFilterResults('roles', $this);
-      var licensesResult = selectFilterResults('licenses', $this);
+      var fieldsResult = selectFilterResultsOr('fields', $this);
+      var rolesResult = selectFilterResultsOr('roles', $this);
+      var licensesResult = selectFilterResultsOr('licenses', $this);
 
       return searchResult && fieldsResult && rolesResult && licensesResult;
     },
@@ -30,7 +30,6 @@ jQuery(document).ready(function() {
 
   $grid.isotope('on', 'arrangeComplete', function(filteredItems) {
     var $noMatchEl = $grid.find('.edu-filter__nomatch');
-    console.log($noMatchEl);
     if (filteredItems.length === 0) {
       if ($noMatchEl.length === 0) {
         $grid.append('<div class="edu-filter__nomatch">Leider wurden keine Treffer gefunden</div>');
@@ -40,7 +39,8 @@ jQuery(document).ready(function() {
     }
   });
 
-  resetFilters();
+  resetFilters(); 
+  readFromURL(filterStore, $grid); 
 
   function triggerSearch() {
     var searchInput = jQuery('.edu-filter__search').val();
@@ -49,9 +49,23 @@ jQuery(document).ready(function() {
     $grid.isotope();
   }
 
-  function selectFilterResults(type, $el) {
+  function selectFilterResultsAnd(type, $el) {
     if (filterStore[type].length !== 0) {
       return filterStore[type].every(function(entry) {
+        var entries = $el.data(type);
+        entries = entries.toString();
+        if (entries === '') return false;
+        entries = entries.includes(',') ? entries.split(',') : [entries];
+        return entries.includes(entry);
+      }) 
+    } else {
+      return true;
+    } 
+  }
+
+  function selectFilterResultsOr(type, $el) {
+    if (filterStore[type].length !== 0) {
+      return filterStore[type].some(function(entry) {
         var entries = $el.data(type);
         entries = entries.toString();
         if (entries === '') return false;
@@ -98,3 +112,24 @@ jQuery(document).ready(function() {
   });
 }); 
 
+// Get query variable
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+}
+
+function readFromURL(store, $grid) { 
+  var qVars = ['fields', 'roles', 'licenses'];
+
+  for (var qv of qVars) {
+    store[qv] = getQueryVariable(qv).split(',');
+    jQuery('.edu-filter[data-filter="' + qv + '"]').val(store[qv]).trigger('change');
+  }
+
+  $grid.isotope();
+}
