@@ -127,8 +127,12 @@ function readFromURL(store, $grid) {
   var qVars = ['fields', 'roles', 'licenses'];
 
   for (var qv of qVars) {
-    store[qv] = getQueryVariable(qv).split(',');
-    jQuery('.edu-filter[data-filter="' + qv + '"]').val(store[qv]).trigger('change');
+    var read = getQueryVariable(qv);
+    console.log(read);
+    if (read) {
+      store[qv] =  read.split(',');
+      jQuery('.edu-filter[data-filter="' + qv + '"]').val(store[qv]).trigger('change');
+    }
   }
 
   $grid.isotope();
