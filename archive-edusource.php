@@ -28,14 +28,14 @@ get_header();?>
 		</div>
 		<div class="cell small-12 medium-auto">
 			<label> Suche
-				<input class="edu-filter__search" type="search" placeholder="Suche">
+				<input class="edu-filter__search" type="search" placeholder="Suchbegriff eingeben">
 			</label>
 		</div>
 	</div>
 	<div class="grid-x grid-margin-x align-middle margin-bottom-3">
 		<div class="cell small-12 medium-auto">
 			<label> Fachbereiche
-				<select class="edu-filter" data-filter="fields" data-placeholder="Fachbereiche">
+				<select class="edu-filter" data-filter="fields" data-placeholder="–">
 					<?php
 					$choices = get_field_object('field_5e8746d0dc6b6')['choices'];
 					foreach($choices as $key => $value) {
@@ -47,7 +47,7 @@ get_header();?>
 		</div>
 		<div class="cell small-12 medium-auto">
 			<label> Rollen
-				<select class="edu-filter" data-filter="roles" data-placeholder="Rollen">
+				<select class="edu-filter" data-filter="roles" data-placeholder="–">
 					<?php
 					$choices = get_field_object('field_5e8de14ae422c')['choices'];
 					foreach($choices as $key => $value) {
@@ -59,7 +59,7 @@ get_header();?>
 		</div>
 		<div class="cell small-12 medium-auto">
 			<label> Lizenz
-				<select class="edu-filter" data-filter="licenses" data-placeholder="Lizenz">
+				<select class="edu-filter" data-filter="licenses" data-placeholder="–">
 					<?php
 					$choices = get_field_object('field_5e8f3d8c0ea6d')['choices'];
 					foreach($choices as $key => $value) {
