@@ -46,7 +46,22 @@ get_header();?>
     ));
 
     if($posts)
-    {
+    {?>
+
+        <div class="cell">
+            <a href="<?php echo get_page_link( 1748 ); ?>">
+                <div class="card">
+                    <img class="margin-bottom-1" src="<?php echo get_stylesheet_directory_uri(); ?>/src/assets/img/add_source.png" alt="Quelle hinzufügen" />
+                    <div class="card-section">
+                        <h2>Neue Quelle Hinzufügen</h2>
+                        <p> Es fehlt noch was?<br>Hier kannst du selber Quellen hinzufügen.</p>
+                        <a class="button" href="<?php echo get_page_link( 1748 ); ?>" target="_blank">Quelle hinzufügen</a>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+       <?php
       foreach($posts as $post)
       {?>
         <div class="cell">
