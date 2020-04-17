@@ -163,9 +163,9 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/index.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/node_modules": {
 		"ft": 65536,
@@ -2196,17 +2196,17 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/template_add_source.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/template_add_tool.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/template_add_tool.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/yarn.lock": {
 		"cB": 0,
@@ -2227,7 +2227,7 @@
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/src/assets/img/favicons/apple-touch-icon.png",
 	"iconImageWasSetByUser": 0,
-	"lastBuiltDate": 608838475.51148796
+	"lastBuiltDate": 608842734.62128401
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,

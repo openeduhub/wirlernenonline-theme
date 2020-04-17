@@ -3,7 +3,7 @@
       <div class="medium-12 cell">
         <h1><?php the_field('description') ?></h1>
       </div>
-      <div class="medium-6 cell medium-offset-3">
+      <!-- <div class="medium-6 cell medium-offset-3">
         <div class="search-container">
           <p><?php the_field('search_description'); ?></p>
           <div class="input-group">
@@ -18,6 +18,6 @@
             <input id="checkbox32" type="checkbox"><label for="checkbox32">Checkbox 3</label>
           </fieldset>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
