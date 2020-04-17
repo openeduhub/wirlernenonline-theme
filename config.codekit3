@@ -718,6 +718,28 @@
 		"sC": 1,
 		"tS": 0
 		},
+	"/src/assets/js/portfolio.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/dist/assets/js/portfolio.js",
+		"oF": 0,
+		"sC": 0,
+		"tS": 0
+		},
+	"/src/assets/js/select2.min.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/dist/assets/js/select2.min.js",
+		"oF": 1,
+		"sC": 0,
+		"tS": 0
+		},
 	"/src/assets/scss/.sass-cache/08ed3f0c0a4bfd85db1bee3765be0881d4e69ea7/swiper.scssc": {
 		"cB": 0,
 		"ft": 8192,
@@ -2036,6 +2058,16 @@
 		"oF": 1,
 		"oS": 0,
 		"uL": 1
+		},
+	"/src/assets/scss/select2.css": {
+		"aP": 1,
+		"bl": 0,
+		"ft": 16,
+		"ma": 1,
+		"oA": 0,
+		"oAP": "/dist/assets/scss/select2.css",
+		"oF": 1,
+		"oS": 3
 		},
 	"/style.css": {
 		"aP": 1,
