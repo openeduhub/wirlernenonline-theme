@@ -20,7 +20,89 @@ get_header();?>
 		</div>
 	</div>
 </div>
+
 <hr>
+
+<?php
+
+// args
+$args_filter = array(
+    'posts_per_page'	=> -1,
+    'post_type'		=> 'edusource',
+    'post_status'       => 'publish',
+);
+
+$filter_query = new WP_Query( $args_filter );
+
+if ( $filter_query->have_posts() ) {
+
+    $fachgebiete = array();
+    $schulformen = array();
+    $roles = array();
+    $tags = array();
+    $categories = array();
+    $licenses = array();
+
+    while ( $filter_query->have_posts() ) {
+
+        $filter_query->the_post();
+
+        $fachgebiet = get_field( 'fachgebiet' );
+        $role = get_field( 'role' );
+        $schulform = get_field( 'schulform' );
+        $category = get_field( 'lernresourcentyp' );
+        $license = get_field( 'licence' );
+
+        if( $fachgebiet ){
+            foreach ($fachgebiet as $tag){
+                $fachgebiete[$tag['value']] = $tag['label'];
+            }
+        }
+        if( $schulform ){
+            foreach ($schulform as $tag){
+                $schulformen[$tag['value']] = $tag['label'];
+            }
+        }
+        if( $role ){
+            foreach ($role as $tag){
+                $roles[$tag['value']] = $tag['label'];
+            }
+        }
+        if( $category ){
+            foreach ($category as $tag){
+                $categories[$tag['value']] = $tag['label'];
+            }
+        }
+        if( $license ){
+            foreach ($license as $tag){
+                $licenses[$tag['value']] = $tag['label'];
+            }
+        }
+    }
+}
+
+function getSelectOptions($fieldName, $fieldChoices){
+    $options = '';
+    $selected = '';
+    if( !empty( get_query_var( $fieldName ) ) ){
+        $selected = get_query_var( $fieldName );
+        echo 'HEY: '.$selected.'<br>';
+    }
+    asort($fieldChoices);
+    echo 'hey: '.$selected.'<br>';
+    foreach ($fieldChoices as $value => $label){
+        $current = '';
+        if ($selected == $value){
+            $current = 'selected';
+            //$current = 'selected="selected"';
+        }
+        $options .= '<option value="'.$value.'" '.$current.' >'.$label.'</option>';
+    }
+    return $options;
+}
+
+?>
+
 <div class="grid-container">
 	<div class="grid-x grid-margin-x">
 		<div class="cell medium-6">
@@ -37,60 +119,35 @@ get_header();?>
 		<div class="cell small-12 medium-4">
 			<label> Fachbereiche
 				<select class="edu-filter" data-filter="fields" data-placeholder="–"> <!-- field from JS -->
-					<?php
-					$choices = get_field_object('field_5e8746d0dc6b6')['choices']; /* IS get ID from frontend */
-					foreach($choices as $key => $value) {
-						echo '<option value="' . $key . '">' . $value . '</option>';
-					}
-					?>
+                    <?php echo getSelectOptions('fachgebiet', $fachgebiete); ?>
 				</select>
 			</label>
 		</div>
 		<div class="cell small-12 medium-4">
 			<label> Zielgruppe
 				<select class="edu-filter" data-filter="roles" data-placeholder="–">
-					<?php
-					$choices = get_field_object('field_5e8de14ae422c')['choices'];
-					foreach($choices as $key => $value) {
-						echo '<option value="' . $key . '">' . $value . '</option>';
-					}
-					?>
+                    <?php echo getSelectOptions('role', $roles); ?>
 				</select>
 			</label>
 		</div>
 		<div class="cell small-12 medium-4">
 			<label> Lizenz
 				<select class="edu-filter" data-filter="licenses" data-placeholder="–">
-					<?php
-					$choices = get_field_object('field_5e8f3d8c0ea6d')['choices'];
-					foreach($choices as $key => $value) {
-						echo '<option value="' . $key . '">' . $value . '</option>';
-					}
-					?>
+                    <?php echo getSelectOptions('licence', $licenses); ?>
 				</select>
 			</label>
 		</div>
 		<div class="cell small-12 medium-4">
 			<label> Schulform
 				<select class="edu-filter" data-filter="schooltype" data-placeholder="–">
-					<?php
-					$choices = get_field_object('field_5e8747a3dc6b7')['choices'];
-					foreach($choices as $key => $value) {
-						echo '<option value="' . $key . '">' . $value . '</option>';
-					}
-					?>
+                    <?php echo getSelectOptions('schulform', $schulformen); ?>
 				</select>
 			</label>
 		</div>
 		<div class="cell small-12 medium-4">
 			<label>Art der Seite
 				<select class="edu-filter" data-filter="sourcetype" data-placeholder="–">
-					<?php
-					$choices = get_field_object('field_5e874809dc6b9')['choices'];
-					foreach($choices as $key => $value) {
-						echo '<option value="' . $key . '">' . $value . '</option>';
-					}
-					?>
+                    <?php echo getSelectOptions('lernresourcentyp', $categories); ?>
 				</select>
 			</label>
 		</div>
