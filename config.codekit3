@@ -696,6 +696,28 @@
 		"oAP": "/dist/assets/img/favicons/site.webmanifest",
 		"oF": 1
 		},
+	"/src/assets/img/lehrer-icon-150x150.png": {
+		"ft": 32768,
+		"iS": 15402,
+		"oA": 0,
+		"oAP": "/dist/assets/img/lehrer-icon-150x150.png",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"oT": 1,
+		"q": 100
+		},
+	"/src/assets/img/schueler-icon-150x150.png": {
+		"ft": 32768,
+		"iS": 19914,
+		"oA": 0,
+		"oAP": "/dist/assets/img/schueler-icon-150x150.png",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"oT": 1,
+		"q": 100
+		},
 	"/src/assets/img/wir-lernen-online-logo.png": {
 		"ft": 32768,
 		"iS": 143961,
