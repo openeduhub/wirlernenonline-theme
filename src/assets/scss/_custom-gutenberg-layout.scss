@@ -39,5 +39,9 @@
     }
     font-weight: $header-font-weight;
     font-family: $header-font-family;
+
+    input {
+      color: $black;
+    }
   }
 }

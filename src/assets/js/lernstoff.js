@@ -1,17 +1,17 @@
+var filterStore = {
+  search: '',
+  fields: [],
+  roles: [],
+  licenses: [],
+  schooltype: [],
+  sourcetype: [],
+  tags: [],
+};
+var $grid = jQuery('.edu-list');
+
 jQuery(document).ready(function() {
-  jQuery('.edu-filter').select2({ multiple: true});
+  jQuery('.edu-filter__select').select2({ multiple: true}); 
 
-  var filterStore = {
-    search: '',
-    fields: [],
-    roles: [],
-    licenses: [],
-    schooltype: [],
-    sourcetype: [],
-    tags: [],
-  };
-
-  var $grid = jQuery('.edu-list');
   $grid.isotope({
     itemSelector: '.edu-item',
     masonry: {
@@ -48,12 +48,6 @@ jQuery(document).ready(function() {
   resetFilters();
   readFromURL(filterStore, $grid);
 
-  function triggerSearch() {
-    var searchInput = jQuery('.edu-filter__search').val();
-    filterStore.search = new RegExp(searchInput, 'gi');
-
-    $grid.isotope();
-  }
 
   function selectFilterResultsAnd(type, $el) {
     if (filterStore[type].length !== 0) {
@@ -104,7 +98,7 @@ jQuery(document).ready(function() {
     triggerSearch();
   });
 
-  jQuery('.edu-filter').change(function(e) {
+  jQuery('.edu-filter__select').change(function(e) {
     var $this = jQuery(this);
     var data = $this.select2('data');
     data = data.map(function(d) {
@@ -121,6 +115,13 @@ jQuery(document).ready(function() {
   });
 });
 
+function triggerSearch() {
+  var searchInput = jQuery('.edu-filter__search').val();
+  filterStore.search = new RegExp(searchInput, 'gi');
+
+  $grid.isotope();
+}
+
 // Get query variable
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
@@ -133,14 +134,28 @@ function getQueryVariable(variable) {
 }
 
 function readFromURL(store, $grid) {
-  var qVars = ['fields', 'roles', 'licenses', 'schooltype', 'sourcetype', 'tags'];
+  var qVars = ['search', 'fields', 'roles', 'licenses', 'schooltype', 'sourcetype', 'tags'];
+  var urlParams = new URLSearchParams(window.location.search);
 
   for (var qv of qVars) {
-    var read = getQueryVariable(qv);
-    console.log(read);
+    var read = urlParams.getAll(qv);
     if (read) {
-      store[qv] =  read.split(',');
-      jQuery('.edu-filter[data-filter="' + qv + '"]').val(store[qv]).trigger('change');
+      read = read.map(function(i) {
+        if (i.includes(',')) {
+            return i.split(',');
+        } else {
+          return i;
+        }
+      });
+      read = read.flat();
+
+      if (qv === 'search') { 
+        jQuery('.edu-filter__search').val(read[0]);
+        triggerSearch();
+      } else {
+        store[qv] = read;
+        jQuery('.edu-filter[data-filter="' + qv + '"]').val(store[qv]).trigger('change');
+      }
     }
   }
 
