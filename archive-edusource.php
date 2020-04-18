@@ -3,20 +3,23 @@
 */
 get_header();?>
 <div class="grid-container">
-	<div class="grid-x grid-margin-x">
-		<div class="cell medium-8">
+	<div class="grid-x grid-margin-x align-bottom">
+		<div class="cell medium-5">
 			<h1 class="page-title"><?php the_title(); ?> finden</h1>
+			<p><?php the_field('lernstoff_intro') ?></p>
 		</div>
-		<div class="medium-4 cell">
-			<a href="<?php echo get_page_link( 1748 ); ?>">
-				<div class="callout margin-top-2">
-					<div class="card-section">
-						<h4>Neue Quelle Hinzufügen</h4>
-						<p> Es fehlt noch was?<br>Hier kannst du selber Quellen hinzufügen.</p>
-						<a class="button tiny" href="<?php echo get_page_link( 1748 ); ?>" target="_blank">Quelle hinzufügen</a>
+		<div class="medium-7 cell">
+			<div class="new-source callout margin-top-2">
+				<div class="card-section">
+					<h4>Neue Quelle Hinzufügen</h4>
+					<div class="grid-x align-justify align-middle">
+						<p class="cell small-12 medium-auto margin-bottom-0"> Es fehlt noch was?<br>Hier kannst du selber Quellen hinzufügen.</p>
+						<div class="cell small-12 medium-shrink">
+							<a class="button tiny margin-top-1" href="<?php echo get_page_link( 1748 ); ?>" target="_blank">Quelle hinzufügen</a>
+						</div>
 					</div>
 				</div>
-			</a>
+			</div>
 		</div>
 	</div>
 </div>
@@ -122,42 +125,42 @@ function getSelectOptions($fieldName, $fieldChoices){
 	<div class="grid-x grid-margin-x align-middle margin-bottom-3">
 		<div class="cell small-12 medium-4">
 			<label> Fachbereiche
-				<select class="edu-filter edu-filter__select" data-filter="fields" data-placeholder="–"> <!-- field from JS -->
+				<select class="edu-filter edu-filter__select" data-filter="fields" data-placeholder="..."> <!-- field from JS -->
                     <?php echo getSelectOptions('fachgebiet', $fachgebiete); ?>
 				</select>
 			</label>
 		</div>
 		<div class="cell small-12 medium-4">
 			<label> Zielgruppe
-				<select class="edu-filter edu-filter__select" data-filter="roles" data-placeholder="–">
+				<select class="edu-filter edu-filter__select" data-filter="roles" data-placeholder="...">
                     <?php echo getSelectOptions('role', $roles); ?>
 				</select>
 			</label>
 		</div>
 		<div class="cell small-12 medium-4">
 			<label> Lizenz
-				<select class="edu-filter edu-filter__select" data-filter="licenses" data-placeholder="–">
+				<select class="edu-filter edu-filter__select" data-filter="licenses" data-placeholder="...">
                     <?php echo getSelectOptions('licence', $licenses); ?>
 				</select>
 			</label>
 		</div>
 		<div class="cell small-12 medium-4">
 			<label> Schulform
-				<select class="edu-filter edu-filter__select" data-filter="schooltype" data-placeholder="–">
+				<select class="edu-filter edu-filter__select" data-filter="schooltype" data-placeholder="...">
                     <?php echo getSelectOptions('schulform', $schulformen); ?>
 				</select>
 			</label>
 		</div>
 		<div class="cell small-12 medium-4">
 			<label>Art der Seite
-				<select class="edu-filter edu-filter__select" data-filter="sourcetype" data-placeholder="–">
+				<select class="edu-filter edu-filter__select" data-filter="sourcetype" data-placeholder="...">
                     <?php echo getSelectOptions('lernresourcentyp', $categories); ?>
 				</select>
 			</label>
 		</div>
 		<div class="cell small-12 medium-4">
 			<label>Schlagworte
-				<select class="edu-filter edu-filter__select" data-filter="tags" data-placeholder="–">
+				<select class="edu-filter edu-filter__select" data-filter="tags" data-placeholder="...">
                     <?php echo getSelectOptions('tags', $tags); ?>
 				</select>
 			</label>
