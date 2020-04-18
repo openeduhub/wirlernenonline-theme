@@ -44,6 +44,9 @@ function get_field_values($str) {
   }
 
   $values = array_map(function($v) {
+    if ($v instanceof WP_Term) {
+      return $v->term_id;
+    }
     return $v['value'];
   }, $field);
 
