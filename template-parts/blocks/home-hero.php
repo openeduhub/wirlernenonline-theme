@@ -9,15 +9,15 @@
           <div class="search-container">
             <p><?php the_field('search_description'); ?></p>
             <div class="input-group">
-              <input class="input-group-field" type="search" name="search">
+              <input class="input-group-field" type="search" name="search" autocomplete="off">
               <div class="input-group-button">
                 <input type="submit" class="button success" value="Suche">
               </div>
             </div>
             <fieldset>
-              <input id="methods" type="checkbox" name="sourcetype" value="008"><label for="methods" name="fields">Methoden</label>
-              <input id="databases" type="checkbox" name="sourcetype" value="001,002,003"><label for="databases">Datenbanken</label>
-              <input id="material" type="checkbox" name="sourcetype" value="004"><label for="material">Lehrmaterial</label>
+                <input id="material" type="checkbox" name="sourcetype" value="004"><label for="material">Lehrmaterial</label>
+              <input id="methods" type="checkbox" name="sourcetype" value="005,007"><label for="methods" name="fields">Lern-Tools</label>
+              <input id="databases" type="checkbox" name="sourcetype" value="001,002,003"><label for="databases">Medien</label>
             </fieldset>
           </div>
         </form>

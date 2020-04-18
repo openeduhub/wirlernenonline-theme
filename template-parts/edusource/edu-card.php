@@ -15,13 +15,15 @@
     $licences = get_field( 'licence', $post->ID ); ?>
     <?php if( $licences ):
       foreach ($licences as $licence):?>
-
-        <span class="label success margin-right-1"><?php echo $licence['label']; ?></span>
-
+        <div class="label success margin-right-1"><?php echo $licence['label']; ?></div>
     <?php endforeach;
     ?>
   <?php endif; ?>
   </div>
+      <div style="float: right">
+          <?php if(function_exists('wp_ulike')) wp_ulike('get'); ?>
+      </div>
+      <a class="button" href="<?php the_field('url'); ?>" target="_blank">Zur Quelle</a>
   </div>
 </div>
 </a>

@@ -1,13 +1,5 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-91648560-4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-91648560-4');
-</script>
 <?php get_template_part('head') ?>
 <body <?php body_class(); ?>>
 	<header id="site-header" class="site-header" role="banner">
