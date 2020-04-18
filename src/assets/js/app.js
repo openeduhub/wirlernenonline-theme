@@ -14,7 +14,12 @@ $(document).ready(function($) {
 
   $window.on('scroll', function(){
     var scrollTop = $window.scrollTop();
-    nav.toggleClass('hidden', scrollTop > prev);
+    if (scrollTop < 0) {
+      nav.removeClass('hidden');
+      return;
+    } else {
+      nav.toggleClass('hidden', scrollTop > prev);
+    }
     prev = scrollTop;
   });
 });

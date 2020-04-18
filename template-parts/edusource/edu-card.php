@@ -8,7 +8,7 @@
   <div class="card-section">
     <h2 class="edu-item__title"><?php echo get_the_title($post->ID); ?></h2>
     <?php if( get_field( 'short_text', $post->ID ) ) : ?>
-      <p><?php the_field( 'short_text', $post->ID ); ?></p>
+      <p class="edu-item__content"><?php the_field( 'short_text', $post->ID ); ?></p>
     <?php endif; ?>
     <div class="button-group tiny">
     <?php
