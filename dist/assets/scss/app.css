@@ -11765,6 +11765,15 @@ img.fullwidth {
 }
 
 /* Pages */
+/* Edusource Archive */
+.page-template-archive-edusource .page-title {
+  margin-bottom: calc(1 * 15px);
+}
+
+.page-template-archive-edusource .new-source {
+  color: #003E82;
+}
+
 /* Single EduSource */
 .single-edusource ul.attributes {
   margin: 0;

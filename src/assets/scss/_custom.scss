@@ -82,6 +82,17 @@
 }
 /* Pages */
 
+/* Edusource Archive */
+.page-template-archive-edusource {
+  .page-title {
+    margin-bottom: $space-small;
+  }
+
+  .new-source {
+    color: map-get($foundation-palette, "primary");
+  }
+}
+
 /* Single EduSource */
 .single-edusource {
   ul.attributes {

@@ -43,6 +43,10 @@ jQuery(document).ready(function() {
     }
   });
 
+  $grid.imagesLoaded().progress(function() {
+    $grid.isotope('layout');
+  });
+
   resetFilters();
   readFromURL(filterStore, $grid);
 
