@@ -20,9 +20,7 @@ jQuery(document).ready(function() {
     },
     filter: function() {
       var $this = jQuery(this);
-      var searchResult = filterStore.search ?
-        $this.find('.edu-item__title').html().match(filterStore.search) :
-        true;
+      var searchResult = checkSearch($this);
       var fieldsResult = selectFilterResultsOr('fields', $this);
       var rolesResult = selectFilterResultsOr('roles', $this);
       var licensesResult = selectFilterResultsOr('licenses', $this);
@@ -48,6 +46,15 @@ jQuery(document).ready(function() {
   resetFilters();
   readFromURL(filterStore, $grid);
 
+  function checkSearch($el){
+
+    if (filterStore.search) {
+      return $el.find('.edu-item__title').html().match(filterStore.search) ||
+        $el.find('.edu-item__content').html().match(filterStore.search);
+      
+    }
+    return true;
+  } 
 
   function selectFilterResultsAnd(type, $el) {
     if (filterStore[type].length !== 0) {

@@ -2150,22 +2150,6 @@
 		"oAP": "/dist/template-parts/blocks/home-hero.php",
 		"oF": 1
 		},
-	"/template-parts/blocks/latest-students.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/dist/template-parts/blocks/latest-students.php",
-		"oF": 0
-		},
-	"/template-parts/blocks/latest-teacher.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 1,
-		"oAP": "/dist/template-parts/blocks/latest-teacher.php",
-		"oF": 1
-		},
 	"/template-parts/edusource/attributes.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -2212,22 +2196,6 @@
 		"hM": 0,
 		"oA": 1,
 		"oAP": "/dist/template-parts/post/content.php",
-		"oF": 1
-		},
-	"/template_add_source.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 1,
-		"oAP": "/dist/template_add_source.php",
-		"oF": 1
-		},
-	"/template_add_tool.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 1,
-		"oAP": "/dist/template_add_tool.php",
 		"oF": 1
 		},
 	"/yarn.lock": {
