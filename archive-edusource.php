@@ -52,6 +52,7 @@ if ( $filter_query->have_posts() ) {
         $schulform = get_field( 'schulform' );
         $category = get_field( 'lernresourcentyp' );
         $license = get_field( 'licence' );
+        $tag_field = get_field('tags');
 
         if( $fachgebiet ){
             foreach ($fachgebiet as $tag){
@@ -66,6 +67,11 @@ if ( $filter_query->have_posts() ) {
         if( $role ){
             foreach ($role as $tag){
                 $roles[$tag['value']] = $tag['label'];
+            }
+        }
+        if( $tag_field ){
+            foreach ($tag_field as $tag){
+                $tags[$tag->term_id] = $tag->name;
             }
         }
         if( $category ){
@@ -86,10 +92,8 @@ function getSelectOptions($fieldName, $fieldChoices){
     $selected = '';
     if( !empty( get_query_var( $fieldName ) ) ){
         $selected = get_query_var( $fieldName );
-        echo 'HEY: '.$selected.'<br>';
     }
     asort($fieldChoices);
-    echo 'hey: '.$selected.'<br>';
     foreach ($fieldChoices as $value => $label){
         $current = '';
         if ($selected == $value){
@@ -154,12 +158,7 @@ function getSelectOptions($fieldName, $fieldChoices){
 		<div class="cell small-12 medium-4">
 			<label>Schlagworte
 				<select class="edu-filter" data-filter="tags" data-placeholder="–">
-					<?php /* @LG is Taxonomie …
-					$choices = get_field_object('field_5e87482fdc6ba')['choices'];
-					foreach($choices as $key => $value) {
-						echo '<option value="' . $key . '">' . $value . '</option>';
-					}
-					*/ ?>
+                    <?php echo getSelectOptions('tags', $tags); ?>
 				</select>
 			</label>
 		</div>
@@ -170,6 +169,9 @@ function getSelectOptions($fieldName, $fieldChoices){
 		*/ ?>
 
 	</div>
+    <?php
+
+    ?>
 	<div class="edu-list grid-x grid-margin-x small-up-1 medium-up-3 large-up-3 block-grid">
 		<?php
 		$posts = get_posts(array(
