@@ -11659,6 +11659,39 @@ img.fullwidth {
   color: #313131;
 }
 
+.gutenberg-layout-container .home-hero__checkbox {
+  position: relative;
+}
+
+.gutenberg-layout-container .home-hero__checkbox:not(:last-of-type) {
+  margin-right: .8rem;
+}
+
+.gutenberg-layout-container .home-hero__checkbox input {
+  position: absolute;
+  left: -100vw;
+}
+
+.gutenberg-layout-container .home-hero__checkbox label {
+  padding-left: .8rem;
+}
+
+.gutenberg-layout-container .home-hero__checkbox label::after {
+  content: '';
+  position: absolute;
+  top: .4rem;
+  left: 0;
+  width: .8rem;
+  height: .8rem;
+  background-color: transparent;
+  border: 2px solid #fefefe;
+  border-radius: 2px;
+}
+
+.gutenberg-layout-container .home-hero__checkbox input:checked ~ label::after {
+  background-image: url("../img/check.svg");
+}
+
 /* Globals */
 *:focus {
   outline: 1px dotted #003E82;
