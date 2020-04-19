@@ -13,9 +13,17 @@
     $posts = get_posts(array(
       'post_type' => array('edusource'),
       'numberposts' => 3,
+        'post_status'       => 'publish',
+        'meta_query' => array(
+            array(
+                'key' => 'role',
+                'value' => 'teacher',
+                'compare' => 'LIKE'
+            )
+        )
       //'post_type' => 'event',
-      //'meta_key' => 'location',
-      //'meta_value' => 'melbourne'
+      //'meta_key' => 'role',
+      //'meta_value' => 'teacher'
     ));
     if($posts)
     {

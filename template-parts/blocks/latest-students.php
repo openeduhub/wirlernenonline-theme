@@ -10,11 +10,16 @@
   <div class="grid-x grid-margin-x small-up-1 medium-up-2 large-up-3 block-grid">
     <?php
     $posts = get_posts(array(
-      'post_type' => array('edusource'),
-      'numberposts' => 3,
-      //'post_type' => 'event',
-      //'meta_key' => 'location',
-      //'meta_value' => 'melbourne'
+        'post_type' => array('edusource'),
+        'numberposts' => 3,
+        'post_status'       => 'publish',
+        'meta_query' => array(
+            array(
+                'key' => 'role',
+                'value' => 'learner',
+                'compare' => 'LIKE'
+            )
+        )
     ));
     if($posts)
     {
