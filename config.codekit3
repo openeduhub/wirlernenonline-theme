@@ -793,6 +793,17 @@
 		"sC": 0,
 		"tS": 0
 		},
+	"/src/assets/js/lazyload.min.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/dist/assets/js/lazyload.min.js",
+		"oF": 0,
+		"sC": 0,
+		"tS": 0
+		},
 	"/src/assets/js/lernstoff.js": {
 		"bF": 0,
 		"ft": 64,

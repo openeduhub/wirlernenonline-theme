@@ -8,16 +8,43 @@ var filterStore = {
   tags: [],
 };
 var $grid = jQuery('.edu-list');
+var $imgs = jQuery('.edu-item__image');
+
+Isotope.Item.prototype._create = function() {
+  // assign id, used for original-order sorting
+  this.id = this.layout.itemGUID++;
+  // transition objects
+  this._transn = {
+    ingProperties: {},
+    clean: {},
+    onEnd: {}
+  };
+  this.sortData = {};
+};
+
+Isotope.Item.prototype.layoutPosition = function() {
+  this.emitEvent( 'layout', [ this ] );
+};
+
+Isotope.prototype.arrange = function( opts ) {
+  // set any options pass
+  this.option( opts );
+  this._getIsInstant();
+  // just filter
+  this.filteredItems = this._filter( this.items );
+  // flag for initalized
+  this._isLayoutInited = true;
+};
+
+// layout mode that does not position items
+Isotope.LayoutMode.create('none');
 
 jQuery(document).ready(function() {
   jQuery('.edu-filter__select').select2({ multiple: true}); 
 
   $grid.isotope({
     itemSelector: '.edu-item',
-    masonry: {
-      columnWidth: '.edu-item',
-      horizontalOrder: true
-    },
+    layoutMode: 'none',
     filter: function() {
       var $this = jQuery(this);
       var searchResult = checkSearch($this);
@@ -33,6 +60,7 @@ jQuery(document).ready(function() {
   });
 
   $grid.isotope('on', 'arrangeComplete', function(filteredItems) {
+    jQuery(window).trigger('scroll');
     var $noMatchEl = $grid.find('.edu-filter__nomatch');
     if (filteredItems.length === 0) {
       if ($noMatchEl.length === 0) {
@@ -45,6 +73,10 @@ jQuery(document).ready(function() {
 
   $grid.imagesLoaded().progress(function() {
     $grid.isotope('layout');
+  });
+
+  $imgs.lazyload({
+    failure_limit: Math.max($imgs.length - 1, 0)
   });
 
   resetFilters();
