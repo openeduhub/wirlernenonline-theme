@@ -11781,6 +11781,7 @@ img.fullwidth {
   text-align: center;
   right: 0 !important;
   left: 0 !important;
+  min-width: 300px;
 }
 
 .is-dropdown-submenu-item:hover {
