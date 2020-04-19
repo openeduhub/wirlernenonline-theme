@@ -2,6 +2,9 @@
 // %%%%%%%%%% Title Tag
 //add_theme_support( 'title-tag' );
 
+// %%%%%%%%%% Post Thumbnails
+add_theme_support( 'post-thumbnails' );
+
 // %%%%%%%%%% Custom Excerpt Length %%%%%%%%%
 function custom_excerpt_length( $length ) {
 	return 20;
