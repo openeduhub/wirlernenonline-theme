@@ -11661,6 +11661,7 @@ img.fullwidth {
 
 .gutenberg-layout-container .home-hero__checkbox {
   position: relative;
+  float: left;
 }
 
 .gutenberg-layout-container .home-hero__checkbox:not(:last-of-type) {
@@ -11805,6 +11806,10 @@ img.fullwidth {
 
 .page-template-archive-edusource .new-source {
   color: #003E82;
+}
+
+.page-template-archive-edusource .page-load-status {
+  display: none;
 }
 
 /* Single EduSource */
