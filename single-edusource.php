@@ -76,8 +76,8 @@ get_header();
 	</div>
 </div>
 <div class="medium-4 cell">
+    <a class="button" href="<?php the_field('url'); ?>" target="_blank">Zur Quelle</a>
 	<?php get_template_part('template-parts/edusource/attributes'); ?>
-	<a class="button" href="<?php the_field('url'); ?>" target="_blank">Zur Quelle</a>
 </div>
 <div class="medium-12 cell">
 	<hr>

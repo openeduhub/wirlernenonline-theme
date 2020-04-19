@@ -15,7 +15,7 @@ get_header();?>
 					<div class="grid-x align-justify align-middle">
 						<p class="cell small-12 medium-auto margin-bottom-0"> Es fehlt noch was?<br>Hier kannst du selber Quellen hinzufügen.</p>
 						<div class="cell small-12 medium-shrink">
-							<a class="button tiny margin-top-1" href="<?php echo get_page_link( 1748 ); ?>" target="_blank">Quelle hinzufügen</a>
+							<a class="button tiny margin-top-1" href="<?php echo get_page_link( 2703 ); ?>" target="_blank">Quelle hinzufügen</a>
 						</div>
 					</div>
 				</div>
