@@ -11821,6 +11821,10 @@ img.fullwidth {
   color: #003E82;
 }
 
+.page-template-archive-edusource .edu-item__content {
+  color: #313131;
+}
+
 /* Single EduSource */
 .single-edusource ul.attributes {
   margin: 0;

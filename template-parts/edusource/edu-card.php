@@ -7,8 +7,7 @@
       data-original="<?php echo esc_url($image['sizes']['medium_large']); ?>"
       alt="<?php echo esc_attr($image['alt']); ?>"
       height="240"
-      width="360"
-      style="max-height: 240px" />
+      width="360" />
   <?php endif; ?>
   <div class="card-section">
     <h2 class="edu-item__title"><?php echo get_the_title($post->ID); ?></h2>

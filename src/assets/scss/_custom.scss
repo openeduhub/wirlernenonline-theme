@@ -110,6 +110,12 @@
   .new-source {
     color: map-get($foundation-palette, "primary");
   }
+
+  .edu-item {
+    &__content {
+      color: $black;
+    }
+  }
 }
 
 /* Single EduSource */
