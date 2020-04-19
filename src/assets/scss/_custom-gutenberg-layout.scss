@@ -43,5 +43,34 @@
     input {
       color: $black;
     }
+
+    &__checkbox {
+      position: relative;
+
+      input {
+        position: absolute;
+        left: -100vw; 
+      }
+
+      label {
+        padding-left: .8rem; 
+      }
+
+      label::after {
+        content: '';
+        position: absolute;
+        top: .4rem;
+        left: 0;
+        width: .8rem;
+        height: .8rem;
+        background-color: transparent;
+        border: 2px solid $white;
+        border-radius: 2px;
+      }
+
+      input:checked ~ label::after {
+        background-image: url('../img/check.svg');
+      }
+    }
   }
 }
