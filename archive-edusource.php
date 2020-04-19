@@ -181,6 +181,9 @@ function getSelectOptions($fieldName, $fieldChoices){
 			'post_type' => array('edusource'),
 			'numberposts' => -1,
 		));
+
+        //$posts = wp_ulike_get_most_liked_posts( -1, array( 'edusource' ), 'edusource', 'all', 'like' );
+
 		if($posts)
 		{
 			foreach($posts as $post)

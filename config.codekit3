@@ -17,14 +17,6 @@
 		"oAP": "/dist/404.php",
 		"oF": 1
 		},
-	"/archive-edusource.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 1,
-		"oAP": "/dist/archive-edusource.php",
-		"oF": 1
-		},
 	"/archive.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -143,14 +135,6 @@
 		"oAP": "/dist/functions/tinymce.php",
 		"oF": 0
 		},
-	"/head.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 1,
-		"oA": 1,
-		"oAP": "/dist/head.php",
-		"oF": 1
-		},
 	"/header.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -263,14 +247,6 @@
 		"hM": 1,
 		"oA": 1,
 		"oAP": "/dist/search.php",
-		"oF": 1
-		},
-	"/single-edusource.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 1,
-		"oAP": "/dist/single-edusource.php",
 		"oF": 1
 		},
 	"/single.php": {
@@ -2179,14 +2155,6 @@
 		"oAP": "/dist/template-parts/blocks/latest-students.php",
 		"oF": 0
 		},
-	"/template-parts/blocks/latest-teacher.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/dist/template-parts/blocks/latest-teacher.php",
-		"oF": 0
-		},
 	"/template-parts/edusource/attributes.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -2210,14 +2178,6 @@
 		"oA": 1,
 		"oAP": "/dist/template-parts/page/content-page.php",
 		"oF": 1
-		},
-	"/template-parts/partials/newsletter-signup-form.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/dist/template-parts/partials/newsletter-signup-form.php",
-		"oF": 0
 		},
 	"/template-parts/post/content-none.php": {
 		"cB": 0,

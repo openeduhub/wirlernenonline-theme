@@ -10,7 +10,7 @@
       <label id="firstname_label" class="field_label" for="firstname">Name:
         <input type="text" class="form_field" name="firstname" id="firstname" value="" />
       </label>
-      <button class="button no-space" type="submit" value="Submit">Anmleden</button>
+      <button class="button no-space" type="submit" value="Submit">Anmelden</button>
     </div>
   </div>
 </form>
