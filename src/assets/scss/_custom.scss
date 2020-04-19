@@ -35,6 +35,15 @@
       }
     }
   }
+  @include breakpoint(medium only) {
+    .top-bar {
+      background-color: $light-gray;
+      padding-bottom: $space-medium;
+      .menu {
+        margin-bottom: $space-medium;
+      }
+    }
+  }
   &.hidden {
     transform: translateY(-110%);
     transition: $global-transition;
@@ -50,16 +59,24 @@
   }
   img.logo {
     height: calc(1 * #{$mobile-header-height - $gutter * 2});
-    @media screen and #{breakpoint(medium)} {
-      height: auto;
-      margin-left: 0;
-    }
+    // @media screen and #{breakpoint(medium)} {
+    //   height: auto;
+    //   margin-left: 0;
+    // }
   }
 }
 /* Navigation */
 .is-dropdown-submenu {
+  background-color: $white !important;
   border-radius: $global-radius;
-  box-shadow: $shadow;
+  text-align: center;
+  right: 0 !important;
+  left: 0 !important;
+
+  &-item:hover {
+    background-color: $light-gray;
+    cursor: pointer;
+  }
 }
 .top-call-to-action-menu {
   li {
