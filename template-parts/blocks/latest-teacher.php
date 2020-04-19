@@ -21,9 +21,6 @@
                 'compare' => 'LIKE'
             )
         )
-      //'post_type' => 'event',
-      //'meta_key' => 'role',
-      //'meta_value' => 'teacher'
     ));
     if($posts)
     {

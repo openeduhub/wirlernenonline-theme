@@ -60,18 +60,19 @@ get_header();
       ?>
 			<?php endif; ?>
 		</div>
+        <?php
+        $tags = get_field( 'tags' );
+        if( $tags ):?>
         <div class="cell medium-6">
             <hr>
             <p>Schlagworte:</p>
-            <?php
-            $tags = get_field( 'tags' );
-            if( $tags ):
-                foreach ($tags as $tag):?>
-                    <span class="multi-select"><?php echo $tag->name; ?></span>
-                <?php endforeach;
-                ?>
-            <?php endif; ?>
+
+           <?php foreach ($tags as $tag):?>
+                <span class="multi-select"><?php echo $tag->name; ?></span>
+            <?php endforeach;
+            ?>
         </div>
+        <?php endif; ?>
 	</div>
 </div>
 <div class="medium-4 cell">
