@@ -3,6 +3,7 @@ get_header();
 ?><div class="grid-container">
 	<div class="grid-x grid-margin-x">
 		<div class="medium-12 cell">
+			<a class="backlink" href="<?php the_permalink(47) ?>">Zurück zur Übersicht</a>
 			<h1 class="page-title"><?php the_title(); ?></h1>
 		</div>
 		<?php

@@ -563,6 +563,16 @@
 		"oT": 1,
 		"q": 100
 		},
+	"/src/assets/img/arrow_left.svg": {
+		"ft": 2097152,
+		"miP": 0,
+		"oA": 0,
+		"oAP": "/dist/assets/img/arrow_left.svg",
+		"oF": 0,
+		"opt": 1,
+		"plM": 52780316221407,
+		"prP": 0
+		},
 	"/src/assets/img/Bananenbiegerei-Logo-White.png": {
 		"ft": 32768,
 		"iS": 9792,

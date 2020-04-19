@@ -126,6 +126,21 @@
       border-top: 1px solid $light-gray;
     }
   }
+
+  .backlink {
+    color: #5F676B;
+    display: inline-block;
+    font-family: $header-font-family;
+    font-size: .8rem;
+    margin-top: $space-small;
+
+    &:before {
+      content: url('../img/arrow_left.svg');
+      height: .8rem;
+      width: .8rem;
+      margin-right: .3rem;
+    }
+  }
 }
 /* F6 */
 .block-grid {
