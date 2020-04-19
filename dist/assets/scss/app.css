@@ -11721,6 +11721,7 @@ img.fullwidth {
   z-index: 999;
   min-height: 63px;
   background-color: #fefefe;
+  border-bottom: 1px solid #ECECEC;
   position: fixed;
   top: 0;
   left: 0;
@@ -11806,10 +11807,6 @@ img.fullwidth {
 
 .page-template-archive-edusource .new-source {
   color: #003E82;
-}
-
-.page-template-archive-edusource .page-load-status {
-  display: none;
 }
 
 /* Single EduSource */
