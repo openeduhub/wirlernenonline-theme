@@ -52,3 +52,20 @@ function get_field_values($str) {
 
   return implode(',', $values);
 }
+
+function change_acf_form_title( $field ) {
+
+    if ( is_page_template('template_add_source.php') ) {
+        $field['label'] = "Titel der Quelle";
+        //$field['instructions'] = "Changed Instruction";
+    }elseif (is_page_template('template_add_tool.php')){
+        $field['label'] = "Titel des Tools";
+    }
+
+    if ( $field ) {
+        return $field;
+    } else {
+        exit;
+    }
+}
+add_filter('acf/prepare_field/name=_post_title', 'change_acf_form_title');

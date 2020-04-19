@@ -21,6 +21,7 @@ get_header();
                     'post_type'     => 'edusource',
                     'post_status'   => 'pending'
                 ),
+                'fields' => array('url', 'short_text', 'fachgebiet', 'email', 'newsletter'),
                 'submit_value'  => 'Neue Quelle anlegen',
                 'html_updated_message' => '<div id="message" class="updated" style="background: #E3F702;color: #313131;padding: 20px 8px 1px;border-radius: 5px; "><p>Deine Quelle wurde angelegt!</p></div>',
             )); ?>
