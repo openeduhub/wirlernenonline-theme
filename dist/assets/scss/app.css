@@ -10739,6 +10739,7 @@ img.fullwidth {
   right: 0;
 }
 
+/* Default width for all Elements*/
 .gutenberg-layout-container > * {
   padding-right: 0.75rem;
   padding-left: 0.75rem;
@@ -10777,6 +10778,7 @@ img.fullwidth {
   margin-right: auto;
 }
 
+/* Specific Layouts */
 .gutenberg-layout-container {
   /* F6 Overwrites */
   /* Custom Blocks */

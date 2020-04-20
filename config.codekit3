@@ -211,6 +211,14 @@
 		"oO": 0,
 		"oS": 1
 		},
+	"/page-layout-test.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/page-layout-test.php",
+		"oF": 0
+		},
 	"/page-style-tile.php": {
 		"cB": 0,
 		"ft": 8192,
