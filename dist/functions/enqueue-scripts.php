@@ -7,7 +7,7 @@ function site_scripts() {
         wp_enqueue_script( 'isotope-js', get_template_directory_uri() . '/dist/assets/js/isotope.min.js', array( 'jquery' ), '', true );
         wp_enqueue_script( 'imagesloaded-js', get_template_directory_uri() . '/dist/assets/js/imagesloaded.min.js', array( 'jquery' ), '', true );
         wp_enqueue_script( 'lazyload-js', get_template_directory_uri() . '/dist/assets/js/lazyload.min.js', array( 'jquery' ), '', true );
-        wp_enqueue_script( 'lernstoff-js', get_template_directory_uri() . '/dist/assets/js/lernstoff.js', array( 'jquery', 'isotope-js', 'select2-js'), '', true );
+        wp_enqueue_script( 'lernstoff-js', get_template_directory_uri() . '/dist/assets/js/lernstoff.js', array( 'jquery', 'isotope-js', 'imagesloaded-js', 'select2-js', 'lazyload-js' ), '', true );
     }
 
     // CSS
