@@ -9,6 +9,14 @@
 	],
 "creatorBuild": "32001",
 "files": {
+	"/.gitignore": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/dist/.gitignore",
+		"oF": 0
+		},
 	"/404.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -40,12 +48,6 @@
 		"oA": 1,
 		"oAP": "/dist/comments.php",
 		"oF": 1
-		},
-	"/dist": {
-		"ft": 65536,
-		"oA": 1,
-		"oAP": "/dist/dist",
-		"oF": 0
 		},
 	"/footer.php": {
 		"cB": 0,
@@ -2299,7 +2301,7 @@
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/src/assets/img/favicons/apple-touch-icon.png",
 	"iconImageWasSetByUser": 0,
-	"lastBuiltDate": 609078352.23205996
+	"lastBuiltDate": 609153573.34571898
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,

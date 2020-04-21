@@ -4,7 +4,7 @@
     $image = get_field('thumbnail', $post->ID);
     if( !empty( $image ) ): ?>
     <img class="edu-item__image margin-bottom-1"
-      data-original="<?php echo esc_url($image['sizes']['medium_large']); ?>"
+      data-original="<?php echo esc_url($image['sizes']['three-columns-four-three']); ?>"
       alt="<?php echo esc_attr($image['alt']); ?>"
       height="240"
       width="360" />
