@@ -2,7 +2,7 @@
 function site_scripts() {
     //JS
     wp_enqueue_script( 'site-js', get_template_directory_uri() . '/dist/assets/js/app.js', array( 'jquery' ), '', true );
-    if (is_page_template('archive-edusource.php') || is_front_page()) {
+    if (is_page_template('archive-edusource.php') || is_page_template('archive-edutool.php') || is_front_page()) {
         wp_enqueue_script( 'select2-js', get_template_directory_uri() . '/dist/assets/js/select2.min.js', array( 'jquery' ), '', true );
         wp_enqueue_script( 'isotope-js', get_template_directory_uri() . '/dist/assets/js/isotope.min.js', array( 'jquery' ), '', true );
         wp_enqueue_script( 'imagesloaded-js', get_template_directory_uri() . '/dist/assets/js/imagesloaded.min.js', array( 'jquery' ), '', true );
