@@ -7,7 +7,7 @@
 		"uuidString": "CD596436-1EE7-428C-9CF1-9B011BEC2826"
 		}
 	],
-"creatorBuild": "31934",
+"creatorBuild": "32001",
 "files": {
 	"/404.php": {
 		"cB": 0,
@@ -21,9 +21,9 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/archive-edusource.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/archive.php": {
 		"cB": 0,
@@ -147,9 +147,9 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/head.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/header.php": {
 		"cB": 0,
@@ -171,7 +171,7 @@
 		"ft": 65536,
 		"oA": 1,
 		"oAP": "/dist/node_modules",
-		"oF": 0
+		"oF": 1
 		},
 	"/node_modules/foundation-sites/dist/js/foundation.esm.js": {
 		"bF": 0,
@@ -210,6 +210,14 @@
 		"oF": 0,
 		"oO": 0,
 		"oS": 1
+		},
+	"/page-layout-test.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/dist/page-layout-test.php",
+		"oF": 1
 		},
 	"/page-style-tile.php": {
 		"cB": 0,
@@ -269,9 +277,9 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/single-edusource.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/single.php": {
 		"cB": 0,
@@ -618,10 +626,10 @@
 		},
 	"/src/assets/img/favicons/android-chrome-192x192.png": {
 		"ft": 32768,
-		"iS": 3725,
-		"oA": 2,
+		"iS": 3370,
+		"oA": 0,
 		"oAP": "/dist/assets/img/favicons/android-chrome-192x192.png",
-		"oF": 1,
+		"oF": 0,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -629,10 +637,10 @@
 		},
 	"/src/assets/img/favicons/android-chrome-256x256.png": {
 		"ft": 32768,
-		"iS": 4785,
-		"oA": 2,
+		"iS": 9858,
+		"oA": 0,
 		"oAP": "/dist/assets/img/favicons/android-chrome-256x256.png",
-		"oF": 1,
+		"oF": 0,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -640,10 +648,10 @@
 		},
 	"/src/assets/img/favicons/apple-touch-icon.png": {
 		"ft": 32768,
-		"iS": 3613,
-		"oA": 2,
+		"iS": 2492,
+		"oA": 0,
 		"oAP": "/dist/assets/img/favicons/apple-touch-icon.png",
-		"oF": 1,
+		"oF": 0,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -653,16 +661,16 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 2,
+		"oA": 0,
 		"oAP": "/dist/assets/img/favicons/browserconfig.xml",
-		"oF": 1
+		"oF": 0
 		},
 	"/src/assets/img/favicons/favicon-16x16.png": {
 		"ft": 32768,
-		"iS": 918,
-		"oA": 2,
+		"iS": 625,
+		"oA": 0,
 		"oAP": "/dist/assets/img/favicons/favicon-16x16.png",
-		"oF": 1,
+		"oF": 0,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -670,10 +678,10 @@
 		},
 	"/src/assets/img/favicons/favicon-32x32.png": {
 		"ft": 32768,
-		"iS": 1453,
-		"oA": 2,
+		"iS": 836,
+		"oA": 0,
 		"oAP": "/dist/assets/img/favicons/favicon-32x32.png",
-		"oF": 1,
+		"oF": 0,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -683,16 +691,16 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 2,
+		"oA": 0,
 		"oAP": "/dist/assets/img/favicons/favicon.ico",
-		"oF": 1
+		"oF": 0
 		},
 	"/src/assets/img/favicons/mstile-150x150.png": {
 		"ft": 32768,
-		"iS": 3094,
-		"oA": 2,
+		"iS": 2348,
+		"oA": 0,
 		"oAP": "/dist/assets/img/favicons/mstile-150x150.png",
-		"oF": 1,
+		"oF": 0,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -701,9 +709,9 @@
 	"/src/assets/img/favicons/safari-pinned-tab.svg": {
 		"ft": 2097152,
 		"miP": 0,
-		"oA": 2,
+		"oA": 0,
 		"oAP": "/dist/assets/img/favicons/safari-pinned-tab.svg",
-		"oF": 1,
+		"oF": 0,
 		"opt": 1,
 		"plM": 52780316221407,
 		"prP": 0
@@ -712,9 +720,9 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 2,
+		"oA": 0,
 		"oAP": "/dist/assets/img/favicons/site.webmanifest",
-		"oF": 1
+		"oF": 0
 		},
 	"/src/assets/img/lehrer-icon-150x150.png": {
 		"ft": 32768,
@@ -723,7 +731,7 @@
 		"oAP": "/dist/assets/img/lehrer-icon-150x150.png",
 		"oF": 0,
 		"oIPL": 0,
-		"opt": 0,
+		"opt": 1,
 		"oT": 1,
 		"q": 100
 		},
@@ -734,7 +742,7 @@
 		"oAP": "/dist/assets/img/schueler-icon-150x150.png",
 		"oF": 0,
 		"oIPL": 0,
-		"opt": 0,
+		"opt": 1,
 		"oT": 1,
 		"q": 100
 		},
@@ -2260,17 +2268,17 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/template_add_source.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/template_add_tool.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/template_add_tool.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/yarn.lock": {
 		"cB": 0,
@@ -2291,7 +2299,7 @@
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/src/assets/img/favicons/apple-touch-icon.png",
 	"iconImageWasSetByUser": 0,
-	"lastBuiltDate": 608899138.72234797
+	"lastBuiltDate": 609078352.23205996
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
@@ -2887,6 +2895,10 @@
 			"active": 0,
 			"optionString": ""
 			},
+		"grouped-accessor-pairs": {
+			"active": 0,
+			"optionString": "'anyOrder'"
+			},
 		"guard-for-in": {
 			"active": 0,
 			"optionString": ""
@@ -3063,6 +3075,10 @@
 			"active": 1,
 			"optionString": "{'checkLoops': true}"
 			},
+		"no-constructor-return": {
+			"active": 0,
+			"optionString": ""
+			},
 		"no-continue": {
 			"active": 0,
 			"optionString": ""
@@ -3088,6 +3104,10 @@
 			"optionString": ""
 			},
 		"no-dupe-class-members": {
+			"active": 1,
+			"optionString": ""
+			},
+		"no-dupe-else-if": {
 			"active": 1,
 			"optionString": ""
 			},
@@ -3391,6 +3411,10 @@
 			"active": 0,
 			"optionString": ""
 			},
+		"no-setter-return": {
+			"active": 1,
+			"optionString": ""
+			},
 		"no-shadow": {
 			"active": 0,
 			"optionString": "{'builtinGlobals': false, 'hoist': 'functions', 'allow': []}"
@@ -3594,6 +3618,10 @@
 		"prefer-destructuring": {
 			"active": 0,
 			"optionString": "{'array': true, 'object': true}, {'enforceForRenamedProperties': false}"
+			},
+		"prefer-exponentiation-operator": {
+			"active": 0,
+			"optionString": ""
 			},
 		"prefer-named-capture-group": {
 			"active": 0,
