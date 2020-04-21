@@ -49,6 +49,12 @@
 		"oAP": "/dist/comments.php",
 		"oF": 1
 		},
+	"/dist": {
+		"ft": 65536,
+		"oA": 1,
+		"oAP": "/dist/dist",
+		"oF": 0
+		},
 	"/footer.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -291,275 +297,172 @@
 		"oAP": "/dist/single.php",
 		"oF": 1
 		},
-	"/src/assets/fonts/material-design-icons-master/iconfont/codepoints": {
+	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.eot": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/codepoints",
+		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.eot",
 		"oF": 1
 		},
-	"/src/assets/fonts/material-design-icons-master/iconfont/material-icons.css": {
-		"aP": 1,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/material-icons.css",
-		"oF": 1,
-		"oS": 3
-		},
-	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.eot": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.eot",
-		"oF": 1
-		},
-	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.ijmap": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.ijmap",
-		"oF": 1
-		},
-	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.svg": {
+	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.svg": {
 		"ft": 2097152,
 		"miP": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.svg",
+		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.svg",
+		"oF": 1,
+		"opt": 0,
+		"plM": 52780316221407,
+		"prP": 0
+		},
+	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.woff": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.woff",
+		"oF": 1
+		},
+	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.woff2": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.woff2",
+		"oF": 1
+		},
+	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.eot": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.eot",
+		"oF": 1
+		},
+	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.svg": {
+		"ft": 2097152,
+		"miP": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.svg",
+		"oF": 1,
+		"opt": 0,
+		"plM": 52780316221407,
+		"prP": 0
+		},
+	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.woff": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.woff",
+		"oF": 1
+		},
+	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.woff2": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.woff2",
+		"oF": 1
+		},
+	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.eot": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.eot",
+		"oF": 1
+		},
+	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.svg": {
+		"ft": 2097152,
+		"miP": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.svg",
 		"oF": 1,
 		"opt": 1,
 		"plM": 52780316221407,
 		"prP": 0
 		},
-	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.ttf": {
+	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.ttf": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.ttf",
+		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.ttf",
 		"oF": 1
 		},
-	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.woff": {
+	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.woff": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.woff",
+		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.woff",
 		"oF": 1
 		},
-	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.woff2": {
+	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.woff2": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.woff2",
+		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.woff2",
 		"oF": 1
 		},
-	"/src/assets/fonts/material-design-icons-master/iconfont/README.md": {
+	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.eot": {
 		"cB": 0,
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
+		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/README.html",
+		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.eot",
+		"oF": 1
+		},
+	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.svg": {
+		"ft": 2097152,
+		"miP": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.svg",
 		"oF": 1,
-		"oFM": 0,
-		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
+		"opt": 1,
+		"plM": 52780316221407,
+		"prP": 0
 		},
-	"/src/assets/fonts/Montserrat/Montserrat-Black.ttf": {
+	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.ttf": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Black.ttf",
+		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.ttf",
 		"oF": 1
 		},
-	"/src/assets/fonts/Montserrat/Montserrat-BlackItalic.ttf": {
+	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.woff": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-BlackItalic.ttf",
+		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.woff",
 		"oF": 1
 		},
-	"/src/assets/fonts/Montserrat/Montserrat-Bold.ttf": {
+	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.woff2": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Bold.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-BoldItalic.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-BoldItalic.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-ExtraBold.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-ExtraBold.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-ExtraLight.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-ExtraLight.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-ExtraLightItalic.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-ExtraLightItalic.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-Italic.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Italic.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-Light.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Light.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-LightItalic.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-LightItalic.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-Medium.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Medium.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-MediumItalic.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-MediumItalic.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-Regular.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Regular.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-SemiBold.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-SemiBold.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-SemiBoldItalic.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-SemiBoldItalic.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-Thin.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Thin.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/Montserrat-ThinItalic.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-ThinItalic.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Montserrat/OFL.txt": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Montserrat/OFL.txt",
-		"oF": 1
-		},
-	"/src/assets/fonts/Source_Serif_Pro/OFL.txt": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Source_Serif_Pro/OFL.txt",
-		"oF": 1
-		},
-	"/src/assets/fonts/Source_Serif_Pro/SourceSerifPro-Bold.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Source_Serif_Pro/SourceSerifPro-Bold.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/Source_Serif_Pro/SourceSerifPro-SemiBold.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/Source_Serif_Pro/SourceSerifPro-SemiBold.ttf",
+		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.woff2",
 		"oF": 1
 		},
 	"/src/assets/img/add_source.png": {
@@ -2301,7 +2204,7 @@
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/src/assets/img/favicons/apple-touch-icon.png",
 	"iconImageWasSetByUser": 0,
-	"lastBuiltDate": 609153573.34571898
+	"lastBuiltDate": 609155005.81918097
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
