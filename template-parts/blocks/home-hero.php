@@ -9,7 +9,7 @@
           <div class="search-container">
             <p><?php the_field('search_description'); ?></p>
             <div class="input-group">
-              <input class="input-group-field" type="search" name="search" autocomplete="off">
+              <input class="input-group-field" type="search" name="search" aria-label="Search" autocomplete="off">
               <div class="input-group-button">
                 <input type="submit" class="button success" value="Suche">
               </div>
