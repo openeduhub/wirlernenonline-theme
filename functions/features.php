@@ -72,3 +72,37 @@ function change_acf_form_title( $field ) {
     }
 }
 add_filter('acf/prepare_field/name=_post_title', 'change_acf_form_title');
+
+//send mail if content is added via the frontend
+function acf_save_form( $post_id ) {
+
+    // bail early if editing in admin
+    if( is_admin() ) {
+        return;
+    }
+
+    $title = get_the_title($post_id);
+    $mail = get_field('email', $post_id);
+    $newsletter = get_field('newsletter', $post_id);
+    # email data
+    $to = get_bloginfo('admin_email');
+    $headers[] = 'From: wirlernenonline.de <redaktion@wirlernenonline.de>';
+    $headers[] = 'Content-Type: text/html; charset=UTF-8';
+    $subject = 'Neuer Eintrag hinzugefügt: '.$title;
+    $body = '<p>Es wurde ein neuer Eintrag für "'.$title. '" von einem Benutzer auf wirlernenonline hinzugefügt.</p>';
+    $body .= '<p>Du kannst dir den Eintrag <a href="'.get_edit_post_link($post_id).'">hier</a> anschauen und ggf. veröffentlichen.</p>';
+
+    if ($mail){
+        $body .= '<p>Der Eintrag wurde von: '. $mail .' hinzugefügt.</p>';
+    }
+    if ($newsletter){
+        $body .= '<p>Eine Anmeldung zum Newsletter ist gewünscht.</p>';
+    }
+
+    $body .= '<hr>';
+    $body .= '<p>Diese Mail wurde automatisch von wirlernenonline.de versendet</p>';
+
+    // send email
+    wp_mail($to, $subject, $body, $headers );
+}
+add_action('acf/save_post', 'acf_save_form');
