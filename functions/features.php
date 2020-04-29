@@ -85,11 +85,11 @@ function acf_save_form( $post_id ) {
     $mail = get_field('email', $post_id);
     $newsletter = get_field('newsletter', $post_id);
     # email data
-    $to = get_bloginfo('admin_email');
+    $to = get_bloginfo('admin_email'.', redaktion@wirlernenonline.de');
     $headers[] = 'From: wirlernenonline.de <redaktion@wirlernenonline.de>';
     $headers[] = 'Content-Type: text/html; charset=UTF-8';
     $subject = 'Neuer Eintrag hinzugefügt: '.$title;
-    $body = '<p>Es wurde ein neuer Eintrag für "'.$title. '" von einem Benutzer auf wirlernenonline hinzugefügt.</p>';
+    $body = '<p>Es wurde ein neuer Eintrag für "'.$title. '" über das Hinzufügen-Formular auf wirlernenonline.de angelegt.</p>';
     $body .= '<p>Du kannst dir den Eintrag <a href="'.get_edit_post_link($post_id).'">hier</a> anschauen und ggf. veröffentlichen.</p>';
 
     if ($mail){
@@ -106,3 +106,12 @@ function acf_save_form( $post_id ) {
     wp_mail($to, $subject, $body, $headers );
 }
 add_action('acf/save_post', 'acf_save_form');
+
+
+
+function contributor_edit_pages() {
+    //* Add edit_pages capability to contributors
+    $contributor = get_role( 'contributor' );
+    $contributor->add_cap( 'edit_pages' );
+}
+add_action( 'init', 'contributor_edit_pages' );
