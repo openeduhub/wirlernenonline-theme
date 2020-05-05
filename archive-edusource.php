@@ -101,7 +101,6 @@ function getSelectOptions($fieldName, $fieldChoices){
         $current = '';
         if ($selected == $value){
             $current = 'selected';
-            //$current = 'selected="selected"';
         }
         $options .= '<option value="'.$value.'" '.$current.' >'.$label.'</option>';
     }

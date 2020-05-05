@@ -5,3 +5,205 @@ Author:         Bananenbiegerei
 Author URI:     http://bananenbiegerei.de
 Version:        1.0
 %%%%%%%%%% */
+
+.home-hero{
+    margin-top: 60px;
+}
+
+.home-hero__filter{
+    margin-top: 40px;
+}
+
+/* Style the tab */
+.home-hero__tab {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #00356f;
+    color: #fff;
+}
+
+/* Style the buttons that are used to open the tab content */
+.home-hero__tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0;
+    padding: 24px 18px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.home-hero__tab button:hover {
+    background-color: #001f41;
+}
+
+/* Create an active/current tablink class */
+.home-hero__tab button.active {
+    color: #00356f;
+    background-color: #fff;
+}
+
+#home-hero__close{
+    display: none;
+    position: absolute;
+    right: 24px;
+    padding: 6px 12px;
+    font-size: 34px;
+    font-weight: 900;
+}
+
+/* Style the tab content */
+.home-hero__filter .tabcontent {
+    display: none;
+    justify-content: center;
+    padding: 40px 12px;
+    color: #313131;
+    background-color: #fff;
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.4);
+    animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+.home-hero__filter .tabcontent button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    color: #313131;
+    cursor: pointer;
+    margin: 12px;
+    padding: 6px 12px;;
+    border-radius: 24px;
+    transition: 0.3s;
+}
+
+.home-hero__filter .tabcontent button:hover{
+    color: #00356f;
+    background: #f1f1f1;
+}
+
+.home-hero__filter .filter_tag{
+    margin-left: 12px;
+    padding: 6px 12px;
+    font-size: 0.7em;
+    color: #313131;
+    background: #f1f1f1;
+    border-radius: 24px;
+}
+
+.filter_button_row:first-child{
+    border: none;
+}
+
+.filter_button_row{
+    display: flex;
+    flex-direction: column;
+    padding: 8px 40px;
+    border-left: 1px solid #f1f1f1;
+    text-align: left;
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.full-width {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+}
+
+.wlo_source_dev{
+    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 0.8rem;
+    width: 90%;
+    margin: 0 auto 40px;
+}
+
+.wlo_source_dev th{
+    max-width:100%;
+    white-space:nowrap;
+}
+
+.wlo_source_dev .wlo_big_header{
+    font-size: 1.2rem;
+    font-weight: 700;
+    min-width: 200px;
+    color: #fff;
+    background: #003E82;
+    border-right: 2px solid #fff;
+}
+
+.wlo_source_dev .wloTrue{
+    background: lightgreen;
+}
+
+.wlo_source_dev .wlo_name{
+    background: #f1f1f1;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.clickable{
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.clickable:hover{
+    color: #ddd;
+}
+
+.backlink input[type="button"] {
+    background: none;
+    box-shadow: none;
+    border: none;
+    color: #003E82;
+    cursor: pointer;
+}
+
+.select2-container.-acf .select2-selection--multiple .select2-selection__choice {
+    background: #003E82;
+}
+
+.tabbed_list {
+    margin-left: 2rem !important;
+}
+
+ol li{
+    margin-bottom: 0.5rem;
+}
+
+.latest-header{
+    display: flex;
+}
+
+.latest-header img{
+    height: 50px;
+    margin-right: 12px;
+    align-self: center;
+}
+
+.latest-header h1{
+    margin: 0;
+}
+
+.footer-license p{
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+@media screen and (max-width: 1024px) {
+    .home-hero__filter .tabcontent {
+        flex-direction: column;
+    }
+    #home-hero__close{
+        right: 0;
+    }
+}
+

@@ -11,7 +11,13 @@
 				  <?php get_template_part('template-parts/partials/newsletter-signup-form') ?>
 				</div>
 			</div>
+            <div class="cell shrink">
+                <a href="<?php echo get_page_link(6); ?>"><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/BMBF.png" width="175" alt="Gefördert vom Bundesministerium für Bildung und Forschung"></a>
+            </div>
 		</div>
+        <div class="footer-license">
+            <p>Unsere Inhalte stehen unter der Lizenz <a href="<?php echo get_page_link(2); ?>/#license">CC BY 4.0</a>. Für Inhalte von Partnern achten Sie bitte auf die Lizenzbedingungen der verlinkten Webseiten.</p>
+        </div>
 	</div>
 </footer>
 <?php wp_footer(); ?>

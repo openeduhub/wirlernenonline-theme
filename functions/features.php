@@ -107,11 +107,27 @@ function acf_save_form( $post_id ) {
 }
 add_action('acf/save_post', 'acf_save_form');
 
-
-
+//* Add edit_pages capability to contributors
 function contributor_edit_pages() {
-    //* Add edit_pages capability to contributors
     $contributor = get_role( 'contributor' );
     $contributor->add_cap( 'edit_pages' );
 }
 add_action( 'init', 'contributor_edit_pages' );
+
+
+function home_hero_fill_subjectbuttons($response, $schoolType, $schoolTypeLong){
+    $subjectCount = count($response->data->{$schoolType}->facets[2]->buckets);
+    $return = '';
+    $i = 1;
+    foreach ($response->data->{$schoolType}->facets[2]->buckets as $fach){
+        if ($i % intval(($subjectCount/3)+1) == 0){
+            $return .= '</div>';
+            //$return .= 'Mod: '.$i.' - '.intval(($subjectCount/3)+1);
+            $return .=  '<div class="filter_button_row">';
+        }else{
+            $return .=  '<button type="button" onclick="wloSearch(\''.$fach->key.'\', \''.$schoolTypeLong.'\')">'.$fach->key.' <span class="filter_tag">'.$fach->doc_count.'</span></button>';
+        }
+        $i++;
+    }
+    return $return;
+}

@@ -1,11 +1,10 @@
 <div class="grid-container">
   <div class="grid-x grid-margin-x">
     <div class="cell auto">
-        <div class="margin-bottom-2 latest-header"><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/schueler-icon-150x150.png" width="50" height="50" alt="Lehrer*innen"><h1>Neues für Schüler*innen</h1></div>
+        <div class="margin-bottom-2 latest-header"><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/hardware-icon.png" width="50" height="50" alt="Lehrer*innen"><h1>Anbieter & Initiativen</h1></div>
     </div>
     <div class="cell shrink">
-<!--      <a class="button hollow" href="--><?php //get_site_url(); ?><!--/lernstoff/?roles=learner">Alle Einträge</a>-->
-      <a class="button hollow" href="https://suche.wirlernenonline.de/de/search?filter=true&filters=%7B%22intendedEndUserRoles%22:%5B%22Lerner%2Fin%22%5D%7D">Alle Einträge</a>
+      <a class="button hollow" href="https://suche.wirlernenonline.de/de/search?filter=true&filters=%7B%22keywords%22:%5B%22Hardware-Empfehlung%22%5D%7D">Alle Einträge</a>
     </div>
   </div>
   <div class="grid-x grid-margin-x small-up-1 medium-up-2 large-up-3 block-grid">
@@ -18,14 +17,9 @@
             'relation' => 'AND',
             array(
                 'key' => 'tags',
-                'value' => '48',
+                'value' => '65',
                 'compare' => 'LIKE'
             ),
-            array(
-                'key' => 'role',
-                'value' => 'learner',
-                'compare' => 'LIKE'
-            )
         )
     ));
     if($posts)
