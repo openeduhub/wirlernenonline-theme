@@ -26,6 +26,14 @@ function register_acf_block_types(){
 	'icon'				=> 'megaphone',
 	'keywords'			=> [ ],
 ]);
+acf_register_block_type(['name' => 'neuste_quellen',
+    'title'				=> __('Neuste Quellen'),
+    'description'		=> __('Zeigt aktuelle Quellen an'),
+    'render_template'	=> 'template-parts/blocks/latest-sources.php',
+    'category'			=> 'custom-blocks',
+    'icon'				=> 'format-gallery',
+    'keywords'			=> [ ],
+]);
 acf_register_block_type(['name' => 'Neues fuer Lehrer',
 	'title'				=> __('Neues fuer Lehrer'),
 	'description'		=> __('Zeigt die neuesten EduQuellen fuer Lehrer an'),

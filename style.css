@@ -132,22 +132,56 @@ Version:        1.0
 }
 
 .wlo_source_dev .wlo_big_header{
-    font-size: 1.2rem;
-    font-weight: 700;
-    min-width: 200px;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 8px 24px 8px 8px;
     color: #fff;
     background: #003E82;
-    border-right: 2px solid #fff;
+    border-right: 3px solid #fff;
 }
 
-.wlo_source_dev .wloTrue{
-    background: lightgreen;
+.wlo_source_dev th{
+    border-right: 1px solid #ddd;
+    padding: 8px 24px 8px 8px;
+    font-weight: 600;
+}
+
+.wlo_source_dev td{
+    border-left: 1px solid #ddd;
+}
+
+.wlo_checkmark{
+    font-size: 0.6rem;
+    margin-right: 6px;
+    color: lightgreen;
+    filter: invert(100%) sepia(16%) saturate(6602%) hue-rotate(61deg) brightness(107%) contrast(83%);
+}
+
+.wlo_error{
+    font-size: 1rem;
+    margin-right: 6px;
+    color: lightcoral;
+    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);;
 }
 
 .wlo_source_dev .wlo_name{
-    background: #f1f1f1;
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    cursor: pointer;
+    border: none;
+}
+
+.wlo_source_dev .wlo_count{
+    font-size: 0.8rem;
+    border: none;
+}
+
+.wlo_source_dev .wlo_name a{
+    transition: 0.3s;
+}
+
+.wlo_source_dev .wlo_name a:hover{
+    color: #019CDE;
 }
 
 .clickable{
@@ -156,7 +190,7 @@ Version:        1.0
 }
 
 .clickable:hover{
-    color: #ddd;
+    color: #bbb;
 }
 
 .backlink input[type="button"] {
@@ -193,17 +227,53 @@ ol li{
     margin: 0;
 }
 
+
+
 .footer-license p{
     text-align: center;
     font-size: 0.8rem;
 }
 
 @media screen and (max-width: 1024px) {
+    h1, .h1 {
+        font-size: 1.5rem;
+    }
+    #main-menu{
+        box-shadow: 0 8px 12px -2px rgba(0,0,0,0.4);
+    }
+    .main-content{
+    }
+    .page-title {
+        margin-bottom: 30px;
+    }
     .home-hero__filter .tabcontent {
         flex-direction: column;
     }
     #home-hero__close{
         right: 0;
+    }
+    .radius{
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+    .card{
+        align-items: center;
+    }
+    .is-stacked-on-mobile{
+        margin-top: 1.5rem;
+    }
+    .is-stacked-on-mobile .wp-block-media-text__content{
+        padding: 0;
+    }
+    .wp-block-cover-image .wp-block-cover__inner-container, .wp-block-cover .wp-block-cover__inner-container{
+        width: 100%;
+    }
+    .site-footer .grid-x{
+        justify-content: center;
+    }
+    .footer-menu{
+        justify-content: space-between;
+        margin: 1.5rem 0;
     }
 }
 
