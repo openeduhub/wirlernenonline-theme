@@ -23,7 +23,9 @@ get_header();
                 ),
                 'fields' => array('url', 'short_text', 'category', 'email', 'newsletter'),
                 'submit_value'  => 'Neues Tool anlegen',
-                'html_updated_message' => '<div id="message" class="updated" style="background: #E3F702;color: #313131;padding: 20px 8px 1px;border-radius: 5px; "><p>Dein Tool wurde angelegt!</p></div>',
+                'html_updated_message' => '<div id="message" class="updated">
+                                                <p>Vielen Dank. Dein Tool wurde gespeichert.<br>Es wird vor Veröffentlichung von der Redaktion geprüft.</p>
+                                            </div>',
             )); ?>
 
         </div>

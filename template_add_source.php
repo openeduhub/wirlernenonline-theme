@@ -23,7 +23,10 @@ get_header();
                 ),
                 'fields' => array('url', 'short_text', 'fachgebiet', 'email', 'newsletter'),
                 'submit_value'  => 'Neue Quelle anlegen',
-                'html_updated_message' => '<div id="message" class="updated" style="background: #E3F702;color: #313131;padding: 20px 8px 1px;border-radius: 5px; "><p>Deine Quelle wurde angelegt!</p></div>',
+                'html_updated_message' => '<div id="message" class="updated">
+                                                <p>Vielen Dank. Deine Quelle wurde gespeichert.<br>Sie wird vor Veröffentlichung von der Redaktion geprüft.</p>
+                                                <a class="button" href="'.get_page_link(4225).'">Zur Quellen-Übersicht</a>
+                                            </div>',
             )); ?>
 
         </div>
