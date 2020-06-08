@@ -94,13 +94,33 @@ Version:        1.0
     border-radius: 24px;
 }
 
-.filter_button_row:first-child{
+.home-hero__filter .tabcontent .extraButton{
+    display: block;
+    align-self: flex-end;
+    color: #fff;
+    background: #003E82;
+}
+
+.home-hero__filter .subjects{
+    display: flex;
+    justify-content: center;
+}
+
+.home-hero__filter .extraSubjects{
+    display: none;
+    justify-content: center;
+    border-top: 1px solid #f1f1f1;
+    margin-top: 12px;
+}
+
+.home-hero__filter .filter_button_row:first-child{
     border: none;
 }
 
-.filter_button_row{
+.home-hero__filter .filter_button_row{
     display: flex;
     flex-direction: column;
+    width: 500px;
     padding: 8px 40px;
     border-left: 1px solid #f1f1f1;
     text-align: left;
@@ -118,7 +138,7 @@ Version:        1.0
 }
 
 .wlo_source_dev{
-    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
     font-style: normal;
     font-weight: 300;
     font-size: 0.8rem;
@@ -129,32 +149,39 @@ Version:        1.0
 .wlo_source_dev th{
     max-width:100%;
     white-space:nowrap;
-}
-
-.wlo_source_dev .wlo_big_header{
-    font-size: 1rem;
-    font-weight: 400;
-    padding: 8px 24px 8px 8px;
-    color: #fff;
-    background: #003E82;
-    border-right: 3px solid #fff;
-}
-
-.wlo_source_dev th{
+    background: #f4fafc;
     border-right: 1px solid #ddd;
-    padding: 8px 24px 8px 8px;
+    padding: 14px 8px;
+    text-align: center;
+    font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
     font-weight: 600;
 }
 
+.wlo_source_dev th:first-child{
+    text-align: left;
+    border: none;
+}
+
+.wlo_source_dev .wlo_big_header{
+    font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    padding: 18px 24px 18px 8px;
+    color: #fff;
+    background: #003E82;
+    border-right: 3px solid #fff !important;
+}
+
 .wlo_source_dev td{
+    text-align: center;
     border-left: 1px solid #ddd;
 }
 
 .wlo_checkmark{
     font-size: 0.6rem;
     margin-right: 6px;
-    color: lightgreen;
-    filter: invert(100%) sepia(16%) saturate(6602%) hue-rotate(61deg) brightness(107%) contrast(83%);
+    filter: invert(53%) sepia(78%) saturate(5776%) hue-rotate(130deg) brightness(100%) contrast(94%);
 }
 
 .wlo_error{
@@ -166,9 +193,14 @@ Version:        1.0
 
 .wlo_source_dev .wlo_name{
     font-size: 0.8rem;
+    text-align: left;
     text-decoration: underline;
     cursor: pointer;
     border: none;
+    white-space: nowrap;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .wlo_source_dev .wlo_count{
@@ -177,11 +209,17 @@ Version:        1.0
 }
 
 .wlo_source_dev .wlo_name a{
+    font-weight: 600;
     transition: 0.3s;
+    color: #019CDE;
 }
 
 .wlo_source_dev .wlo_name a:hover{
-    color: #019CDE;
+    color: #003E82;
+}
+
+.wlo_source_dev .wlo_date{
+    font-size: 0.6rem;
 }
 
 .clickable{
@@ -190,7 +228,7 @@ Version:        1.0
 }
 
 .clickable:hover{
-    color: #bbb;
+    color: #888;
 }
 
 .backlink input[type="button"] {
@@ -227,6 +265,48 @@ ol li{
     margin: 0;
 }
 
+.wpcf7-submit{
+    background-color: #003E82;
+    color: #fefefe;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 1rem 0;
+    padding: 0.85em 1em;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 0.9rem;
+    -webkit-appearance: none;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+}
+
+.wpcf7-submit:hover{
+    background-color: #00356f;
+    color: #fefefe;
+}
+
+form .wpcf7-validation-errors{
+    background: lightcoral;
+    color: #f1f1f1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+}
+
+.updated{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #E3F702;
+    color: #313131;
+    font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    text-align: center;
+    padding: 20px 8px 1px;
+    border-radius: 5px;
+}
 
 
 .footer-license p{

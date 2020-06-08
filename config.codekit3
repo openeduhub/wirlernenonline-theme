@@ -7,16 +7,8 @@
 		"uuidString": "CD596436-1EE7-428C-9CF1-9B011BEC2826"
 		}
 	],
-"creatorBuild": "32001",
+"creatorBuild": "31934",
 "files": {
-	"/.gitignore": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 0,
-		"oAP": "/dist/.gitignore",
-		"oF": 0
-		},
 	"/404.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -154,7 +146,7 @@
 	"/head.php": {
 		"cB": 0,
 		"ft": 8192,
-		"hM": 0,
+		"hM": 1,
 		"oA": 1,
 		"oAP": "/dist/head.php",
 		"oF": 1
@@ -179,7 +171,7 @@
 		"ft": 65536,
 		"oA": 1,
 		"oAP": "/dist/node_modules",
-		"oF": 1
+		"oF": 0
 		},
 	"/node_modules/foundation-sites/dist/js/foundation.esm.js": {
 		"bF": 0,
@@ -218,14 +210,6 @@
 		"oF": 0,
 		"oO": 0,
 		"oS": 1
-		},
-	"/page-layout-test.php": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 1,
-		"oAP": "/dist/page-layout-test.php",
-		"oF": 1
 		},
 	"/page-style-tile.php": {
 		"cB": 0,
@@ -297,172 +281,275 @@
 		"oAP": "/dist/single.php",
 		"oF": 1
 		},
-	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.eot": {
+	"/src/assets/fonts/material-design-icons-master/iconfont/codepoints": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.eot",
+		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/codepoints",
 		"oF": 1
 		},
-	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.svg": {
-		"ft": 2097152,
-		"miP": 0,
+	"/src/assets/fonts/material-design-icons-master/iconfont/material-icons.css": {
+		"aP": 1,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.svg",
+		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/material-icons.css",
 		"oF": 1,
-		"opt": 0,
-		"plM": 52780316221407,
-		"prP": 0
+		"oS": 3
 		},
-	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.ttf": {
+	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.eot": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.ttf",
+		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.eot",
 		"oF": 1
 		},
-	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.woff": {
+	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.ijmap": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.woff",
+		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.ijmap",
 		"oF": 1
 		},
-	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.woff2": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-700.woff2",
-		"oF": 1
-		},
-	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.eot": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.eot",
-		"oF": 1
-		},
-	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.svg": {
+	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.svg": {
 		"ft": 2097152,
 		"miP": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.svg",
-		"oF": 1,
-		"opt": 0,
-		"plM": 52780316221407,
-		"prP": 0
-		},
-	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.ttf": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.ttf",
-		"oF": 1
-		},
-	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.woff": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.woff",
-		"oF": 1
-		},
-	"/src/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.woff2": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/montserrat-v14-latin/montserrat-v14-latin-regular.woff2",
-		"oF": 1
-		},
-	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.eot": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.eot",
-		"oF": 1
-		},
-	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.svg": {
-		"ft": 2097152,
-		"miP": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.svg",
+		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.svg",
 		"oF": 1,
 		"opt": 1,
 		"plM": 52780316221407,
 		"prP": 0
 		},
-	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.ttf": {
+	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.ttf": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.ttf",
+		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.ttf",
 		"oF": 1
 		},
-	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.woff": {
+	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.woff": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.woff",
+		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.woff",
 		"oF": 1
 		},
-	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.woff2": {
+	"/src/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.woff2": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-700.woff2",
+		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/MaterialIcons-Regular.woff2",
 		"oF": 1
 		},
-	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.eot": {
+	"/src/assets/fonts/material-design-icons-master/iconfont/README.md": {
 		"cB": 0,
-		"ft": 8192,
+		"cS": 0,
+		"eF": 1,
+		"eL": 1,
+		"ema": 1,
+		"eSQ": 1,
+		"ft": 4096,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.eot",
-		"oF": 1
-		},
-	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.svg": {
-		"ft": 2097152,
-		"miP": 0,
-		"oA": 2,
-		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.svg",
+		"oAP": "/dist/assets/fonts/material-design-icons-master/iconfont/README.html",
 		"oF": 1,
-		"opt": 1,
-		"plM": 52780316221407,
-		"prP": 0
+		"oFM": 0,
+		"oS": 0,
+		"pHT": 0,
+		"pME": 1,
+		"rFN": 0,
+		"uCM": 0
 		},
-	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.ttf": {
+	"/src/assets/fonts/Montserrat/Montserrat-Black.ttf": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.ttf",
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Black.ttf",
 		"oF": 1
 		},
-	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.woff": {
+	"/src/assets/fonts/Montserrat/Montserrat-BlackItalic.ttf": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.woff",
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-BlackItalic.ttf",
 		"oF": 1
 		},
-	"/src/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.woff2": {
+	"/src/assets/fonts/Montserrat/Montserrat-Bold.ttf": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
 		"oA": 2,
-		"oAP": "/dist/assets/fonts/source-serif-pro-v7-latin/source-serif-pro-v7-latin-regular.woff2",
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Bold.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-BoldItalic.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-BoldItalic.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-ExtraBold.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-ExtraBold.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-ExtraLight.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-ExtraLight.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-ExtraLightItalic.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-ExtraLightItalic.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-Italic.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Italic.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-Light.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Light.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-LightItalic.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-LightItalic.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-Medium.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Medium.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-MediumItalic.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-MediumItalic.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-Regular.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Regular.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-SemiBold.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-SemiBold.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-SemiBoldItalic.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-SemiBoldItalic.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-Thin.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-Thin.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/Montserrat-ThinItalic.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/Montserrat-ThinItalic.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Montserrat/OFL.txt": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Montserrat/OFL.txt",
+		"oF": 1
+		},
+	"/src/assets/fonts/Source_Serif_Pro/OFL.txt": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Source_Serif_Pro/OFL.txt",
+		"oF": 1
+		},
+	"/src/assets/fonts/Source_Serif_Pro/SourceSerifPro-Bold.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Source_Serif_Pro/SourceSerifPro-Bold.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf",
+		"oF": 1
+		},
+	"/src/assets/fonts/Source_Serif_Pro/SourceSerifPro-SemiBold.ttf": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/dist/assets/fonts/Source_Serif_Pro/SourceSerifPro-SemiBold.ttf",
 		"oF": 1
 		},
 	"/src/assets/img/add_source.png": {
@@ -475,16 +562,6 @@
 		"opt": 1,
 		"oT": 1,
 		"q": 100
-		},
-	"/src/assets/img/arrow_left.svg": {
-		"ft": 2097152,
-		"miP": 0,
-		"oA": 0,
-		"oAP": "/dist/assets/img/arrow_left.svg",
-		"oF": 0,
-		"opt": 1,
-		"plM": 52780316221407,
-		"prP": 0
 		},
 	"/src/assets/img/Bananenbiegerei-Logo-White.png": {
 		"ft": 32768,
@@ -519,22 +596,12 @@
 		"oT": 1,
 		"q": 100
 		},
-	"/src/assets/img/check.svg": {
-		"ft": 2097152,
-		"miP": 0,
-		"oA": 0,
-		"oAP": "/dist/assets/img/check.svg",
-		"oF": 0,
-		"opt": 1,
-		"plM": 52780316221407,
-		"prP": 0
-		},
 	"/src/assets/img/favicons/android-chrome-192x192.png": {
 		"ft": 32768,
-		"iS": 3370,
-		"oA": 0,
+		"iS": 3725,
+		"oA": 2,
 		"oAP": "/dist/assets/img/favicons/android-chrome-192x192.png",
-		"oF": 0,
+		"oF": 1,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -542,10 +609,10 @@
 		},
 	"/src/assets/img/favicons/android-chrome-256x256.png": {
 		"ft": 32768,
-		"iS": 9858,
-		"oA": 0,
+		"iS": 4785,
+		"oA": 2,
 		"oAP": "/dist/assets/img/favicons/android-chrome-256x256.png",
-		"oF": 0,
+		"oF": 1,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -553,10 +620,10 @@
 		},
 	"/src/assets/img/favicons/apple-touch-icon.png": {
 		"ft": 32768,
-		"iS": 2492,
-		"oA": 0,
+		"iS": 3613,
+		"oA": 2,
 		"oAP": "/dist/assets/img/favicons/apple-touch-icon.png",
-		"oF": 0,
+		"oF": 1,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -566,16 +633,16 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 2,
 		"oAP": "/dist/assets/img/favicons/browserconfig.xml",
-		"oF": 0
+		"oF": 1
 		},
 	"/src/assets/img/favicons/favicon-16x16.png": {
 		"ft": 32768,
-		"iS": 625,
-		"oA": 0,
+		"iS": 918,
+		"oA": 2,
 		"oAP": "/dist/assets/img/favicons/favicon-16x16.png",
-		"oF": 0,
+		"oF": 1,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -583,10 +650,10 @@
 		},
 	"/src/assets/img/favicons/favicon-32x32.png": {
 		"ft": 32768,
-		"iS": 836,
-		"oA": 0,
+		"iS": 1453,
+		"oA": 2,
 		"oAP": "/dist/assets/img/favicons/favicon-32x32.png",
-		"oF": 0,
+		"oF": 1,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -596,16 +663,16 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 2,
 		"oAP": "/dist/assets/img/favicons/favicon.ico",
-		"oF": 0
+		"oF": 1
 		},
 	"/src/assets/img/favicons/mstile-150x150.png": {
 		"ft": 32768,
-		"iS": 2348,
-		"oA": 0,
+		"iS": 3094,
+		"oA": 2,
 		"oAP": "/dist/assets/img/favicons/mstile-150x150.png",
-		"oF": 0,
+		"oF": 1,
 		"oIPL": 0,
 		"opt": 1,
 		"oT": 1,
@@ -614,9 +681,9 @@
 	"/src/assets/img/favicons/safari-pinned-tab.svg": {
 		"ft": 2097152,
 		"miP": 0,
-		"oA": 0,
+		"oA": 2,
 		"oAP": "/dist/assets/img/favicons/safari-pinned-tab.svg",
-		"oF": 0,
+		"oF": 1,
 		"opt": 1,
 		"plM": 52780316221407,
 		"prP": 0
@@ -625,9 +692,9 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 2,
 		"oAP": "/dist/assets/img/favicons/site.webmanifest",
-		"oF": 0
+		"oF": 1
 		},
 	"/src/assets/img/lehrer-icon-150x150.png": {
 		"ft": 32768,
@@ -636,7 +703,7 @@
 		"oAP": "/dist/assets/img/lehrer-icon-150x150.png",
 		"oF": 0,
 		"oIPL": 0,
-		"opt": 1,
+		"opt": 0,
 		"oT": 1,
 		"q": 100
 		},
@@ -647,7 +714,7 @@
 		"oAP": "/dist/assets/img/schueler-icon-150x150.png",
 		"oF": 0,
 		"oIPL": 0,
-		"opt": 1,
+		"opt": 0,
 		"oT": 1,
 		"q": 100
 		},
@@ -684,17 +751,6 @@
 		"sC": 1,
 		"tS": 0
 		},
-	"/src/assets/js/imagesloaded.min.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/dist/assets/js/imagesloaded.min.js",
-		"oF": 0,
-		"sC": 0,
-		"tS": 0
-		},
 	"/src/assets/js/isotope.min.js": {
 		"bF": 0,
 		"ft": 64,
@@ -702,17 +758,6 @@
 		"mi": 1,
 		"oA": 0,
 		"oAP": "/dist/assets/js/isotope.min.js",
-		"oF": 0,
-		"sC": 0,
-		"tS": 0
-		},
-	"/src/assets/js/lazyload.min.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/dist/assets/js/lazyload.min.js",
 		"oF": 0,
 		"sC": 0,
 		"tS": 0
@@ -2117,9 +2162,9 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/template-parts/blocks/latest-teacher.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/template-parts/edusource/attributes.php": {
 		"cB": 0,
@@ -2133,9 +2178,9 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/template-parts/edusource/edu-card.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/template-parts/page/content-page.php": {
 		"cB": 0,
@@ -2204,7 +2249,7 @@
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/src/assets/img/favicons/apple-touch-icon.png",
 	"iconImageWasSetByUser": 0,
-	"lastBuiltDate": 609155005.81918097
+	"lastBuiltDate": 608899138.72234797
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
@@ -2800,10 +2845,6 @@
 			"active": 0,
 			"optionString": ""
 			},
-		"grouped-accessor-pairs": {
-			"active": 0,
-			"optionString": "'anyOrder'"
-			},
 		"guard-for-in": {
 			"active": 0,
 			"optionString": ""
@@ -2980,10 +3021,6 @@
 			"active": 1,
 			"optionString": "{'checkLoops': true}"
 			},
-		"no-constructor-return": {
-			"active": 0,
-			"optionString": ""
-			},
 		"no-continue": {
 			"active": 0,
 			"optionString": ""
@@ -3009,10 +3046,6 @@
 			"optionString": ""
 			},
 		"no-dupe-class-members": {
-			"active": 1,
-			"optionString": ""
-			},
-		"no-dupe-else-if": {
 			"active": 1,
 			"optionString": ""
 			},
@@ -3316,10 +3349,6 @@
 			"active": 0,
 			"optionString": ""
 			},
-		"no-setter-return": {
-			"active": 1,
-			"optionString": ""
-			},
 		"no-shadow": {
 			"active": 0,
 			"optionString": "{'builtinGlobals': false, 'hoist': 'functions', 'allow': []}"
@@ -3523,10 +3552,6 @@
 		"prefer-destructuring": {
 			"active": 0,
 			"optionString": "{'array': true, 'object': true}, {'enforceForRenamedProperties': false}"
-			},
-		"prefer-exponentiation-operator": {
-			"active": 0,
-			"optionString": ""
 			},
 		"prefer-named-capture-group": {
 			"active": 0,
@@ -4293,7 +4318,7 @@
 	"npmInstallOptionalDependencies": 0,
 	"npmSaveExactVersion": 0,
 	"npmTargetDependencyListType": 1,
-	"overrideExternalServerCSS": 1,
+	"overrideExternalServerCSS": 0,
 	"previewPathAddition": "",
 	"rollupExternals": "",
 	"rollupReplacements": "process.env.NODE_ENV:::$NODE_ENV,,,ENVIRONMENT:::$NODE_ENV",

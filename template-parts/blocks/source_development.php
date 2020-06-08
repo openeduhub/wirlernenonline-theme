@@ -43,33 +43,33 @@
         <table class="wlo_source_dev js-sort-table">
             <thead>
             <tr>
-                <th class="wlo_big_header js-sort-string clickable" colspan="2">Quelle</th>
-                <th class="wlo_big_header js-sort-string clickable" colspan="2">In unserer Suche</th>
-                <th class="wlo_big_header js-sort-string clickable">1. Schritt: Check</th>
-                <th class="wlo_big_header js-sort-string clickable" colspan="4">2. Schritt: Analyse</th>
-                <th class="wlo_big_header js-sort-string clickable" colspan="4">3. Schritt: Erschließungs-Zustand</th>
-                <th class="wlo_big_header js-sort-number clickable">Fortschritt</th>
+                <th class="wlo_big_header" colspan="2">Quelle</th>
+                <th class="wlo_big_header" colspan="2">In unserer Suche</th>
+                <th class="wlo_big_header">1. Schritt: Check</th>
+                <th class="wlo_big_header" colspan="4">2. Schritt: Analyse</th>
+                <th class="wlo_big_header" colspan="4">3. Schritt: Erschließungs-Zustand</th>
+                <th class="wlo_big_header">Fortschritt</th>
             </tr>
             <tr>
-                <th class="clickable">Name</th>
+                <th class="clickable js-sort-string">Name</th>
                 <th class="clickable js-sort-number">Inhalte</th>
 
-                <th class="clickable">Quelle</th>
-                <th class="clickable">Quellen-Inhalten</th>
+                <th class="clickable js-sort-string">Quelle</th>
+                <th class="clickable js-sort-string">Quellen-Inhalten</th>
 
-                <th class="clickable"></th>
+                <th class="clickable js-sort-string">Vorprüfung komplett</th>
 
-                <th class="clickable">Redaktion</th>
-                <th class="clickable">Jurist</th>
-                <th class="clickable">IT</th>
-                <th class="clickable">Finanzierung</th>
+                <th class="clickable js-sort-string">Redaktion</th>
+                <th class="clickable js-sort-string">Jurist</th>
+                <th class="clickable js-sort-string">IT</th>
+                <th class="clickable js-sort-string">Finanzierung</th>
 
-                <th class="clickable">Rohdaten</th>
-                <th class="clickable">Rohdaten-Test</th>
-                <th class="clickable">1. Verbesserung</th>
-                <th class="clickable">2. Verbesserung</th>
+                <th class="clickable js-sort-string">Rohdaten</th>
+                <th class="clickable js-sort-string">Rohdaten-Test</th>
+                <th class="clickable js-sort-string">1. Verbesserung</th>
+                <th class="clickable js-sort-string">2. Verbesserung</th>
 
-                <th class="clickable"></th>
+                <th class="clickable js-sort-number"></th>
             </tr>
             </thead>
             <tbody>
@@ -78,7 +78,16 @@
                 <tr>
                     <?php
 
-                    //update_field( 'verfuegbar_als_quelle', 1, $post->ID );
+                    /*
+                     * $values = array(
+                        'verfuegbar_als_quelle'	=>	1
+                    );
+                    $values2 = array(
+                        'redaktion_planung'	=>	1
+                    );
+                    update_field( 'verfuegbar_als_quelle_group', $values, $post->ID );
+                    update_field( 'redaktion_planung_group', $values2, $post->ID );
+                    */
 
                     $positiv = 0;
 
@@ -100,47 +109,69 @@
 
 
                     //In unserer Suche
-                    if( get_field('verfuegbar_als_quelle', $post->ID) ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
+                    $verfuegbar_als_quelle = get_field('verfuegbar_als_quelle_group', $post->ID);
+                    if( $verfuegbar_als_quelle['verfuegbar_als_quelle'] ) {
+                        if ($verfuegbar_als_quelle['verfuegbar_als_quelle_date']){
+                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja <span class="wlo_date">('.$verfuegbar_als_quelle['verfuegbar_als_quelle_date'].')</span></td>';
+                        }else{
+                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
+                        }
                         $positiv++;
                     }else{
                         echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
                     }
-                    if( get_field('verfuegbar_mit_inhalten', $post->ID) ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
+                    $verfuegbar_mit_inhalten = get_field('verfuegbar_mit_inhalten_group', $post->ID);
+                    if( $verfuegbar_mit_inhalten['verfuegbar_mit_inhalten'] ) {
+                        if ($verfuegbar_mit_inhalten['verfuegbar_mit_inhalten_date']){
+                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja <span class="wlo_date">('.$verfuegbar_mit_inhalten['verfuegbar_mit_inhalten_date'].')</span></td>';
+                        }else{
+                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
+                        }
                         $positiv++;
                     }else{
                         echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
                     }
 
                     //Vorprüfung abgeschlossen
-                    if( get_field('redaktion', $post->ID) && get_field('recht', $post->ID) && get_field('it', $post->ID) && get_field('projektmanagement', $post->ID) ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
+                    $redaktion = get_field('redaktion_group', $post->ID);
+                    $recht = get_field('recht_group', $post->ID);
+                    $it = get_field('it_group', $post->ID);
+                    $projektmanagement = get_field('projektmanagement_group', $post->ID);
+                    if( $redaktion['redaktion'] && $recht['recht'] && $it['it'] && $projektmanagement['projektmanagement'] ) {
+                        if ($redaktion['redaktion_date']){
+                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja <span class="wlo_date">('.$redaktion['redaktion_date'].')</span></td>';
+                        }else{
+                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
+                        }
                         $positiv++;
                     }else{
                         echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';;
                     }
 
                     //Planung
-                    if( get_field('redaktion_planung', $post->ID) ) {
+                    $redaktion_planung = get_field('redaktion_planung_group', $post->ID);
+                    if( $redaktion_planung['redaktion_planung'] ) {
                         echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
                         $positiv++;
                     }else{
                         echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
                     }
-                    if( get_field('recht_planung', $post->ID) ) {
+                    $recht_planung = get_field('recht_planung_group', $post->ID);
+                    if( $recht_planung['recht_planung'] ) {
                         echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
                         $positiv++;
                     }else{
                         echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
                     }
-                    if( get_field('it_planung', $post->ID) ) {
+                    $it_planung = get_field('it_planung_group', $post->ID);
+                    if( $it_planung['it_planung'] ) {
                         echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
                         $positiv++;
                     }else{
                         echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
                     }
-                    if( get_field('projektmanagement_planung', $post->ID) ) {
+                    $projektmanagement_planung = get_field('projektmanagement_planung_group', $post->ID);
+                    if( $projektmanagement_planung['projektmanagement_planung'] ) {
                         echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
                         $positiv++;
                     }else{
@@ -148,25 +179,29 @@
                     }
 
                     //Erschließung
-                    if( get_field('roherschliesung', $post->ID) ) {
+                    $roherschliesung = get_field('roherschliesung_group', $post->ID);
+                    if( $roherschliesung['roherschliesung'] ) {
                         echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
                         $positiv++;
                     }else{
                         echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
                     }
-                    if( get_field('test', $post->ID) ) {
+                    $test = get_field('test_group', $post->ID);
+                    if( $test['test'] ) {
                         echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
                         $positiv++;
                     }else{
                         echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
                     }
-                    if( get_field('metadatenverbesserung', $post->ID) ) {
+                    $metadatenverbesserung = get_field('metadatenverbesserung_group', $post->ID);
+                    if( $metadatenverbesserung['metadatenverbesserung'] ) {
                         echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';;
                         $positiv++;
                     }else{
                         echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
                     }
-                    if( get_field('metadatenverbesserung_manuell', $post->ID) ) {
+                    $metadatenverbesserung_manuell = get_field('metadatenverbesserung_manuell_group', $post->ID);
+                    if( $metadatenverbesserung_manuell['metadatenverbesserung_manuell'] ) {
                         echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
                         $positiv++;
                     }else{
