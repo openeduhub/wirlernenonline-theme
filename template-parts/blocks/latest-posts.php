@@ -1,12 +1,21 @@
 <?php // WP_Query arguments
-//$count = get_the_field('count');
+$posts_per_page = get_field('posts_per_page');
+
 $args = array(
-	'post_type'              => array( 'post' ),
-	'posts_per_page'				=> '4',
-	'order'									=> 'DESC',
+	'post_type'       => array( 'post' ),
+	'posts_per_page'  => $posts_per_page,
+	'order'			  => 'DESC',
 	'post_status'     => 'publish',
-    'category_name' => 'faqs',
 );
+
+$category = get_field('cat');
+if ($category){
+    $cats = '';
+    foreach ($category as $cat){
+        $cats .= $cat->term_id.',';
+    }
+    $args['cat'] = $cats;
+}
 
 // The Query
 $query = new WP_Query( $args );
