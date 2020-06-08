@@ -1,4 +1,3 @@
-/* Default width for all Elements*/
 .gutenberg-layout-container > * {
   @include xy-grid-container;
 
@@ -10,7 +9,6 @@
     @include xy-grid-container(100%, 0);
   }
 }
-/* Specific Layouts */
 .gutenberg-layout-container {
   .wp-block-cover {
     @include xy-grid-container(100%);
@@ -56,11 +54,11 @@
 
       input {
         position: absolute;
-        left: -100vw;
+        left: -100vw; 
       }
 
       label {
-        padding-left: .8rem;
+        padding-left: .8rem; 
       }
 
       label::after {
