@@ -1,18 +1,46 @@
 
 <?php
 // get the school subjects via graphQL
-$data = '{ grundschule: search(filters: [{field: educationalContexts, terms: ["Grundschule"]}]) {
-            facets { facet buckets { key doc_count } } }
-           sek1: search(filters: [{field: educationalContexts, terms: ["Sekundarstufe I"]}]) {
-            facets { facet buckets { key doc_count } } }
-           sek2: search(filters: [{field: educationalContexts, terms: ["Sekundarstufe II"]}]) {
-            facets { facet buckets { key doc_count } } }
-           beruf: search(filters: [{field: educationalContexts, terms: ["Berufliche Bildung"]}]) {
-            facets { facet buckets { key doc_count } } }
-        }';
+$data = '{
+  grundschule: facets(size: 10000, filters: [{field: "valuespaces.educationalContext.key.keyword", terms: ["https://w3id.org/openeduhub/vocabs/educationalContext/grundschule"]}]) {
+    disciplines {
+      buckets {
+        doc_count
+        key
+      }
+    }
+  }
+  sek1: facets(size: 10000, filters: [{field: "valuespaces.educationalContext.key.keyword", terms: ["https://w3id.org/openeduhub/vocabs/educationalContext/sekundarstufe_1"]}]) {
+    disciplines {
+      buckets {
+        doc_count
+        key
+      }
+    }
+  }
+  sek2: facets(size: 10000, filters: [{field: "valuespaces.educationalContext.key.keyword", terms: ["https://w3id.org/openeduhub/vocabs/educationalContext/sekundarstufe_2"]}]) {
+    disciplines {
+      buckets {
+        doc_count
+        key
+      }
+    }
+  }
+  beruf: facets(size: 10000, filters: [{field: "valuespaces.educationalContext.key.keyword", terms: ["https://w3id.org/openeduhub/vocabs/educationalContext/berufliche_bildung"]}]) {
+    disciplines {
+      buckets {
+        doc_count
+        key
+      }
+    }
+  }
+}
+';
+
 $curl_post_data = array("query" => $data);
 $data_string =  json_encode($curl_post_data);
-$url = 'https://suche.wirlernenonline.de/relay/graphql';
+//$url = 'https://suche.wirlernenonline.de/relay/graphql';
+$url = 'https://staging.wirlernenonline.de/relay/graphql';
 
 try {
     $curl = curl_init($url);
@@ -61,36 +89,41 @@ $response = json_decode($response);
 
             <div class="home-hero__filter full-width">
                 <div class="home-hero__tab">
-                    <button type="button" class="home-hero__tablinks" onclick="openCity(event, 'grundschule')">Grundschule</button>
-                    <button type="button" class="home-hero__tablinks" onclick="openCity(event, 'sekundarstufe_1')">Sekundarstufe I</button>
-                    <button type="button" class="home-hero__tablinks" onclick="openCity(event, 'sekundarstufe_2')">Sekundarstufe II</button>
-                    <button type="button" class="home-hero__tablinks" onclick="openCity(event, 'berufliche_bildung')">Berufliche Bildung</button>
+                    <button type="button" class="home-hero__tablinks" onclick="openSchool(event, 'grundschule')">Grundschule</button>
+                    <button type="button" class="home-hero__tablinks" onclick="openSchool(event, 'sekundarstufe_1')">Sekundarstufe I</button>
+                    <button type="button" class="home-hero__tablinks" onclick="openSchool(event, 'sekundarstufe_2')">Sekundarstufe II</button>
+                    <button type="button" class="home-hero__tablinks" onclick="openSchool(event, 'berufliche_bildung')">Berufliche Bildung</button>
                     <button type="button" class="home-hero__tablinks" id="home-hero__close" aria-label="Close Search Filter" onclick="close_tabs()">×</button>
                 </div>
 
                 <!-- Tab content -->
                 <div id="grundschule" class="tabcontent">
-                    <div class="filter_button_row">
-                        <?php echo home_hero_fill_subjectbuttons($response, 'grundschule', 'Grundschule') ?>
-                    </div>
+                    <div class="subjects">
+                        <?php
+                        $list_grundschule = get_field('list_grundschule');
+                        echo home_hero_fill_subjectbuttons($response, 'grundschule', 'Grundschule', $list_grundschule);
+                        ?>
                 </div>
 
                 <div id="sekundarstufe_1" class="tabcontent">
-                    <div class="filter_button_row">
-                    <?php echo home_hero_fill_subjectbuttons($response, 'sek1', 'Sekundarstufe I') ?>
-                    </div>
+                    <div class="subjects">
+                    <?php
+                    $list_sek1 = get_field('list_sek_1');
+                    echo home_hero_fill_subjectbuttons($response, 'sek1', 'Sekundarstufe I', $list_sek1);
+                    ?>
                 </div>
 
                 <div id="sekundarstufe_2" class="tabcontent">
-                    <div class="filter_button_row">
-                        <?php echo home_hero_fill_subjectbuttons($response, 'sek2', 'Sekundarstufe II') ?>
-                    </div>
+                    <div class="subjects">
+                        <?php echo home_hero_fill_subjectbuttons($response, 'sek2', 'Sekundarstufe II', $list_sek1); ?>
                 </div>
 
                 <div id="berufliche_bildung" class="tabcontent">
-                    <div class="filter_button_row">
-                        <?php echo home_hero_fill_subjectbuttons($response, 'beruf', 'Berufliche Bildung') ?>
-                    </div>
+                    <div class="subjects">
+                        <?php
+                        $list_beruf = get_field('list_beruf');
+                        echo home_hero_fill_subjectbuttons($response, 'beruf', 'Berufliche Bildung', $list_beruf);
+                        ?>
                 </div>
             </div>
 
@@ -99,7 +132,18 @@ $response = json_decode($response);
 
                 function wloSearch(fach, schoolType) {
                     const searchTerm = document.getElementById("search").value;
-                    window.open('https://suche.wirlernenonline.de/de/search?filters={"disciplines":["' + fach + '"],"educationalContexts":["' + schoolType + '"]}&q=' + searchTerm, '_self');
+                    //window.open('https://suche.wirlernenonline.de/de/search?filters={"disciplines":["' + fach + '"],"educationalContexts":["' + schoolType + '"]}&q=' + searchTerm, '_self');
+                    window.open('https://staging.wirlernenonline.de/de/subjects-portal/' + schoolType + '/' + fach, '_self');
+                }
+
+                function wloToggleMenu(schoolType) {
+                    if (document.getElementById('extra_'+schoolType).style.display == 'none'){
+                        document.getElementById('extra_'+schoolType).style.display = 'flex';
+                        document.getElementById('extraButton_'+schoolType).innerHTML = 'weniger Fächer';
+                    }else{
+                        document.getElementById('extra_'+schoolType).style.display = 'none';
+                        document.getElementById('extraButton_'+schoolType).innerHTML = 'weitere Fächer';
+                    }
                 }
 
                 function close_tabs(e) {
@@ -122,7 +166,7 @@ $response = json_decode($response);
                     document.getElementById('home-hero__close').style.display = "none";
                 }
 
-                function openCity(e, schulform) {
+                function openSchool(e, schulform) {
                     // Declare all variables
                     let i, tabcontent, tablinks;
                     e = e || window.event;
@@ -142,7 +186,7 @@ $response = json_decode($response);
                     document.getElementById('home-hero__close').style.display = "block";
 
                     // Show the current tab, and add an "active" class to the button that opened the tab
-                    document.getElementById(schulform).style.display = "flex";
+                    document.getElementById(schulform).style.display = "block";
                     e.currentTarget.className += " active";
                 }
             </script>
