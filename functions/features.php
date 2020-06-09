@@ -115,20 +115,21 @@ function contributor_edit_pages() {
 add_action( 'init', 'contributor_edit_pages' );
 
 
-function home_hero_fill_subjectbuttons($response, $schoolType, $schoolTypeLong, $allowedSubjects){
+function home_hero_fill_subjectbuttons($response, $schoolType, $allowedSubjects){
 
-    $return = '<div class="filter_button_row">';
+    $return = '';
     $min = 1;
     $max = 11;
     $subjects = array();
     $allowedSubjects = array_column($allowedSubjects, 'label', 'value');
 
-    foreach ($response->data->{$schoolType}->disciplines->buckets as $fach){
-        $key = substr($fach->key, strrpos($fach->key, "/")+1);
+    foreach ($response->data->subjectsPortals->{$schoolType} as $fach){
+        $key = $fach->id;
         if ($allowedSubjects[$key] && $fach->doc_count >= $min){
             $subjects[$key] = array(
                 'name' => $allowedSubjects[$key],
                 'count' => $fach->doc_count,
+                'url' => $fach->url
             );
         }
     }
@@ -136,51 +137,23 @@ function home_hero_fill_subjectbuttons($response, $schoolType, $schoolTypeLong, 
     $menu_subjects = array_slice($subjects, 0, $max);
     asort($menu_subjects);
 
-    $subjectCount = count($menu_subjects);
-    $subject_per_column = max(ceil ($subjectCount / 3), 4);
-    //$subject_per_column = max(ceil ($max / 3), 4);
-    $i = 0;
-
     foreach ($menu_subjects as $fach => $value){
-
-        if ($i % ($subject_per_column) == 0 && $i > 1){
-            $return .= '</div>';
-            $return .=  '<div class="filter_button_row">';
-        }
-        $return .=  '<button type="button" onclick="wloSearch(\''.$value['name'].'\', \''.$schoolTypeLong.'\')">'.$value['name'].' <span class="filter_tag">'.$value['count'].'</span></button>';
-        $i++;
+        $return .=  '<a class="subjectButton" href="'.$value['url'].'" >'.$value['name'] .'<span class="filter_tag">'.$value['count'].'</span></a>';
     }
 
-    if (count($subjects) > 10){
-        //$return .=  '<button type="button" class="extraButton" onclick="getElementById(\'extra_'.$schoolType.'\').style.display = \'flex\'">'.'weitere Fächer'.'</button>';
-        $return .=  '<button type="button" class="extraButton" id="extraButton_'.$schoolType.'" onclick="wloToggleMenu(\''.$schoolType.'\')">'.'weitere Fächer'.'</button>';
+    if (count($subjects) > 10) {
+        $return .= '<button type="button" class="extraButton" id="extraButton_' . $schoolType . '" onclick="wloToggleMenu(\'' . $schoolType . '\')">' . 'weitere Fächer' . '</button>';
 
-        $return .= '</div>'; //filter_button_row
-        $return .= '</div>'; //subjects
-        $return .=  '<div class="subjects" id="extra_'.$schoolType.'" style="display: none;">';
-        $return .=  '<div class="filter_button_row">';
+        $return .= '</div>';
+        $return .= '<div class="subject_grid extraSubjects" id="extra_' . $schoolType . '" style="display: none;">';
 
-        $menu_subjects = array_slice($subjects, $max);
-        asort($menu_subjects);
+        $menu_extra_subjects = array_slice($subjects, $max);
+        asort($menu_extra_subjects);
 
-        $subjectCount = count($menu_subjects);
-        $subject_per_column = max(ceil ($subjectCount / 3), 4);
-        $i = 0;
-
-        foreach ($menu_subjects as $fach => $value) {
-            if ($i % ($subject_per_column) == 0 && $i > 1) {
-                $return .= '</div>';
-                $return .= '<div class="filter_button_row">';
-            }
-            $return .= '<button type="button" onclick="wloSearch(\'' . $value['name'] . '\', \'' . $schoolTypeLong . '\')">' . $value['name'] . ' <span class="filter_tag">' . $value['count'] . '</span></button>';
-            $i++;
+        foreach ($menu_extra_subjects as $fach => $value) {
+            $return .= '<a class="subjectButton" href="'.$value['url'].'" >'.$value['name'] .'<span class="filter_tag">'.$value['count'].'</span></a>';
         }
-
     }
 
-
-    $return .= '</div>'; //filter_button_row
-    $return .= '</div>'; //subjects
     return $return;
-
 }

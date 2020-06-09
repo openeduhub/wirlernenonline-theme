@@ -67,7 +67,7 @@ Version:        1.0
     animation: fadeEffect 1s; /* Fading effect takes 1 second */
 }
 
-.home-hero__filter .tabcontent button{
+.home-hero__filter .tabcontent button, .tabcontent .subjectButton{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -80,7 +80,7 @@ Version:        1.0
     transition: 0.3s;
 }
 
-.home-hero__filter .tabcontent button:hover{
+.home-hero__filter .tabcontent button:hover, .tabcontent .subjectButton:hover{
     color: #00356f;
     background: #f1f1f1;
 }
@@ -95,8 +95,7 @@ Version:        1.0
 }
 
 .home-hero__filter .tabcontent .extraButton{
-    display: block;
-    align-self: flex-end;
+    justify-self: end;
     color: #fff;
     background: #003E82;
 }
@@ -118,6 +117,19 @@ Version:        1.0
     padding: 8px 40px;
     border-left: 1px solid #f1f1f1;
     text-align: left;
+}
+
+.home-hero__filter .subject_grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    column-gap: 2.5rem;
+    row-gap: 0;
+    max-width: 70%;
+    margin: 0 auto;
+}
+
+.home-hero__filter .extraSubjects{
+    margin: 1em auto 0;
 }
 
 /* Go from zero to full opacity */
@@ -326,10 +338,8 @@ form .wpcf7-validation-errors{
     #home-hero__close{
         right: 0;
     }
-    .home-hero__filter .filter_button_row{
-        border: none;
-        width: 100% !important;
-        padding: 0 !important;
+    .home-hero__filter .subject_grid{
+        max-width: 100%;
     }
     .radius{
         margin-left: 8px;

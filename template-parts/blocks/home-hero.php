@@ -2,40 +2,27 @@
 <?php
 // get the school subjects via graphQL
 $data = '{
-  grundschule: facets(size: 10000, filters: [{field: "valuespaces.educationalContext.key.keyword", terms: ["https://w3id.org/openeduhub/vocabs/educationalContext/grundschule"]}]) {
-    disciplines {
-      buckets {
-        doc_count
-        key
-      }
+  subjectsPortals(size: 1000, language: de) {
+    grundschule {
+      ...subjectsPortalDiscipline
     }
-  }
-  sek1: facets(size: 10000, filters: [{field: "valuespaces.educationalContext.key.keyword", terms: ["https://w3id.org/openeduhub/vocabs/educationalContext/sekundarstufe_1"]}]) {
-    disciplines {
-      buckets {
-        doc_count
-        key
-      }
+    sekundarstufe_1 {
+      ...subjectsPortalDiscipline
     }
-  }
-  sek2: facets(size: 10000, filters: [{field: "valuespaces.educationalContext.key.keyword", terms: ["https://w3id.org/openeduhub/vocabs/educationalContext/sekundarstufe_2"]}]) {
-    disciplines {
-      buckets {
-        doc_count
-        key
-      }
+    sekundarstufe_2 {
+      ...subjectsPortalDiscipline
     }
-  }
-  beruf: facets(size: 10000, filters: [{field: "valuespaces.educationalContext.key.keyword", terms: ["https://w3id.org/openeduhub/vocabs/educationalContext/berufliche_bildung"]}]) {
-    disciplines {
-      buckets {
-        doc_count
-        key
-      }
+    berufliche_bildung {
+      ...subjectsPortalDiscipline
     }
   }
 }
-';
+
+fragment subjectsPortalDiscipline on SubjectsPortalDiscipline {
+  id
+  url
+  doc_count
+}';
 
 $curl_post_data = array("query" => $data);
 $data_string =  json_encode($curl_post_data);
@@ -65,7 +52,7 @@ try {
 }
 curl_close($curl);
 $response = json_decode($response);
-//var_dump($response->data->grundschule->facets[1]->buckets);
+//var_dump($response->data->subjectsPortals->grundschule[0]);
 
 ?>
 
@@ -98,47 +85,36 @@ $response = json_decode($response);
 
                 <!-- Tab content -->
                 <div id="grundschule" class="tabcontent">
-                    <div class="subjects">
-                        <?php
-                        $list_grundschule = get_field('list_grundschule');
-                        echo home_hero_fill_subjectbuttons($response, 'grundschule', 'Grundschule', $list_grundschule);
-                        ?>
+                    <div class="subject_grid">
+                        <?php echo home_hero_fill_subjectbuttons($response, 'grundschule', get_field('list_grundschule')); ?>
+                    </div>
                 </div>
 
                 <div id="sekundarstufe_1" class="tabcontent">
-                    <div class="subjects">
-                    <?php
-                    $list_sek1 = get_field('list_sek_1');
-                    echo home_hero_fill_subjectbuttons($response, 'sek1', 'Sekundarstufe I', $list_sek1);
-                    ?>
+                    <div class="subject_grid">
+                        <?php echo home_hero_fill_subjectbuttons($response, 'sekundarstufe_1', get_field('list_sek_1'));  ?>
+                    </div>
                 </div>
 
                 <div id="sekundarstufe_2" class="tabcontent">
-                    <div class="subjects">
-                        <?php echo home_hero_fill_subjectbuttons($response, 'sek2', 'Sekundarstufe II', $list_sek1); ?>
+                    <div class="subject_grid">
+                        <?php echo home_hero_fill_subjectbuttons($response, 'sekundarstufe_2', get_field('list_sek_1'));  ?>
+                    </div>
                 </div>
 
                 <div id="berufliche_bildung" class="tabcontent">
-                    <div class="subjects">
-                        <?php
-                        $list_beruf = get_field('list_beruf');
-                        echo home_hero_fill_subjectbuttons($response, 'beruf', 'Berufliche Bildung', $list_beruf);
-                        ?>
+                    <div class="subject_grid">
+                        <?php echo home_hero_fill_subjectbuttons($response, 'berufliche_bildung', get_field('list_beruf')); ?>
+                    </div>
                 </div>
             </div>
 
 
             <script type="text/javascript">
 
-                function wloSearch(fach, schoolType) {
-                    const searchTerm = document.getElementById("search").value;
-                    //window.open('https://suche.wirlernenonline.de/de/search?filters={"disciplines":["' + fach + '"],"educationalContexts":["' + schoolType + '"]}&q=' + searchTerm, '_self');
-                    window.open('https://staging.wirlernenonline.de/de/subjects-portal/' + schoolType + '/' + fach, '_self');
-                }
-
                 function wloToggleMenu(schoolType) {
                     if (document.getElementById('extra_'+schoolType).style.display == 'none'){
-                        document.getElementById('extra_'+schoolType).style.display = 'flex';
+                        document.getElementById('extra_'+schoolType).style.display = 'grid';
                         document.getElementById('extraButton_'+schoolType).innerHTML = 'weniger Fächer';
                     }else{
                         document.getElementById('extra_'+schoolType).style.display = 'none';
