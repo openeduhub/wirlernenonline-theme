@@ -271,7 +271,7 @@ ol li{
     margin: 0;
 }
 
-.wpcf7-submit{
+.wpcf7-submit, .wloButton{
     background-color: #003E82;
     color: #fefefe;
     display: inline-block;
@@ -318,6 +318,62 @@ form .wpcf7-validation-errors{
 .footer-license p{
     text-align: center;
     font-size: 0.8rem;
+}
+
+.partnerBlock{
+
+    margin: 2em auto;
+}
+
+.partnerCell{
+    margin: 12px 24px;
+    text-align: center;
+}
+
+.partnerCell img{
+    max-height: 120px;
+    transition: 0.3s;
+}
+
+.partnerCell img:hover{
+    transform: scale(1.1);
+}
+
+.logoCell{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+}
+
+.logoCell p{
+    margin-top: 12px;
+}
+
+.sourceLogosBlock{
+    align-items: center;
+    margin: 2em auto;
+}
+
+.wloBlockWrapper{
+    margin: 0 auto;
+}
+
+.presseBlock{
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));    */
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    grid-gap: 1rem;
+}
+
+.presseCell{
+    padding: 1rem;
+}
+
+.presseCell h2{
+    font-size: 1rem;
+    margin-top: 1rem;
 }
 
 @media screen and (max-width: 1024px) {
