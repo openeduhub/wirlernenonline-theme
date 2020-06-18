@@ -43,9 +43,54 @@ function create_eduTool() {
 add_action( 'init', 'create_eduTool' );
 
 
+function create_wloPartner() {
+
+    register_post_type( 'partner',
+        // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Partner' ),
+                'singular_name' => __( 'Partner' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'partner'),
+            'show_in_rest' => true,
+            'supports' => array('title','editor','author','excerpt','comments','revisions'),
+            'menu_icon' => 'dashicons-groups',
+            'taxonomies' => array('post_tag'),
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'create_wloPartner' );
+
+
+function create_wloPresse() {
+
+    register_post_type( 'presse',
+        // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Presse' ),
+                'singular_name' => __( 'Presse' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'presse'),
+            'show_in_rest' => true,
+            'supports' => array('title','editor','author','excerpt','comments','revisions'),
+            'menu_icon' => 'dashicons-media-document',
+            'taxonomies' => array('post_tag'),
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'create_wloPresse' );
+
 function prefix_disable_gutenberg($current_status, $post_type){
     // Use your post type key instead of 'product'
-    if ($post_type === 'edusource' || $post_type === 'edutool'){
+    if ($post_type === 'edusource' || $post_type === 'edutool' || $post_type === 'partner' || $post_type === 'presse'){
         return false;
     }
     return $current_status;
