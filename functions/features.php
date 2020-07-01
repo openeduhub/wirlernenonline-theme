@@ -157,3 +157,59 @@ function home_hero_fill_subjectbuttons($response, $schoolType, $allowedSubjects)
 
     return $return;
 }
+
+
+function themenportal_block_categories( $categories, $post ) {
+    return array_merge(
+        $categories,
+        array(
+            array(
+                'slug' => 'themenportal',
+                'title' => 'Themenportal',
+                'icon'  => 'list-view',
+            ),
+        )
+    );
+}
+add_filter( 'block_categories', 'themenportal_block_categories', 10, 2 );
+
+function acf_editor_post_id() {
+    if ( is_admin() && function_exists( 'acf_maybe_get_POST' ) ) :
+        return intval( acf_maybe_get_POST( 'post_id' ) );
+    else :
+        global $post;
+        return $post->ID;
+    endif;
+}
+
+function callWloGraphApi($search_query){
+    $curl_post_data = array("query" => $search_query);
+    $data_string =  json_encode($curl_post_data);
+    //$url = 'https://suche.wirlernenonline.de/relay/graphql';
+    $url = 'https://staging.wirlernenonline.de/relay/graphql';
+
+    try {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                'Accept: application/json',
+                'Content-Type: application/json; charset=utf-8'
+            )
+        );
+        $response = curl_exec($curl);
+        if($response === false) {
+            echo 'curl error';
+            trigger_error(curl_error($curl), E_USER_WARNING);
+            return false;
+        }
+    } catch (Exception $e) {
+        echo 'curl error: '.$e->getMessage();
+        trigger_error($e->getMessage(), E_USER_WARNING);
+        return false;
+    }
+    curl_close($curl);
+
+    return json_decode($response);
+}

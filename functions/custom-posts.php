@@ -88,9 +88,55 @@ function create_wloPresse() {
 // Hooking up our function to theme setup
 add_action( 'init', 'create_wloPresse' );
 
+
+function create_wloUxIdeas() {
+
+    register_post_type( 'uxideas',
+        // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'UX-Ideen' ),
+                'singular_name' => __( 'UX-Idee' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'uxideas'),
+            'show_in_rest' => true,
+            'supports' => array('title','editor','author','excerpt','comments','revisions'),
+            'menu_icon' => 'dashicons-sticky',
+            'taxonomies' => array('post_tag'),
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'create_wloUxIdeas' );
+
+
+function create_subjectPortal() {
+
+    register_post_type( 'portal',
+        // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Themenportal' ),
+                'singular_name' => __( 'Themenportal' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'portal'),
+            'show_in_rest' => true,
+            'supports' => array('title','editor','author','excerpt','comments','revisions'),
+            'menu_icon' => 'dashicons-list-view',
+            'taxonomies' => array('post_tag'),
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'create_subjectPortal' );
+
 function prefix_disable_gutenberg($current_status, $post_type){
     // Use your post type key instead of 'product'
-    if ($post_type === 'edusource' || $post_type === 'edutool' || $post_type === 'partner' || $post_type === 'presse'){
+    if ($post_type === 'edusource' || $post_type === 'edutool' || $post_type === 'partner' || $post_type === 'presse' || $post_type === 'uxideas'){
         return false;
     }
     return $current_status;
