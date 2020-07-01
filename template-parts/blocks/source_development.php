@@ -43,7 +43,7 @@
         <table class="wlo_source_dev js-sort-table">
             <thead>
             <tr>
-                <th class="wlo_big_header" colspan="2">Quelle</th>
+                <th class="wlo_big_header" colspan="3">Quelle</th>
                 <th class="wlo_big_header" colspan="2">In unserer Suche</th>
                 <th class="wlo_big_header">1. Schritt: Check</th>
                 <th class="wlo_big_header" colspan="4">2. Schritt: Analyse</th>
@@ -52,6 +52,7 @@
             </tr>
             <tr>
                 <th class="clickable js-sort-string">Name</th>
+                <th class="clickable js-sort-string">OER</th>
                 <th class="clickable js-sort-number">Inhalte</th>
 
                 <th class="clickable js-sort-string">Quelle</th>
@@ -92,6 +93,27 @@
                     $positiv = 0;
 
                     echo '<td class="wlo_name"><a target="_blank" href="'.get_page_link($post->ID).'">'.get_the_title($post->ID).'</a></td>';
+
+                    if ( get_field('licence', $post->ID) ){
+                        $licences = get_field( 'licence', $post->ID );
+                        if( $licences ){
+                            foreach ($licences as $licence){
+                                switch ($licence['value']){
+                                    case 10:
+                                        echo '<td class="wlo-green">'.$licence['label'].'</td>';
+                                        break;
+                                    case 11:
+                                        echo '<td class="wlo-yellow">'.$licence['label'].'</td>';
+                                        break;
+                                    case 12:
+                                        echo '<td class="wlo-red">'.$licence['label'].'</td>';
+                                        break;
+                                }
+                            }
+                        }
+                    }else{
+                        echo '<td></td>';
+                    }
 
                     if ( get_field('filtername', $post->ID) ){
                         $sourceName = get_field('filtername', $post->ID);
