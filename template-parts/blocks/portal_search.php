@@ -92,19 +92,19 @@ $sources_response = callWloGraphApi($sources_search_query);
 $sources = $sources_response->data->facets->sources->buckets;
 
     ?>
-<div>
+<div class="portal_search">
     <form target="_blank" action="https://staging.wirlernenonline.de/de/search/<?php echo get_field('school_type', $postID)['label']; ?>/<?php echo get_field('subject', $postID)['label']; ?>" method="GET" class="home-hero__form">
         <div class="search-container">
             <p><?php the_field('search_description'); ?></p>
             <div class="portal-search-group">
-                <input class="input-group-field" type="search" name="q" id="search" aria-label="Search" autocomplete="off">
+                <input class="input-group-field" type="search" name="q" id="search" aria-label="Search" placeholder="<?php echo $total; ?> Ergebnisse für <?php echo get_field('subject', $postID)['label']; ?> - <?php echo get_field('school_type', $postID)['label']; ?>" autocomplete="off">
                 <div class="input-group-button">
                     <input type="submit" class="button success" value="Suche">
                 </div>
             </div>
         </div>
     </form>
-    <div class="portal_search_text">
+    <div class="portal_search_text" style="display: none;">
         <p>Für <?php echo get_field('subject', $postID)['label']; ?>, <?php echo get_field('school_type', $postID)['label']; ?> gibt es <span class="font-bold"><?php echo $total; ?></span> Ergebnisse von:</p>
         <div class="portal_search_sources">
             <?php

@@ -420,6 +420,7 @@ form .wpcf7-validation-errors{
 .portal-content-wrapper{
     padding: 1.5rem;
     background: #f9f9f9;
+    width: 100%;
 }
 
 .portal_backend_hint{
@@ -433,7 +434,7 @@ form .wpcf7-validation-errors{
 }
 
 .portal_slider{
-    width: 50rem;
+    width: 100%;
     margin: 0 auto;
     max-height: 200px;
 }
@@ -442,6 +443,7 @@ form .wpcf7-validation-errors{
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    height: 200px;
     background: #003E82;
     color: #ffffff;
     padding: 0.5rem 1.5rem;
@@ -477,7 +479,7 @@ form .wpcf7-validation-errors{
 }
 
 .daily_tip_slider, .current_slider, .portal_block_slider, .portal_tip_slider{
-    max-width: 400px;
+    max-width: 100%;
     max-height: 200px;
     align-self: center;
 }
@@ -512,11 +514,22 @@ form .wpcf7-validation-errors{
     width: 100%;
     margin-bottom: 0.8rem;
     align-items: stretch;
+    font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+}
+
+.portal-search-group input::placeholder{
+    color: #d8d8d8;
 }
 
 .button.success {
     color: #313131;
     background-color: #E3F702;
+}
+
+.portal_search{
+    background: #ffffff;
+    padding: 0.5rem 1.5rem;
+    margin: 0.5rem auto;
 }
 
 .portal_search_text{
@@ -533,6 +546,29 @@ form .wpcf7-validation-errors{
     margin-right: 0.5rem;
     padding: 0.2rem 0.5rem;
     border-radius: 24px;
+}
+
+.wlo_file_upload{
+    display: flex;
+    width: 100%;
+}
+
+#uploadwlo{
+    margin-right: 1rem;
+    margin-top: 1rem;
+}
+
+.upload-metadata{
+    height: 60rem;
+    width: 100%;
+}
+
+.footer-menu{
+    align-items: flex-start;
+}
+
+.newsletter-data{
+    font-size: 0.7rem;
 }
 
 @media screen and (max-width: 1024px) {

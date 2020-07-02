@@ -55,9 +55,6 @@ if (get_field('active')){
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery('.portal_slider').slick({
-            autoplay: true,
-            autoplaySpeed: 5000,
-        });
+        jQuery('.portal_slider').slick();
     });
 </script>
