@@ -181,7 +181,7 @@ function getSelectOptions($fieldName, $fieldChoices){
 				data-schooltype="<?php echo get_field_values('schulform'); ?>"
 				data-sourcetype="<?php echo get_field_values('lernresourcentyp'); ?>"
 				data-tags="<?php echo get_field_values('tags'); ?>">
-				<?php get_template_part('template-parts/edusource/edu-card') ?>
+				<?php get_template_part('template-parts/edusource/edu-idea-card') ?>
 			</div>
 		<?php }
 	}
