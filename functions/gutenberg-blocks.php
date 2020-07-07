@@ -26,6 +26,14 @@ function register_acf_block_types(){
 	'icon'				=> 'megaphone',
 	'keywords'			=> [ ],
 ]);
+    acf_register_block_type(['name' => 'Home Badge',
+        'title'				=> __('Home Badge'),
+        'description'		=> __('Badge for high attraction.'),
+        'render_template'	=> 'template-parts/blocks/home-badge.php',
+        'category'			=> 'custom-blocks',
+        'icon'				=> 'megaphone',
+        'keywords'			=> [ ],
+    ]);
 acf_register_block_type(['name' => 'neuste_quellen',
     'title'				=> __('Neuste Quellen'),
     'description'		=> __('Zeigt aktuelle Quellen an'),
