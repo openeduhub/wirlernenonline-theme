@@ -76,7 +76,7 @@ function create_wloPresse() {
                 'singular_name' => __( 'Presse' )
             ),
             'public' => true,
-            'has_archive' => true,
+            'has_archive' => false,
             'rewrite' => array('slug' => 'presse'),
             'show_in_rest' => true,
             'supports' => array('title','editor','author','excerpt','comments','revisions'),

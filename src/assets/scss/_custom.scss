@@ -254,3 +254,16 @@
     };
   }
 }
+
+.presseBlock{
+  .presseCell{
+    img {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+    }
+    h4 {
+      margin-top: 20px;
+    }
+  }
+}
