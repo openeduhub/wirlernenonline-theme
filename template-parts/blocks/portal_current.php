@@ -1,13 +1,13 @@
 <?php
+if (is_admin()) {
+    echo '<div class="portal_backend_border">';
+    echo '<div class="portal_backend_hint">Block: Suchinhalte</div>';
+};
 
 if ( get_the_id() ){
     $postID = get_the_id();
 }else{
     $postID = acf_editor_post_id();
-}
-
-if (is_admin()){
-    echo '<div class="portal_backend_hint">Suchinhalte Block</div>';
 }
 
 if (get_field('active')){
@@ -116,3 +116,4 @@ if (get_field('active')){
         jQuery('.portal_block_slider').slick();
     });
 </script>
+<?php if (is_admin()){echo '</div>';};?>

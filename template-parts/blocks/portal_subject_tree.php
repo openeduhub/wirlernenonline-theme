@@ -1,13 +1,13 @@
+<?php if (is_admin()){
+    echo '<div class="portal_backend_border">';
+    echo '<div class="portal_backend_hint">Block: Themenbaum</div>';
+};?>
 <?php
 
 if ( get_the_id() ){
     $postID = get_the_id();
 }else{
     $postID = acf_editor_post_id();
-}
-
-if (is_admin()){
-    echo '<div class="portal_backend_hint">Themenbaum Block</div>';
 }
 
 if (get_field('active')){
@@ -118,4 +118,4 @@ if (get_field('active')){
     echo '</div>';
 }
 ?>
-
+<?php if (is_admin()){echo '</div>';};?>
