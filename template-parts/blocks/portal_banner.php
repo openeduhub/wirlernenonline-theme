@@ -1,8 +1,8 @@
 <?php
-
-if (is_admin()){
-    echo '<div class="portal_backend_hint">Banner Block</div>';
-}
+if (is_admin()) {
+    echo '<div class="portal_backend_border">';
+    echo '<div class="portal_backend_hint">Block: Banner</div>';
+};
 
 if (get_field('active')){
 
@@ -54,3 +54,4 @@ if (get_field('active')){
         jQuery('.portal_slider').slick();
     });
 </script>
+<?php if (is_admin()){echo '</div>';};?>

@@ -213,3 +213,57 @@
 .edu-filter__reset {
   margin-top: 15px;
 }
+
+.home-badge {
+  position: relative;
+  margin-top: 40px;
+
+  .rectangle-back {
+    height: 200px;
+    width: 300px;
+    background-color: lighten(#f21b5a, 10);
+    transform: rotate(15deg);
+    position: absolute;
+    z-index: 0;
+  }
+  .rectangle-front {
+    height: 200px;
+    width: 300px;
+    background-color: $white;
+    position: absolute;
+    transform: rotate(-5deg);
+    z-index: 1;
+  }
+  .text-layer{
+    padding-left: 20px;
+    padding-top: 20px;
+    position: absolute;
+    width: 300px;
+    z-index: 2;
+    .button{
+      margin-top: 20px;
+      background-color: lighten(#f21b5a, 10);
+    }
+    p{
+      color: $black !important;
+      margin-bottom: 0px;
+      font-size: 0.8em;
+    };
+    h5{
+      color: $black !important;
+    };
+  }
+}
+
+.presseBlock{
+  .presseCell{
+    img {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+    }
+    h4 {
+      margin-top: 20px;
+    }
+  }
+}

@@ -1,13 +1,13 @@
 <?php
+if (is_admin()) {
+    echo '<div class="portal_backend_border">';
+    echo '<div class="portal_backend_hint">Block: Suche</div>';
+};
 
 if ( get_the_id() ){
     $postID = get_the_id();
 }else{
     $postID = acf_editor_post_id();
-}
-
-if (is_admin()){
-    echo '<div class="portal_backend_hint">Suche/ Navigations Block</div>';
 }
 
 $oer = '';
@@ -122,3 +122,4 @@ $sources = $sources_response->data->facets->sources->buckets;
 
     });
 </script>
+<?php if (is_admin()){echo '</div>';};?>
