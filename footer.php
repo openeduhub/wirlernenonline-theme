@@ -1,4 +1,32 @@
 </main><!-- .site-content -->
+<div class="add-content-menu-container">
+    <?php
+    $defaults = array(
+        'menu'            => '',
+        'container'       => 'li',
+        'container_class' => '',
+        'container_id'    => '',
+        'menu_class'      => 'add-content-menu-list',
+        'menu_id'         => '',
+        'echo'            => true,
+        'fallback_cb'     => 'wp_page_menu',
+        'before'          => '',
+        'after'           => '',
+        'link_before'     => '',
+        'link_after'      => '',
+        'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+        'item_spacing'    => 'preserve',
+        'depth'           => 0,
+        'walker'          => '',
+        'theme_location'  => 'add-content-button',
+    );
+
+    wp_nav_menu($defaults);
+    ?>
+    <span class="material-icons add-content-menu-button" onclick="jQuery('.add-content-menu-list').toggle()">
+        add_circle
+    </span>
+</div>
 <footer id="colophon" class="site-footer" role="contentinfo">
 	<div class="grid-container">
 		<div class="grid-x grid-margin-x align-middle">

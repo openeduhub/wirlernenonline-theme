@@ -389,41 +389,7 @@ form .wpcf7-validation-errors{
     margin-top: 1rem;
 }
 
-
-.portal-wrapper{
-    display: flex;
-    height: 100%;
-    max-width: 60rem;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-.portal-side-menu{
-    background: #003E82;
-    color: #ffffff;
-    height: 100%;
-    min-height: calc(100vh - 200px);
-    width: 30%;
-    min-width: 250px;
-    padding: 1rem;
-}
-
-.portal_select{
-    background-color: #003E82;
-    color: #fff;
-    border: none;
-    font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-style: normal;
-    font-weight: 400;
-}
-
-.portal-content-wrapper{
-    padding: 1.5rem;
-    background: #f9f9f9;
-    width: 100%;
-}
-
-.portal_backend_hint{
+.backend_hint{
     font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 0.6em;
     color: gray(90);
@@ -431,8 +397,51 @@ form .wpcf7-validation-errors{
     margin-bottom: 0.2rem;
     padding: 0.2rem 0.5rem;
 }
-.portal_backend_border{
-    border: 1px solid lightgrey;
+.backend_border{
+    border: 1px solid lightblue;
+}
+
+.portal {
+    background: #f9f9f9;
+    padding: 1rem 0;
+}
+
+.portal-breadcrumbs{
+
+}
+.portal-breadcrumbs .portal-breadcrumbs-list{
+    list-style-type: none;
+    margin: 0;
+}
+.portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item {
+    list-style-type: none;
+    display: inline-block;
+    font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 0.8em;
+    font-weight: 700;
+}
+
+.portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item:last-child a {
+    color: black;
+}
+
+.portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item:last-child {
+    font-weight: normal;
+}
+
+.portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item:last-child .material-icons {
+    display: none;
+}
+
+.portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item .material-icons {
+    line-height: 10px;
+    font-size: 10px;
+}
+
+.portal_select{
+    font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 700;
 }
 
 .portal_slider{
@@ -454,11 +463,12 @@ form .wpcf7-validation-errors{
 .portal_slider_content img{
 
 }
-
-.portal-content-wrapper .slick-prev:before, .portal-content-wrapper .slick-next:before,
-.portal_block .slick-prev:before, .portal_block .slick-next:before{
-    color: #002145;
+.portal_slider_content p{
+    max-height: 50px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
+
 
 .portal_widget_grid{
     display: flex;
@@ -467,49 +477,74 @@ form .wpcf7-validation-errors{
 }
 
 .portal_grid_content, .portal_block{
-    background: #fff;
-    font-size: 0.7rem;
-    padding: 1rem 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between
-}
-
-.portal_grid_content h3, .portal_block h3{
-    font-size: 1.1rem;
-    color: #003E82;
 }
 
 .daily_tip_slider, .current_slider, .portal_block_slider, .portal_tip_slider{
     max-width: 100%;
     max-height: 200px;
     align-self: center;
+    color: #313131;
 }
 
 
 .daily_tip_slider_content, .portal_block_slider_content{
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
+    background-color: white;
+    border: 1px solid #ECECEC;
+    padding: 30px 20px;
+}
+.daily_tip_slider_content .slick-list,  .portal_block .slick-list{
+    margin-right: -20px;
+}
+.daily_tip_slider_content .slick-slide,  .portal_block .slick-slide{
+    margin-right: 20px;
+}
+.daily_tip_slider_content .slick-arrow, .portal_block .slick-arrow {
+    z-index: 1;
+}
+.daily_tip_slider_content .slick-prev , .portal_block .slick-prev {
+    left: -15px;
+}
+.daily_tip_slider_content .slick-next , .portal_block .slick-next {
+    right: -5px;
+}
+.daily_tip_slider_content .slick-arrow:before, .portal_block .slick-arrow:before
+{
+    color: #455871;
+    font-size: 30px;
+}
+
+.daily_tip_slider_content a, .portal_block_slider_content a{
+    color: #22427C;
+    text-decoration: underline;
+}
+.daily_tip_slider_content_text, .portal_block_slider_content_text{
+    margin-left: 1rem;
+    width: 300px;
 }
 
 .daily_tip_slider_content h3, .portal_block_slider_content h3{
-    font-size: 1rem;
-    color: #313131;
+    font-size: 0.8rem;
+}
+.daily_tip_slider_content p, .portal_block_slider_content p{
+    font-size: 0.8rem;
+    max-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .daily_tip_slider_content img, .portal_block_slider_content img{
-    width: 250px;
+    width: 180px;
+    max-width: 180px;
+    height: 120px;
+    object-fit: cover;
 }
 
-.daily_tip_slider_content_text, .portal_block_slider_content_text{
-    margin-left: 1rem;
-}
 
-.portal_more_link{
-    color: #ff2c62;
-    text-align: right;
-}
 
 .portal-search-group{
     display: flex;
@@ -550,30 +585,41 @@ form .wpcf7-validation-errors{
     border-radius: 24px;
 }
 
-.portal_subject_grid{
+.portal-subject-tree h3 {
+}
+.portal-subject-tree .portal_subject_grid{
     display: grid;
     /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));    */
     grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
     grid-gap: 1rem;
+    padding: 40px 50px;
+    background-color: white;
+    border: 1px solid #ECECEC;
 }
 
-.portal_tree_branch{
+.portal-subject-tree .portal_tree_branch{
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 0.5rem 1rem;
+    padding: 10px;
+    border-radius: 4px;
 }
 
-.portal_tree_branch .portal_search_text{
+.portal-subject-tree .portal_tree_branch .portal_search_text{
     margin-left: 1rem;
+    display: flex;
+    align-items: center;
 }
 
-.portal_tree_branch .portal_search_text h3{
-    font-size: 1rem;
+.portal-subject-tree .portal_tree_branch .portal_search_text h5{
+    font-size: 0.8em;
+    text-overflow: ellipsis;
+    margin: 0;
 }
 
-.portal_tree_branch img{
-    max-width: 100px;
+.portal-subject-tree .portal_tree_branch img{
+    width: 70px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 .wlo_file_upload{

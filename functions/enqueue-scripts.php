@@ -34,6 +34,7 @@ function admin_scripts() {
     // CSS
     wp_enqueue_style( 'slick-css', get_template_directory_uri() . '/dist/assets/scss/slick.css', array(), '20200430', 'all' );
     wp_enqueue_style( 'slick-theme-css', get_template_directory_uri() . '/dist/assets/scss/slick-theme.css', array(), '20200430', 'all' );
+    wp_enqueue_style( 'editor-css', get_template_directory_uri() . '/dist/assets/scss/editor.css', array(), '20200430', 'all' );
     wp_enqueue_style( 'style-css', get_template_directory_uri() . '/style.css', array(), '20200430', 'all' );
 }
 add_action( 'admin_enqueue_scripts', 'admin_scripts' );

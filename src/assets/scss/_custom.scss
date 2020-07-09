@@ -267,3 +267,42 @@
     }
   }
 }
+
+.add-content-menu-container{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: block;
+  text-align: right;
+  margin: 20px;
+  .add-content-menu-button {
+    font-size: 60px;
+    cursor: pointer;
+    width: 60px;
+    color: $primary-color;
+  }
+  .add-content-menu-list{
+    display: none;
+    list-style-type: none;
+    border-radius: 5px;
+    padding: 5px 0;
+    background-color: lighten($black, 10);
+    bottom: 60px;
+    margin: 10px 0;
+
+    li {
+      a {
+        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 0.7em;
+        text-align: left;
+        color: $white;
+        display: block;
+        width: 100%;
+        padding: 10px 20px;
+      }
+      a:hover {
+        background-color: lighten($black, 15);
+      }
+    }
+  }
+}

@@ -1,8 +1,22 @@
 <?php if (is_admin()){
-    echo '<div class="portal_backend_border">';
-    echo '<div class="portal_backend_hint">Block: Themenbaum</div>';
+    echo '<div class="backend_border">';
+    echo '<div class="backend_hint">Block: Themenbaum</div>';
 };?>
 <?php
+
+if (!function_exists('helper_useLightColor')) {
+    function helper_useLightColor($bgColor)
+    {
+        $color = ($bgColor{0} === '#') ? substr($bgColor, 1, 7) : $bgColor;
+        $r = intval(substr($color, 0, 2), 16); // hexToR
+        $g = intval(substr($color, 2, 4), 16); // hexToG
+        $b = intval(substr($color, 4, 6), 16); // hexToB
+        return ((($r * 0.299) + ($g * 0.587) + ($b * 0.114)) > 186) ?
+            false : true;
+    }
+
+    ;
+}
 
 if ( get_the_id() ){
     $postID = get_the_id();
@@ -11,7 +25,7 @@ if ( get_the_id() ){
 }
 
 if (get_field('active')){
-    echo '<div>';
+    echo '<div class="portal-subject-tree">';
     $url = get_field('url');
     $pattern = '/http.*\?id=(.*)(&|$)/';
     preg_match_all($pattern, $url, $matches);
@@ -48,6 +62,7 @@ if (get_field('active')){
     }
 
     if (get_field('next_level')){
+        //Sub-Level
         echo '<div class="portal_subject_grid">';
         foreach ($response->collections as $collection){
             $nodeId = $collection->ref->id;
@@ -98,17 +113,24 @@ if (get_field('active')){
         }
         echo '</div>';
     }else{
+        //Top-Level
         echo '<div class="portal_subject_grid">';
         foreach ($response->collections as $collection){
             if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated'){
+                $bgColor = $collection->properties->{'ccm:collectioncolor'}[0];
+                $fontColor = (!empty($bgColor) && helper_useLightColor($bgColor)) ? "#000000" : "#ffffff";
                 ?>
-                <div class="portal_tree_branch" style="background: <?php echo $collection->properties->{'ccm:collectioncolor'}[0]; ?>">
-                    <img src="<?php echo $collection->preview->url; ?>">
-                    <div class="portal_search_text">
-                        <p><?php echo $collection->title; ?><p>
-                            <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>">Link</a>
+                <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>">
+                    <div class="portal_tree_branch" style="
+                            background: <?php echo $bgColor ?>;
+                            color: <?php echo $fontColor ?>;
+                            ">
+                        <img width="70" height="50" src="<?php echo $collection->preview->url; ?>">
+                        <div class="portal_search_text">
+                            <h5><?php echo $collection->title; ?></h5>
+                        </div>
                     </div>
-                </div>
+                </a>
             <?php }
         }
         echo '</div>';

@@ -12,4 +12,18 @@
         font-weight: $header-font-weight;
       }
     }
+    .slick-slider {
+      max-height: none;
+      height: auto;
+    }
+    .portal_block_slider_content {
+      display: block;
+      padding: 0;
+
+      p{
+        max-height: 20px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
 }

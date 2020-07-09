@@ -1,16 +1,19 @@
 <?php
 if (is_admin()) {
-    echo '<div class="portal_backend_border">';
-    echo '<div class="portal_backend_hint">Block: Blogbeiträge</div>';
+    echo '<div class="backend_border">';
+    echo '<div class="backend_hint">Block: Blogbeiträge</div>';
 };
 
 if (get_field('active')){
 
     $slider_tags = get_field('tag');
-    $tag_list = '';
-    foreach ($slider_tags as $tag){
-        $tag_list .= $tag->name.',';
+    if(!empty($slider_tags)){
+        $tag_list = '';
+        foreach ($slider_tags as $tag){
+            $tag_list .= $tag->name.',';
+        }
     }
+
 
     $count = -1;
     if (get_field('count')){
@@ -32,11 +35,12 @@ if (get_field('active')){
                 ?>
                 <div>
                     <div class="portal_block_slider_content">
-                        <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( 'medium' ); ?></a>
+                        <a href="<?php the_permalink(); ?>">
+                            <img src="<?php echo get_the_post_thumbnail_url();?>">
+                        </a>
                         <div class="portal_block_slider_content_text">
-                            <h3><?php the_title(); ?></h3>
-                            <p><?php the_excerpt(); ?></p>
-                            <a href="<?php the_permalink(); ?>" class="portal_more_link">mehr...</a>
+                            <a href="<?php the_permalink(); ?>"><h5><?php the_title(); ?></h5></a>
+                            <?php the_excerpt(); ?>
                         </div>
                     </div>
                 </div>
@@ -53,7 +57,12 @@ if (get_field('active')){
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery('.portal_tip_slider').slick();
+        jQuery('.portal_tip_slider').slick({
+            infinite: true,
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            zIndex: 0
+        });
     });
 </script>
 <?php if (is_admin()){echo '</div>';};?>

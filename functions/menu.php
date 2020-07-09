@@ -6,6 +6,7 @@ function custom_navigation_menus() {
         'top' => __( 'Top', 'text_domain' ),
         'footer' => __( 'Footer', 'text_domain' ),
         'top-call-top-action' => __( 'Top Call To Action', 'text_domain' ),
+        'add-content-button' => __( 'Add Content Button', 'text_domain' ),
     );
     register_nav_menus( $locations );
 

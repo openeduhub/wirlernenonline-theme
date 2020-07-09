@@ -1,15 +1,18 @@
 <?php
 if (is_admin()) {
-    echo '<div class="portal_backend_border">';
-    echo '<div class="portal_backend_hint">Block: Banner</div>';
+    echo '<div class="backend_border">';
+    echo '<div class="backend_hint">Block: Banner</div>';
 };
 
 if (get_field('active')){
 
     $slider_tags = get_field('tag');
     $tag_list = '';
-    foreach ($slider_tags as $tag){
-        $tag_list .= $tag->name.',';
+    if(!empty($slider_tags)){
+        $tag_list = '';
+        foreach ($slider_tags as $tag){
+            $tag_list .= $tag->name.',';
+        }
     }
 
     $count = -1;
@@ -51,7 +54,10 @@ if (get_field('active')){
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery('.portal_slider').slick();
+        jQuery('.portal_slider').slick({
+            autoplay:true,
+            arrows:false
+        });
     });
 </script>
 <?php if (is_admin()){echo '</div>';};?>

@@ -1,7 +1,7 @@
 <?php
 if (is_admin()) {
-    echo '<div class="portal_backend_border">';
-    echo '<div class="portal_backend_hint">Block: Suche</div>';
+    echo '<div class="backend_border">';
+    echo '<div class="backend_hint">Block: Suche</div>';
 };
 
 if ( get_the_id() ){

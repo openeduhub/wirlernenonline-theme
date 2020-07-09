@@ -1,7 +1,7 @@
 <?php
 if (is_admin()) {
-    echo '<div class="portal_backend_border">';
-    echo '<div class="portal_backend_hint">Block: Suchinhalte</div>';
+    echo '<div class="backend_border">';
+    echo '<div class="backend_hint">Block: Suchinhalte</div>';
 };
 
 if ( get_the_id() ){
@@ -65,6 +65,9 @@ if (get_field('active')){
                     title
                     description
                   }
+                  educational {
+                    description
+                  }
                   technical {
                     location
                   }
@@ -93,13 +96,13 @@ if (get_field('active')){
             ?>
             <div>
                 <div class="portal_block_slider_content">
-                    <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank" class="portal_more_link">
+                    <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank">
                         <img src="data:<?php echo $hit->thumbnail->mimetype; ?>;base64, <?php echo $hit->thumbnail->small; ?>">
                     </a>
                     <div class="portal_block_slider_content_text">
-                        <h3><?php echo $hit->lom->general->title; ?></h3>
-                        <p><?php echo $hit->lom->general->description; ?></p>
-                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank" class="portal_more_link">zur Quelle...</a>
+                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                        <p><?php echo $hit->lom->educational->description; ?></p>
+                        <!--<p><?php echo $hit->lom->general->description; ?></p>-->
                     </div>
                 </div>
             </div>
@@ -113,7 +116,12 @@ if (get_field('active')){
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery('.portal_block_slider').slick();
+        jQuery('.portal_block_slider').slick({
+            infinite: true,
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            zIndex: 0
+        });
     });
 </script>
 <?php if (is_admin()){echo '</div>';};?>
