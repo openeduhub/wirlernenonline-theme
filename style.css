@@ -403,7 +403,17 @@ form .wpcf7-validation-errors{
 
 .portal {
     background: #f9f9f9;
-    padding: 1rem 0;
+}
+
+.portal-full-width {
+    margin-left  : calc( -100vw / 2 + 100% / 2 );
+    margin-right : calc( -100vw / 2 + 100% / 2 );
+    max-width    : 100vw;
+    width: auto;
+}
+
+.portal-full-width .wp-block-cover__inner-container {
+    max-width: 800px;
 }
 
 .portal-breadcrumbs{
@@ -467,6 +477,7 @@ form .wpcf7-validation-errors{
     max-height: 50px;
     text-overflow: ellipsis;
     overflow: hidden;
+    margin-bottom: 0;
 }
 
 
@@ -554,6 +565,13 @@ form .wpcf7-validation-errors{
     font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
 }
 
+.portal-search-group input[type='search'] {
+    border-radius: 5px 0px 0px 5px;
+}
+.portal-search-group input[type='submit'] {
+    border-radius: 0px 5px 5px 0px;
+}
+
 .portal-search-group input::placeholder{
     color: #d8d8d8;
 }
@@ -564,9 +582,6 @@ form .wpcf7-validation-errors{
 }
 
 .portal_search{
-    background: #ffffff;
-    padding: 0.5rem 1.5rem;
-    margin: 0.5rem auto;
 }
 
 .portal_search_text{
