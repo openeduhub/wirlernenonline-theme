@@ -29,7 +29,11 @@ if (get_field('active')){
 
 
         echo '<div class="portal_block">';
-            echo '<h3>'.get_field('headline').'</h3>';
+            if(!empty(get_field('headline')))
+                echo '<h3>' . get_field('headline') . '</h3>';
+            else
+                echo '<h3>Blogbeiträge</h3>';
+
             echo '<div class="portal_tip_slider">';
             while ($query->have_posts()) : $query->the_post();
                 ?>

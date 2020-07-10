@@ -18,3 +18,6 @@ require_once(get_template_directory().'/functions/gutenberg-blocks.php');
 
 // Register custom features
 require_once(get_template_directory().'/functions/features.php');
+
+// Register Custom API Endpoint
+require_once(get_template_directory().'/functions/rest-api.php');

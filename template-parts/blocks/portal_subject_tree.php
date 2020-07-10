@@ -56,9 +56,12 @@ if (get_field('active')){
 
     $response = json_decode($response);
 
-    if (get_field('headline')){
-        echo '<h3>'.get_field('headline').'</h3>';
-    }
+    //Top-Level
+    if(!empty(get_field('headline')))
+        echo '<h3>' . get_field('headline') . '</h3>';
+    else
+        echo '<h3>' . get_the_title() . '</h3>';
+
     if (get_field('text')){
         echo '<p>'.get_field('text').'</p>';
     }
@@ -115,7 +118,6 @@ if (get_field('active')){
         }
         echo '</div>';
     }else{
-        //Top-Level
         echo '<div class="portal_subject_grid">';
         foreach ($response->collections as $collection){
             if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated'){

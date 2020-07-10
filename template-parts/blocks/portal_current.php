@@ -90,7 +90,11 @@ if (get_field('active')){
     $response = callWloGraphApi($search_query);
 
     echo '<div class="portal_block">';
-        echo '<h3>'.get_field('headline').'</h3>';
+        if(!empty(get_field('headline')))
+            echo '<h3>' . get_field('headline') . '</h3>';
+        else
+            echo '<h3>Neuigkeiten</h3>';
+
         echo '<div class="portal_block_slider">';
         foreach ($response->data->search->hits->hits as $hit){
             ?>
