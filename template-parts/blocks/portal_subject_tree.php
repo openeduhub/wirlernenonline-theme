@@ -26,7 +26,9 @@ if ( get_the_id() ){
 
 if (get_field('active')){
     echo '<div class="portal-subject-tree">';
-    $url = get_field('url');
+
+    $url = (!empty(get_field('url'))) ? get_field('url') : get_field('collection_url', $postID);
+
     $pattern = '/http.*\?id=(.*)(&|$)/';
     preg_match_all($pattern, $url, $matches);
 

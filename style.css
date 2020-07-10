@@ -6,6 +6,10 @@ Author URI:     http://bananenbiegerei.de
 Version:        1.0
 %%%%%%%%%% */
 
+.admin-bar .site-header {
+    top: 32px;
+}
+
 .home-hero{
     margin-top: 60px;
 }
