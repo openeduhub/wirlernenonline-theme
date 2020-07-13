@@ -40,7 +40,6 @@ try {
 }
 curl_close($curl);
 
-echo "<script>console.log(" . $response . ")</script>";
 $response = json_decode($response);
 
 //for($i = 0; $i < sizeof($response); $i++){

@@ -21,3 +21,6 @@ require_once(get_template_directory().'/functions/features.php');
 
 // Register Custom API Endpoint
 require_once(get_template_directory().'/functions/rest-api.php');
+
+// Register Autoload ACF Fields
+require_once(get_template_directory().'/functions/acf-autoload.php');

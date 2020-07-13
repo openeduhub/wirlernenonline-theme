@@ -17,14 +17,14 @@ if (get_field('active')){
         $count = intval( get_field('count') );
     }
 
-    $search_subject = get_field('subject', $postID)['value'];
-    $search_school_type = get_field('school_type', $postID)['value'];
-    $search_school_role = get_field('role', $postID)['value'];
+    $search_discipline = get_field('discipline', $postID)['value'];
+    $search_edu_context = get_field('edu_context', $postID)['value'];
+    $search_intended_end_user_role = get_field('intended_end_user_role', $postID)['value'];
     $search_oer = get_field('oer', $postID);
     if (get_field('settings_active')){
-        $search_subject = get_field('subject')['value'];
-        $search_school_type = get_field('school_type')['value'];
-        $search_school_role = get_field('role')['value'];
+        $search_discipline = get_field('discipline')['value'];
+        $search_edu_context = get_field('edu_context')['value'];
+        $search_intended_end_user_role = get_field('intended_end_user_role')['value'];
         $search_oer = get_field('oer');
     }
 
@@ -41,18 +41,18 @@ if (get_field('active')){
             filters: [
               {
                 field: "valuespaces.discipline.key.keyword"
-                terms: ["https://w3id.org/openeduhub/vocabs/discipline/'.$search_subject.'"]
+                terms: ["https://w3id.org/openeduhub/vocabs/discipline/'.$search_discipline.'"]
               }
               {
                 field: "valuespaces.educationalContext.key.keyword"
                 terms: [
-                  "https://w3id.org/openeduhub/vocabs/educationalContext/'.$search_school_type.'"
+                  "https://w3id.org/openeduhub/vocabs/educationalContext/'.$search_edu_context.'"
                 ]
               }
               {
                 field: "valuespaces.intendedEndUserRole.key.keyword"
                 terms: [
-                  "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/'.$search_school_role.'"
+                  "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/'.$search_intended_end_user_role.'"
                 ]
               }
               '.$oer.'

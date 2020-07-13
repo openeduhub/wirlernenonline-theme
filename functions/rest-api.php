@@ -2,10 +2,10 @@
 function add_portal(WP_REST_Request $request) {
 
     $collection_id = $request->get_param( 'collection_id' );
-    $title = $request->get_param( 'title' );
-    $subject = $request->get_param( 'subject' );
-    $school_type = $request->get_param( 'school_type');
-    $role = $request->get_param( 'role');
+    $title = urldecode($request->get_param( 'title' ));
+    $discipline = urldecode($request->get_param( 'discipline' ));
+    $edu_context = urldecode($request->get_param( 'edu_context'));
+    $intended_end_user_role = urldecode($request->get_param( 'intended_end_user_role'));
 
     if ( $template = get_page_by_path( 'themenportal-vorlage', OBJECT, 'portal' ) )
         $template_id = $template->ID;
@@ -41,9 +41,20 @@ function add_portal(WP_REST_Request $request) {
         $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
         update_field( 'collection_url', $collection_url, $post_id );
 
-        update_field( 'subject', $subject, $post_id );
-        update_field( 'school_type', $school_type, $post_id );
-        update_field( 'role', $role, $post_id );
+        //Discipline
+        $disciplineLastSlash = strrpos($discipline, "/");
+        $disciplineIdNr = substr($discipline, $disciplineLastSlash + 1);
+        update_field( 'discipline', intval($disciplineIdNr), $post_id );
+
+        //Edu Context
+        $eduConLastSlash = strrpos($edu_context, "/");
+        $eduConId = substr($edu_context, $eduConLastSlash + 1);
+        update_field( 'edu_context', $eduConId, $post_id );
+
+        //Intended End User Role
+        $euRoleLastSlash = strrpos($intended_end_user_role, "/");
+        $euRoleId = substr($intended_end_user_role, $euRoleLastSlash + 1);
+        update_field( 'intended_end_user_role', $euRoleId, $post_id );
 
         require_once ABSPATH . '/wp-admin/includes/post.php';
         $sample_permalink_obj = get_sample_permalink($post_id);
@@ -69,17 +80,17 @@ add_action( 'rest_api_init', function () {
                     return !empty( $param );
                 }
             ),
-            'subject' => array(
-                'validate_callback' => function($param, $request, $key) {
-                    return !empty( $param ) && is_numeric($param);
-                }
-            ),
-            'school_type' => array(
+            'discipline' => array(
                 'validate_callback' => function($param, $request, $key) {
                     return !empty( $param );
                 }
             ),
-            'role' => array(
+            'edu_context' => array(
+                'validate_callback' => function($param, $request, $key) {
+                    return !empty( $param );
+                }
+            ),
+            'intended_end_user_role' => array(
                 'validate_callback' => function($param, $request, $key) {
                     return !empty( $param );
                 }
