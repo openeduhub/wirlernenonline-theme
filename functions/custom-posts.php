@@ -125,9 +125,9 @@ function create_subjectPortal() {
             'has_archive' => true,
             'rewrite' => array('slug' => 'portal'),
             'show_in_rest' => true,
-            'supports' => array('title','editor','author','excerpt','comments','revisions'),
+            'supports' => array('title','editor','author','excerpt','comments','revisions','custom-fields'),
             'menu_icon' => 'dashicons-list-view',
-            'taxonomies' => array('post_tag'),
+            'taxonomies' => array('post_tag')
         )
     );
 }
