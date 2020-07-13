@@ -18,6 +18,7 @@ function add_portal(WP_REST_Request $request) {
         'post_content'          => $content,
         'post_content_filtered' => '',
         'post_title'            => $title,
+        'post_name'             => sanitize_title_with_dashes($title,'','save'),
         'post_excerpt'          => '',
         'post_status'           => 'draft',
         'post_type'             => 'portal',
@@ -35,15 +36,22 @@ function add_portal(WP_REST_Request $request) {
 
     // Insert the post into the database
     $post_id = wp_insert_post( $portal_insert , true);
+    if(!empty($post_id) && is_numeric($post_id))
+    {
+        $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
+        update_field( 'collection_url', $collection_url, $post_id );
 
-    $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
-    update_field( 'collection_url', $collection_url, $post_id );
+        update_field( 'subject', $subject, $post_id );
+        update_field( 'school_type', $school_type, $post_id );
+        update_field( 'role', $role, $post_id );
 
-    update_field( 'subject', $subject, $post_id );
-    update_field( 'school_type', $school_type, $post_id );
-    update_field( 'role', $role, $post_id );
-
-    return get_permalink( $post_id);
+        require_once ABSPATH . '/wp-admin/includes/post.php';
+        $sample_permalink_obj = get_sample_permalink($post_id);
+        return str_replace('%pagename%', $sample_permalink_obj[1], $sample_permalink_obj[0]);
+    }
+    else {
+        return 0;
+    }
 }
 
 add_action( 'rest_api_init', function () {
