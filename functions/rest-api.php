@@ -1,4 +1,37 @@
 <?php
+function url_valid(&$url) {
+    $file_headers = @get_headers($url);
+    if ($file_headers === false) return false; // when server not found
+    foreach($file_headers as $header) { // parse all headers:
+        // corrects $url when 301/302 redirect(s) lead(s) to 200:
+        if(preg_match("/^Location: (http.+)$/",$header,$m)) $url=$m[1];
+        // grabs the last $header $code, in case of redirect(s):
+        if(preg_match("/^HTTP.+\s(\d\d\d)\s/",$header,$m)) $code=$m[1];
+    } // End foreach...
+    if($code==200) return true; // $code 200 == all OK
+    else return false; // All else has failed, so this must be a bad link
+} // End function url_exists
+
+function check_unique_collection_link($collection_url) {
+    $args = array(
+        'post_type' => 'portal',
+        'posts_per_page' => 1, // only need to see if there is 1
+        'post_status' => 'publish, draft, trash',
+        'meta_query' => array(
+            array(
+                'key' => 'collection_url',
+                'value' => $collection_url
+            )
+        )
+    );
+
+    $query = new WP_Query($args);
+    if (count($query->posts)){
+        return false;
+    }
+    return true;
+}
+
 function add_portal(WP_REST_Request $request) {
 
     $collection_id = $request->get_param( 'collection_id' );
@@ -39,26 +72,44 @@ function add_portal(WP_REST_Request $request) {
     if(!empty($post_id) && is_numeric($post_id))
     {
         $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
-        update_field( 'collection_url', $collection_url, $post_id );
 
-        //Discipline
-        $disciplineLastSlash = strrpos($discipline, "/");
-        $disciplineIdNr = substr($discipline, $disciplineLastSlash + 1);
-        update_field( 'discipline', intval($disciplineIdNr), $post_id );
+        $check_url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $collection_id ;
+        $check_url_ret = $check_url;
 
-        //Edu Context
-        $eduConLastSlash = strrpos($edu_context, "/");
-        $eduConId = substr($edu_context, $eduConLastSlash + 1);
-        update_field( 'edu_context', $eduConId, $post_id );
+        if(check_unique_collection_link($collection_url) && url_valid($check_url)) {
 
-        //Intended End User Role
-        $euRoleLastSlash = strrpos($intended_end_user_role, "/");
-        $euRoleId = substr($intended_end_user_role, $euRoleLastSlash + 1);
-        update_field( 'intended_end_user_role', $euRoleId, $post_id );
+            update_field( 'collection_url', $collection_url, $post_id );
 
-        require_once ABSPATH . '/wp-admin/includes/post.php';
-        $sample_permalink_obj = get_sample_permalink($post_id);
-        return str_replace('%pagename%', $sample_permalink_obj[1], $sample_permalink_obj[0]);
+            //Discipline
+            $disciplineLastSlash = strrpos($discipline, "/");
+            $disciplineIdNr = substr($discipline, $disciplineLastSlash + 1);
+            update_field( 'discipline', intval($disciplineIdNr), $post_id );
+
+            //Edu Context
+            $eduConLastSlash = strrpos($edu_context, "/");
+            $eduConId = substr($edu_context, $eduConLastSlash + 1);
+            update_field( 'edu_context', $eduConId, $post_id );
+
+            //Intended End User Role
+            $euRoleLastSlash = strrpos($intended_end_user_role, "/");
+            $euRoleId = substr($intended_end_user_role, $euRoleLastSlash + 1);
+            update_field( 'intended_end_user_role', $euRoleId, $post_id );
+
+            require_once ABSPATH . '/wp-admin/includes/post.php';
+            $sample_permalink_obj = get_sample_permalink($post_id);
+
+            http_response_code(200);
+            print(str_replace('%pagename%', $sample_permalink_obj[1], $sample_permalink_obj[0]));
+
+            return;
+        }
+        else {
+            header("Content-Type: application/json");
+            $rtn = array("Error", "Collection not available or already added.", $check_url_ret);
+            print json_encode($rtn);
+            http_response_code(404);
+            die();
+        }
     }
     else {
         return 0;
