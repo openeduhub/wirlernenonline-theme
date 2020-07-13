@@ -393,6 +393,10 @@ form .wpcf7-validation-errors{
     margin-top: 1rem;
 }
 
+.presseCell img{
+    border: 1px solid lightgrey;
+}
+
 .backend_hint{
     font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 0.6em;

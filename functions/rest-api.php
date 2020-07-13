@@ -43,7 +43,7 @@ function add_portal(WP_REST_Request $request) {
     update_field( 'school_type', $school_type, $post_id );
     update_field( 'role', $role, $post_id );
 
-    return $post_id;
+    return get_permalink( $post_id);
 }
 
 add_action( 'rest_api_init', function () {
