@@ -89,21 +89,21 @@ if (get_field('active')){
 
     $response = callWloGraphApi($search_query);
 
-    echo '<div class="portal_block">';
+    echo '<div class="portal_latest_search_results_block">';
         if(!empty(get_field('headline')))
             echo '<h3>' . get_field('headline') . '</h3>';
         else
             echo '<h3>Neuigkeiten</h3>';
 
-        echo '<div class="portal_block_slider">';
+        echo '<div class="portal_latest_search_results_slider">';
         foreach ($response->data->search->hits->hits as $hit){
             ?>
             <div>
-                <div class="portal_block_slider_content">
+                <div class="portal_latest_search_results_slider_content">
                     <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank">
                         <img src="data:<?php echo $hit->thumbnail->mimetype; ?>;base64, <?php echo $hit->thumbnail->small; ?>">
                     </a>
-                    <div class="portal_block_slider_content_text">
+                    <div class="portal_latest_search_results_slider_content_text">
                         <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
                         <p><?php echo $hit->lom->educational->description; ?></p>
                         <!--<p><?php echo $hit->lom->general->description; ?></p>-->
@@ -120,7 +120,7 @@ if (get_field('active')){
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery('.portal_block_slider').slick({
+        jQuery('.portal_latest_search_results_slider').slick({
             infinite: true,
             slidesToShow: 2,
             slidesToScroll: 1,

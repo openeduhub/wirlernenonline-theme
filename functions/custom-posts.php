@@ -119,7 +119,8 @@ function create_subjectPortal() {
         array(
             'labels' => array(
                 'name' => __( 'Themenportal' ),
-                'singular_name' => __( 'Themenportal' )
+                'singular_name' => __( 'Themenportal' ),
+                'edit_item' => __( 'Themenportal bearbeiten'),
             ),
             'public' => true,
             'has_archive' => true,

@@ -28,21 +28,21 @@ if (get_field('active')){
     if ( $query->have_posts() ) :
 
 
-        echo '<div class="portal_block">';
+        echo '<div class="portal_latest_posts_block">';
             if(!empty(get_field('headline')))
                 echo '<h3>' . get_field('headline') . '</h3>';
             else
                 echo '<h3>Blogbeiträge</h3>';
 
-            echo '<div class="portal_tip_slider">';
+            echo '<div class="portal_latest_posts_slider">';
             while ($query->have_posts()) : $query->the_post();
                 ?>
                 <div>
-                    <div class="portal_block_slider_content">
+                    <div class="portal_latest_posts_slider_content">
                         <a href="<?php the_permalink(); ?>">
                             <img src="<?php echo get_the_post_thumbnail_url();?>">
                         </a>
-                        <div class="portal_block_slider_content_text">
+                        <div class="portal_latest_posts_slider_content_text">
                             <a href="<?php the_permalink(); ?>"><h5><?php the_title(); ?></h5></a>
                             <?php the_excerpt(); ?>
                         </div>
@@ -61,7 +61,7 @@ if (get_field('active')){
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery('.portal_tip_slider').slick({
+        jQuery('.portal_latest_posts_slider').slick({
             infinite: true,
             slidesToShow: 2,
             slidesToScroll: 1,

@@ -462,32 +462,47 @@ form .wpcf7-validation-errors{
     font-weight: 700;
 }
 
-.portal_slider{
+.portal_banner_slider, .portal_latest_posts_slider, .portal_latest_search_results_slider{
     width: 100%;
     margin: 0 auto;
-    max-height: 200px;
+    max-height: 250px;
 }
 
-.portal_slider_content{
+.portal_banner_slider_content{
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    height: 200px;
+    height: 100%;
     background: #003E82;
     color: #ffffff;
-    padding: 0.5rem 1.5rem;
+    padding: 1rem 2rem;
 }
 
-.portal_slider_content img{
-
+.portal_banner_slider_content img {
+    width: 240px;
+    max-width: 240px;
+    height: 180px;
+    object-fit: contain;
+    margin-right: 40px;
 }
-.portal_slider_content p{
+.portal_latest_posts_slider_content img, .portal_latest_search_results_slider_content img {
+    width: 180px;
+    max-width: 180px;
+    height: 120px;
+    object-fit: cover;
+}
+
+
+.portal_banner_slider .portal_banner_slider_content .portal_banner_slider_content_text p{
     max-height: 50px;
     text-overflow: ellipsis;
     overflow: hidden;
     margin-bottom: 0;
 }
-
+.portal_banner_slider .portal_banner_slider_content .portal_banner_slider_content_text .button{
+    background-color: #0A246A;
+    margin-top: 20px;
+}
 
 .portal_widget_grid{
     display: flex;
@@ -495,74 +510,67 @@ form .wpcf7-validation-errors{
     margin-top: 2rem;
 }
 
-.portal_grid_content, .portal_block{
+.portal_grid_content, .portal_latest_posts_block, portal_latest_search_results_block{
     display: flex;
     flex-direction: column;
     justify-content: space-between
 }
 
-.daily_tip_slider, .current_slider, .portal_block_slider, .portal_tip_slider{
+.portal_latest_posts_slider, .portal_latest_search_results_slider{
     max-width: 100%;
     max-height: 200px;
     align-self: center;
     color: #313131;
 }
 
-
-.daily_tip_slider_content, .portal_block_slider_content{
+.portal_latest_posts_slider_content, .portal_latest_search_results_slider_content{
     display: flex;
     align-items: center;
     background-color: white;
     border: 1px solid #ECECEC;
     padding: 30px 20px;
 }
-.daily_tip_slider_content .slick-list,  .portal_block .slick-list{
+
+.portal_latest_posts_slider .slick-list,  .portal_latest_search_results_slider .slick-list{
     margin-right: -20px;
 }
-.daily_tip_slider_content .slick-slide,  .portal_block .slick-slide{
+.portal_latest_posts_slider .slick-slide,  .portal_latest_search_results_slider .slick-slide{
     margin-right: 20px;
 }
-.daily_tip_slider_content .slick-arrow, .portal_block .slick-arrow {
+.portal_latest_posts_slider .slick-arrow, .portal_latest_search_results_slider .slick-arrow {
     z-index: 1;
 }
-.daily_tip_slider_content .slick-prev , .portal_block .slick-prev {
+.portal_latest_posts_slider .slick-prev , .portal_latest_search_results_slider .slick-prev {
     left: -15px;
 }
-.daily_tip_slider_content .slick-next , .portal_block .slick-next {
+.portal_latest_posts_slider ,.slick-next , .portal_latest_search_results_slider .slick-next {
     right: -5px;
 }
-.daily_tip_slider_content .slick-arrow:before, .portal_block .slick-arrow:before
+.portal_latest_posts_slider .slick-arrow:before, .portal_latest_search_results_slider .slick-arrow:before
 {
     color: #455871;
     font-size: 30px;
 }
 
-.daily_tip_slider_content a, .portal_block_slider_content a{
-    color: #22427C;
-    text-decoration: underline;
-}
-.daily_tip_slider_content_text, .portal_block_slider_content_text{
+.portal_latest_posts_slider_content_text, .portal_latest_search_results_slider_content_text{
     margin-left: 1rem;
     width: 300px;
 }
 
-.daily_tip_slider_content h3, .portal_block_slider_content h3{
+.portal_latest_posts_slider_content a, .portal_latest_search_results_slider_content a{
+    color: #22427C;
+    text-decoration: underline;
+}
+
+.portal_latest_posts_slider_content h3, .portal_latest_search_results_slider_content h3{
     font-size: 0.8rem;
 }
-.daily_tip_slider_content p, .portal_block_slider_content p{
+.portal_latest_posts_slider_content p, .portal_latest_search_results_slider_content p{
     font-size: 0.8rem;
     max-height: 40px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
-.daily_tip_slider_content img, .portal_block_slider_content img{
-    width: 180px;
-    max-width: 180px;
-    height: 120px;
-    object-fit: cover;
-}
-
 
 
 .portal-search-group{
