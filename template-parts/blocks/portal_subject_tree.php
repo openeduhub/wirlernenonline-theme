@@ -58,9 +58,9 @@ if (get_field('active')){
 
     //Top-Level
     if(!empty(get_field('headline')))
-        echo '<h3>' . get_field('headline') . '</h3>';
+        echo '<h3>' . get_field('headline') . ': Themenbaum' . '</h3>';
     else
-        echo '<h3>' . get_the_title() . '</h3>';
+        echo '<h3>' . get_the_title() . ': Themenbaum' . '</h3>';
 
     if (get_field('text')){
         echo '<p>'.get_field('text').'</p>';

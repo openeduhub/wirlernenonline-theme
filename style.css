@@ -645,6 +645,52 @@ form .wpcf7-validation-errors{
     border-radius: 4px;
 }
 
+
+.portal-collection-content-browser .portal_content_grid{
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));    */
+    /* grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); */
+    grid-gap: 1rem;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ECECEC;
+}
+
+.portal-collection-content-browser .portal_content_branch{
+    display: flex;
+    border-bottom: 1px dashed lightgrey;
+}
+.portal-collection-content-browser .portal_content_branch:hover{
+    background-color: lightgrey;
+}
+
+.portal-collection-content-browser .portal_content_branch .portal_search_text{
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.portal-collection-content-browser .portal_content_branch .portal_search_text h5{
+    font-size: 0.8em;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.portal-collection-content-browser .portal_content_branch .portal_search_text h5.media-type {
+    color: white;
+    background-color: darkgray;
+    padding: 2px 5px;
+    border-radius: 2px;
+}
+
+
+.portal-collection-content-browser .portal_content_branch img{
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
+    /*border-radius: 4px;*/
+}
+
 .wlo_file_upload{
     display: flex;
     width: 100%;
