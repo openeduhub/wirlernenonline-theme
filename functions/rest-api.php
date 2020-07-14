@@ -24,10 +24,10 @@ function url_valid(&$url) {
 } // End function url_exists
 
 function check_unique_collection_link($collection_url) {
-    $args = array(
+    $portal_args = array(
         'post_type' => 'portal',
         'posts_per_page' => 1, // only need to see if there is 1
-        'post_status' => 'publish, draft',
+        'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit'),
         'meta_query' => array(
             array(
                 'key' => 'collection_url',
@@ -36,10 +36,12 @@ function check_unique_collection_link($collection_url) {
         )
     );
 
-    $query = new WP_Query($args);
-    if (count($query->posts)){
+    $query_portal = new WP_Query($portal_args);
+    if (count($query_portal->posts)){
         return false;
     }
+    $query_portal->reset_postdata();
+
     return true;
 }
 
@@ -108,6 +110,57 @@ function add_portal(WP_REST_Request $request) {
             $euRoleId = substr($intended_end_user_role, $euRoleLastSlash + 1);
             update_field('intended_end_user_role', $euRoleId, $post_id);
 
+            //Copy Template Blog Posts
+            $post_args = array(
+                'post_type' => 'post',
+                'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit'),
+                'category_name' => 'Themenportal',
+                'tag' => 'Vorlage'
+            );
+
+            $query_post = new WP_Query($post_args);
+            $template_posts_count = count($query_post->posts);
+            $while_count = 0;
+            $category_id = get_cat_ID('Themenportal');
+
+            while ( $query_post->have_posts() ) {
+                $query_post->the_post();
+                $original_post_id = $query_post->post->ID;
+                $original_title = str_replace('%portal_name%',$title,$query_post->post->post_title);
+
+                $post_insert = array(
+                    'post_author' => 'admin',
+                    'post_content' => $query_post->post->post_content,
+                    'post_content_filtered' => '',
+                    'post_title' => $original_title,
+                    'post_name' => sanitize_title_with_dashes($original_title, '', 'save'),
+                    'post_excerpt' => '',
+                    'post_status' => 'publish',
+                    'post_type' => 'post',
+                    'post_category' => array($category_id)
+                );
+                $duplicate_post_id = wp_insert_post($post_insert, true);
+
+                update_field('discipline', intval($disciplineIdNr), $duplicate_post_id);
+                update_field('edu_context', $eduConId, $duplicate_post_id);
+                update_field('intended_end_user_role', $euRoleId, $duplicate_post_id);
+
+                set_post_thumbnail( $duplicate_post_id, get_post_thumbnail_id($original_post_id) );
+
+                if($while_count == $template_posts_count)
+                {
+                    header("Content-Type: application/json");
+                    $rtn = array("Error", "Too much loops.");
+                    print json_encode($rtn);
+                    http_response_code(404);
+                    die();
+                }
+                else {
+                    $while_count++;
+                }
+            }
+            $query_post->reset_postdata();
+
             require_once ABSPATH . '/wp-admin/includes/post.php';
             $sample_permalink_obj = get_sample_permalink($post_id);
 
@@ -122,6 +175,9 @@ function add_portal(WP_REST_Request $request) {
             http_response_code(404);
             die();
         }
+
+
+
 
     } else {
         header("Content-Type: application/json");

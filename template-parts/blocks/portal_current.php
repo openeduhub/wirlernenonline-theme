@@ -96,22 +96,25 @@ if (get_field('active')){
             echo '<h3>Neuigkeiten</h3>';
 
         echo '<div class="portal_latest_search_results_slider">';
-        foreach ($response->data->search->hits->hits as $hit){
-            ?>
-            <div>
-                <div class="portal_latest_search_results_slider_content">
-                    <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank">
-                        <img src="data:<?php echo $hit->thumbnail->mimetype; ?>;base64, <?php echo $hit->thumbnail->small; ?>">
-                    </a>
-                    <div class="portal_latest_search_results_slider_content_text">
-                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
-                        <p><?php echo $hit->lom->educational->description; ?></p>
-                        <!--<p><?php echo $hit->lom->general->description; ?></p>-->
+        if(!empty($response->data->search->hits)){
+            foreach ($response->data->search->hits->hits as $hit){
+                ?>
+                <div>
+                    <div class="portal_latest_search_results_slider_content">
+                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank">
+                            <img src="data:<?php echo $hit->thumbnail->mimetype; ?>;base64, <?php echo $hit->thumbnail->small; ?>">
+                        </a>
+                        <div class="portal_latest_search_results_slider_content_text">
+                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                            <p><?php echo $hit->lom->educational->description; ?></p>
+                            <!--<p><?php echo $hit->lom->general->description; ?></p>-->
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php
+                <?php
+            }
         }
+
         echo '</div>';
     echo '</div>';
 

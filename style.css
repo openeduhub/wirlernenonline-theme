@@ -462,7 +462,7 @@ form .wpcf7-validation-errors{
     font-weight: 700;
 }
 
-.portal_banner_slider, .portal_latest_posts_slider, .portal_latest_search_results_slider{
+.portal_banner_slider {
     width: 100%;
     margin: 0 auto;
     max-height: 250px;
@@ -502,6 +502,10 @@ form .wpcf7-validation-errors{
 .portal_banner_slider .portal_banner_slider_content .portal_banner_slider_content_text .button{
     background-color: #0A246A;
     margin-top: 20px;
+}
+
+.portal_banner_slider .slick-slide {
+    height: 250px;
 }
 
 .portal_widget_grid{
