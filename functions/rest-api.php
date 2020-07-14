@@ -48,7 +48,7 @@ function add_portal(WP_REST_Request $request) {
     $collection_id = $request->get_param( 'collectionId' );
     $title = urldecode($request->get_param( 'title' ));
     $discipline = urldecode($request->get_param( 'discipline' ));
-    $edu_context = urldecode($request->get_param( 'eduContext'));
+    $edu_context = urldecode($request->get_param( 'educationalContext'));
     $intended_end_user_role = urldecode($request->get_param( 'intendedEndUserRole'));
 
     $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
@@ -152,7 +152,7 @@ add_action( 'rest_api_init', function () {
                     return !empty( $param );
                 }
             ),
-            'eduContext' => array(
+            'educationalContext' => array(
                 'validate_callback' => function($param, $request, $key) {
                     return !empty( $param );
                 }
