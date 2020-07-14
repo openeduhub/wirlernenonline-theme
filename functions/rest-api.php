@@ -45,11 +45,11 @@ function check_unique_collection_link($collection_url) {
 
 function add_portal(WP_REST_Request $request) {
 
-    $collection_id = $request->get_param( 'collection_id' );
+    $collection_id = $request->get_param( 'collectionId' );
     $title = urldecode($request->get_param( 'title' ));
     $discipline = urldecode($request->get_param( 'discipline' ));
-    $edu_context = urldecode($request->get_param( 'edu_context'));
-    $intended_end_user_role = urldecode($request->get_param( 'intended_end_user_role'));
+    $edu_context = urldecode($request->get_param( 'eduContext'));
+    $intended_end_user_role = urldecode($request->get_param( 'intendedEndUserRole'));
 
     $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
 
@@ -137,7 +137,7 @@ add_action( 'rest_api_init', function () {
         'methods' => 'GET',
         'callback' => 'add_portal',
         'args' => array(
-            'collection_id' => array(
+            'collectionId' => array(
                 'validate_callback' => function($param, $request, $key) {
                     return !empty( $param );
                 }
@@ -152,12 +152,12 @@ add_action( 'rest_api_init', function () {
                     return !empty( $param );
                 }
             ),
-            'edu_context' => array(
+            'eduContext' => array(
                 'validate_callback' => function($param, $request, $key) {
                     return !empty( $param );
                 }
             ),
-            'intended_end_user_role' => array(
+            'intendedEndUserRole' => array(
                 'validate_callback' => function($param, $request, $key) {
                     return !empty( $param );
                 }
