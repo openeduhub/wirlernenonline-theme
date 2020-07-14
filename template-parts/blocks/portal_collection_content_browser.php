@@ -4,20 +4,6 @@
 }; ?>
 <?php
 
-if (!function_exists('helper_useLightColor')) {
-    function helper_useLightColor($bgColor)
-    {
-        $color = ($bgColor{0} === '#') ? substr($bgColor, 1, 7) : $bgColor;
-        $r = intval(substr($color, 0, 2), 16); // hexToR
-        $g = intval(substr($color, 2, 4), 16); // hexToG
-        $b = intval(substr($color, 4, 6), 16); // hexToB
-        return ((($r * 0.299) + ($g * 0.587) + ($b * 0.114)) > 186) ?
-            false : true;
-    }
-
-    ;
-}
-
 if (get_the_id()) {
     $postID = get_the_id();
 } else {
