@@ -11,7 +11,6 @@ if (get_the_id()) {
 }
 
 if (get_field('active')) {
-    echo '<div class="portal-collection-content-browser">';
 
     $url = (!empty(get_field('url'))) ? get_field('url') : get_field('collection_url', $postID);
 
@@ -43,14 +42,7 @@ if (get_field('active')) {
     $response = json_decode($response);
 
     //Top-Level
-    if (!empty(get_field('headline')))
-        echo '<h3>' . get_field('headline')  . '</h3>';
-    else
-        echo '<h3>' . 'Materialien' . '</h3>';
 
-    if (get_field('text')) {
-        echo '<p>' . get_field('text') . '</p>';
-    }
 
     $mediaTypes = array(
         "file-image"=> "Bild",
@@ -76,22 +68,35 @@ if (get_field('active')) {
         "saved_search"=> "Suche"
     );
 
-    echo '<div class="portal_content_grid">';
-    foreach ($response->references as $reference) {
-        ?>
-        <a href="<?php echo $reference->content->url; ?>" target="_blank">
-            <div class="portal_content_branch">
-                <?php if(!empty($reference->preview->url)){?><img src="<?php echo $reference->preview->url; ?>"><?php };?>
-                <div class="portal_search_text">
-                    <h5><?php echo ($reference->properties->{'cclom:title'}[0]) ? $reference->properties->{'cclom:title'}[0] : $reference->properties->{'cm:name'}[0]; ?></h5>&nbsp;&nbsp;
-                    <h5 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h5>
+    if(!empty($response->references)) {
+        echo '<div class="portal-collection-content-browser">';
+
+        if (!empty(get_field('headline')))
+            echo '<h3>' . get_field('headline')  . '</h3>';
+        else
+            echo '<h3>' . 'Materialien' . '</h3>';
+
+        if (get_field('text')) {
+            echo '<p>' . get_field('text') . '</p>';
+        }
+
+        echo '<div class="portal_content_grid">';
+        foreach ($response->references as $reference) {
+            ?>
+            <a href="<?php echo $reference->content->url; ?>" target="_blank">
+                <div class="portal_content_branch">
+                    <?php if(!empty($reference->preview->url)){?><img src="<?php echo $reference->preview->url; ?>"><?php };?>
+                    <div class="portal_search_text">
+                        <h5><?php echo ($reference->properties->{'cclom:title'}[0]) ? $reference->properties->{'cclom:title'}[0] : $reference->properties->{'cm:name'}[0]; ?></h5>&nbsp;&nbsp;
+                        <h5 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h5>
+                    </div>
                 </div>
-            </div>
-        </a>
-        <?php
+            </a>
+            <?php
+        }
+        echo '</div>';
+        echo '</div>';
     }
-    echo '</div>';
-    echo '</div>';
 }
 ?>
 <?php if (is_admin()) {
