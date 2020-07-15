@@ -89,35 +89,38 @@ if (get_field('active')){
 
     $response = callWloGraphApi($search_query);
 
-    echo '<div class="portal_latest_search_results_block">';
-        if(!empty(get_field('headline')))
-            echo '<h3>' . get_field('headline') . '</h3>';
-        else
-            echo '<h3>Neuigkeiten</h3>';
 
-        echo '<div class="portal_latest_search_results_slider">';
+
+
         if(!empty($response->data->search->hits)){
-            foreach ($response->data->search->hits->hits as $hit){
-                ?>
-                <div>
-                    <div class="portal_latest_search_results_slider_content">
-                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank">
-                            <img src="data:<?php echo $hit->thumbnail->mimetype; ?>;base64, <?php echo $hit->thumbnail->small; ?>">
-                        </a>
-                        <div class="portal_latest_search_results_slider_content_text">
-                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
-                            <p><?php echo $hit->lom->educational->description; ?></p>
-                            <!--<p><?php echo $hit->lom->general->description; ?></p>-->
+            echo '<div class="portal_latest_search_results_slider">';
+
+                echo '<div class="portal_latest_search_results_block">';
+                if(!empty(get_field('headline')))
+                    echo '<h3>' . get_field('headline') . '</h3>';
+                else
+                    echo '<h3>Neuigkeiten</h3>';
+
+                foreach ($response->data->search->hits->hits as $hit){
+                    ?>
+                    <div>
+                        <div class="portal_latest_search_results_slider_content">
+                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank">
+                                <img src="data:<?php echo $hit->thumbnail->mimetype; ?>;base64, <?php echo $hit->thumbnail->small; ?>">
+                            </a>
+                            <div class="portal_latest_search_results_slider_content_text">
+                                <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                                <p><?php echo $hit->lom->educational->description; ?></p>
+                                <!--<p><?php echo $hit->lom->general->description; ?></p>-->
+                            </div>
                         </div>
                     </div>
-                </div>
-                <?php
-            }
+                    <?php
+                }
+
+                echo '</div>';
+            echo '</div>';
         }
-
-        echo '</div>';
-    echo '</div>';
-
 }
 ?>
 

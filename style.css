@@ -508,6 +508,15 @@ form .wpcf7-validation-errors{
     height: 250px;
 }
 
+.portal_banner_slider .slick-dots {
+    bottom: 15px;
+}
+
+.portal_banner_slider .slick-dots li button:before{
+    font-size: 10px;
+    color: white;
+}
+
 .portal_widget_grid{
     display: flex;
     justify-content: space-between;

@@ -44,9 +44,9 @@ if (get_field('active')) {
 
     //Top-Level
     if (!empty(get_field('headline')))
-        echo '<h3>' . get_field('headline') . ': Lerninhalte' . '</h3>';
+        echo '<h3>' . get_field('headline')  . '</h3>';
     else
-        echo '<h3>' . get_the_title() . ': Lerninhalte' . '</h3>';
+        echo '<h3>' . 'Materialien' . '</h3>';
 
     if (get_field('text')) {
         echo '<p>' . get_field('text') . '</p>';

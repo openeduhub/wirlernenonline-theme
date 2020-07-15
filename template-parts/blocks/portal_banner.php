@@ -93,7 +93,8 @@ if ( get_the_id() ){
     jQuery(document).ready(function(){
         jQuery('.portal_banner_slider').slick({
             autoplay:true,
-            arrows:false
+            arrows:false,
+            dots: true
         });
     });
 </script>

@@ -14,6 +14,13 @@ if (get_field('active')){
         }
     }
 
+    $slider_cats = get_field('category');
+    $cat_list = [];
+    if(!empty($slider_cats)){
+        foreach ($slider_cats as $cat){
+            array_push($cat_list, $cat->term_id);
+        }
+    }
 
     $count = -1;
     if (get_field('count')){
@@ -23,6 +30,8 @@ if (get_field('active')){
     $args = array(
         'posts_per_page'=> $count,
         'tag' => $tag_list,
+        'category__in' => $cat_list,
+        'post_status' => 'publish'
     );
     $query = new WP_Query( $args );
     if ( $query->have_posts() ) :
