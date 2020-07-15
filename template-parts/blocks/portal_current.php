@@ -42,7 +42,7 @@ if (get_field('active')) {
 
     $intendedEndUserRoles = (!empty($portal_var_intendedEndUserRoles)) ? $portal_var_intendedEndUserRoles : [];
     $intendedEndUserRoles = (!empty($block_var_intendedEndUserRoles)) ? $block_var_intendedEndUserRoles : $intendedEndUserRoles;
-    $intendedEndUserRoles = (!empty($portal_var_intendedEndUserRoles)) ? $portal_var_intendedEndUserRoles : $intendedEndUserRoles;
+    $intendedEndUserRoles = (!empty($query_var_intendedEndUserRoles)) ? $query_var_intendedEndUserRoles : $intendedEndUserRoles;
 
     //OER
     $query_var_oer = get_query_var('oer', false);
@@ -106,6 +106,7 @@ if (get_field('active')) {
                     ' . implode('\n', array_map("map_intendedEndUserRoles", array_column($intendedEndUserRoles, "value"))) . '
                 ]
               }
+              ' . $oer_search . '
             ]
           ) {
          

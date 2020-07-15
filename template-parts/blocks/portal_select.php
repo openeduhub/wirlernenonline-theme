@@ -18,6 +18,8 @@ $portal_var_disciplines = get_field('discipline', $postID);
 
 $disciplines = (!empty($portal_var_disciplines)) ? $portal_var_disciplines : [];
 $disciplines = (!empty($block_var_disciplines)) ? $block_var_disciplines : $disciplines;
+$disciplines = (!empty($disciplines)) ? array_column($disciplines, 'value') : [];
+
 $disciplines = (!empty($query_var_disciplines)) ? $query_var_disciplines : $disciplines;
 
 //EducationalContext
@@ -27,6 +29,8 @@ $portal_var_educationalContexts = get_field('educationalContext', $postID);
 
 $educationalContexts = (!empty($portal_var_educationalContexts)) ? $portal_var_educationalContexts : [];
 $educationalContexts = (!empty($block_var_educationalContexts)) ? $block_var_educationalContexts : $educationalContexts;
+$educationalContexts = (!empty($educationalContexts)) ? array_column($educationalContexts, 'value') : [];
+
 $educationalContexts = (!empty($query_var_educationalContexts)) ? $query_var_educationalContexts : $educationalContexts;
 
 //intendedEndUserRole
@@ -36,7 +40,9 @@ $portal_var_intendedEndUserRoles = get_field('intendedEndUserRole', $postID);
 
 $intendedEndUserRoles = (!empty($portal_var_intendedEndUserRoles)) ? $portal_var_intendedEndUserRoles : [];
 $intendedEndUserRoles = (!empty($block_var_intendedEndUserRoles)) ? $block_var_intendedEndUserRoles : $intendedEndUserRoles;
-$intendedEndUserRoles = (!empty($portal_var_intendedEndUserRoles)) ? $portal_var_intendedEndUserRoles : $intendedEndUserRoles;
+$intendedEndUserRoles = (!empty($intendedEndUserRoles)) ? array_column($intendedEndUserRoles, 'value') : [];
+
+$intendedEndUserRoles = (!empty($query_var_intendedEndUserRoles)) ? $query_var_intendedEndUserRoles : $intendedEndUserRoles;
 
 //OER
 $query_var_oer = get_query_var('oer', false);
@@ -48,7 +54,11 @@ $oer = (!empty($block_var_oer)) ? $block_var_oer : $oer;
 $oer = (!empty($query_var_oer)) ? $query_var_oer : $oer;
 
     ?>
-
+    <script>
+        console.log(<?= json_encode($disciplines); ?>);
+        console.log(<?= json_encode($educationalContexts); ?>);
+        console.log(<?= json_encode($intendedEndUserRoles); ?>);
+    </script>
     <div class="portal-select-container grid-x grid-margin-x">
         <div class="cell medium-4">
             <select class="portal_select">
@@ -56,25 +66,22 @@ $oer = (!empty($query_var_oer)) ? $query_var_oer : $oer;
                 $subject_field = get_field_object('discipline',$postID);
 
                 foreach ($subject_field['choices'] as $key => $value) {
-                    if ($subject_field['value'][0]['value'] == $key) {
+                    if ($disciplines[0] == $key) {
                         echo '<option value="' . $key . '" selected>' . $value . '</option>';
                     } else {
                         echo '<option value="' . $key . '">' . $value. '</option>';
                     }
                 }
                 ?>
-                <script>
-                    console.log(<?= json_encode($subject_field); ?>);
-                    console.log(<?= json_encode($disciplines); ?>);
-                </script>
             </select>
         </div>
         <div class="cell medium-4">
             <select class="portal_select">
                 <?php
                 $subject_field = get_field_object('educationalContext',$postID);
+
                 foreach ($subject_field['choices'] as $key => $value) {
-                    if ($subject_field['value'][0]['value'] == $key) {
+                    if ($educationalContexts[0] == $key) {
                         echo '<option value="' . $key . '" selected>' . $value . '</option>';
                     } else {
                         echo '<option value="' . $key . '">' . $value . '</option>';
@@ -87,7 +94,7 @@ $oer = (!empty($query_var_oer)) ? $query_var_oer : $oer;
                 <?php
                 $subject_field = get_field_object('intendedEndUserRole', $postID);
                 foreach ($subject_field['choices'] as $key => $value) {
-                    if ($subject_field['value'][0]['value'] == $key) {
+                    if ($intendedEndUserRoles[0] == $key) {
                         echo '<option value="' . $key . '" selected>' . $value . '</option>';
                     } else {
                         echo '<option value="' . $key . '">' . $value . '</option>';
