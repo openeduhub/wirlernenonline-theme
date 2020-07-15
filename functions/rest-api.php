@@ -49,9 +49,9 @@ function add_portal(WP_REST_Request $request) {
 
     $collection_id = $request->get_param( 'collectionId' );
     $title = urldecode($request->get_param( 'title' ));
-    $discipline = urldecode($request->get_param( 'discipline' ));
-    $edu_context = urldecode($request->get_param( 'educationalContext'));
-    $intended_end_user_role = urldecode($request->get_param( 'intendedEndUserRole'));
+    $disciplines = explode(";",urldecode($request->get_param( 'discipline' )));
+    $edu_contexts = explode(";",urldecode($request->get_param( 'educationalContext')));
+    $intended_end_user_roles = explode(";",urldecode($request->get_param( 'intendedEndUserRole')));
 
     $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
 
@@ -59,8 +59,8 @@ function add_portal(WP_REST_Request $request) {
     $check_url_ret = $check_url;
 
     //Check if Collection was not already added, Check if Collection exists
-    if (check_unique_collection_link($collection_url) && url_valid($check_url)) {
-
+    // if (check_unique_collection_link($collection_url) && url_valid($check_url)) {
+    if(true) {
         //Copy Themenportal-Vorlage Content
         if ($template = get_page_by_path('themenportal-vorlage', OBJECT, 'portal'))
             $template_id = $template->ID;
@@ -96,19 +96,36 @@ function add_portal(WP_REST_Request $request) {
             update_field('collection_url', $collection_url, $post_id);
 
             //Discipline
-            $disciplineLastSlash = strrpos($discipline, "/");
-            $disciplineIdNr = substr($discipline, $disciplineLastSlash + 1);
-            update_field('discipline', intval($disciplineIdNr), $post_id);
+            if(!function_exists("clean_discipline")){
+                function clean_discipline($n){
+                    $disciplineLastSlash = strrpos($n, "/");
+                    $disciplineIdNr = substr($n, $disciplineLastSlash + 1);
+                    return intval($disciplineIdNr);
+                }
+            }
+            update_field('discipline', array_map("clean_discipline", $disciplines), $post_id);
+
 
             //Edu Context
-            $eduConLastSlash = strrpos($edu_context, "/");
-            $eduConId = substr($edu_context, $eduConLastSlash + 1);
-            update_field('edu_context', $eduConId, $post_id);
+            if(!function_exists("clean_edu_context")){
+                function clean_edu_context($n){
+                    $eduConLastSlash = strrpos($n, "/");
+                    $eduConId = substr($n, $eduConLastSlash + 1);
+                    return $eduConId;
+                }
+            }
+            update_field('educationalContext', array_map("clean_edu_context", $edu_contexts), $post_id);
 
             //Intended End User Role
-            $euRoleLastSlash = strrpos($intended_end_user_role, "/");
-            $euRoleId = substr($intended_end_user_role, $euRoleLastSlash + 1);
-            update_field('intended_end_user_role', $euRoleId, $post_id);
+            if(!function_exists("clean_intended_end_user_role")){
+                function clean_intended_end_user_role($n){
+                    $euRoleLastSlash = strrpos($n, "/");
+                    $euRoleId = substr($n, $euRoleLastSlash + 1);
+                    return $euRoleId;
+                }
+            }
+
+            update_field('intendedEndUserRole', array_map("clean_intended_end_user_role", $intended_end_user_roles), $post_id);
 
             //Copy Template Blog Posts
             $post_args = array(
@@ -141,9 +158,10 @@ function add_portal(WP_REST_Request $request) {
                 );
                 $duplicate_post_id = wp_insert_post($post_insert, true);
 
-                update_field('discipline', intval($disciplineIdNr), $duplicate_post_id);
-                update_field('edu_context', $eduConId, $duplicate_post_id);
-                update_field('intended_end_user_role', $euRoleId, $duplicate_post_id);
+                update_field('discipline', array_map("clean_discipline", $disciplines), $duplicate_post_id);
+                update_field('educationalContext', array_map("clean_edu_context", $edu_contexts), $duplicate_post_id);
+                update_field('intendedEndUserRole', array_map("clean_intended_end_user_role", $intended_end_user_roles), $duplicate_post_id);
+
 
                 set_post_thumbnail( $duplicate_post_id, get_post_thumbnail_id($original_post_id) );
 

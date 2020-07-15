@@ -2,7 +2,7 @@ GET http://dev.wirlernenonline.de/wp-json/
 Accept: application/json
 
 ###
-GET http://dev.wirlernenonline.de/wp-json/portal/v1/add?collectionId=7d0367c2-fbaa-484d-96b2-101ac4605e5e&discipline=https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2Fdiscipline%2F120&educationalContext=https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2FeducationalContext%2Fsekundarstufe_1&intendedEndUserRole=https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2FintendedEndUserRole%2Fteacher&title=Deutsch%20Sekundarstufe%201%20%28Test%29
+GET http://localhost/wlo/wp-json/portal/v1/add?collectionId=7d0367c2-fbaa-484d-96b2-101ac4605e5e&discipline=https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2Fdiscipline%2F120&educationalContext=https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2FeducationalContext%2Fsekundarstufe_1&intendedEndUserRole=https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2FintendedEndUserRole%2Fteacher;https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2FintendedEndUserRole%2Fparent&title=Deutsch%20Sekundarstufe%201%20%28Test%29
 
 ###
 GET https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/7d0367c2-fbaa-484d-96b2-101ac4605e5e
