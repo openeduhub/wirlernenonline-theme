@@ -24,7 +24,7 @@
     wp_nav_menu($defaults);
     ?>
     <span class="material-icons add-content-menu-button" onclick="jQuery('.add-content-menu-list').toggle()">
-        add_circle
+        add
     </span>
 </div>
 <footer id="colophon" class="site-footer" role="contentinfo">

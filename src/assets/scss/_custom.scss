@@ -269,19 +269,27 @@
 }
 
 .add-content-menu-container{
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
-  display: block;
-  text-align: right;
+  display: flex;
+  align-items: flex-end;
+  justify-items: flex-end;
   margin: 20px;
   z-index: 5;
 
   .add-content-menu-button {
-    font-size: 60px;
+    font-size: 30px;
     cursor: pointer;
     width: 60px;
-    color: $primary-color;
+    height: 60px;
+    color: $white;
+    border-radius: 50%;
+    background-color: darken($primary-color, 10);
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .add-content-menu-list{
     display: none;
@@ -289,8 +297,7 @@
     border-radius: 5px;
     padding: 5px 0;
     background-color: lighten($black, 10);
-    bottom: 60px;
-    margin: 10px 0;
+    margin: 60px 0px;
 
     li {
       a {
