@@ -4,128 +4,172 @@ if (is_admin()) {
     echo '<div class="backend_hint">Block: Suchinhalte</div>';
 };
 
-if ( get_the_id() ){
+if (get_the_id()) {
     $postID = get_the_id();
-}else{
+} else {
     $postID = acf_editor_post_id();
 }
 
-if (get_field('active')){
+if (get_field('active')) {
 
     $count = 5;
-    if (get_field('count')){
-        $count = intval( get_field('count') );
+    if (get_field('count')) {
+        $count = intval(get_field('count'));
     }
 
-    $search_discipline = get_field('discipline', $postID)['value'];
-    $search_edu_context = get_field('edu_context', $postID)['value'];
-    $search_intended_end_user_role = get_field('intended_end_user_role', $postID)['value'];
-    $search_oer = get_field('oer', $postID);
-    if (get_field('settings_active')){
-        $search_discipline = get_field('discipline')['value'];
-        $search_edu_context = get_field('edu_context')['value'];
-        $search_intended_end_user_role = get_field('intended_end_user_role')['value'];
-        $search_oer = get_field('oer');
+    //Disciplines
+    $query_var_disciplines = (!empty(get_query_var('discipline', null))) ? explode(";", get_query_var('discipline', null)) : [];
+    $block_var_disciplines = (!empty(get_field('discipline'))) ? get_field('discipline') : [];
+    $portal_var_disciplines = get_field('discipline', $postID);
+
+    $disciplines = (!empty($portal_var_disciplines)) ? $portal_var_disciplines : [];
+    $disciplines = (!empty($block_var_disciplines)) ? $block_var_disciplines : $disciplines;
+    $disciplines = (!empty($query_var_disciplines)) ? $query_var_disciplines : $disciplines;
+
+    //EducationalContext
+    $query_var_educationalContexts = (!empty(get_query_var('educationalContext', null))) ? explode(";", get_query_var('educationalContext', null)) : [];
+    $block_var_educationalContexts = (!empty(get_field('educationalContext'))) ? get_field('educationalContext') : [];
+    $portal_var_educationalContexts = get_field('educationalContext', $postID);
+
+    $educationalContexts = (!empty($portal_var_educationalContexts)) ? $portal_var_educationalContexts : [];
+    $educationalContexts = (!empty($block_var_educationalContexts)) ? $block_var_educationalContexts : $educationalContexts;
+    $educationalContexts = (!empty($query_var_educationalContexts)) ? $query_var_educationalContexts : $educationalContexts;
+
+    //intendedEndUserRole
+    $query_var_intendedEndUserRoles = (!empty(get_query_var('intendedEndUserRole', null))) ? explode(";", get_query_var('intendedEndUserRole', null)) : [];
+    $block_var_intendedEndUserRoles = (!empty(get_field('intendedEndUserRole'))) ? get_field('intendedEndUserRole') : [];
+    $portal_var_intendedEndUserRoles = get_field('intendedEndUserRole', $postID);
+
+    $intendedEndUserRoles = (!empty($portal_var_intendedEndUserRoles)) ? $portal_var_intendedEndUserRoles : [];
+    $intendedEndUserRoles = (!empty($block_var_intendedEndUserRoles)) ? $block_var_intendedEndUserRoles : $intendedEndUserRoles;
+    $intendedEndUserRoles = (!empty($portal_var_intendedEndUserRoles)) ? $portal_var_intendedEndUserRoles : $intendedEndUserRoles;
+
+    //OER
+    $query_var_oer = get_query_var('oer', false);
+    $block_var_oer = get_field('oer');
+    $portal_var_oer = get_field('oer', $postID);
+
+    $oer = (!empty($portal_var_oer)) ? $portal_var_oer : false;
+    $oer = (!empty($block_var_oer)) ? $block_var_oer : $oer;
+    $oer = (!empty($query_var_oer)) ? $query_var_oer : $oer;
+
+
+    //Map Disciplines
+    if (!function_exists('map_disciplines')) {
+        function map_disciplines($n)
+        {
+            return "\"https://w3id.org/openeduhub/vocabs/discipline/" . strval($n) . "\"";
+        }
     }
 
-    $oer = '';
-    if ($search_oer){
-        $oer = '{ field: "license.oer", terms: ["ALL"] }';
+    //Map EducationalContexts
+    if (!function_exists('map_educationalContexts')) {
+        function map_educationalContexts($n)
+        {
+            return "\"https://w3id.org/openeduhub/vocabs/educationalContext/" . strval($n) . "\"";
+        }
+    }
+
+    //Map IntendedEndUserRoles
+    if (!function_exists('map_intendedEndUserRoles')) {
+        function map_intendedEndUserRoles($n)
+        {
+            return "\"https://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "\"";
+        }
+    }
+
+    $oer_search = '';
+    if ($oer) {
+        $oer_search = '{ facet: oer, terms: ["ALL"] }';
     }
     $search_query = '
         {
           search(
             searchString: ""
-            size: '.$count.'
             from: 0
             filters: [
               {
-                field: "valuespaces.discipline.key.keyword"
-                terms: ["https://w3id.org/openeduhub/vocabs/discipline/'.$search_discipline.'"]
-              }
-              {
-                field: "valuespaces.educationalContext.key.keyword"
+                facet: discipline
                 terms: [
-                  "https://w3id.org/openeduhub/vocabs/educationalContext/'.$search_edu_context.'"
+                    ' . implode('\n', array_map("map_disciplines", array_column($disciplines, "value"))) . '
                 ]
               }
               {
-                field: "valuespaces.intendedEndUserRole.key.keyword"
+                facet: educationalContext
                 terms: [
-                  "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/'.$search_intended_end_user_role.'"
+                    ' . implode('\n', array_map("map_educationalContexts", array_column($educationalContexts, "value"))) . '
                 ]
               }
-              '.$oer.'
+              {
+                facet: intendedEndUserRole
+                terms: [
+                    ' . implode('\n', array_map("map_intendedEndUserRoles", array_column($intendedEndUserRoles, "value"))) . '
+                ]
+              }
             ]
           ) {
+         
             hits {
-              hits {
-                lom {
-                  general {
-                    title
-                    description
-                  }
-                  educational {
-                    description
-                  }
-                  technical {
-                    location
-                  }
+              lom {
+                general {
+                  title
+                  description
                 }
-                thumbnail {
-                  small
-                  mimetype
+                technical {
+                  location
                 }
-                id
               }
+              previewImage {
+                thumbnail {
+                  __typename
+                  ... on ExternalThumbnail{
+                    url
+                  }
+                }
+                url
+              }
+              id
             }
           }
         }
     ';
 
-    if (get_field('custom_search_active')){
+    if (get_field('custom_search_active')) {
         $search_query = get_field('search_query');
     }
 
     $response = callWloGraphApi($search_query);
+    if (!empty($response->data->search->hits)) {
 
 
-
-
-        if(!empty($response->data->search->hits)){
-            echo '<div class="portal_latest_search_results_slider">';
-
-                echo '<div class="portal_latest_search_results_block">';
-                if(!empty(get_field('headline')))
-                    echo '<h3>' . get_field('headline') . '</h3>';
-                else
-                    echo '<h3>Neuigkeiten</h3>';
-
-                foreach ($response->data->search->hits->hits as $hit){
-                    ?>
-                    <div>
-                        <div class="portal_latest_search_results_slider_content">
-                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank">
-                                <img src="data:<?php echo $hit->thumbnail->mimetype; ?>;base64, <?php echo $hit->thumbnail->small; ?>">
-                            </a>
-                            <div class="portal_latest_search_results_slider_content_text">
-                                <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
-                                <p><?php echo $hit->lom->educational->description; ?></p>
-                                <!--<p><?php echo $hit->lom->general->description; ?></p>-->
-                            </div>
-                        </div>
+        if (!empty(get_field('headline')))
+            echo '<h3>' . get_field('headline') . '</h3>';
+        else
+            echo '<h3>Neuigkeiten</h3>';
+        echo '<div class="portal_latest_search_results_slider">';
+        foreach ($response->data->search->hits as $hit) {
+            ?>
+            <div>
+                <div class="portal_latest_search_results_slider_content">
+                    <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank">
+                        <img src="<?php echo $hit->previewImage->thumbnail->url; ?>">
+                    </a>
+                    <div class="portal_latest_search_results_slider_content_text">
+                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
+                           target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                        <p><?php echo $hit->lom->general->description; ?></p>
                     </div>
-                    <?php
-                }
-
-                echo '</div>';
-            echo '</div>';
+                </div>
+            </div>
+            <?php
         }
+        echo '</div>';
+    }
 }
 ?>
 
 <script type="text/javascript">
-    jQuery(document).ready(function(){
+    jQuery(document).ready(function () {
         jQuery('.portal_latest_search_results_slider').slick({
             infinite: true,
             slidesToShow: 2,
@@ -134,5 +178,7 @@ if (get_field('active')){
         });
     });
 </script>
-<?php if (is_admin()){echo '</div>';};?>
+<?php if (is_admin()) {
+    echo '</div>';
+}; ?>
 

@@ -221,4 +221,12 @@ function callWloGraphApi($search_query){
     return json_decode($response);
 }
 
+function register_query_vars( $qvars ) {
+    $qvars[] = 'discipline';
+    $qvars[] = 'educationalContext';
+    $qvars[] = 'intendedEndUserRole';
+    $qvars[] = 'oer';
+    return $qvars;
+}
+add_filter( 'query_vars', 'register_query_vars' );
 

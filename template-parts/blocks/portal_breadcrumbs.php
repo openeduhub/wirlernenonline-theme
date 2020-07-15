@@ -14,7 +14,7 @@ if ( get_the_id() ){
     $postID = acf_editor_post_id();
 }
 
-$url = (!empty(get_field('url'))) ? get_field('url') : get_field('collection_url', $postID);
+$url = (!empty(get_field('collection_url'))) ? get_field('collection_url') : get_field('collection_url', $postID);
 $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $url, $matches);
 
