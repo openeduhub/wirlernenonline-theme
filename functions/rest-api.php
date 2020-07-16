@@ -49,9 +49,9 @@ function add_portal(WP_REST_Request $request) {
 
     $collection_id = $request->get_param( 'collectionId' );
     $title = urldecode($request->get_param( 'title' ));
-    $disciplines = explode(";",urldecode($request->get_param( 'discipline' )));
-    $edu_contexts = explode(";",urldecode($request->get_param( 'educationalContext')));
-    $intended_end_user_roles = explode(";",urldecode($request->get_param( 'intendedEndUserRole')));
+    $disciplines = explode(",",urldecode($request->get_param( 'discipline' )));
+    $edu_contexts = explode(",",urldecode($request->get_param( 'educationalContext')));
+    $intended_end_user_roles = explode(",",urldecode($request->get_param( 'intendedEndUserRole')));
 
     $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
 
