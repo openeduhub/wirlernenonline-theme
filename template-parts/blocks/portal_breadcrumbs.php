@@ -10,15 +10,20 @@ if (is_admin()) {
 <?php
 if ( get_the_id() ){
     $postID = get_the_id();
-}else{
+}else {
     $postID = acf_editor_post_id();
 }
 
+
 $url = (!empty(get_field('collection_url'))) ? get_field('collection_url') : get_field('collection_url', $postID);
+$url = (!empty($url)) ? $url : get_post_meta($postID, 'collection_url', true);
+
 $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $url, $matches);
 
 $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/'.$matches[1][0].'/parents?propertyFilter=-all-&fullPath=false';
+
+
 
 try {
     $curl = curl_init($url);
