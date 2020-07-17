@@ -125,10 +125,12 @@ $portals->reset_postdata();
 
             window.location.href = newUrl;
         } else {
-            if (url.indexOf("?") > -1) {
-                window.location.href = url + "&educationalContext=" + value;
-            } else {
-                window.location.href = url + "?educationalContext=" + value;
+            if (value) {
+                if (url.indexOf("?") > -1) {
+                    window.location.href = url + "&educationalContext=" + value;
+                } else {
+                    window.location.href = url + "?educationalContext=" + value;
+                }
             }
         }
     });
@@ -148,10 +150,12 @@ $portals->reset_postdata();
 
             window.location.href = newUrl;
         } else {
-            if (url.indexOf("?") > -1) {
-                window.location.href = url + "&intendedEndUserRole=" + value;
-            } else {
-                window.location.href = url + "?intendedEndUserRole=" + value;
+            if (value) {
+                if (url.indexOf("?") > -1) {
+                    window.location.href = url + "&intendedEndUserRole=" + value;
+                } else {
+                    window.location.href = url + "?intendedEndUserRole=" + value;
+                }
             }
         }
     });
