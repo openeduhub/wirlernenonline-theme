@@ -93,7 +93,7 @@ if (!empty($response->references)) { ?>
                 $propDisciplines = (!empty($propDisciplines)) ? array_filter($propDisciplines) : [];
                 $propDisciplines = (!empty($propDisciplines)) ? trim_https_http_from_array($propDisciplines) : [];
 
-                $disciplinesVocab = (!empty($disciplines)) ? array_map("map_vocab_disciplines_value_only", $disciplines) : [];
+                $disciplinesVocab = (!empty(array_filter($disciplines))) ? array_map("map_vocab_disciplines_value_only", $disciplines) : [];
                 $disciplinesVocab = (!empty($disciplinesVocab)) ? array_filter($disciplinesVocab) : [];
                 $disciplinesVocab = (!empty($disciplinesVocab)) ? trim_https_http_from_array($disciplinesVocab) : [];
 
@@ -108,7 +108,7 @@ if (!empty($response->references)) { ?>
                 $propEducationalContexts = (!empty($propEducationalContexts)) ? array_filter($propEducationalContexts) : [];
                 $propEducationalContexts = (!empty($propEducationalContexts)) ? trim_https_http_from_array($propEducationalContexts) : [];
 
-                $educationalContextsVocab = (!empty($educationalContexts)) ? array_map("map_vocab_educationalContexts_value_only", $educationalContexts) : [];
+                $educationalContextsVocab = (!empty(array_filter($educationalContexts))) ? array_map("map_vocab_educationalContexts_value_only", $educationalContexts) : [];
                 $educationalContextsVocab = (!empty($educationalContextsVocab)) ? array_filter($educationalContextsVocab) : [];
                 $educationalContextsVocab = (!empty($educationalContextsVocab)) ? trim_https_http_from_array($educationalContextsVocab) : [];
 
@@ -123,7 +123,7 @@ if (!empty($response->references)) { ?>
                 $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? array_filter($propIntendedEndUserRoles) : [];
                 $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? trim_https_http_from_array($propIntendedEndUserRoles) : [];
 
-                $intendedEndUserRolesVocab = (!empty($intendedEndUserRoles)) ? array_map("map_vocab_disciplines_value_only", $intendedEndUserRoles) : [];
+                $intendedEndUserRolesVocab = (!empty(array_filter($intendedEndUserRoles))) ? array_map("map_vocab_disciplines_value_only", $intendedEndUserRoles) : [];
                 $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? array_filter($intendedEndUserRolesVocab) : [];
                 $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? trim_https_http_from_array($intendedEndUserRolesVocab) : [];
 

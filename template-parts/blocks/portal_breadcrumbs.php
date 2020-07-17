@@ -58,17 +58,10 @@ try {
 curl_close($curl);
 
 $response = json_decode($response);
-
-//for($i = 0; $i < sizeof($response); $i++){
-//    $node = $response[i];
-//    echo $node->name;
-//}
-
 $nodes = Array();
 
 foreach ($response->nodes as $node){
-    $nodeEntry = [$node->title, $node->properties->{'cclom:location'}[0]];
-    array_push($nodes, $nodeEntry);
+    $nodes[] = [$node->title, $node->properties->{'cclom:location'}[0]];
 }
 //Delete highest Level
 array_pop($nodes);

@@ -316,10 +316,10 @@ function get_educational_filter_values($postID)
     $oer = (!empty($oer)) ? $oer : get_post_meta($postID, 'oer', false)[0];
 
     return [
-        "collectionUrl" => $collection_url,
-        "disciplines" => $disciplines,
-        "educationalContexts" => $educationalContexts,
-        "intendedEndUserRoles" => $intendedEndUserRoles,
+        "collectionUrl" => (!empty($collection_url)) ? $collection_url : '',
+        "disciplines" => (!empty($disciplines)) ? $disciplines : [],
+        "educationalContexts" => (!empty($educationalContexts)) ? $educationalContexts : [],
+        "intendedEndUserRoles" => (!empty($intendedEndUserRoles)) ? $intendedEndUserRoles : [],
         "oer" => boolval($oer)
     ];
 }

@@ -33,8 +33,9 @@ if (is_admin()) {
                 <?php
                 $subject_field = get_field_object('discipline',$postID);
 
+                echo '<option value="">Fach auswählen</option>';
                 foreach ($subject_field['choices'] as $key => $value) {
-                    if ($disciplines[0] == $key) {
+                    if (!empty($disciplines) && $disciplines[0] == $key) {
                         echo '<option value="' . $key . '" selected>' . $value . '</option>';
                     } else {
                         echo '<option value="' . $key . '">' . $value. '</option>';
@@ -48,9 +49,9 @@ if (is_admin()) {
                 <?php
                 $subject_field = get_field_object('educationalContext',$postID);
 
-                echo '<option value="">Bildungsstufe</option>';
+                echo '<option value="">Bildungsstufe auswählen</option>';
                 foreach ($subject_field['choices'] as $key => $value) {
-                    if ($educationalContexts[0] == $key) {
+                    if (!empty($educationalContexts) && $educationalContexts[0] == $key) {
                         echo '<option value="' . $key . '" selected>' . $value . '</option>';
                     } else {
                         echo '<option value="' . $key . '">' . $value . '</option>';
@@ -63,9 +64,9 @@ if (is_admin()) {
                 <?php
                 $subject_field = get_field_object('intendedEndUserRole', $postID);
 
-                echo '<option value="">Zielgruppe</option>';
+                echo '<option value="">Zielgruppe auswählen</option>';
                 foreach ($subject_field['choices'] as $key => $value) {
-                    if ($intendedEndUserRoles[0] == $key) {
+                    if (!empty($intendedEndUserRoles) && $intendedEndUserRoles[0] == $key) {
                         echo '<option value="' . $key . '" selected>' . $value . '</option>';
                     } else {
                         echo '<option value="' . $key . '">' . $value . '</option>';

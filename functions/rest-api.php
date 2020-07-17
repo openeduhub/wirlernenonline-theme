@@ -54,7 +54,6 @@ function add_portal(WP_REST_Request $request) {
     $intended_end_user_roles = explode(",",urldecode($request->get_param( 'intendedEndUserRole')));
 
     $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
-    $get_parents_url = "https://redaktion.openeduhub.net/edu-sharing/rest/nodev1/nodes/-home-/" . $collection_id . "/parents";
 
     $check_url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $collection_id;
     $check_url_ret = $check_url;
@@ -62,8 +61,45 @@ function add_portal(WP_REST_Request $request) {
     //Check if Collection was not already added, Check if Collection exists
     // if (check_unique_collection_link($collection_url) && url_valid($check_url)) {
     if(true) {
+
+        //Get Level of Collection
+        $parents_api_url = 'https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/' . $collection_id . '/parents?propertyFilter=-all-&fullPath=false';
+
+        try {
+            $curl = curl_init($parents_api_url);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                    'Accept: application/json',
+                    'Content-Type: application/json; charset=utf-8'
+                )
+            );
+            $response = curl_exec($curl);
+            if ($response === false) {
+                echo 'curl error';
+                return false;
+            }
+        } catch (Exception $e) {
+            echo 'curl error: ' . $e->getMessage();
+            return false;
+        }
+        curl_close($curl);
+
+        $response = json_decode($response);
+
+
+        $nodes = Array();
+        foreach ($response->nodes as $node) {
+            $nodes[] = [$node->title, $node->properties->{'cclom:location'}[0]];
+        }
+        //Delete highest Level
+        array_pop($nodes);
+        $nodes = array_reverse($nodes);
+
+        $collection_level = sizeof($nodes) - 1;
+
         //Copy Themenportal-Vorlage Content
-        if ($template = get_page_by_path('themenportal-vorlage', OBJECT, 'portal'))
+        if ($template = get_page_by_path('themenportal-vorlage-'. $collection_level, OBJECT, 'portal'))
             $template_id = $template->ID;
 
         if ($template_id)
@@ -95,6 +131,7 @@ function add_portal(WP_REST_Request $request) {
         $post_id = wp_insert_post($portal_insert, true);
         if (!empty($post_id) && is_numeric($post_id)) {
             update_field('collection_url', $collection_url, $post_id);
+            update_field('collection_level', $collection_level, $post_id);
 
             //Discipline
             if(!function_exists("clean_discipline")){
@@ -133,7 +170,7 @@ function add_portal(WP_REST_Request $request) {
                 'post_type' => 'post',
                 'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit'),
                 'category_name' => 'Themenportal',
-                'tag' => 'Vorlage'
+                'tag' => 'Vorlage-' . $collection_level
             );
 
             $query_post = new WP_Query($post_args);
@@ -162,7 +199,7 @@ function add_portal(WP_REST_Request $request) {
                 update_field('discipline', array_map("clean_discipline", $disciplines), $duplicate_post_id);
                 update_field('educationalContext', array_map("clean_edu_context", $edu_contexts), $duplicate_post_id);
                 update_field('intendedEndUserRole', array_map("clean_intended_end_user_role", $intended_end_user_roles), $duplicate_post_id);
-
+                update_field('collection_level', $collection_level, $duplicate_post_id);
 
                 set_post_thumbnail( $duplicate_post_id, get_post_thumbnail_id($original_post_id) );
 
