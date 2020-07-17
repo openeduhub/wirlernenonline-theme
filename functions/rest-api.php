@@ -54,6 +54,7 @@ function add_portal(WP_REST_Request $request) {
     $intended_end_user_roles = explode(",",urldecode($request->get_param( 'intendedEndUserRole')));
 
     $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
+    $get_parents_url = "https://redaktion.openeduhub.net/edu-sharing/rest/nodev1/nodes/-home-/" . $collection_id . "/parents";
 
     $check_url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $collection_id;
     $check_url_ret = $check_url;
@@ -228,12 +229,12 @@ add_action( 'rest_api_init', function () {
             ),
             'educationalContext' => array(
                 'validate_callback' => function($param, $request, $key) {
-                    return !empty( $param );
+                    return true;
                 }
             ),
             'intendedEndUserRole' => array(
                 'validate_callback' => function($param, $request, $key) {
-                    return !empty( $param );
+                    return true;
                 }
             ),
         ),
