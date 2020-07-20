@@ -135,6 +135,66 @@ function create_subjectPortal() {
 // Hooking up our function to theme setup
 add_action( 'init', 'create_subjectPortal' );
 
+add_filter('manage_portal_posts_columns' , 'add_portal_columns');
+
+function add_portal_columns( $columns ) {
+
+    $columns = array(
+        'cb'           => '<input type="checkbox" />',
+        'title'        => 'Title',
+        'collection_level' => 'Portalebene',
+        'collection_url' => 'Sammlungs-URL',
+        'discipline'  => 'Fach',
+        'educationalContext'     => 'Bildungsstufe',
+        'intendedEndUserRole'     => 'Zielgruppe',
+        'categories'   => 'Categories',
+        'tags'   => 'Tags',
+        'author'   => 'Autor',
+        'date'         =>  'Date',
+    );
+    return $columns;
+}
+
+add_action( 'manage_portal_posts_custom_column', 'portal_columns', 10, 2 );
+
+function portal_columns( $column ) {
+
+    global $post;
+
+    switch ( $column ) {
+        case 'collection_level':
+            if(intval(get_field( "collection_level", $post->ID )) == 0)
+                echo "Fachportal";
+            else
+                echo "Themenportal";
+            break;
+        case 'collection_url':
+            if(!empty(get_field( "collection_url", $post->ID ))){
+                ?>
+                <a href="<?php echo get_field( "collection_url", $post->ID )?>">Zur Sammlung</a>
+                <?php
+            }
+            break;
+        case 'discipline':
+            if(!empty(get_field( "discipline", $post->ID )))
+                echo implode(", ", array_column(get_field( "discipline", $post->ID ), "label"));
+            break;
+
+        case 'educationalContext':
+            if(!empty(get_field( "educationalContext", $post->ID )))
+                echo implode(", ", array_column(get_field( "educationalContext", $post->ID ), "label"));
+            break;
+
+        case 'intendedEndUserRole':
+            if(!empty(get_field( "intendedEndUserRole", $post->ID )))
+                echo implode(", ", array_column(get_field( "intendedEndUserRole", $post->ID ), "label"));
+            break;
+    }
+
+}
+
+
+
 function prefix_disable_gutenberg($current_status, $post_type){
     // Use your post type key instead of 'product'
     if ($post_type === 'edusource' || $post_type === 'edutool' || $post_type === 'partner' || $post_type === 'presse' || $post_type === 'uxideas'){
