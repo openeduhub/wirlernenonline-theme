@@ -52,7 +52,7 @@ if (!empty($educationalContexts)) {
 
 if (!empty($intendedEndUserRoles)) {
     $filter_query .= '{ 
-        facet: educationalContext, 
+        facet: intendedEndUserRole, 
         terms: [
             ' . implode('\n', array_map("map_vocab_intendedEndUserRoles", $intendedEndUserRoles)) . '
             ] 
