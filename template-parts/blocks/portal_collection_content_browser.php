@@ -26,7 +26,19 @@ $intendedEndUserRoles = $educational_filter_values["intendedEndUserRoles"];
 $oer = $educational_filter_values["oer"];
 /* ------------------------------------------------------------------- */
 
-$pattern = '/http.*\?id=(.*)(&|$)/';
+$block_var_objectTypes = (!empty(get_field('objectTypes'))) ? get_field('objectTypes') : [];
+$objectTypes = (!empty($block_var_objectTypes)) ? array_column($block_var_objectTypes, 'value') : [];
+$objectTypes = (!empty($objectTypes)) ? $objectTypes : get_post_meta($postID, 'objectTypes', false)[0];
+
+$block_var_learningResourceTypes = (!empty(get_field('learningResourceTypes'))) ? get_field('learningResourceTypes') : [];
+$learningResourceTypes = (!empty($block_var_learningResourceTypes)) ? array_column($block_var_learningResourceTypes, 'value') : [];
+$learningResourceTypes = (!empty($learningResourceTypes)) ? $learningResourceTypes : get_post_meta($postID, 'learningResourceTypes', false)[0];
+
+$block_var_generalKeywords = get_field('generalKeyword');
+$generalKeywords = (!empty($block_var_generalKeyword)) ? $block_var_generalKeyword : get_post_meta($postID, 'generalKeyword', false)[0];
+$generalKeywords = (!empty($generalKeywords)) ? explode(",",$generalKeywords) : [];
+
+    $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 
 $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $matches[1][0] . '/children/references';
@@ -97,9 +109,11 @@ if (!empty($response->references)) { ?>
                 $disciplinesVocab = (!empty($disciplinesVocab)) ? array_filter($disciplinesVocab) : [];
                 $disciplinesVocab = (!empty($disciplinesVocab)) ? trim_https_http_from_array($disciplinesVocab) : [];
 
-                $filterDiscipline = (empty($disciplinesVocab) || empty($propDisciplines)) ? false : empty(array_intersect($propDisciplines, $disciplinesVocab));
+                $filterDiscipline = (empty($propDisciplines)) ? true : empty(array_intersect($propDisciplines, $disciplinesVocab));
 
-                if ($filterDiscipline) {
+                if (!empty($disciplinesVocab) && $filterDiscipline) {
+
+                    //echo '<pre style="background-color: lightgrey">' , var_dump("Discipline") , '</pre>';
                     continue;
                 }
 
@@ -112,9 +126,11 @@ if (!empty($response->references)) { ?>
                 $educationalContextsVocab = (!empty($educationalContextsVocab)) ? array_filter($educationalContextsVocab) : [];
                 $educationalContextsVocab = (!empty($educationalContextsVocab)) ? trim_https_http_from_array($educationalContextsVocab) : [];
 
-                $filterEducationalContext = (empty($educationalContextsVocab) || empty($propEducationalContexts)) ? false : empty(array_intersect($propEducationalContexts, $educationalContextsVocab));
+                $filterEducationalContext = (empty($propEducationalContexts)) ? true : empty(array_intersect($propEducationalContexts, $educationalContextsVocab));
 
-                if ($filterEducationalContext) {
+                if (!empty($educationalContextsVocab) && $filterEducationalContext) {
+
+                    //echo '<pre style="background-color: lightgrey">' , var_dump("EduContext") , '</pre>';
                     continue;
                 }
 
@@ -127,11 +143,52 @@ if (!empty($response->references)) { ?>
                 $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? array_filter($intendedEndUserRolesVocab) : [];
                 $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? trim_https_http_from_array($intendedEndUserRolesVocab) : [];
 
-                $filterIntendedEndUserRole = (empty($intendedEndUserRolesVocab) || empty($propIntendedEndUserRoles)) ? false : empty(array_intersect($propIntendedEndUserRoles, $intendedEndUserRolesVocab));
+                $filterIntendedEndUserRole = (empty($propIntendedEndUserRoles)) ? true : empty(array_intersect($propIntendedEndUserRoles, $intendedEndUserRolesVocab));
 
-                if ($filterIntendedEndUserRole) {
+                if (!empty($intendedEndUserRolesVocab) && $filterIntendedEndUserRole) {
+
+                    //echo '<pre style="background-color: lightgrey">' , var_dump("Role") , '</pre>';
                     continue;
                 }
+
+                // Filter ObjectType
+                $propObjectType = $prop->{'ccm:objecttype'};
+                if ($propObjectType &&
+                    !empty($propObjectType) &&
+                    !empty($objectTypes) &&
+                    !in_array($propObjectType,$objectTypes)) {
+
+                    //echo '<pre style="background-color: lightgrey">' , var_dump("OType") , '</pre>';
+                    continue;
+                }
+
+                // Filter LearningResourceType
+                $propLearningResourceTypes = $prop->{'ccm:educationallearningresourcetype'};
+                $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? array_filter($propLearningResourceTypes) : [];
+                $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? trim_https_http_from_array($propLearningResourceTypes) : [];
+
+                $learningResourceTypesVocab = (!empty($learningResourceTypes) &&!empty(array_filter($learningResourceTypes))) ? array_map("map_vocab_learning_resource_types_value_only", $learningResourceTypes) : [];
+                $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? array_filter($learningResourceTypesVocab) : [];
+                $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? trim_https_http_from_array($learningResourceTypesVocab) : [];
+
+                $filterLearningResourceTypes = (empty($propLearningResourceTypes)) ? true : empty(array_intersect($propLearningResourceTypes, $learningResourceTypesVocab));
+
+                if (!empty($learningResourceTypesVocab) && $filterLearningResourceTypes) {
+                    //echo '<pre style="background-color: lightgrey">' , var_dump("LRT") , '</pre>';
+                    continue;
+                }
+
+                // Filter General Keyword
+                $propGeneralKeywords = $prop->{'cclom:general_keyword'};
+                $propGeneralKeywords = (!empty($propGeneralKeywords)) ? array_filter($propGeneralKeywords) : [];
+
+                $filterGeneralKeywords = (empty($propGeneralKeywords)) ? true : empty(array_intersect($generalKeywords, $propGeneralKeywords));
+
+                if (!empty($generalKeywords) && $filterGeneralKeywords) {
+                    //echo '<pre style="background-color: lightgrey">' , var_dump("Keyword") , '</pre>';
+                    continue;
+                }
+
                 ?>
                 <a href="<?php echo $reference->content->url; ?>" target="_blank">
                     <div class="portal_content_branch">
