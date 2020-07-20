@@ -48,8 +48,8 @@ while ($portals_result->have_posts()) {
     $portalUrl = get_permalink($portalID);
 
     $portal['discipline'] = get_field('discipline', $portalID)[0];
-    $portal['educationalContext'] = get_field('educationalContext', $portalID)[0];
-    $portal['intendedEndUserRole'] = get_field('intendedEndUserRole', $portalID)[0];
+    $portal['educationalContexts'] = get_field('educationalContext', $portalID);
+    $portal['intendedEndUserRoles'] = get_field('intendedEndUserRole', $portalID);
     $portal['url'] = $portalUrl;
     $portal['level'] = intval(get_field('collection_level', $portalID));
 
@@ -65,6 +65,9 @@ $portals_result->reset_postdata();
             echo '<option value="">Fach auswählen</option>';
             foreach ($portals as $key => $portal) {
                 if ($portal['level'] > 0)
+                    continue;
+
+                if(!empty($portal['educationalContexts']) || !empty($portal['intendedEndUserRoles']))
                     continue;
 
                 if (!empty($disciplines) && $disciplines[0] == $portal['discipline']['value']) {
@@ -95,28 +98,28 @@ $portals_result->reset_postdata();
                     $currentEducationalContext = $value;
 
                     // If Portal with given discipline/educationalContext combination exists, link to that one
-                    $dataUrl = '';
                     $portalsWithEduContext = array_filter($portals, function ($portal) use ($currentDiscipline, $currentEducationalContext) {
+                        $isToplevel = $portal['level'] == 0;
                         $hasDiscipline = (!empty($portal['discipline'])) && ($portal['discipline']['value'] == $currentDiscipline);
-                        $hasContext = (!empty($portal['educationalContext'])) && ($portal['educationalContext']['value'] == $currentEducationalContext);
-
-                        return $hasDiscipline && $hasContext;
+                        $hasContext = (!empty($portal['educationalContexts'])) && in_array($currentEducationalContext, array_column($portal['educationalContexts'],'value'));
+                        return $isToplevel && $hasDiscipline && $hasContext;
                     });
 
                     $portalsWithEduContextNoRole = array_filter($portalsWithEduContext, function ($portal) use ($currentDiscipline, $currentEducationalContext) {
-                        $hasRole = !empty($portal['intendedEndUserRole']);
-                        return !$hasRole;
+                        return empty($portal['intendedEndUserRoles']);
                     });
 
-                    if (!empty($portalsWithEduContextNoRole)) {
-                        $portal = $portalsWithEduContextNoRole[0];
-                        $dataUrl = $portal['url'];
-                    } elseif (!empty($portalsWithEduContext)) {
-                        $portal = $portalsWithEduContext[0];
-                        $dataUrl = $portal['url'];
+
+                    $dataUrl = '';
+                    if (!empty($portalsWithEduContextNoRole)){
+                        $dataUrl = $portalsWithEduContextNoRole[array_key_first($portalsWithEduContextNoRole)]['url'];
                     }
 
-                    if (!empty($educationalContexts) && $educationalContexts[0] == $value) {
+                    if (!empty($portalsWithEduContext)) {
+                        $dataUrl = $portalsWithEduContext[array_key_first($portalsWithEduContext)]['url'];
+                    }
+
+                    if (!empty($educationalContexts) && $educationalContexts[0] == $currentEducationalContext) {
                         echo '<option data-url="' . $dataUrl . '" value="' . $value . '" selected>' . $label . '</option>';
                     } else {
                         echo '<option data-url="' . $dataUrl . '" value="' . $value . '">' . $label . '</option>';
@@ -141,18 +144,18 @@ $portals_result->reset_postdata();
                     // If Portal with given discipline/educationalContext combination exists, link to that one
                     $dataUrl = '';
                     $portalsWithRole = array_filter($portals, function ($portal) use ($currentDiscipline, $currentEducationalContext, $currentIntendedEndUserRole) {
+                        $isToplevel = $portal['level'] == 0;
                         $hasDiscipline = (!empty($portal['discipline'])) && ($portal['discipline']['value'] == $currentDiscipline);
-                        $hasContext = (!empty($portal['educationalContext'])) && ($portal['educationalContext']['value'] == $currentEducationalContext);
-                        $hasRole = (!empty($portal['intendedEndUserRole'])) && ($portal['intendedEndUserRole']['value'] == $currentIntendedEndUserRole);
+                        $hasContext = (!empty($portal['educationalContexts'])) &&  in_array($currentEducationalContext, array_column($portal['educationalContexts'],'value'));
+                        $hasRole = (!empty($portal['intendedEndUserRoles'])) && in_array($currentIntendedEndUserRole, array_column($portal['intendedEndUserRoles'],'value'));
 
-                        return $hasDiscipline && $hasContext && $hasRole;
+                        return $isToplevel && $hasDiscipline && $hasContext && $hasRole;
                     });
 
+                    $dataUrl = '';
                     if (!empty($portalsWithRole)) {
-                        $portal = $portalsWithRole[0];
-                        $dataUrl = $portal['url'];
+                        $dataUrl = $portalsWithRole[array_key_first($portalsWithRole)]['url'];
                     }
-
                     if (!empty($intendedEndUserRoles) && $intendedEndUserRoles[0] == $value) {
                         echo '<option data-url="' . $dataUrl . '" value="' . $value . '" selected>' . $label . '</option>';
                     } else {
