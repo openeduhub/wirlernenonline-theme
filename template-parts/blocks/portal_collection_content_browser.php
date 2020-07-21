@@ -35,7 +35,7 @@ $learningResourceTypes = (!empty($block_var_learningResourceTypes)) ? array_colu
 $learningResourceTypes = (!empty($learningResourceTypes)) ? $learningResourceTypes : get_post_meta($postID, 'learningResourceTypes', false)[0];
 
 $block_var_generalKeywords = get_field('generalKeyword');
-$generalKeywords = (!empty($block_var_generalKeyword)) ? $block_var_generalKeyword : get_post_meta($postID, 'generalKeyword', false)[0];
+$generalKeywords = (!empty($block_var_generalKeywords)) ? $block_var_generalKeywords : get_post_meta($postID, 'generalKeyword', false)[0];
 $generalKeywords = (!empty($generalKeywords)) ? explode(",",$generalKeywords) : [];
 
     $pattern = '/http.*\?id=(.*)(&|$)/';
