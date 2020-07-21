@@ -145,15 +145,13 @@ $search_query = '
 if (get_field('custom_search_active')) {
     $search_query = get_field('search_query');
 }
-
+if (!empty(get_field('headline')))
+    echo '<h3>' . get_field('headline') . '</h3>';
+else
+    echo '<h3>Neuigkeiten</h3>';
 $response = callWloGraphApi($search_query);
 if (!empty($response->data->search->hits)) {
 
-
-    if (!empty(get_field('headline')))
-        echo '<h3>' . get_field('headline') . '</h3>';
-    else
-        echo '<h3>Neuigkeiten</h3>';
     echo '<div class="portal_latest_search_results_slider">';
     foreach ($response->data->search->hits as $hit) {
         ?>
@@ -172,6 +170,10 @@ if (!empty($response->data->search->hits)) {
         <?php
     }
     echo '</div>';
+} else {
+    ?>
+    <h6 class="primary">Leider gibt es in dieser Rubrik keine Neuigkeiten. <a href="<?php echo get_permalink( get_page_by_path( 'tool-hinzufuegen' ) ) ?>">Hilf' uns dabei</a>, die neuesten Themen bereitzustellen.</h6>
+    <?php
 }
 
 ?>

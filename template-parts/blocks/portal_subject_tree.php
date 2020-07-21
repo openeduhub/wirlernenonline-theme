@@ -72,10 +72,9 @@ $response = json_decode($response);
 <div class="portal-subject-tree">
 
     <?php
+    echo '<h3>' . ((!empty(get_field('headline'))) ? get_field('headline') : 'Sammlungen') . '</h3>';
+    echo (!empty(get_field('text'))) ? '<p>' . get_field('text') . '</p>' : '';
     if (!empty($response->collections)) {
-        echo '<h3>' . ((!empty(get_field('headline'))) ? get_field('headline') : 'Sammlungen') . '</h3>';
-        echo (!empty(get_field('text'))) ? '<p>' . get_field('text') . '</p>' : '';
-
         if (get_field('next_level')) {
             //Sub-Level
             ?>
@@ -306,6 +305,10 @@ $response = json_decode($response);
             </div>
             <?php
         }
+    } else {
+        ?>
+        <h6 class="primary">Leider gibt es in dieser Sammlung noch keine weiteren Sammlungen. <a href="<?php echo get_permalink( get_page_by_path( 'tool-hinzufuegen' ) ) ?>">Hilf' uns dabei</a>, hier mehr Informationen und Materialien zusammenzutragen.</h6>
+        <?php
     }
     ?>
 </div>
