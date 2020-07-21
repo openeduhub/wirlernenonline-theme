@@ -1,7 +1,7 @@
 <?php
 if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">Block: Suchinhalte</div>';
+    echo '<div class="backend_hint">Themenportal: Inhaltesuche</div>';
 };
 
 /* Filter Values prioritized GET/POST > Block-Setting > Portal-Setting */

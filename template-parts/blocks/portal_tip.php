@@ -1,7 +1,7 @@
 <?php
 if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">Block: Blogbeiträge</div>';
+    echo '<div class="backend_hint">Themenportal: Neueste Blogbeiträge</div>';
 };
 
 if (get_field('active')){

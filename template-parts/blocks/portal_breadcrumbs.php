@@ -1,7 +1,7 @@
 <?php
 if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">Block: Breadcrumbs</div>';
+    echo '<div class="backend_hint">Themenportal: Breadcrumbs</div>';
 };
 ?>
 <div class="portal-breadcrumbs">

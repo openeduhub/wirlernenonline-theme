@@ -1,6 +1,6 @@
 <?php if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">Block: Inhalt</div>';
+    echo '<div class="backend_hint">Themenportal: Sammlungsinhalte</div>';
 }; ?>
 <?php
 

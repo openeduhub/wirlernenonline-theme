@@ -1,7 +1,7 @@
 <?php
 if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">Block: Banner</div>';
+    echo '<div class="backend_hint">Themenportal: Banner</div>';
 };
 
 
