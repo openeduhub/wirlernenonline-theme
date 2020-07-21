@@ -114,7 +114,7 @@ $intendedEndUserRolesLabel = (!empty(get_field_object('intendedEndUserRole', $po
 
 
     ?>
-<div class="portal_search">
+<div class="portal_block portal_search">
     <form target="_blank" action="https://staging.wirlernenonline.de/de/search/<?php echo (!empty($educationalContexts)) ? $educationalContexts[0] . '/' : ''; ?><?php echo $disciplinesLabel; ?>" method="GET" class="home-hero__form">
         <div class="search-container">
             <p><?php the_field('search_description'); ?></p>

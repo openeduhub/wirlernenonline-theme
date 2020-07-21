@@ -26,4 +26,22 @@
         overflow: hidden;
       }
     }
+  .cell.medium-4 {
+    display: inline-block;
+  }
+  .portal_block {
+    margin: 0px;
+    padding: 10px
+  }
+  .backend_hint{
+    font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 0.6em;
+    color: gray(90);
+    background: lightgrey;
+    margin-bottom: 0.2rem;
+    padding: 10px
+  }
+  .backend_border{
+    border: 1px solid lightblue;
+  }
 }

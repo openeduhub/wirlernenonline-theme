@@ -58,217 +58,220 @@ while ($portals_result->have_posts()) {
 $portals_result->reset_postdata();
 
 ?>
-<div class="portal-select-container grid-x grid-margin-x">
-    <div class="cell medium-4">
-        <select class="portal_select select-discipline">
-            <?php
-            echo '<option value="">Fach auswählen</option>';
-            foreach ($portals as $key => $portal) {
-                if ($portal['level'] > 0)
-                    continue;
+<div class="portal_block">
+    <div class="portal-select-container grid-x grid-margin-x">
+        <div class="cell medium-4">
+            <select class="portal_select select-discipline">
+                <?php
+                echo '<option value="">Fach auswählen</option>';
+                foreach ($portals as $key => $portal) {
+                    if ($portal['level'] > 0)
+                        continue;
 
-                if(!empty($portal['educationalContexts']) || !empty($portal['intendedEndUserRoles']))
-                    continue;
+                    if (!empty($portal['educationalContexts']) || !empty($portal['intendedEndUserRoles']))
+                        continue;
 
-                if (!empty($disciplines) && $disciplines[0] == $portal['discipline']['value']) {
-                    echo '<option data-url="' . $portal['url'] . '" value="' . $portal['discipline']['value'] . '" selected>' . $portal['discipline']['label'] . '</option>';
+                    if (!empty($disciplines) && $disciplines[0] == $portal['discipline']['value']) {
+                        echo '<option data-url="' . $portal['url'] . '" value="' . $portal['discipline']['value'] . '" selected>' . $portal['discipline']['label'] . '</option>';
+                    } else {
+                        echo '<option data-url="' . $portal['url'] . '" value="' . $portal['discipline']['value'] . '">' . $portal['discipline']['label'] . '</option>';
+                    }
+                }
+                ?>
+            </select>
+        </div>
+        <?php
+        $portal_level = get_field('collection_level', $postID);
+
+
+        if (intval($portal_level) == 0) {
+            ?>
+            <div class="cell medium-4">
+                <select class="portal_select select-educational-context">
+                    <?php
+                    $subject_field = get_field_object('educationalContext', $postID);
+                    $educationalContextsChoices = $subject_field['choices'];
+
+                    echo '<option value="">Alle Bildungsstufen</option>';
+                    foreach ($educationalContextsChoices as $value => $label) {
+
+                        $currentDiscipline = $disciplines[0];
+                        $currentEducationalContext = $value;
+
+                        // If Portal with given discipline/educationalContext combination exists, link to that one
+                        $portalsWithEduContext = array_filter($portals, function ($portal) use ($currentDiscipline, $currentEducationalContext) {
+                            $isToplevel = $portal['level'] == 0;
+                            $hasDiscipline = (!empty($portal['discipline'])) && ($portal['discipline']['value'] == $currentDiscipline);
+                            $hasContext = (!empty($portal['educationalContexts'])) && in_array($currentEducationalContext, array_column($portal['educationalContexts'], 'value'));
+                            return $isToplevel && $hasDiscipline && $hasContext;
+                        });
+
+                        $portalsWithEduContextNoRole = array_filter($portalsWithEduContext, function ($portal) use ($currentDiscipline, $currentEducationalContext) {
+                            return empty($portal['intendedEndUserRoles']);
+                        });
+
+
+                        $dataUrl = '';
+                        if (!empty($portalsWithEduContextNoRole)) {
+                            $dataUrl = $portalsWithEduContextNoRole[array_key_first($portalsWithEduContextNoRole)]['url'];
+                        }
+
+                        if (!empty($portalsWithEduContext)) {
+                            $dataUrl = $portalsWithEduContext[array_key_first($portalsWithEduContext)]['url'];
+                        }
+
+                        if (!empty($educationalContexts) && $educationalContexts[0] == $currentEducationalContext) {
+                            echo '<option data-url="' . $dataUrl . '" value="' . $value . '" selected>' . $label . '</option>';
+                        } else {
+                            echo '<option data-url="' . $dataUrl . '" value="' . $value . '">' . $label . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="cell medium-4">
+                <select class="portal_select select-intended-end-user-role">
+                    <?php
+                    $subject_field = get_field_object('intendedEndUserRole', $postID);
+                    $intendedEndUserRolesChoices = $subject_field['choices'];
+
+                    echo '<option value="">Alle Zielgruppen</option>';
+                    foreach ($intendedEndUserRolesChoices as $value => $label) {
+
+                        $currentDiscipline = $disciplines[0];
+                        $currentEducationalContext = $educationalContexts[0];
+                        $currentIntendedEndUserRole = $value;
+
+                        // If Portal with given discipline/educationalContext combination exists, link to that one
+                        $dataUrl = '';
+                        $portalsWithRole = array_filter($portals, function ($portal) use ($currentDiscipline, $currentEducationalContext, $currentIntendedEndUserRole) {
+                            $isToplevel = $portal['level'] == 0;
+                            $hasDiscipline = (!empty($portal['discipline'])) && ($portal['discipline']['value'] == $currentDiscipline);
+                            $hasContext = (!empty($portal['educationalContexts'])) && in_array($currentEducationalContext, array_column($portal['educationalContexts'], 'value'));
+                            $hasRole = (!empty($portal['intendedEndUserRoles'])) && in_array($currentIntendedEndUserRole, array_column($portal['intendedEndUserRoles'], 'value'));
+
+                            return $isToplevel && $hasDiscipline && $hasContext && $hasRole;
+                        });
+
+                        $dataUrl = '';
+                        if (!empty($portalsWithRole)) {
+                            $dataUrl = $portalsWithRole[array_key_first($portalsWithRole)]['url'];
+                        }
+                        if (!empty($intendedEndUserRoles) && $intendedEndUserRoles[0] == $value) {
+                            echo '<option data-url="' . $dataUrl . '" value="' . $value . '" selected>' . $label . '</option>';
+                        } else {
+                            echo '<option data-url="' . $dataUrl . '" value="' . $value . '">' . $label . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+
+        <?php } else { ?>
+            <div class="cell medium-4">
+                <select class="portal_select select-educational-context">
+                    <?php
+                    $subject_field = get_field_object('educationalContext', $postID);
+
+                    echo '<option value="">Alle Bildungsstufen</option>';
+                    foreach ($subject_field['choices'] as $key => $value) {
+                        if (!empty($educationalContexts) && $educationalContexts[0] == $key) {
+                            echo '<option value="' . $key . '" selected>' . $value . '</option>';
+                        } else {
+                            echo '<option value="' . $key . '">' . $value . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="cell medium-4">
+                <select class="portal_select select-intended-end-user-role">
+                    <?php
+                    $subject_field = get_field_object('intendedEndUserRole', $postID);
+
+                    echo '<option value="">Alle Zielgruppen</option>';
+                    foreach ($subject_field['choices'] as $key => $value) {
+                        if (!empty($intendedEndUserRoles) && $intendedEndUserRoles[0] == $key) {
+                            echo '<option value="' . $key . '" selected>' . $value . '</option>';
+                        } else {
+                            echo '<option value="' . $key . '">' . $value . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+        <?php }; ?>
+    </div>
+    <script>
+        jQuery('.select-discipline').on('change', function () {
+            var newUrl = jQuery(this).children('option:selected').data('url');
+            window.location.href = newUrl;
+        });
+        jQuery('.select-educational-context').on('change', function () {
+            var newUrl = jQuery(this).children('option:selected').data('url');
+            if ((newUrl !== undefined) &&
+                newUrl) {
+                window.location.href = newUrl;
+            } else {
+                var url = window.location.href;
+                var value = jQuery(this).attr('value');
+                if (url.indexOf("educationalContext") > -1) {
+                    var regEx = /([?&]educationalContext)=([^#&]*)/g;
+
+                    if (value) {
+                        var newUrl = url.replace(regEx, '$1=' + value);
+                    } else {
+                        var newUrl = url.replace(regEx, '');
+                    }
+
+                    window.location.href = newUrl;
                 } else {
-                    echo '<option data-url="' . $portal['url'] . '" value="' . $portal['discipline']['value'] . '">' . $portal['discipline']['label'] . '</option>';
+                    if (value) {
+                        if (url.indexOf("?") > -1) {
+                            window.location.href = url + "&educationalContext=" + value;
+                        } else {
+                            window.location.href = url + "?educationalContext=" + value;
+                        }
+                    }
                 }
             }
-            ?>
-        </select>
-    </div>
-    <?php
-    $portal_level = get_field('collection_level', $postID);
 
+        })
+        ;
+        jQuery('.select-intended-end-user-role').on('change', function () {
+            var newUrl = jQuery(this).children('option:selected').data('url');
+            if ((newUrl !== undefined) &&
+                newUrl) {
+                window.location.href = newUrl;
+            } else {
+                var url = window.location.href;
+                var value = jQuery(this).attr('value');
 
-    if (intval($portal_level) == 0) {
-        ?>
-        <div class="cell medium-4">
-            <select class="portal_select select-educational-context">
-                <?php
-                $subject_field = get_field_object('educationalContext', $postID);
-                $educationalContextsChoices = $subject_field['choices'];
+                if (url.indexOf("intendedEndUserRole") > -1) {
+                    var regEx = /([?&]intendedEndUserRole)=([^#&]*)/g;
 
-                echo '<option value="">Alle Bildungsstufen</option>';
-                foreach ($educationalContextsChoices as $value => $label) {
-
-                    $currentDiscipline = $disciplines[0];
-                    $currentEducationalContext = $value;
-
-                    // If Portal with given discipline/educationalContext combination exists, link to that one
-                    $portalsWithEduContext = array_filter($portals, function ($portal) use ($currentDiscipline, $currentEducationalContext) {
-                        $isToplevel = $portal['level'] == 0;
-                        $hasDiscipline = (!empty($portal['discipline'])) && ($portal['discipline']['value'] == $currentDiscipline);
-                        $hasContext = (!empty($portal['educationalContexts'])) && in_array($currentEducationalContext, array_column($portal['educationalContexts'],'value'));
-                        return $isToplevel && $hasDiscipline && $hasContext;
-                    });
-
-                    $portalsWithEduContextNoRole = array_filter($portalsWithEduContext, function ($portal) use ($currentDiscipline, $currentEducationalContext) {
-                        return empty($portal['intendedEndUserRoles']);
-                    });
-
-
-                    $dataUrl = '';
-                    if (!empty($portalsWithEduContextNoRole)){
-                        $dataUrl = $portalsWithEduContextNoRole[array_key_first($portalsWithEduContextNoRole)]['url'];
-                    }
-
-                    if (!empty($portalsWithEduContext)) {
-                        $dataUrl = $portalsWithEduContext[array_key_first($portalsWithEduContext)]['url'];
-                    }
-
-                    if (!empty($educationalContexts) && $educationalContexts[0] == $currentEducationalContext) {
-                        echo '<option data-url="' . $dataUrl . '" value="' . $value . '" selected>' . $label . '</option>';
+                    if (value) {
+                        var newUrl = url.replace(regEx, '$1=' + value);
                     } else {
-                        echo '<option data-url="' . $dataUrl . '" value="' . $value . '">' . $label . '</option>';
+                        var newUrl = url.replace(regEx, '');
+                    }
+
+                    window.location.href = newUrl;
+                } else {
+                    if (value) {
+                        if (url.indexOf("?") > -1) {
+                            window.location.href = url + "&intendedEndUserRole=" + value;
+                        } else {
+                            window.location.href = url + "?intendedEndUserRole=" + value;
+                        }
                     }
                 }
-                ?>
-            </select>
-        </div>
-        <div class="cell medium-4">
-            <select class="portal_select select-intended-end-user-role">
-                <?php
-                $subject_field = get_field_object('intendedEndUserRole', $postID);
-                $intendedEndUserRolesChoices = $subject_field['choices'];
-
-                echo '<option value="">Alle Zielgruppen</option>';
-                foreach ($intendedEndUserRolesChoices as $value => $label) {
-
-                    $currentDiscipline = $disciplines[0];
-                    $currentEducationalContext = $educationalContexts[0];
-                    $currentIntendedEndUserRole = $value;
-
-                    // If Portal with given discipline/educationalContext combination exists, link to that one
-                    $dataUrl = '';
-                    $portalsWithRole = array_filter($portals, function ($portal) use ($currentDiscipline, $currentEducationalContext, $currentIntendedEndUserRole) {
-                        $isToplevel = $portal['level'] == 0;
-                        $hasDiscipline = (!empty($portal['discipline'])) && ($portal['discipline']['value'] == $currentDiscipline);
-                        $hasContext = (!empty($portal['educationalContexts'])) &&  in_array($currentEducationalContext, array_column($portal['educationalContexts'],'value'));
-                        $hasRole = (!empty($portal['intendedEndUserRoles'])) && in_array($currentIntendedEndUserRole, array_column($portal['intendedEndUserRoles'],'value'));
-
-                        return $isToplevel && $hasDiscipline && $hasContext && $hasRole;
-                    });
-
-                    $dataUrl = '';
-                    if (!empty($portalsWithRole)) {
-                        $dataUrl = $portalsWithRole[array_key_first($portalsWithRole)]['url'];
-                    }
-                    if (!empty($intendedEndUserRoles) && $intendedEndUserRoles[0] == $value) {
-                        echo '<option data-url="' . $dataUrl . '" value="' . $value . '" selected>' . $label . '</option>';
-                    } else {
-                        echo '<option data-url="' . $dataUrl . '" value="' . $value . '">' . $label . '</option>';
-                    }
-                }
-                ?>
-            </select>
-        </div>
-
-    <?php } else { ?>
-        <div class="cell medium-4">
-            <select class="portal_select select-educational-context">
-                <?php
-                $subject_field = get_field_object('educationalContext', $postID);
-
-                echo '<option value="">Alle Bildungsstufen</option>';
-                foreach ($subject_field['choices'] as $key => $value) {
-                    if (!empty($educationalContexts) && $educationalContexts[0] == $key) {
-                        echo '<option value="' . $key . '" selected>' . $value . '</option>';
-                    } else {
-                        echo '<option value="' . $key . '">' . $value . '</option>';
-                    }
-                }
-                ?>
-            </select>
-        </div>
-        <div class="cell medium-4">
-            <select class="portal_select select-intended-end-user-role">
-                <?php
-                $subject_field = get_field_object('intendedEndUserRole', $postID);
-
-                echo '<option value="">Alle Zielgruppen</option>';
-                foreach ($subject_field['choices'] as $key => $value) {
-                    if (!empty($intendedEndUserRoles) && $intendedEndUserRoles[0] == $key) {
-                        echo '<option value="' . $key . '" selected>' . $value . '</option>';
-                    } else {
-                        echo '<option value="' . $key . '">' . $value . '</option>';
-                    }
-                }
-                ?>
-            </select>
-        </div>
-    <?php }; ?>
+            }
+        })
+        ;
+    </script>
 </div>
 <?php if (is_admin()) {
     echo '</div>';
 }; ?>
-<script>
-    jQuery('.select-discipline').on('change', function () {
-        var newUrl = jQuery(this).children('option:selected').data('url');
-        window.location.href = newUrl;
-    });
-    jQuery('.select-educational-context').on('change', function () {
-        var newUrl = jQuery(this).children('option:selected').data('url');
-        if ((newUrl !== undefined) &&
-            newUrl) {
-            window.location.href = newUrl;
-        } else {
-            var url = window.location.href;
-            var value = jQuery(this).attr('value');
-            if (url.indexOf("educationalContext") > -1) {
-                var regEx = /([?&]educationalContext)=([^#&]*)/g;
 
-                if (value) {
-                    var newUrl = url.replace(regEx, '$1=' + value);
-                } else {
-                    var newUrl = url.replace(regEx, '');
-                }
-
-                window.location.href = newUrl;
-            } else {
-                if (value) {
-                    if (url.indexOf("?") > -1) {
-                        window.location.href = url + "&educationalContext=" + value;
-                    } else {
-                        window.location.href = url + "?educationalContext=" + value;
-                    }
-                }
-            }
-        }
-
-    })
-    ;
-    jQuery('.select-intended-end-user-role').on('change', function () {
-        var newUrl = jQuery(this).children('option:selected').data('url');
-        if ((newUrl !== undefined) &&
-            newUrl) {
-            window.location.href = newUrl;
-        } else {
-            var url = window.location.href;
-            var value = jQuery(this).attr('value');
-
-            if (url.indexOf("intendedEndUserRole") > -1) {
-                var regEx = /([?&]intendedEndUserRole)=([^#&]*)/g;
-
-                if (value) {
-                    var newUrl = url.replace(regEx, '$1=' + value);
-                } else {
-                    var newUrl = url.replace(regEx, '');
-                }
-
-                window.location.href = newUrl;
-            } else {
-                if (value) {
-                    if (url.indexOf("?") > -1) {
-                        window.location.href = url + "&intendedEndUserRole=" + value;
-                    } else {
-                        window.location.href = url + "?intendedEndUserRole=" + value;
-                    }
-                }
-            }
-        }
-    })
-    ;
-</script>

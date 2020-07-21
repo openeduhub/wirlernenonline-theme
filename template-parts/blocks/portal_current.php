@@ -36,7 +36,7 @@ $learningResourceTypes = (!empty($learningResourceTypes)) ? $learningResourceTyp
 
 $block_var_generalKeywords = get_field('generalKeyword');
 $generalKeywords = (!empty($block_var_generalKeywords)) ? $block_var_generalKeywords : get_post_meta($postID, 'generalKeyword', false)[0];
-$generalKeywords = (!empty($generalKeywords)) ? explode(",",$generalKeywords) : [];
+$generalKeywords = (!empty($generalKeywords)) ? explode(",", $generalKeywords) : [];
 
 $count = 5;
 if (get_field('count')) {
@@ -111,7 +111,8 @@ $search_query = '
         {
           search(
             searchString: ""
-            from: 0
+            from: 0 
+            size: ' . intval($count) . '
             filters: [
               ' . $filter_query . '
             ]
@@ -145,49 +146,57 @@ $search_query = '
 if (get_field('custom_search_active')) {
     $search_query = get_field('search_query');
 }
-if (!empty(get_field('headline')))
-    echo '<h3>' . get_field('headline') . '</h3>';
-else
-    echo '<h3>Neuigkeiten</h3>';
-$response = callWloGraphApi($search_query);
-if (!empty($response->data->search->hits)) {
-
-    echo '<div class="portal_latest_search_results_slider">';
-    foreach ($response->data->search->hits as $hit) {
+?>
+<div class="portal_block">
+    <?php
+    if (!empty(get_field('headline')))
+        echo '<h3>' . get_field('headline') . '</h3>';
+    else
+        echo '<h3>Neuigkeiten</h3>';
+    $response = callWloGraphApi($search_query);
+    if (!empty($response->data->search->hits)) {
         ?>
-        <div>
-            <div class="portal_latest_search_results_slider_content">
-                <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" target="_blank">
-                    <img src="<?php echo $hit->previewImage->thumbnail->url; ?>">
-                </a>
-                <div class="portal_latest_search_results_slider_content_text">
-                    <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
-                       target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
-                    <p><?php echo $hit->lom->general->description; ?></p>
+        <div class="portal_latest_search_results_slider">
+            <?php
+            foreach ($response->data->search->hits as $hit) {
+                ?>
+                <div>
+                    <div class="portal_latest_search_results_slider_content">
+                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
+                           target="_blank">
+                            <img src="<?php echo $hit->previewImage->thumbnail->url; ?>">
+                        </a>
+                        <div class="portal_latest_search_results_slider_content_text">
+                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
+                               target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                            <p><?php echo $hit->lom->general->description; ?></p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <?php
+            }
+            ?>
         </div>
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery('.portal_latest_search_results_slider').slick({
+                    infinite: true,
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    zIndex: 0
+                });
+            });
+        </script>
+        <?php
+    } else {
+        ?>
+        <h6 class="primary">Leider gibt es in dieser Rubrik keine Neuigkeiten. <a
+                    href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf' uns dabei</a>, die
+            neuesten Themen bereitzustellen.</h6>
         <?php
     }
-    echo '</div>';
-} else {
     ?>
-    <h6 class="primary">Leider gibt es in dieser Rubrik keine Neuigkeiten. <a href="<?php echo get_permalink( get_page_by_path( 'tool-hinzufuegen' ) ) ?>">Hilf' uns dabei</a>, die neuesten Themen bereitzustellen.</h6>
-    <?php
-}
-
-?>
-
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        jQuery('.portal_latest_search_results_slider').slick({
-            infinite: true,
-            slidesToShow: 2,
-            slidesToScroll: 1,
-            zIndex: 0
-        });
-    });
-</script>
+</div>
 <?php if (is_admin()) {
     echo '</div>';
 }; ?>

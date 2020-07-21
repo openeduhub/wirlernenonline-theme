@@ -36,9 +36,9 @@ $learningResourceTypes = (!empty($learningResourceTypes)) ? $learningResourceTyp
 
 $block_var_generalKeywords = get_field('generalKeyword');
 $generalKeywords = (!empty($block_var_generalKeywords)) ? $block_var_generalKeywords : get_post_meta($postID, 'generalKeyword', false)[0];
-$generalKeywords = (!empty($generalKeywords)) ? explode(",",$generalKeywords) : [];
+$generalKeywords = (!empty($generalKeywords)) ? explode(",", $generalKeywords) : [];
 
-    $pattern = '/http.*\?id=(.*)(&|$)/';
+$pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 
 $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $matches[1][0] . '/children/references';
@@ -88,128 +88,134 @@ $mediaTypes = array(
     "collection" => "Sammlung",
     "saved_search" => "Suche"
 );
-
-echo '<h3>' . ((!empty(get_field('headline'))) ? get_field('headline') : 'Materialien') . '</h3>';
-echo (!empty(get_field('text'))) ? '<p>' . get_field('text') . '</p>' : '';
-
-if (!empty($response->references)) { ?>
-    <div class="portal-collection-content-browser">
-        <div class="portal_content_grid">
-            <?php
-            foreach ($response->references as $reference) {
-                $prop = $reference->properties;
-
-                // Filter Discipline
-                $propDisciplines = $prop->{'ccm:taxonid'};
-                $propDisciplines = (!empty($propDisciplines)) ? array_filter($propDisciplines) : [];
-                $propDisciplines = (!empty($propDisciplines)) ? trim_https_http_from_array($propDisciplines) : [];
-
-                $disciplinesVocab = (!empty(array_filter($disciplines))) ? array_map("map_vocab_disciplines_value_only", $disciplines) : [];
-                $disciplinesVocab = (!empty($disciplinesVocab)) ? array_filter($disciplinesVocab) : [];
-                $disciplinesVocab = (!empty($disciplinesVocab)) ? trim_https_http_from_array($disciplinesVocab) : [];
-
-                $filterDiscipline = (empty($propDisciplines)) ? true : empty(array_intersect($propDisciplines, $disciplinesVocab));
-
-                if (!empty($disciplinesVocab) && $filterDiscipline) {
-
-                    //echo '<pre style="background-color: lightgrey">' , var_dump("Discipline") , '</pre>';
-                    continue;
-                }
-
-                // Filter EducationalContext
-                $propEducationalContexts = $prop->{'ccm:educationalcontext'};
-                $propEducationalContexts = (!empty($propEducationalContexts)) ? array_filter($propEducationalContexts) : [];
-                $propEducationalContexts = (!empty($propEducationalContexts)) ? trim_https_http_from_array($propEducationalContexts) : [];
-
-                $educationalContextsVocab = (!empty(array_filter($educationalContexts))) ? array_map("map_vocab_educationalContexts_value_only", $educationalContexts) : [];
-                $educationalContextsVocab = (!empty($educationalContextsVocab)) ? array_filter($educationalContextsVocab) : [];
-                $educationalContextsVocab = (!empty($educationalContextsVocab)) ? trim_https_http_from_array($educationalContextsVocab) : [];
-
-                $filterEducationalContext = (empty($propEducationalContexts)) ? true : empty(array_intersect($propEducationalContexts, $educationalContextsVocab));
-
-                if (!empty($educationalContextsVocab) && $filterEducationalContext) {
-
-                    //echo '<pre style="background-color: lightgrey">' , var_dump("EduContext") , '</pre>';
-                    continue;
-                }
-
-                // Filter IntendedEndUserRole
-                $propIntendedEndUserRoles = $prop->{'ccm:educationalintendedenduserrole'};
-                $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? array_filter($propIntendedEndUserRoles) : [];
-                $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? trim_https_http_from_array($propIntendedEndUserRoles) : [];
-
-                $intendedEndUserRolesVocab = (!empty(array_filter($intendedEndUserRoles))) ? array_map("map_vocab_disciplines_value_only", $intendedEndUserRoles) : [];
-                $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? array_filter($intendedEndUserRolesVocab) : [];
-                $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? trim_https_http_from_array($intendedEndUserRolesVocab) : [];
-
-                $filterIntendedEndUserRole = (empty($propIntendedEndUserRoles)) ? true : empty(array_intersect($propIntendedEndUserRoles, $intendedEndUserRolesVocab));
-
-                if (!empty($intendedEndUserRolesVocab) && $filterIntendedEndUserRole) {
-
-                    //echo '<pre style="background-color: lightgrey">' , var_dump("Role") , '</pre>';
-                    continue;
-                }
-
-                // Filter ObjectType
-                $propObjectType = $prop->{'ccm:objecttype'};
-                if ($propObjectType &&
-                    !empty($propObjectType) &&
-                    !empty($objectTypes) &&
-                    !in_array($propObjectType,$objectTypes)) {
-
-                    //echo '<pre style="background-color: lightgrey">' , var_dump("OType") , '</pre>';
-                    continue;
-                }
-
-                // Filter LearningResourceType
-                $propLearningResourceTypes = $prop->{'ccm:educationallearningresourcetype'};
-                $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? array_filter($propLearningResourceTypes) : [];
-                $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? trim_https_http_from_array($propLearningResourceTypes) : [];
-
-                $learningResourceTypesVocab = (!empty($learningResourceTypes) &&!empty(array_filter($learningResourceTypes))) ? array_map("map_vocab_learning_resource_types_value_only", $learningResourceTypes) : [];
-                $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? array_filter($learningResourceTypesVocab) : [];
-                $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? trim_https_http_from_array($learningResourceTypesVocab) : [];
-
-                $filterLearningResourceTypes = (empty($propLearningResourceTypes)) ? true : empty(array_intersect($propLearningResourceTypes, $learningResourceTypesVocab));
-
-                if (!empty($learningResourceTypesVocab) && $filterLearningResourceTypes) {
-                    //echo '<pre style="background-color: lightgrey">' , var_dump("LRT") , '</pre>';
-                    continue;
-                }
-
-                // Filter General Keyword
-                $propGeneralKeywords = $prop->{'cclom:general_keyword'};
-                $propGeneralKeywords = (!empty($propGeneralKeywords)) ? array_filter($propGeneralKeywords) : [];
-
-                $filterGeneralKeywords = (empty($propGeneralKeywords)) ? true : empty(array_intersect($generalKeywords, $propGeneralKeywords));
-
-                if (!empty($generalKeywords) && $filterGeneralKeywords) {
-                    //echo '<pre style="background-color: lightgrey">' , var_dump("Keyword") , '</pre>';
-                    continue;
-                }
-
-                ?>
-                <a href="<?php echo $reference->content->url; ?>" target="_blank">
-                    <div class="portal_content_branch">
-                        <?php if (!empty($reference->preview->url)) { ?><img
-                            src="<?php echo $reference->preview->url; ?>"><?php }; ?>
-                        <div class="portal_search_text">
-                            <h5><?php echo ($reference->properties->{'cclom:title'}[0]) ? $reference->properties->{'cclom:title'}[0] : $reference->properties->{'cm:name'}[0]; ?></h5>&nbsp;&nbsp;
-                            <h5 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h5>
-                        </div>
-                    </div>
-                </a>
-                <?php
-            } ?>
-        </div>
-    </div>
-    <?php
-} else {
-    ?>
-    <h6 class="primary">Leider gibt es in dieser Sammlung noch keine Materialien. <a href="<?php echo get_permalink( get_page_by_path( 'tool-hinzufuegen' ) ) ?>">Hilf' uns dabei</a>, hier mehr Informationen und Materialien zusammenzutragen.</h6>
-    <?php
-}
 ?>
+<div class="portal_block">
+
+    <?php
+    echo '<h3>' . ((!empty(get_field('headline'))) ? get_field('headline') : 'Materialien') . '</h3>';
+    echo (!empty(get_field('text'))) ? '<p>' . get_field('text') . '</p>' : '';
+
+    if (!empty($response->references)) { ?>
+        <div class="portal-collection-content-browser">
+            <div class="portal_content_grid">
+                <?php
+                foreach ($response->references as $reference) {
+                    $prop = $reference->properties;
+
+                    // Filter Discipline
+                    $propDisciplines = $prop->{'ccm:taxonid'};
+                    $propDisciplines = (!empty($propDisciplines)) ? array_filter($propDisciplines) : [];
+                    $propDisciplines = (!empty($propDisciplines)) ? trim_https_http_from_array($propDisciplines) : [];
+
+                    $disciplinesVocab = (!empty(array_filter($disciplines))) ? array_map("map_vocab_disciplines_value_only", $disciplines) : [];
+                    $disciplinesVocab = (!empty($disciplinesVocab)) ? array_filter($disciplinesVocab) : [];
+                    $disciplinesVocab = (!empty($disciplinesVocab)) ? trim_https_http_from_array($disciplinesVocab) : [];
+
+                    $filterDiscipline = (empty($propDisciplines)) ? true : empty(array_intersect($propDisciplines, $disciplinesVocab));
+
+                    if (!empty($disciplinesVocab) && $filterDiscipline) {
+
+                        //echo '<pre style="background-color: lightgrey">' , var_dump("Discipline") , '</pre>';
+                        continue;
+                    }
+
+                    // Filter EducationalContext
+                    $propEducationalContexts = $prop->{'ccm:educationalcontext'};
+                    $propEducationalContexts = (!empty($propEducationalContexts)) ? array_filter($propEducationalContexts) : [];
+                    $propEducationalContexts = (!empty($propEducationalContexts)) ? trim_https_http_from_array($propEducationalContexts) : [];
+
+                    $educationalContextsVocab = (!empty(array_filter($educationalContexts))) ? array_map("map_vocab_educationalContexts_value_only", $educationalContexts) : [];
+                    $educationalContextsVocab = (!empty($educationalContextsVocab)) ? array_filter($educationalContextsVocab) : [];
+                    $educationalContextsVocab = (!empty($educationalContextsVocab)) ? trim_https_http_from_array($educationalContextsVocab) : [];
+
+                    $filterEducationalContext = (empty($propEducationalContexts)) ? true : empty(array_intersect($propEducationalContexts, $educationalContextsVocab));
+
+                    if (!empty($educationalContextsVocab) && $filterEducationalContext) {
+
+                        //echo '<pre style="background-color: lightgrey">' , var_dump("EduContext") , '</pre>';
+                        continue;
+                    }
+
+                    // Filter IntendedEndUserRole
+                    $propIntendedEndUserRoles = $prop->{'ccm:educationalintendedenduserrole'};
+                    $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? array_filter($propIntendedEndUserRoles) : [];
+                    $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? trim_https_http_from_array($propIntendedEndUserRoles) : [];
+
+                    $intendedEndUserRolesVocab = (!empty(array_filter($intendedEndUserRoles))) ? array_map("map_vocab_disciplines_value_only", $intendedEndUserRoles) : [];
+                    $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? array_filter($intendedEndUserRolesVocab) : [];
+                    $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? trim_https_http_from_array($intendedEndUserRolesVocab) : [];
+
+                    $filterIntendedEndUserRole = (empty($propIntendedEndUserRoles)) ? true : empty(array_intersect($propIntendedEndUserRoles, $intendedEndUserRolesVocab));
+
+                    if (!empty($intendedEndUserRolesVocab) && $filterIntendedEndUserRole) {
+
+                        //echo '<pre style="background-color: lightgrey">' , var_dump("Role") , '</pre>';
+                        continue;
+                    }
+
+                    // Filter ObjectType
+                    $propObjectType = $prop->{'ccm:objecttype'};
+                    if ($propObjectType &&
+                        !empty($propObjectType) &&
+                        !empty($objectTypes) &&
+                        !in_array($propObjectType, $objectTypes)) {
+
+                        //echo '<pre style="background-color: lightgrey">' , var_dump("OType") , '</pre>';
+                        continue;
+                    }
+
+                    // Filter LearningResourceType
+                    $propLearningResourceTypes = $prop->{'ccm:educationallearningresourcetype'};
+                    $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? array_filter($propLearningResourceTypes) : [];
+                    $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? trim_https_http_from_array($propLearningResourceTypes) : [];
+
+                    $learningResourceTypesVocab = (!empty($learningResourceTypes) && !empty(array_filter($learningResourceTypes))) ? array_map("map_vocab_learning_resource_types_value_only", $learningResourceTypes) : [];
+                    $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? array_filter($learningResourceTypesVocab) : [];
+                    $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? trim_https_http_from_array($learningResourceTypesVocab) : [];
+
+                    $filterLearningResourceTypes = (empty($propLearningResourceTypes)) ? true : empty(array_intersect($propLearningResourceTypes, $learningResourceTypesVocab));
+
+                    if (!empty($learningResourceTypesVocab) && $filterLearningResourceTypes) {
+                        //echo '<pre style="background-color: lightgrey">' , var_dump("LRT") , '</pre>';
+                        continue;
+                    }
+
+                    // Filter General Keyword
+                    $propGeneralKeywords = $prop->{'cclom:general_keyword'};
+                    $propGeneralKeywords = (!empty($propGeneralKeywords)) ? array_filter($propGeneralKeywords) : [];
+
+                    $filterGeneralKeywords = (empty($propGeneralKeywords)) ? true : empty(array_intersect($generalKeywords, $propGeneralKeywords));
+
+                    if (!empty($generalKeywords) && $filterGeneralKeywords) {
+                        //echo '<pre style="background-color: lightgrey">' , var_dump("Keyword") , '</pre>';
+                        continue;
+                    }
+
+                    ?>
+                    <a href="<?php echo $reference->content->url; ?>" target="_blank">
+                        <div class="portal_content_branch">
+                            <?php if (!empty($reference->preview->url)) { ?><img
+                                src="<?php echo $reference->preview->url; ?>"><?php }; ?>
+                            <div class="portal_search_text">
+                                <h5><?php echo ($reference->properties->{'cclom:title'}[0]) ? $reference->properties->{'cclom:title'}[0] : $reference->properties->{'cm:name'}[0]; ?></h5>&nbsp;&nbsp;
+                                <h5 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h5>
+                            </div>
+                        </div>
+                    </a>
+                    <?php
+                } ?>
+            </div>
+        </div>
+        <?php
+    } else {
+        ?>
+        <h6 class="primary">Leider gibt es in dieser Sammlung noch keine Materialien. <a
+                    href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf' uns dabei</a>, hier
+            mehr Informationen und Materialien zusammenzutragen.</h6>
+        <?php
+    }
+    ?>
+</div>
 <?php if (is_admin()) {
     echo '</div>';
 }; ?>

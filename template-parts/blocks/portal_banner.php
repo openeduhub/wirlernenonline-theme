@@ -96,27 +96,35 @@ $args = array(
 $query = new WP_Query($args);
 
 if ($query->have_posts()) :
-    echo '<div class="portal_banner_slider">';
-    while ($query->have_posts()) : $query->the_post();
-        ?>
-        <div>
-            <div class="portal_banner_slider_content">
-                <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('medium'); ?></a>
-                <div class="portal_banner_slider_content_text">
-                    <h3><?php the_title(); ?></h3>
-                    <p><?php the_excerpt(); ?></p>
-                    <div class="text-right">
-                        <a href="<?php the_permalink(); ?>" class="button">Weiterlesen</a>
+    echo '<div class="portal_block">';
+        echo '<div class="portal_banner_slider">';
+        while ($query->have_posts()) : $query->the_post();
+            ?>
+            <div>
+                <div class="portal_banner_slider_content">
+                    <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('medium'); ?></a>
+                    <div class="portal_banner_slider_content_text">
+                        <h3><?php the_title(); ?></h3>
+                        <p><?php the_excerpt(); ?></p>
+                        <div class="text-right">
+                            <a href="<?php the_permalink(); ?>" class="button">Weiterlesen</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    <?php
-    endwhile;
-
-    ?>
-
+        <?php
+        endwhile;
+        echo '</div>';?>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('.portal_banner_slider').slick({
+                autoplay: true,
+                arrows: false,
+                dots: true
+            });
+        });
+    </script>
     <?php
     echo '</div>';
 endif;
@@ -124,15 +132,6 @@ wp_reset_query();
 
 ?>
 
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        jQuery('.portal_banner_slider').slick({
-            autoplay: true,
-            arrows: false,
-            dots: true
-        });
-    });
-</script>
 <?php if (is_admin()) {
     echo '</div>';
 }; ?>

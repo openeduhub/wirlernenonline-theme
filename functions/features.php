@@ -326,15 +326,15 @@ function get_educational_filter_values($postID)
 
 function map_vocab_disciplines($n)
 {
-    return "\"https://w3id.org/openeduhub/vocabs/discipline/" . strval($n) . "\"";
+    return "\"http://w3id.org/openeduhub/vocabs/discipline/" . strval($n) . "\"";
 }
 function map_vocab_educationalContexts($n)
 {
-    return "\"https://w3id.org/openeduhub/vocabs/educationalContext/" . strval($n) . "\"";
+    return "\"http://w3id.org/openeduhub/vocabs/educationalContext/" . strval($n) . "\"";
 }
 function map_vocab_intendedEndUserRoles($n)
 {
-    return "\"https://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "\"";
+    return "\"http://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "\"";
 }
 function map_vocab_learningResourceTypes($n)
 {
@@ -342,15 +342,15 @@ function map_vocab_learningResourceTypes($n)
 }
 function map_vocab_disciplines_value_only($n)
 {
-    return "https://w3id.org/openeduhub/vocabs/discipline/" . strval($n) . "";
+    return "http://w3id.org/openeduhub/vocabs/discipline/" . strval($n) . "";
 }
 function map_vocab_educationalContexts_value_only($n)
 {
-    return "https://w3id.org/openeduhub/vocabs/educationalContext/" . strval($n) . "";
+    return "http://w3id.org/openeduhub/vocabs/educationalContext/" . strval($n) . "";
 }
 function map_vocab_intendedEndUserRoles_value_only($n)
 {
-    return "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "";
+    return "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "";
 }
 
 function map_vocab_learning_resource_types_value_only($n)

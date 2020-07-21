@@ -397,20 +397,12 @@ form .wpcf7-validation-errors{
     border: 1px solid lightgrey;
 }
 
-.backend_hint{
-    font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 0.6em;
-    color: gray(90);
-    background: lightgrey;
-    margin-bottom: 0.2rem;
-    padding: 0.2rem 0.5rem;
-}
-.backend_border{
-    border: 1px solid lightblue;
-}
-
 .portal {
     background: #f9f9f9;
+}
+
+.portal_block {
+    margin: 40px 0px;
 }
 
 .portal-full-width {
@@ -465,7 +457,8 @@ form .wpcf7-validation-errors{
 .portal_banner_slider {
     width: 100%;
     margin: 0 auto;
-    max-height: 250px;
+    height: 250px;
+    overflow-y: hidden;
 }
 
 .portal_banner_slider_content{
