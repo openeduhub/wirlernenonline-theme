@@ -336,6 +336,10 @@ function map_vocab_intendedEndUserRoles($n)
 {
     return "\"https://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "\"";
 }
+function map_vocab_learningResourceTypes($n)
+{
+    return "\"http://w3id.org/openeduhub/vocabs/learningResourceType/" . strval($n) . "\"";
+}
 function map_vocab_disciplines_value_only($n)
 {
     return "https://w3id.org/openeduhub/vocabs/discipline/" . strval($n) . "";
@@ -347,6 +351,16 @@ function map_vocab_educationalContexts_value_only($n)
 function map_vocab_intendedEndUserRoles_value_only($n)
 {
     return "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "";
+}
+
+function map_vocab_learning_resource_types_value_only($n)
+{
+    return "http://w3id.org/openeduhub/vocabs/learningResourceType/" . strval($n) . "";
+}
+
+function map_vocab_value_to_quotes($n)
+{
+    return "\"" . strval($n) . "\"";
 }
 
 function trim_https_http_from_array($array){

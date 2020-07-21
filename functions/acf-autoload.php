@@ -53,7 +53,7 @@ function acf_autoload_edu_context_field_choices( $field ) {
 
 }
 
-add_filter('acf/load_field/name=edu_context', 'acf_autoload_edu_context_field_choices');
+add_filter('acf/load_field/name=educationalContext', 'acf_autoload_edu_context_field_choices');
 
 function acf_autoload_intended_user_role_field_choices( $field ) {
 
@@ -81,5 +81,33 @@ function acf_autoload_intended_user_role_field_choices( $field ) {
 
 }
 
-add_filter('acf/load_field/name=intended_end_user_role', 'acf_autoload_intended_user_role_field_choices');
+add_filter('acf/load_field/name=intendedEndUserRole', 'acf_autoload_intended_user_role_field_choices');
+
+function acf_autoload_learning_resource_type_choices( $field ) {
+
+    // reset choices
+    $field['choices'] = array();
+
+    // Get Select-Field Options from Vocab Scheme
+    $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/learningResourceType/index.json');
+    $obj = json_decode($json);
+
+    $choices = $obj->hasTopConcept;
+    if( is_array($choices) ) {
+
+        foreach( $choices as $choice ) {
+
+            $idStr = $choice->id;
+            $lastSlash = strrpos($idStr, "/");
+            $id = substr($idStr, $lastSlash + 1);
+            $field['choices'][ $id ] = $choice->prefLabel->de;
+
+        }
+
+    }
+    return $field;
+
+}
+
+add_filter('acf/load_field/name=learningResourceTypes', 'acf_autoload_learning_resource_type_choices');
 

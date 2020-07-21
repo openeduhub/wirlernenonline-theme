@@ -17,6 +17,7 @@ $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
 $educational_filter_values = get_educational_filter_values($postID);
 
 // echo '<pre style="background-color: lightgrey">' , var_dump($educational_filter_values) , '</pre>';
+// echo '<script>console.log(' , json_encode($educational_filter_values) , ')</script>';
 
 $collectionUrl = $educational_filter_values["collectionUrl"];
 $disciplines = $educational_filter_values["disciplines"];
@@ -24,6 +25,18 @@ $educationalContexts = $educational_filter_values["educationalContexts"];
 $intendedEndUserRoles = $educational_filter_values["intendedEndUserRoles"];
 $oer = $educational_filter_values["oer"];
 /* ------------------------------------------------------------------- */
+
+$block_var_objectTypes = (!empty(get_field('objectTypes'))) ? get_field('objectTypes') : [];
+$objectTypes = (!empty($block_var_objectTypes)) ? array_column($block_var_objectTypes, 'value') : [];
+$objectTypes = (!empty($objectTypes)) ? $objectTypes : get_post_meta($postID, 'objectTypes', false)[0];
+
+$block_var_learningResourceTypes = (!empty(get_field('learningResourceTypes'))) ? get_field('learningResourceTypes') : [];
+$learningResourceTypes = (!empty($block_var_learningResourceTypes)) ? array_column($block_var_learningResourceTypes, 'value') : [];
+$learningResourceTypes = (!empty($learningResourceTypes)) ? $learningResourceTypes : get_post_meta($postID, 'learningResourceTypes', false)[0];
+
+$block_var_generalKeywords = get_field('generalKeyword');
+$generalKeywords = (!empty($block_var_generalKeyword)) ? $block_var_generalKeyword : get_post_meta($postID, 'generalKeyword', false)[0];
+$generalKeywords = (!empty($generalKeywords)) ? explode(",",$generalKeywords) : [];
 
 $count = 5;
 if (get_field('count')) {
@@ -59,6 +72,32 @@ if (!empty($intendedEndUserRoles)) {
         }';
 }
 
+if (!empty($learningResourceTypes)) {
+    $filter_query .= '{ 
+        facet: learningResourceType, 
+        terms: [
+            ' . implode('\n', array_map("map_vocab_learningResourceTypes", $learningResourceTypes)) . '
+            ] 
+        }';
+}
+
+if (!empty($objectTypes)) {
+    $filter_query .= '{
+        facet: type, 
+        terms: [
+            ' . implode('\n', array_map("map_vocab_value_to_quotes", $objectTypes)) . '
+            ] 
+        }';
+}
+if (!empty($generalKeywords)) {
+    $filter_query .= '{
+        facet: keyword, 
+        terms: [
+            ' . implode('\n', array_map("map_vocab_value_to_quotes", $generalKeywords)) . '
+            ] 
+        }';
+}
+
 if ($oer) {
     $filter_query .= '{ 
         facet: oer, 
@@ -67,7 +106,6 @@ if ($oer) {
             ] 
         }';
 }
-
 
 $search_query = '
         {
