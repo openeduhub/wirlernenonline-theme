@@ -54,3 +54,24 @@ function add_slug_class_to_menu_item($output){
  return $output;
 }
 add_filter('wp_nav_menu', 'add_slug_class_to_menu_item');
+
+add_filter( 'wp_get_nav_menu_items','nav_items', 11, 3 );
+
+function nav_items( $items, $menu, $args )
+{
+    if($menu->slug == "add-content-button-menu")
+    {
+        $postID = get_the_ID();
+        if(!is_null($postID)){
+            $disciplines = (!empty(get_post_meta($postID, 'discipline', false)[0])) ? get_post_meta($postID, 'discipline', false)[0] : null;
+
+            if(!empty($disciplines)){
+                foreach ($items as $key => $item){
+                    $item->url = add_query_arg( 'discipline', implode(',',$disciplines), $item->url );
+                }
+            }
+        }
+    }
+
+    return $items;
+}

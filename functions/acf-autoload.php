@@ -150,6 +150,28 @@ function render_discipline_field( $field ) {
 
 add_action('acf/render_field/name=discipline', 'render_discipline_field');
 
+function render_fachgebiet_field( $field ) {
+    $postID = get_acf_post_id();
+
+    if(is_null($postID))
+        return;
+
+    $disciplines = (!empty(get_query_var('discipline', null))) ? explode(";", get_query_var('discipline', null)) : [];
+    if(!is_null($disciplines) && !empty($disciplines))
+    {
+        foreach ($field['choices'] as $value => $label) {
+            if(in_array($value, $disciplines))
+            {
+                $field['default_value'] = $value;
+            }
+        }
+    }
+
+    return $field;
+}
+
+add_action('acf/load_field/name=fachgebiet', 'render_fachgebiet_field');
+
 function render_educationalContext_field( $field ) {
     $postID = get_acf_post_id();
 
