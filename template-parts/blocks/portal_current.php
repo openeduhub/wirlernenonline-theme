@@ -38,6 +38,9 @@ $block_var_generalKeywords = get_field('generalKeyword');
 $generalKeywords = (!empty($block_var_generalKeywords)) ? $block_var_generalKeywords : get_post_meta($postID, 'generalKeyword', false)[0];
 $generalKeywords = (!empty($generalKeywords)) ? explode(",", $generalKeywords) : [];
 
+$block_var_topic = get_field('topic');
+$topic = (!empty($block_var_topic)) ? $block_var_topic : get_post_meta($postID, 'topic', true);
+
 $count = 5;
 if (get_field('count')) {
     $count = intval(get_field('count'));
@@ -106,11 +109,15 @@ if ($oer) {
             ] 
         }';
 }
+if ($topic) {
+    $search_string = $topic;
+}
+
 
 $search_query = '
         {
           search(
-            searchString: ""
+            searchString: "' . $search_string . '"
             from: 0 
             size: ' . intval($count) . '
             filters: [

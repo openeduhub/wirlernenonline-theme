@@ -10,8 +10,8 @@ GET http://localhost/wlo/wp-json/portal/v1/add?collectionId=be567dec-313d-4386-8
 ### Ebene 0, Physik
 GET http://localhost/wlo/wp-json/portal/v1/add?collectionId=079e9901-bce1-4c93-89f2-70eb29f021bc&discipline=https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2Fdiscipline%2F460&title=Physik
 
-### Ebene 0, Mathematik
-GET http://localhost/wlo/wp-json/portal/v1/add?collectionId=81ef13e4-ad04-46b7-b772-c35eebeb3cdc&discipline=https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2Fdiscipline%2F380&title=Mathematik
+### Ebene 1, Stochastik, Sekundarstufe 2
+GET http://localhost/wlo/wp-json/portal/v1/add?collectionId=3881ac05-3130-467d-9fd4-0932b93bdbf1&discipline=https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2Fdiscipline%2F380&educationalContext=https%3A%2F%2Fw3id.org%2Fopeneduhub%2Fvocabs%2FeducationalContext%2Fsekundarstufe_2&title=Stochastik
 
 
 ###

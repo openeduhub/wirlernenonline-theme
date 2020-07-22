@@ -48,7 +48,7 @@ function check_unique_collection_link($collection_url) {
 function add_portal(WP_REST_Request $request) {
 
     $collection_id = $request->get_param( 'collectionId' );
-    $title = urldecode($request->get_param( 'title' ));
+    $topic = urldecode($request->get_param( 'title' ));
     $disciplines = explode(",",urldecode($request->get_param( 'discipline' )));
     $edu_contexts = explode(",",urldecode($request->get_param( 'educationalContext')));
     $intended_end_user_roles = explode(",",urldecode($request->get_param( 'intendedEndUserRole')));
@@ -109,8 +109,8 @@ function add_portal(WP_REST_Request $request) {
             'post_author' => 'admin',
             'post_content' => $content,
             'post_content_filtered' => '',
-            'post_title' => $title,
-            'post_name' => sanitize_title_with_dashes($title, '', 'save'),
+            'post_title' => $topic,
+            'post_name' => sanitize_title_with_dashes($topic, '', 'save'),
             'post_excerpt' => '',
             'post_status' => 'draft',
             'post_type' => 'portal',
@@ -132,6 +132,7 @@ function add_portal(WP_REST_Request $request) {
         if (!empty($post_id) && is_numeric($post_id)) {
             update_field('collection_url', $collection_url, $post_id);
             update_field('collection_level', $collection_level, $post_id);
+            update_field('topic', $topic, $post_id);
 
             //Discipline
             if(!function_exists("clean_discipline")){

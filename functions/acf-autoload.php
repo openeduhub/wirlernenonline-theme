@@ -198,3 +198,41 @@ function render_intendedEndUserRole_field( $field ) {
     return $field;
 }
 add_action('acf/render_field/name=intendedEndUserRole', 'render_intendedEndUserRole_field');
+
+function render_topic_field( $field ) {
+    $postID = get_acf_post_id();
+
+    if(!is_admin() || is_null($postID))
+        return;
+
+    $topic = (!empty(get_post_meta($postID, 'topic', false)[0])) ? get_post_meta($postID, 'topic', true) : null;
+    if(!is_null($topic) && !empty($topic))
+    {
+        echo '<div class="acf-preset">';
+        echo '<p class="acf-preset-desc">Voreinstellung: </p><br/>';
+        echo '<div class="acf-preset-field">' . $topic . '</div>';
+        echo '</div>';
+    }
+
+    return $field;
+}
+add_action('acf/render_field/name=topic', 'render_topic_field');
+
+function render_collection_url_field( $field ) {
+    $postID = get_acf_post_id();
+
+    if(!is_admin() || is_null($postID))
+        return;
+
+    $collection_url = (!empty(get_post_meta($postID, 'collection_url', false)[0])) ? get_post_meta($postID, 'collection_url', true) : null;
+    if(!is_null($collection_url) && !empty($collection_url))
+    {
+        echo '<div class="acf-preset">';
+        echo '<p class="acf-preset-desc">Voreinstellung: </p><br/>';
+        echo '<div class="acf-preset-field">' . $collection_url . '</div>';
+        echo '</div>';
+    }
+
+    return $field;
+}
+add_action('acf/render_field/name=collection_url', 'render_collection_url_field');
