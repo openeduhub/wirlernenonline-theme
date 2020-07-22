@@ -1,43 +1,33 @@
 
     <?php
+
+    $post_types = array();
+    foreach (get_field('type') as $type){
+        $post_types[] = $type['value'];
+    }
+
+    if (get_field('post_status')){
+        $post_status = array();
+        foreach (get_field('post_status') as $status){
+            $post_status[] = $status['value'];
+        }
+    }else{
+        $post_status = 'any';
+    }
+
+
     $posts = get_posts(array(
-        'post_type' => array('edusource'),
+        'post_type' => $post_types,
         'numberposts' => -1,
-        'post_status'       => 'any',
+        'post_status'       => $post_status,
     ));
     if($posts)
     {
 
     // get the school subjects via graphQL
-    $data = '{ search { facets { facet buckets { key doc_count } } } }';
-    $curl_post_data = array("query" => $data);
-    $data_string =  json_encode($curl_post_data);
-    $url = 'https://suche.wirlernenonline.de/relay/graphql';
+    $data = '{facet(facet:source){buckets{key, doc_count}}}';
+    $sources = callWloGraphApi($data)->data->facet->buckets;
 
-    try {
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                'Accept: application/json',
-                'Content-Type: application/json; charset=utf-8'
-            )
-        );
-        $response = curl_exec($curl);
-        if($response === false) {
-            echo 'curl error';
-            trigger_error(curl_error($curl), E_USER_WARNING);
-            return false;
-        }
-    } catch (Exception $e) {
-        echo 'curl error: '.$e->getMessage();
-        trigger_error($e->getMessage(), E_USER_WARNING);
-        return false;
-    }
-    curl_close($curl);
-    $response = json_decode($response);
-    $sources = $response->data->search->facets[5]->buckets;
 
         ?>
         <table class="wlo_source_dev js-sort-table">
