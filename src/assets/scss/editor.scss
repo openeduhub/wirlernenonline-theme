@@ -45,3 +45,19 @@
     border: 1px solid lightblue;
   }
 }
+
+.acf-preset{
+  .acf-preset-desc{
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+  .acf-preset-field{
+    display: inline-block;
+    padding: 3px;
+    background-color: grey;
+    color: white;
+    font-size: 0.8em;
+    margin: 0px 2px;
+  }
+}

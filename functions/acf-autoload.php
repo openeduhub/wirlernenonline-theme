@@ -24,7 +24,7 @@ function acf_autoload_discipline_field_choices( $field ) {
     return $field;
 
 }
-
+add_filter('acf/load_field/name=fachgebiet', 'acf_autoload_discipline_field_choices');
 add_filter('acf/load_field/name=discipline', 'acf_autoload_discipline_field_choices');
 
 function acf_autoload_edu_context_field_choices( $field ) {
@@ -107,7 +107,94 @@ function acf_autoload_learning_resource_type_choices( $field ) {
     }
     return $field;
 
+};
+
+function get_acf_post_id(){
+    $postID = null;
+
+    if (function_exists( 'acf_maybe_get_POST' ) ) {
+        $postID = intval( acf_maybe_get_POST( 'post_id' ) );
+    }
+    else {
+        global $post;
+        if(!is_null($post)){
+            $postID = intval($post->ID);
+        }
+    };
+
+    return $postID;
 }
 
-add_filter('acf/load_field/name=learningResourceTypes', 'acf_autoload_learning_resource_type_choices');
+function render_discipline_field( $field ) {
+    $postID = get_acf_post_id();
 
+    if(!is_admin() || is_null($postID))
+        return;
+
+    $disciplines = (!empty(get_post_meta($postID, 'discipline', false)[0])) ? get_post_meta($postID, 'discipline', false)[0] : null;
+    if(!is_null($disciplines) && !empty($disciplines))
+    {
+        echo '<div class="acf-preset">';
+        echo '<p class="acf-preset-desc">Voreinstellung: </p></br>';
+        foreach ($field['choices'] as $value => $label) {
+            if(in_array($value, $disciplines))
+            {
+                echo '<div class="acf-preset-field">' . $label . '</div>';
+            }
+        }
+        echo '</div>';
+    }
+
+    return $field;
+}
+
+add_action('acf/render_field/name=discipline', 'render_discipline_field');
+
+function render_educationalContext_field( $field ) {
+    $postID = get_acf_post_id();
+
+    if(!is_admin() || is_null($postID))
+        return;
+
+    $eduContexts = (!empty(get_post_meta($postID, 'educationalContext', false)[0])) ? get_post_meta($postID, 'educationalContext', false)[0] : null;
+    if(!is_null($eduContexts) && !empty($eduContexts))
+    {
+        echo '<div class="acf-preset">';
+        echo '<p class="acf-preset-desc">Voreinstellung: </p><br/>';
+        foreach ($field['choices'] as $value => $label) {
+            if(in_array($value, $eduContexts))
+            {
+                echo '<div class="acf-preset-field">' . $label . '</div>';
+            }
+        }
+        echo '</div>';
+    }
+
+    return $field;
+}
+
+add_action('acf/render_field/name=educationalContext', 'render_educationalContext_field');
+
+function render_intendedEndUserRole_field( $field ) {
+    $postID = get_acf_post_id();
+
+    if(!is_admin() || is_null($postID))
+        return;
+
+    $intendedEndUserRoles = (!empty(get_post_meta($postID, 'intendedEndUserRole', false)[0])) ? get_post_meta($postID, 'intendedEndUserRole', false)[0] : null;
+    if(!is_null($intendedEndUserRoles) && !empty($intendedEndUserRoles))
+    {
+        echo '<div class="acf-preset">';
+        echo '<p class="acf-preset-desc">Voreinstellung: </p><br/>';
+        foreach ($field['choices'] as $value => $label) {
+            if(in_array($value, $intendedEndUserRoles))
+    {
+        echo '<div class="acf-preset-field">' . $label . '</div>';
+    }
+    }
+        echo '</div>';
+    }
+
+    return $field;
+}
+add_action('acf/render_field/name=intendedEndUserRole', 'render_intendedEndUserRole_field');
