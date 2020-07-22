@@ -92,7 +92,24 @@ $portals_result->reset_postdata();
                     $subject_field = get_field_object('educationalContext', $postID);
                     $educationalContextsChoices = $subject_field['choices'];
 
-                    echo '<option value="">Alle Bildungsstufen</option>';
+                    $defaultValueField = '<option data-url="" value="">Alle Bildungsstufen</option>';
+                    $currentDiscipline = $disciplines[0];
+
+                    // Set default page
+                    $portalsWithNoEduContext = array_filter($portals, function ($portal) use ($currentDiscipline) {
+                        $isToplevel = $portal['level'] == 0;
+                        $hasDiscipline = (!empty($portal['discipline'])) && ($portal['discipline']['value'] == $currentDiscipline);
+                        $hasNoContext = empty($portal['educationalContexts']);
+                        return $isToplevel && $hasDiscipline && $hasNoContext;
+                    });
+
+                    if (!empty($portalsWithNoEduContext)) {
+                        $dataUrl = $portalsWithNoEduContext[array_key_first($portalsWithNoEduContext)]['url'];
+                        $defaultValueField = '<option data-url="' . $dataUrl . '" value="">Alle Bildungsstufen</option>';
+                    }
+                    echo $defaultValueField;
+
+
                     foreach ($educationalContextsChoices as $value => $label) {
 
                         $currentDiscipline = $disciplines[0];
@@ -135,7 +152,28 @@ $portals_result->reset_postdata();
                     $subject_field = get_field_object('intendedEndUserRole', $postID);
                     $intendedEndUserRolesChoices = $subject_field['choices'];
 
-                    echo '<option value="">Alle Zielgruppen</option>';
+                    $defaultValueField = '<option data-url="" value="">Alle Zielgruppen</option>';
+                    foreach ($educationalContextsChoices as $value => $label) {
+                        $currentDiscipline = $disciplines[0];
+                        $currentEducationalContext = $value;
+
+                        // If Portal with given discipline/educationalContext combination exists, link to that one
+                        $portalsWithNoRole = array_filter($portals, function ($portal) use ($currentDiscipline, $currentEducationalContext) {
+                            $isToplevel = $portal['level'] == 0;
+                            $hasDiscipline = (!empty($portal['discipline'])) && ($portal['discipline']['value'] == $currentDiscipline);
+                            $hasContext = (!empty($portal['educationalContexts'])) && in_array($currentEducationalContext, array_column($portal['educationalContexts'], 'value'));
+                            $hasNoRole = empty($portal['intendedEndUserRoles']);
+                            return $isToplevel && $hasDiscipline && $hasContext && $hasNoRole;
+                        });
+
+                        if (!empty($portalsWithNoRole)) {
+                            $dataUrl = $portalsWithNoRole[array_key_first($portalsWithNoRole)]['url'];
+                            $defaultValueField = '<option data-url="' . $dataUrl . '" value="">Alle Zielgruppen</option>';
+                            break;
+                        }
+                    }
+                    echo $defaultValueField;
+
                     foreach ($intendedEndUserRolesChoices as $value => $label) {
 
                         $currentDiscipline = $disciplines[0];
@@ -221,6 +259,7 @@ $portals_result->reset_postdata();
                     if (value) {
                         var newUrl = url.replace(regEx, '$1=' + value);
                     } else {
+                        //Nothing chosen, but GET set
                         var newUrl = url.replace(regEx, '');
                     }
 
@@ -232,6 +271,11 @@ $portals_result->reset_postdata();
                         } else {
                             window.location.href = url + "?educationalContext=" + value;
                         }
+                    }
+                    else{
+                        //Nothing chosen, GET unset
+
+
                     }
                 }
             }
