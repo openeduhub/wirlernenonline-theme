@@ -183,6 +183,32 @@
   text-overflow: ellipsis;
 }
 
+.portal_latest_posts_list, .portal_latest_search_results_list{
+  max-height: 500px;
+  overflow-y: scroll;
+  .portal_latest_posts_list_content, .portal_latest_search_results_list_content{
+    background-color: white;
+    border: 1px solid #ECECEC;
+    padding: 30px 20px;
+    display: flex;
+    a {
+      margin: 20px;
+      img {
+        width: 80px;
+        max-width: 80px;
+        height: 80px;
+        max-height: 80px;
+        object-fit: contain;
+      }
+    }
+    .portal_latest_posts_list_content_text, .portal_latest_search_results_list_content_text{
+      a {
+        margin: 0;
+      }
+    }
+  }
+}
+
 
 .portal-search-group{
   display: flex;

@@ -162,48 +162,75 @@ if (get_field('custom_search_active')) {
         echo '<h3>Neuigkeiten</h3>';
     $response = callWloGraphApi($search_query);
     if (!empty($response->data->search->hits)) {
-        $sliderId = uniqid('slider-');
-        ?>
-        <div class="portal_latest_search_results_slider" id="<?php echo $sliderId?>">
-            <?php
-            foreach ($response->data->search->hits as $hit) {
-                ?>
-                <div>
-                    <div class="portal_latest_search_results_slider_content">
-                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
-                           target="_blank">
+        if (get_field('as_list')) {
+            ?>
+            <div class="portal_latest_search_results_block">
+                <div class="portal_latest_search_results_list"><?php
+                    foreach ($response->data->search->hits as $hit) {
+                    ?>
+
+                    <div class="portal_latest_search_results_list_content">
+                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>">
                             <img src="<?php echo $hit->previewImage->thumbnail->url; ?>">
                         </a>
-                        <div class="portal_latest_search_results_slider_content_text">
-                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
-                               target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                        <div class="portal_latest_search_results_list_content_text">
+                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"><h5><?php echo $hit->lom->general->title; ?></h5></a>
                             <p><?php echo $hit->lom->general->description; ?></p>
                         </div>
                     </div>
-                </div>
-                <?php
-            }
-            ?>
-        </div>
-        <script type="text/javascript">
-            jQuery(function() {
-                // Handler for .ready() called. Put the Slick Slider etc. init code here.
-                function loadSearchSlider(){
-                    if (typeof jQuery().slick === "function") {
-                        jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
-                            infinite: true,
-                            slidesToShow: 2,
-                            slidesToScroll: 1,
-                            zIndex: 0
-                        });
+
+                    <?php
                     }
-                }
-                loadSearchSlider();
-            });
-        </script>
+                    ?>
+                </div>
+            </div>
         <?php
-    } else {
+        } else {
+        $sliderId = uniqid('slider-');
         ?>
+            <div class="portal_latest_search_results_slider" id="<?php echo $sliderId ?>">
+                <?php
+                foreach ($response->data->search->hits as $hit) {
+                    ?>
+                    <div>
+                        <div class="portal_latest_search_results_slider_content">
+                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
+                               target="_blank">
+                                <img src="<?php echo $hit->previewImage->thumbnail->url; ?>">
+                            </a>
+                            <div class="portal_latest_search_results_slider_content_text">
+                                <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
+                                   target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                                <p><?php echo $hit->lom->general->description; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+            <script type="text/javascript">
+                jQuery(function () {
+                    // Handler for .ready() called. Put the Slick Slider etc. init code here.
+                    function loadSearchSlider() {
+                        if (typeof jQuery().slick === "function") {
+                            jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
+                                infinite: true,
+                                slidesToShow: 2,
+                                slidesToScroll: 1,
+                                zIndex: 0
+                            });
+                        }
+                    }
+
+                    loadSearchSlider();
+                });
+            </script>
+        <?php
+        }
+
+    } else {
+    ?>
         <h6 class="primary">Leider gibt es in dieser Rubrik keine Neuigkeiten. <a
                     href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf' uns dabei</a>, die
             neuesten Themen bereitzustellen.</h6>
