@@ -96,12 +96,13 @@ $args = array(
 $query = new WP_Query($args);
 
 if ($query->have_posts()) :
+    $sliderId = uniqid('slider-');
     echo '<div class="portal_block">';
-        echo '<div class="portal_banner_slider">';
+        echo '<div class="portal_banner_slider" id="' . $sliderId . '">';
         while ($query->have_posts()) : $query->the_post();
             ?>
             <div>
-                <div class="portal_banner_slider_content">
+                <div class="portal_banner_slider_content" id="<?php echo $sliderId?>">
                     <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('medium'); ?></a>
                     <div class="portal_banner_slider_content_text">
                         <h3><?php the_title(); ?></h3>
@@ -117,12 +118,20 @@ if ($query->have_posts()) :
         endwhile;
         echo '</div>';?>
     <script type="text/javascript">
-        jQuery(document).ready(function () {
-            jQuery('.portal_banner_slider').slick({
-                autoplay: true,
-                arrows: false,
-                dots: true
-            });
+        jQuery(function() {
+            // Handler for .ready() called. Put the Slick Slider etc. init code here.
+            function loadBannerSlider(){
+                if (typeof jQuery().slick === "function") {
+                    jQuery('#<?php echo $sliderId ?>').not('.slick-initialized').slick({
+                        infinite: true,
+                        slidesToShow: 1,
+                        autoplay: true,
+                        arrows: false,
+                        dots: true
+                    });
+                }
+            }
+            loadBannerSlider();
         });
     </script>
     <?php

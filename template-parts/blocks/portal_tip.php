@@ -44,7 +44,8 @@ if (get_field('active')){
                 echo '<h3>Blogbeiträge</h3>';
 
             echo '<div class="portal_latest_posts_block">';
-                echo '<div class="portal_latest_posts_slider">';
+                $sliderId = uniqid('slider-');
+                echo '<div class="portal_latest_posts_slider" id="' . $sliderId . '">';
                 while ($query->have_posts()) : $query->the_post();
                     ?>
                     <div>
@@ -64,13 +65,19 @@ if (get_field('active')){
             echo '</div>';
             ?>
         <script type="text/javascript">
-            jQuery(document).ready(function(){
-                jQuery('.portal_latest_posts_slider').slick({
-                    infinite: true,
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    zIndex: 0
-                });
+            jQuery(function() {
+                // Handler for .ready() called. Put the Slick Slider etc. init code here.
+                function loadBlogSlider(){
+                    if (typeof jQuery().slick === "function") {
+                        jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
+                            infinite: true,
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                            zIndex: 0
+                        });
+                    }
+                }
+                loadBlogSlider();
             });
         </script>
         <?php

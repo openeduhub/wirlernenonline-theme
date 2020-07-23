@@ -3,6 +3,9 @@
 @import 'custom-fonts';
 @import 'settings';
 
+@import 'foundation';
+
+@include foundation-typography;
 
 .block-editor-writing-flow {
     font-family: $body-font-family;
@@ -46,6 +49,10 @@
   }
 }
 
+.edit-post-sidebar ul {
+  list-style-type: none;
+}
+
 .acf-preset{
   .acf-preset-desc{
     margin-top: 10px;
@@ -60,4 +67,8 @@
     font-size: 0.8em;
     margin: 0px 2px;
   }
+}
+
+#adminmenumain ul{
+  margin-left: 0px;
 }

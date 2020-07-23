@@ -162,8 +162,9 @@ if (get_field('custom_search_active')) {
         echo '<h3>Neuigkeiten</h3>';
     $response = callWloGraphApi($search_query);
     if (!empty($response->data->search->hits)) {
+        $sliderId = uniqid('slider-');
         ?>
-        <div class="portal_latest_search_results_slider">
+        <div class="portal_latest_search_results_slider" id="<?php echo $sliderId?>">
             <?php
             foreach ($response->data->search->hits as $hit) {
                 ?>
@@ -185,13 +186,19 @@ if (get_field('custom_search_active')) {
             ?>
         </div>
         <script type="text/javascript">
-            jQuery(document).ready(function () {
-                jQuery('.portal_latest_search_results_slider').slick({
-                    infinite: true,
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    zIndex: 0
-                });
+            jQuery(function() {
+                // Handler for .ready() called. Put the Slick Slider etc. init code here.
+                function loadSearchSlider(){
+                    if (typeof jQuery().slick === "function") {
+                        jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
+                            infinite: true,
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                            zIndex: 0
+                        });
+                    }
+                }
+                loadSearchSlider();
             });
         </script>
         <?php
