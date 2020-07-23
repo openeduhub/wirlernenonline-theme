@@ -13,10 +13,22 @@ $image = get_field('icon');
         <div class="margin-bottom-2 latest-header"><img src="<?php echo $image['url']; ?>" width="50" height="50" alt="<?php echo $image['alt']; ?>"><h1><?php echo $title; ?></h1></div>
     </div>
       <?php
+      $roles = get_field('role');
+      $link_label = '';
+      if ($roles){
+          if (count($roles) == 1){
+             $link_label = 'Alle neuen Einträge für '.$roles[0]['label'];
+          }else{
+              $link_label = 'Alle neuen Einträge für';
+              foreach ($roles as $role){
+                  $link_label .= ' '.$role['value'];
+              }
+          }
+      }
       $link = get_field( 'link' );
       if( $link ){ ?>
           <div class="cell shrink">
-              <a class="button hollow" href="<?php echo $link; ?>">Alle Einträge</a>
+              <a class="button hollow" href="<?php echo $link; ?>" aria-label="<?php echo $link_label; ?>">Alle Einträge</a>
           </div>
       <?php }
       ?>
