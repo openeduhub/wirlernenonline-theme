@@ -79,7 +79,7 @@ $response = json_decode($response);
             if (get_field('next_level')) {
                 //Sub-Level
                 ?>
-                <div class="portal_subject_grid">
+                <div class="portal_subject_list">
                     <?php
                     foreach ($response->collections as $collection) {
                         if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated') {
@@ -134,8 +134,9 @@ $response = json_decode($response);
                             ?>
                             <ul>
                                 <li>
-                                    <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>"><h4><span
-                                                    class='material-icons'>expand_more</span><?php echo $collection->title; ?>
+                                    <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>">
+                                        <h4>
+                                            <?php echo $collection->title; ?>
                                         </h4></a>
 
 
@@ -218,9 +219,10 @@ $response = json_decode($response);
                                                 ?>
                                                 <li>
                                                     <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>">
-                                                        <h5>
-                                                            <span class='material-icons'>chevron_right</span><?php echo $collection->title; ?>
-                                                        </h5></a>
+                                                        <h6>
+                                                            <?php echo $collection->title; ?>
+                                                        </h6>
+                                                    </a>
                                                 </li>
                                             <?php }
                                         } ?>
