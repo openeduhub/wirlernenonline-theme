@@ -161,8 +161,9 @@ if (get_field('custom_search_active')) {
     else
         echo '<h3>Neuigkeiten</h3>';
     $response = callWloGraphApi($search_query);
+
     if (!empty($response->data->search->hits)) {
-        if (get_field('as_list')) {
+        if (get_field('layout') == 'list') {
             ?>
             <div class="portal_latest_search_results_block">
                 <div class="portal_latest_search_results_list"><?php
@@ -185,7 +186,28 @@ if (get_field('custom_search_active')) {
                 </div>
             </div>
         <?php
-        } else {
+        } elseif (get_field('layout') == 'grid'){?>
+            <div class="portal_latest_search_results_grid"><?php
+                foreach ($response->data->search->hits as $hit) {
+                    ?>
+                <div class="portal_latest_search_results_grid_container">
+                    <div class="portal_latest_search_results_grid_content">
+                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>">
+                            <img src="<?php echo $hit->previewImage->thumbnail->url; ?>">
+                        </a>
+                        <div class="portal_latest_search_results_grid_content_text">
+                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                            <p><?php echo $hit->lom->general->description; ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                    <?php
+                }
+                ?>
+            </div>
+        <?php
+        } elseif (get_field('layout') == 'slider'){
         $sliderId = uniqid('slider-');
         ?>
             <div class="portal_latest_search_results_slider" id="<?php echo $sliderId ?>">

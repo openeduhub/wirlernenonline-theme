@@ -97,7 +97,19 @@ $mediaTypes = array(
 
     if (!empty($response->references)) { ?>
         <div class="portal-collection-content-browser">
-            <div class="portal_content_grid">
+                <?php
+                if (get_field('layout') == 'list') {
+                    ?>
+                    <div class="portal_content_list">
+                    <?php
+                }
+                else if (get_field('layout') == 'grid') {
+                    ?>
+                    <div class="portal_content_grid">
+                    <?php
+                }
+
+                ?>
                 <?php
                 foreach ($response->references as $reference) {
                     $prop = $reference->properties;
@@ -194,6 +206,7 @@ $mediaTypes = array(
                     ?>
                     <a href="<?php echo $reference->content->url; ?>" target="_blank">
                         <div class="portal_content_branch">
+                            <h5 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h5>
                             <?php if (!empty($reference->preview->url)) { ?><img
                                 src="<?php echo $reference->preview->url; ?>"><?php }; ?>
                             <div class="portal_search_text">
