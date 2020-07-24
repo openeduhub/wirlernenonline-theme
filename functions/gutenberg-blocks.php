@@ -147,6 +147,15 @@ acf_register_block_type(['name' => 'portal_collection_content_browser',
     'icon'				=> 'media-document',
     'keywords'			=> [ ],
 ]);
+//acf_register_block_type(array(
+//    'name'              => 'portal-edusharing-grid',
+//    'title'             => 'EduSharing Grid',
+//    'description'       => 'Zeigt ein Container-Block, der EduSharing-Blöcke enthält.',
+//    'category'          => 'themenportal',
+//    'mode'              => 'preview',
+//    'icon'				=> 'media-document',
+//    'enqueue_script'    => get_template_directory_uri() . '/template-parts/blocks/portal_edusharing_grid.js'
+//));
 // acf_register_block_type(['name' => 'Responsive Table',
 // 	'title'				=> __('Responsive Table'),
 // 	'description'		=> __('Table block optimized for mobile'),
@@ -159,3 +168,36 @@ acf_register_block_type(['name' => 'portal_collection_content_browser',
 if (function_exists('acf_register_block_type')) {
 	add_action('acf/init', 'register_acf_block_types');
 }
+
+function register_edusharing_blocks() {
+
+    wp_register_script(
+        'portal-edusharing-grid-script',get_template_directory_uri() . '/template-parts/blocks/portal_edusharing_grid.js'
+    );
+
+    register_block_type( 'acf/portal-edusharing-grid', array(
+        'name'              => 'portal-edusharing-grid',
+        'title'             => 'EduSharing Grid',
+        'description'       => 'Zeigt ein Grid, das EduSharing-Blöcke enthält.',
+        'category'          => 'themenportal',
+        'mode'              => 'preview',
+        'icon'				=> 'media-document',
+        'editor_script' => 'portal-edusharing-grid-script',
+    ) );
+
+    wp_register_script(
+        'portal-edusharing-list-script',get_template_directory_uri() . '/template-parts/blocks/portal_edusharing_list.js'
+    );
+
+    register_block_type( 'acf/portal-edusharing-list', array(
+        'name'              => 'portal-edusharing-list',
+        'title'             => 'EduSharing Liste',
+        'description'       => 'Zeigt eine Liste, die EduSharing-Blöcke enthält.',
+        'category'          => 'themenportal',
+        'mode'              => 'preview',
+        'icon'				=> 'media-document',
+        'editor_script' => 'portal-edusharing-list-script',
+    ) );
+
+}
+add_action( 'init', 'register_edusharing_blocks' );

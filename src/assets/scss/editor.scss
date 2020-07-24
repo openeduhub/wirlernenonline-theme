@@ -8,35 +8,41 @@
 @include foundation-typography;
 
 .block-editor-writing-flow {
-    font-family: $body-font-family;
-    .editor-post-title__block {
-      .editor-post-title__input {
-        font-family: $header-font-family;
-        font-weight: $header-font-weight;
-      }
-    }
-    .slick-slider {
-      max-height: none;
-      height: auto;
-    }
-    .portal_block_slider_content {
-      display: block;
-      padding: 0;
+  font-family: $body-font-family;
 
-      p{
-        max-height: 20px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
+  .editor-post-title__block {
+    .editor-post-title__input {
+      font-family: $header-font-family;
+      font-weight: $header-font-weight;
     }
+  }
+
+  .slick-slider {
+    max-height: none;
+    height: auto;
+  }
+
+  .portal_block_slider_content {
+    display: block;
+    padding: 0;
+
+    p {
+      max-height: 20px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+
   .cell.medium-4 {
     display: inline-block;
   }
+
   .portal_block {
     margin: 0px;
     padding: 10px
   }
-  .backend_hint{
+
+  .backend_hint {
     font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 0.6em;
     color: gray(90);
@@ -44,7 +50,8 @@
     margin-bottom: 0.2rem;
     padding: 10px
   }
-  .backend_border{
+
+  .backend_border {
     border: 1px solid lightblue;
   }
 }
@@ -53,13 +60,14 @@
   list-style-type: none;
 }
 
-.acf-preset{
-  .acf-preset-desc{
+.acf-preset {
+  .acf-preset-desc {
     margin-top: 10px;
     margin-bottom: 5px;
     display: inline-block;
   }
-  .acf-preset-field{
+
+  .acf-preset-field {
     display: inline-block;
     padding: 3px;
     background-color: grey;
@@ -69,6 +77,31 @@
   }
 }
 
-#adminmenumain ul{
+#adminmenumain ul {
   margin-left: 0px;
+}
+
+
+.wp-block-themenportal-portal-edusharing-grid {
+  display: block !important;
+
+  .block-editor-block-list__layout {
+
+    & > div {
+      width: 30%;
+      display: inline-block;
+      margin: 20px;
+    }
+
+    .es-placeholder {
+      margin: 0;
+    }
+
+    .eduObject {
+      .components-resizable-box__container {
+        height: auto !important;
+        width: auto !important;
+      }
+    }
+  }
 }
