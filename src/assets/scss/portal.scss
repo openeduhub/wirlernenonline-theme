@@ -323,6 +323,10 @@ height: 200px;
     & > ul {
       list-style-type: none;
       margin-left: 0;
+      margin-bottom: 0;
+      background-color: #efefef;
+      border: 4px;
+      padding: 5px 10px;
 
       li {
 
@@ -354,7 +358,7 @@ height: 200px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 1rem;
-    padding: 40px 50px;
+    padding: 20px;
     background-color: white;
     border: 1px solid #ECECEC;
   }

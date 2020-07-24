@@ -54,6 +54,8 @@
   .backend_border {
     border: 1px solid lightblue;
   }
+
+
 }
 
 .edit-post-sidebar ul {
@@ -101,6 +103,17 @@
       .components-resizable-box__container {
         height: auto !important;
         width: auto !important;
+      }
+    }
+  }
+}
+
+.block-editor {
+  .portal-subject-tree{
+    .portal_subject_list{
+      & > ul {
+        padding: 0;
+        margin: 0;
       }
     }
   }
