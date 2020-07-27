@@ -10,7 +10,7 @@
 
     <div class="cell small-12">
       <label class="field_label required" for="email">E-Mail:
-        <input type="text" class="form_field" placeholder="max@muster.de" name="email" id="email" value="" aria-describedby="NewsletterEmail" aria-errormessage="emailError" required pattern="email" />
+        <input type="text" class="form_field" placeholder="max@muster.de" name="email" id="email" value="" aria-errormessage="emailError" required pattern="email" />
         <span class="form-error">
           Bitte geben Sie eine gültige E-Mail Adresse ein.
         </span>
