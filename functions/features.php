@@ -255,11 +255,26 @@ add_filter('query_vars', 'register_query_vars');
 function get_educational_filter_values($postID)
 {
 
+    //Collection Level
+    //******************************************************************************************************************
+    $block_var_collection_level = (is_numeric(get_field('collection_level'))) ? get_field('collection_level') : [];
+    $portal_var_collection_level = (is_numeric(get_field('collection_level', $postID))) ? get_field('collection_level', $postID) : [];
+
+    $collection_level = (is_numeric($portal_var_collection_level)) ? $portal_var_collection_level : [];
+    $collection_level = (is_numeric($block_var_collection_level)) ? $block_var_collection_level : $collection_level;
+    $collection_level = (is_numeric($collection_level)) ? $collection_level : get_post_meta($postID, 'collection_level', true);
+
     //Collection URL
-    $collection_url = (!empty(get_field('collection_url'))) ? get_field('collection_url') : get_field('collection_url', $postID);
+    //******************************************************************************************************************
+    $block_var_collection_url = (!empty(get_field('collection_url'))) ? get_field('collection_url') : [];
+    $portal_var_collection_url = (!empty(get_field('collection_url', $postID))) ? get_field('collection_url', $postID) : [];
+
+    $collection_url = (!empty($portal_var_collection_url)) ? $portal_var_collection_url : [];
+    $collection_url = (!empty($block_var_collection_url)) ? $block_var_collection_url : $collection_url;
     $collection_url = (!empty($collection_url)) ? $collection_url : get_post_meta($postID, 'collection_url', true);
 
     //Disciplines
+    //******************************************************************************************************************
     $query_var_disciplines = (!empty(get_query_var('discipline', null))) ? explode(";", get_query_var('discipline', null)) : [];
     $block_var_disciplines = (!empty(get_field('discipline'))) ? get_field('discipline') : [];
     $portal_var_disciplines = (!empty(get_field('discipline', $postID))) ? get_field('discipline', $postID) : [];
@@ -274,6 +289,7 @@ function get_educational_filter_values($postID)
 
 
     //EducationalContext
+    //******************************************************************************************************************
     $query_var_educationalContexts = (!empty(get_query_var('educationalContext', null))) ? explode(";", get_query_var('educationalContext', null)) : [];
     $block_var_educationalContexts = (!empty(get_field('educationalContext'))) ? get_field('educationalContext') : [];
     $portal_var_educationalContexts = (!empty(get_field('educationalContext', $postID))) ? get_field('educationalContext', $postID) : [];
@@ -289,6 +305,7 @@ function get_educational_filter_values($postID)
 
 
     //intendedEndUserRole
+    //******************************************************************************************************************
     $query_var_intendedEndUserRoles = (!empty(get_query_var('intendedEndUserRole', null))) ? explode(";", get_query_var('intendedEndUserRole', null)) : [];
     $block_var_intendedEndUserRoles = (!empty(get_field('intendedEndUserRole'))) ? get_field('intendedEndUserRole') : [];
     $portal_var_intendedEndUserRoles = (!empty(get_field('intendedEndUserRole', $postID))) ? get_field('intendedEndUserRole', $postID) : [];
@@ -303,6 +320,7 @@ function get_educational_filter_values($postID)
 
 
     //OER
+    //******************************************************************************************************************
     $query_var_oer = get_query_var('oer', false);
     $block_var_oer = get_field('oer');
     $portal_var_oer = (!empty(get_field('oer', $postID))) ? get_field('oer', $postID) : [];
@@ -317,6 +335,7 @@ function get_educational_filter_values($postID)
 
     return [
         "collectionUrl" => (!empty($collection_url)) ? $collection_url : '',
+        "collectionLevel" => (!empty($collection_level)) ? $collection_level : '',
         "disciplines" => (!empty($disciplines)) ? $disciplines : [],
         "educationalContexts" => (!empty($educationalContexts)) ? $educationalContexts : [],
         "intendedEndUserRoles" => (!empty($intendedEndUserRoles)) ? $intendedEndUserRoles : [],

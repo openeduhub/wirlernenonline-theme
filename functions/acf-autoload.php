@@ -258,3 +258,22 @@ function render_collection_url_field( $field ) {
     return $field;
 }
 add_action('acf/render_field/name=collection_url', 'render_collection_url_field');
+
+function render_oer_field( $field ) {
+    $postID = get_acf_post_id();
+
+    if(!is_admin() || is_null($postID))
+        return;
+
+    $oer = (!empty(get_post_meta($postID, 'oer', false)[0])) ? get_post_meta($postID, 'oer', true) : null;
+    if(!is_null($oer) && !empty($oer))
+    {
+        echo '<div class="acf-preset">';
+        echo '<p class="acf-preset-desc">Voreinstellung: </p><br/>';
+        echo '<div class="acf-preset-field">' . (($oer == true) ? 'Ja' : 'Nein') . '</div>';
+        echo '</div>';
+    }
+
+    return $field;
+}
+add_action('acf/render_field/name=oer', 'render_oer_field');

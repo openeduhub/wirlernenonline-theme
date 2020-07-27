@@ -547,3 +547,23 @@ height: 200px;
     }
   }
 }
+.portal-navigation {
+  input[type=checkbox] {
+    width: 1.1em;
+    height: 1.1em;
+  }
+  select, input[type=checkbox] {
+    display: inline-block;
+    margin: 0;
+  }
+  .portal_checkbox_container {
+    display: flex;;
+    align-items: center;
+    height: 100%;
+
+    label {
+      display: inline-block;
+      margin-right: 10px;
+    }
+  }
+}

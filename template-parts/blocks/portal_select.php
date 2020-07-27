@@ -7,11 +7,12 @@ if (is_admin()) {
 
 /* Filter Values prioritized GET/POST > Block-Setting > Portal-Setting */
 /*
-* collectionUrl
-* disciplines
-* educationalContexts
-* intendedEndUserRoles
-* oer
+ * collectionLevel
+ * collectionUrl
+ * disciplines
+ * educationalContexts
+ * intendedEndUserRoles
+ * oer
 */
 /* ------------------------------------------------------------------- */
 $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
@@ -20,6 +21,7 @@ $educational_filter_values = get_educational_filter_values($postID);
 // echo '<pre style="background-color: lightgrey">' , var_dump($educational_filter_values) , '</pre>';
 // echo '<script>console.log(' , json_encode($educational_filter_values) , ')</script>';
 
+$collectionLevel = intval($educational_filter_values["collectionLevel"]);
 $collectionUrl = $educational_filter_values["collectionUrl"];
 $disciplines = $educational_filter_values["disciplines"];
 $educationalContexts = $educational_filter_values["educationalContexts"];
@@ -57,35 +59,37 @@ while ($portals_result->have_posts()) {
 }
 $portals_result->reset_postdata();
 
+$navigationId = uniqid('navigation-');
+
 ?>
 <div class="portal_block">
-    <div class="portal-select-container grid-x grid-margin-x">
-        <div class="cell medium-4">
-            <select class="portal_select select-discipline">
-                <?php
-                echo '<option value="">Fach auswählen</option>';
-                foreach ($portals as $key => $portal) {
-                    if ($portal['level'] > 0)
-                        continue;
-
-                    if (!empty($portal['educationalContexts']) || !empty($portal['intendedEndUserRoles']))
-                        continue;
-
-                    if (!empty($disciplines) && $disciplines[0] == $portal['discipline']['value']) {
-                        echo '<option data-url="' . $portal['url'] . '" value="' . $portal['discipline']['value'] . '" selected>' . $portal['discipline']['label'] . '</option>';
-                    } else {
-                        echo '<option data-url="' . $portal['url'] . '" value="' . $portal['discipline']['value'] . '">' . $portal['discipline']['label'] . '</option>';
-                    }
-                }
-                ?>
-            </select>
-        </div>
+    <div class="portal-navigation grid-x grid-margin-x <?php echo $navigationId ?>">
         <?php
-        $portal_level = get_field('collection_level', $postID);
-
-
-        if (intval($portal_level) == 0) {
+        /* ----------------------------------------------------------------------------------------------------------
+        * Level 0 - Fachportal
+        */
+        if (intval($collectionLevel) == 0) {
             ?>
+            <div class="cell medium-4">
+                <select class="portal_select select-discipline">
+                    <?php
+                    echo '<option value="">Fach auswählen</option>';
+                    foreach ($portals as $key => $portal) {
+                        if ($portal['level'] > 0)
+                            continue;
+
+                        if (!empty($portal['educationalContexts']) || !empty($portal['intendedEndUserRoles']))
+                            continue;
+
+                        if (!empty($disciplines) && $disciplines[0] == $portal['discipline']['value']) {
+                            echo '<option data-url="' . $portal['url'] . '" value="' . $portal['discipline']['value'] . '" selected>' . $portal['discipline']['label'] . '</option>';
+                        } else {
+                            echo '<option data-url="' . $portal['url'] . '" value="' . $portal['discipline']['value'] . '">' . $portal['discipline']['label'] . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
             <div class="cell medium-4">
                 <select class="portal_select select-educational-context">
                     <?php
@@ -205,7 +209,12 @@ $portals_result->reset_postdata();
                 </select>
             </div>
 
-        <?php } else { ?>
+        <?php }
+        else {
+            /* ----------------------------------------------------------------------------------------------------------
+             * Level 1 - Themenportal
+            */
+            ?>
             <div class="cell medium-4">
                 <select class="portal_select select-educational-context">
                     <?php
@@ -238,81 +247,65 @@ $portals_result->reset_postdata();
                     ?>
                 </select>
             </div>
+            <div class="cell medium-4">
+                <div class="portal_checkbox_container cb-oer">
+                    <label for="<?php echo $navigationId ?>-cb-oer">OER:</label>
+                    <input type="checkbox" id="<?php echo $navigationId ?>-cb-oer" value="oer" <?php echo ($oer == true) ? 'checked' : '' ?>/>
+                </div>
+            </div>
         <?php }; ?>
     </div>
     <script>
-        jQuery('.select-discipline').on('change', function () {
+        jQuery('.<?php echo $navigationId ?> .select-discipline').on('change', function () {
             var newUrl = jQuery(this).children('option:selected').data('url');
             window.location.href = newUrl;
         });
-        jQuery('.select-educational-context').on('change', function () {
+        jQuery('.<?php echo $navigationId ?> .select-educational-context').on('change', function () {
             var newUrl = jQuery(this).children('option:selected').data('url');
             if ((newUrl !== undefined) &&
                 newUrl) {
                 window.location.href = newUrl;
             } else {
-                var url = window.location.href;
                 var value = jQuery(this).attr('value');
-                if (url.indexOf("educationalContext") > -1) {
-                    var regEx = /([?&]educationalContext)=([^#&]*)/g;
-
-                    if (value) {
-                        var newUrl = url.replace(regEx, '$1=' + value);
-                    } else {
-                        //Nothing chosen, but GET set
-                        var newUrl = url.replace(regEx, '');
-                    }
-
-                    window.location.href = newUrl;
-                } else {
-                    if (value) {
-                        if (url.indexOf("?") > -1) {
-                            window.location.href = url + "&educationalContext=" + value;
-                        } else {
-                            window.location.href = url + "?educationalContext=" + value;
-                        }
-                    }
-                    else{
-                        //Nothing chosen, GET unset
-
-
-                    }
+                var urlParams = new URLSearchParams(window.location.search);
+                if(value){
+                    urlParams.set("educationalContext",value.toString());
+                }
+                else{
+                    urlParams.delete("educationalContext");
                 }
             }
-
+            window.location.href = "?" + urlParams.toString();
         })
         ;
-        jQuery('.select-intended-end-user-role').on('change', function () {
+        jQuery('.<?php echo $navigationId ?> .select-intended-end-user-role').on('change', function () {
             var newUrl = jQuery(this).children('option:selected').data('url');
             if ((newUrl !== undefined) &&
                 newUrl) {
                 window.location.href = newUrl;
             } else {
-                var url = window.location.href;
                 var value = jQuery(this).attr('value');
-
-                if (url.indexOf("intendedEndUserRole") > -1) {
-                    var regEx = /([?&]intendedEndUserRole)=([^#&]*)/g;
-
-                    if (value) {
-                        var newUrl = url.replace(regEx, '$1=' + value);
-                    } else {
-                        var newUrl = url.replace(regEx, '');
-                    }
-
-                    window.location.href = newUrl;
-                } else {
-                    if (value) {
-                        if (url.indexOf("?") > -1) {
-                            window.location.href = url + "&intendedEndUserRole=" + value;
-                        } else {
-                            window.location.href = url + "?intendedEndUserRole=" + value;
-                        }
-                    }
+                var urlParams = new URLSearchParams(window.location.search);
+                if(value){
+                    urlParams.set("intendedEndUserRole",value.toString());
                 }
+                else{
+                    urlParams.delete("intendedEndUserRole");
+                }
+                window.location.href = "?" + urlParams.toString();
             }
-        })
-        ;
+        });
+        jQuery('#<?php echo $navigationId ?>-cb-oer').change(function() {
+            var enableOER = jQuery(this).is(":checked");
+            var urlParams = new URLSearchParams(window.location.search);
+            if(enableOER){
+                urlParams.set("oer","1");
+            }
+            else{
+                urlParams.delete("oer");
+            }
+            window.location.href = "?" + urlParams.toString();
+        });
     </script>
 </div>
 <?php if (is_admin()) {
