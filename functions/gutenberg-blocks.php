@@ -155,7 +155,16 @@ acf_register_block_type(['name' => 'portal_collection_content_browser',
     'icon'				=> 'media-document',
     'keywords'			=> [ ],
 ]);
+acf_register_block_type(['name' => 'edusharing_repo_button',
+    'title'				=> __('Button zu edu-sharing'),
+    'description'		=> __('Sprongt zum edu-sharinh Repo mit Login.'),
+    'render_template'	=> 'template-parts/blocks/edusharing_repo_button.php',
+    'category'			=> 'custom-blocks',
+    'icon'				=> 'dashicons-admin-links',
+    'keywords'			=> [ ],
+]);
 }
+
 if (function_exists('acf_register_block_type')) {
 	add_action('acf/init', 'register_acf_block_types');
 }
