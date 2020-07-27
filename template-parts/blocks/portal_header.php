@@ -55,7 +55,6 @@ try {
 curl_close($curl);
 
 $response = json_decode($response);
-echo '<script>console.log(', json_encode($response), ')</script>';
 
 $title = (!empty(get_field('headline'))) ? get_field('headline') : $response->collection->properties->{'cm:title'}[0];
 $description = (!empty(get_field('description'))) ? get_field('description') : $response->collection->properties->{'cm:description'}[0];

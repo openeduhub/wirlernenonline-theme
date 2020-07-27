@@ -145,6 +145,15 @@ $search_query = '
                 url
               }
               id
+              source{
+                name
+              }
+              skos{
+                learningResourceType{
+                  label
+                  id
+                }
+              }
             }
           }
         }
@@ -209,6 +218,10 @@ if (get_field('custom_search_active')) {
         <?php
         } elseif (get_field('layout') == 'slider'){
         $sliderId = uniqid('slider-');
+
+        $json = file_get_contents("https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/learningResourceType/index.json");
+        $skoData = json_decode($json, true);
+        $lrtDictionary = $skoData["hasTopConcept"];
         ?>
             <div class="portal_latest_search_results_slider" id="<?php echo $sliderId ?>">
                 <?php
@@ -222,8 +235,22 @@ if (get_field('custom_search_active')) {
                             </a>
                             <div class="portal_latest_search_results_slider_content_text">
                                 <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
-                                   target="_blank"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                                   target="_blank"><h6><?php echo $hit->lom->general->title; ?></h6></a>
                                 <p><?php echo $hit->lom->general->description; ?></p>
+                            </div>
+                            <?php
+
+                            $learningResourceType = $hit->skos->learningResourceType[0]->id;
+                            $filteredValues = array_filter($lrtDictionary, function($lrtDicItem) use ($learningResourceType) {
+                                return $lrtDicItem['id'] == $learningResourceType;
+                            });
+                            $learningResourceTypeLabel = (!empty($filteredValues)) ? end($filteredValues)['prefLabel']['de'] : 'Inhalt';
+
+
+                            ?>
+                            <div class="portal_latest_search_results_slider_content_bottom">
+                                <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" class="button primary small" target="_blank"><?php echo $learningResourceTypeLabel?> öffnen</a>
+                                <p>Quelle: <?php echo $hit->source->name?></p>
                             </div>
                         </div>
                     </div>
@@ -238,8 +265,9 @@ if (get_field('custom_search_active')) {
                         if (typeof jQuery().slick === "function") {
                             jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
                                 infinite: true,
-                                slidesToShow: 2,
+                                slidesToShow: 3,
                                 slidesToScroll: 1,
+                                prevArrow: false,
                                 zIndex: 0
                             });
                         }
