@@ -377,6 +377,11 @@ function map_vocab_learning_resource_types_value_only($n)
     return "http://w3id.org/openeduhub/vocabs/learningResourceType/" . strval($n) . "";
 }
 
+function map_vocab_oeh_widgets_value_only($n)
+{
+    return "http://w3id.org/openeduhub/vocabs/widgets/" . strval($n) . "";
+}
+
 function map_vocab_value_to_quotes($n)
 {
     return "\"" . strval($n) . "\"";

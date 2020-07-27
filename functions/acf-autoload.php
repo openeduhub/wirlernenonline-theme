@@ -109,6 +109,38 @@ function acf_autoload_learning_resource_type_choices( $field ) {
 
 };
 
+add_filter('acf/load_field/name=learningResourceTypes', 'acf_autoload_learning_resource_type_choices');
+
+function acf_autoload_oeh_widgets_choices( $field ) {
+
+    // reset choices
+    $field['choices'] = array();
+
+    // Get Select-Field Options from Vocab Scheme
+    $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/widgets/index.json');
+    $obj = json_decode($json);
+
+    $choice_topics = $obj->hasTopConcept;
+    if( is_array($choice_topics) ) {
+        foreach ($choice_topics as $choice_topic){
+            $choices = $choice_topic->narrower;
+            foreach( $choices as $choice ) {
+                $idStr = $choice->id;
+                $lastSlash = strrpos($idStr, "/");
+                $id = substr($idStr, $lastSlash + 1);
+                $field['choices'][ $id ] = $choice->prefLabel->de;
+
+            }
+        }
+
+
+    }
+    return $field;
+
+};
+
+add_filter('acf/load_field/name=oehWidgets', 'acf_autoload_oeh_widgets_choices');
+
 function get_acf_post_id(){
     $postID = null;
 
