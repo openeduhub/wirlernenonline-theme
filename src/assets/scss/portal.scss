@@ -89,7 +89,7 @@
 .portal_latest_posts_slider_content, .portal_latest_search_results_slider_content {
   height: 450px;
 
-  .portal_latest_search_results_slider_content_bottom{
+  .portal_latest_search_results_slider_content_bottom, .portal_latest_posts_slider_content_bottom{
     .button{
       width: 100%;
     }
@@ -207,12 +207,18 @@
 .portal_latest_posts_slider_content p, .portal_latest_search_results_slider_content p {
   font-size: 0.8em;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   min-height: 40px;
 }
+.portal_latest_search_results_slider_content p {
+  -webkit-line-clamp: 2;
+}
+.portal_latest_posts_slider_content p {
+  -webkit-line-clamp: 3;
+}
+
 
 .portal_latest_posts_list, .portal_latest_search_results_list {
   max-height: 500px;

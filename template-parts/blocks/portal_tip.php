@@ -78,8 +78,11 @@ if (get_field('active')) {
                             <img src="<?php echo get_the_post_thumbnail_url(); ?>">
                         </a>
                         <div class="portal_latest_posts_slider_content_text">
-                            <a href="<?php the_permalink(); ?>"><h5><?php the_title(); ?></h5></a>
+                            <a href="<?php the_permalink(); ?>"><h6><?php the_title(); ?></h6></a>
                             <?php the_excerpt(); ?>
+                        </div>
+                        <div class="portal_latest_posts_slider_content_bottom">
+                            <a href="<?php the_permalink(); ?>" class="button primary small" target="_blank">Zum Beitrag</a>
                         </div>
                     </div>
                 </div>
@@ -93,8 +96,9 @@ if (get_field('active')) {
                         if (typeof jQuery().slick === "function") {
                             jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
                                 infinite: true,
-                                slidesToShow: 2,
+                                slidesToShow: 3,
                                 slidesToScroll: 1,
+                                prevArrow: false,
                                 zIndex: 0
                             });
                         }
