@@ -105,7 +105,7 @@ $mediaTypes = array(
                 }
                 else if (get_field('layout') == 'grid') {
                     ?>
-                    <div class="portal_content_grid">
+                    <div class="portal_content_grid <?php echo (get_field('horizontal_scroll') == true) ? 'x-scroll' : ''?>">
                     <?php
                 }
 
@@ -113,6 +113,7 @@ $mediaTypes = array(
                 <?php
                 foreach ($response->references as $reference) {
                     $prop = $reference->properties;
+                    echo '<script>console.log(' , json_encode($reference) , ')</script>';
 
                     // Filter Discipline
                     $propDisciplines = $prop->{'ccm:taxonid'};
@@ -166,7 +167,7 @@ $mediaTypes = array(
                     }
 
                     // Filter ObjectType
-                    $propObjectType = $prop->{'ccm:objecttype'};
+                    $propObjectType = $prop->{'ccm:objectType'};
                     if ($propObjectType &&
                         !empty($propObjectType) &&
                         !empty($objectTypes) &&
@@ -175,6 +176,9 @@ $mediaTypes = array(
                         //echo '<pre style="background-color: lightgrey">' , var_dump("OType") , '</pre>';
                         continue;
                     }
+
+                    $displayObjectType = (!empty($objectTypes)) ? array_intersect($propObjectType, $objectTypes)[0] : $propObjectType[0];
+
 
                     // Filter LearningResourceType
                     $propLearningResourceTypes = $prop->{'ccm:educationallearningresourcetype'};
@@ -185,14 +189,18 @@ $mediaTypes = array(
                     $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? array_filter($learningResourceTypesVocab) : [];
                     $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? trim_https_http_from_array($learningResourceTypesVocab) : [];
 
-                    $filterLearningResourceTypes = (empty($propLearningResourceTypes)) ? true : empty(array_intersect($propLearningResourceTypes, $learningResourceTypesVocab));
+                    $intersectLearningResourceType = array_intersect($propLearningResourceTypes, $learningResourceTypesVocab);
+                    $filterLearningResourceTypes = (empty($propLearningResourceTypes)) ? true : empty($intersectLearningResourceType);
 
                     if (!empty($learningResourceTypesVocab) && $filterLearningResourceTypes) {
                         //echo '<pre style="background-color: lightgrey">' , var_dump("LRT") , '</pre>';
                         continue;
                     }
 
-                    // Filter General Keyword
+                    $displayLearningResourceType = (!empty($intersectLearningResourceType)) ? $intersectLearningResourceType[0] : $propLearningResourceTypes[0];
+                    $displayLearningResourceType = (!empty($displayLearningResourceType)) ? $displayLearningResourceType : 'Inhalt';
+
+                        // Filter General Keyword
                     $propGeneralKeywords = $prop->{'cclom:general_keyword'};
                     $propGeneralKeywords = (!empty($propGeneralKeywords)) ? array_filter($propGeneralKeywords) : [];
 
@@ -204,17 +212,20 @@ $mediaTypes = array(
                     }
 
                     ?>
-                    <a href="<?php echo $reference->content->url; ?>" target="_blank">
-                        <div class="portal_content_branch">
-                            <h5 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h5>
-                            <?php if (!empty($reference->preview->url)) { ?><img
-                                src="<?php echo $reference->preview->url; ?>"><?php }; ?>
-                            <div class="portal_search_text">
-                                <h5><?php echo ($reference->properties->{'cclom:title'}[0]) ? $reference->properties->{'cclom:title'}[0] : $reference->properties->{'cm:name'}[0]; ?></h5>&nbsp;&nbsp;
-                                <h5 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h5>
-                            </div>
+                    <div class="portal_content_branch">
+                        <h5 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h5>
+                        <?php if (!empty($reference->preview->url)) { ?><img
+                            src="<?php echo $reference->preview->url; ?>"><?php }; ?>
+                        <div class="portal_search_text">
+                            <a href="<?php echo $reference->content->url; ?>" target="_blank"><h6><?php echo ($reference->properties->{'cclom:title'}[0]) ? $reference->properties->{'cclom:title'}[0] : $reference->properties->{'cm:name'}[0]; ?></h6></a>&nbsp;&nbsp;
+                            <h6 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h6>
+                            <p><?php echo (!empty($reference->properties->{'cclom:general_description'})) ? (implode("\n", $reference->properties->{'cclom:general_description'})) : '' ?></p>
                         </div>
-                    </a>
+                        <div class="portal_search_button">
+                            <a class="button primary small" href="<?php echo $reference->content->url; ?>" target="_blank"><?php echo $mediaTypes[$reference->mediatype]?> öffnen</a>
+                            <div class="portal_search_source">Quelle: <?php echo (!empty($reference->properties->{'ccm:metadatacontributer_creatorFN'})) ? (implode(", ", $reference->properties->{'ccm:metadatacontributer_creatorFN'})) : '';?></div>
+                        </div>
+                    </div>
                     <?php
                 } ?>
             </div>
