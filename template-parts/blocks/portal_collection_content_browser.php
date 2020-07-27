@@ -118,8 +118,6 @@ $mediaTypes = array(
                 foreach ($response->references as $reference) {
                     $prop = $reference->properties;
 
-                    echo '<script>console.log(' , json_encode($prop) , ')</script>';
-
                     // Filter Discipline
                     $propDisciplines = $prop->{'ccm:taxonid'};
                     $propDisciplines = (!empty($propDisciplines)) ? array_filter($propDisciplines) : [];
@@ -259,7 +257,7 @@ $mediaTypes = array(
     } else {
         ?>
         <h6 class="primary">Leider gibt es in dieser Sammlung noch keine Materialien. <a
-                    href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf' uns dabei</a>, hier
+                    href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf uns dabei</a>, hier
             mehr Informationen und Materialien zusammenzutragen.</h6>
         <?php
     }

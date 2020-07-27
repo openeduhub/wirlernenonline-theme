@@ -282,7 +282,7 @@ if (get_field('custom_search_active')) {
     } else {
     ?>
         <h6 class="primary">Leider gibt es in dieser Rubrik keine Neuigkeiten. <a
-                    href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf' uns dabei</a>, die
+                    href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf uns dabei</a>, die
             neuesten Themen bereitzustellen.</h6>
         <?php
     }
