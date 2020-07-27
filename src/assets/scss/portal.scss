@@ -567,3 +567,51 @@ height: 200px;
     }
   }
 }
+
+.portal_block{
+  .portal_header_top{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    & > div{
+      margin: 10px 0px;
+      display: flex;
+      flex-direction: column;
+      flex-basis: 100%;
+      flex: 1;
+    }
+    .portal_header_top_left{
+      p{
+        margin-bottom: 0px;
+      }
+      img{
+        height: 48px;
+        width:  48px;
+        object-fit: cover;
+        border-radius: 10%;
+      }
+    }
+    .portal_header_top_right{
+      text-align: right;
+      & > div{
+        margin: 10px 0px;
+      }
+      .portal_header_top_right_author_img_container{
+        img{
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+        }
+        display: inline-block;
+      }
+      .portal_header_top_right_author_button_container{
+
+      }
+    }
+  }
+  .portal_header_bottom{
+    margin: 20px 0px;
+  }
+
+}

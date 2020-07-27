@@ -107,6 +107,14 @@ acf_register_block_type(['name' => 'portal_current',
     'icon'				=> 'media-document',
     'keywords'			=> [ ],
 ]);
+acf_register_block_type(['name' => 'portal_header',
+    'title'				=> __('Header'),
+    'description'		=> __('Zeigt einen Kopfbereich für das Themenportal an: Titel, Sammlungsbeschreibung, Autoren, Autoren-Seite, Icon.'),
+    'render_template'	=> 'template-parts/blocks/portal_header.php',
+    'category'			=> 'themenportal',
+    'icon'				=> 'media-document',
+    'keywords'			=> [ ],
+]);
 acf_register_block_type(['name' => 'portal_banner',
     'title'				=> __('Banner'),
     'description'		=> __('Zeigt in einem Laufbanner die aktuellen Blogbeiträge (Kategorie = Themenportal; Fach, Bildungsstufe, Zielgruppe entsprechend Voreinstellung oder Portaleinstellung.)'),
@@ -147,23 +155,6 @@ acf_register_block_type(['name' => 'portal_collection_content_browser',
     'icon'				=> 'media-document',
     'keywords'			=> [ ],
 ]);
-//acf_register_block_type(array(
-//    'name'              => 'portal-edusharing-grid',
-//    'title'             => 'EduSharing Grid',
-//    'description'       => 'Zeigt ein Container-Block, der EduSharing-Blöcke enthält.',
-//    'category'          => 'themenportal',
-//    'mode'              => 'preview',
-//    'icon'				=> 'media-document',
-//    'enqueue_script'    => get_template_directory_uri() . '/template-parts/blocks/portal_edusharing_grid.js'
-//));
-// acf_register_block_type(['name' => 'Responsive Table',
-// 	'title'				=> __('Responsive Table'),
-// 	'description'		=> __('Table block optimized for mobile'),
-// 	'render_template'	=> 'template-parts/blocks/responsive-table.php',
-// 	'category'			=> 'widgets',
-// 	'icon'				=> 'excerpt-view',
-// 	'keywords'			=> [ ],
-// ]);
 }
 if (function_exists('acf_register_block_type')) {
 	add_action('acf/init', 'register_acf_block_types');
