@@ -113,7 +113,6 @@ $mediaTypes = array(
                 <?php
                 foreach ($response->references as $reference) {
                     $prop = $reference->properties;
-                    echo '<script>console.log(' , json_encode($reference) , ')</script>';
 
                     // Filter Discipline
                     $propDisciplines = $prop->{'ccm:taxonid'};
