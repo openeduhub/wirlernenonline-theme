@@ -120,6 +120,7 @@ $search_query = '
             filters: [
               ' . $filter_query . '
             ]
+            includeCollectionTags: true
           ) {
          
             hits {
