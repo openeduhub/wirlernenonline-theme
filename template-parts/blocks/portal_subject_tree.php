@@ -120,30 +120,8 @@ $response = callWloRestApi($url);
 
 
                                     <?php
-
                                     $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/local/' . $nodeId . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true&';
-
-                                    try {
-                                        $curl = curl_init($url);
-                                        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
-                                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                                        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                                                'Accept: application/json',
-                                                'Content-Type: application/json; charset=utf-8'
-                                            )
-                                        );
-                                        $response = curl_exec($curl);
-                                        if ($response === false) {
-                                            echo 'curl error';
-                                            return false;
-                                        }
-                                    } catch (Exception $e) {
-                                        echo 'curl error: ' . $e->getMessage();
-                                        return false;
-                                    }
-                                    curl_close($curl);
-
-                                    $response = json_decode($response);
+                                    $response = callWloRestApi($url);
                                     ?>
                                     <ul>
                                         <?php
