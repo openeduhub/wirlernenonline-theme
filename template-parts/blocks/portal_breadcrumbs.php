@@ -37,28 +37,8 @@ if (is_admin()) {
                 preg_match_all($pattern, $collectionUrl, $matches);
 
                 $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/' . $matches[1][0] . '/parents?propertyFilter=-all-&fullPath=false';
+                $response = callWloRestApi($url);
 
-                try {
-                    $curl = curl_init($url);
-                    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
-                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                            'Accept: application/json',
-                            'Content-Type: application/json; charset=utf-8'
-                        )
-                    );
-                    $response = curl_exec($curl);
-                    if ($response === false) {
-                        echo 'curl error';
-                        return false;
-                    }
-                } catch (Exception $e) {
-                    echo 'curl error: ' . $e->getMessage();
-                    return false;
-                }
-                curl_close($curl);
-
-                $response = json_decode($response);
                 $nodes = Array();
 
                 foreach ($response->nodes as $node) {

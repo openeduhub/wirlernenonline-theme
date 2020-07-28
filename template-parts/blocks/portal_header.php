@@ -33,28 +33,7 @@ $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 
 $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $matches[1][0];
-
-try {
-    $curl = curl_init($url);
-    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Accept: application/json',
-            'Content-Type: application/json; charset=utf-8'
-        )
-    );
-    $response = curl_exec($curl);
-    if ($response === false) {
-        echo 'curl error';
-        return false;
-    }
-} catch (Exception $e) {
-    echo 'curl error: ' . $e->getMessage();
-    return false;
-}
-curl_close($curl);
-
-$response = json_decode($response);
+$response = callWloRestApi($url);
 
 $title = (!empty(get_field('headline'))) ? get_field('headline') : $response->collection->properties->{'cm:title'}[0];
 $description = (!empty(get_field('description'))) ? get_field('description') : $response->collection->properties->{'cm:description'}[0];

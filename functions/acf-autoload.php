@@ -4,11 +4,19 @@ function acf_autoload_discipline_field_choices( $field ) {
     // reset choices
     $field['choices'] = array();
 
-    // Get Select-Field Options from Vocab Scheme
-    $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/discipline/index.json');
-    $obj = json_decode($json);
+    $transient = 'vocab_discipline';
+    $discipline_vocab_json = null;
+    if ( false === ( $value = get_transient( $transient ) ) ) {
+        // this code runs when there is no valid transient set
+        // Get Select-Field Options from Vocab Scheme
+        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/discipline/index.json');
+        $discipline_vocab_json = json_decode($json);
+        set_transient( $transient, $discipline_vocab_json, 60*60*12 );
+    } else{
+        $discipline_vocab_json = get_transient( $transient );
+    }
 
-    $choices = $obj->hasTopConcept;
+    $choices = $discipline_vocab_json->hasTopConcept;
     if( is_array($choices) ) {
 
         foreach( $choices as $choice ) {
@@ -32,11 +40,19 @@ function acf_autoload_edu_context_field_choices( $field ) {
     // reset choices
     $field['choices'] = array();
 
-    // Get Select-Field Options from Vocab Scheme
-    $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/educationalContext/index.json');
-    $obj = json_decode($json);
+    $transient = 'vocab_eduContext';
+    $educationalContext_vocab_json = null;
+    if ( false === ( $value = get_transient( $transient ) ) ) {
+        // this code runs when there is no valid transient set
+        // Get Select-Field Options from Vocab Scheme
+        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/educationalContext/index.json');
+        $educationalContext_vocab_json = json_decode($json);
+        set_transient( $transient, $educationalContext_vocab_json, 60*60*12 );
+    } else{
+        $educationalContext_vocab_json = get_transient( $transient );
+    }
 
-    $choices = $obj->hasTopConcept;
+    $choices = $educationalContext_vocab_json->hasTopConcept;
     if( is_array($choices) ) {
 
         foreach( $choices as $choice ) {
@@ -60,11 +76,20 @@ function acf_autoload_intended_user_role_field_choices( $field ) {
     // reset choices
     $field['choices'] = array();
 
-    // Get Select-Field Options from Vocab Scheme
-    $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/intendedEndUserRole/index.json');
-    $obj = json_decode($json);
+    $transient = 'vocab_intendedEndUserRole';
+    $intendedEndUserRole_vocab_json = null;
+    if ( false === ( $value = get_transient( $transient ) ) ) {
+        // this code runs when there is no valid transient set
+        // Get Select-Field Options from Vocab Scheme
+        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/intendedEndUserRole/index.json');
+        $intendedEndUserRole_vocab_json = json_decode($json);
+        set_transient( $transient, $intendedEndUserRole_vocab_json, 60*60*12 );
+    } else{
+        $intendedEndUserRole_vocab_json = get_transient( $transient );
+    }
 
-    $choices = $obj->hasTopConcept;
+    $choices = $intendedEndUserRole_vocab_json->hasTopConcept;
+
     if( is_array($choices) ) {
 
         foreach( $choices as $choice ) {
@@ -88,11 +113,20 @@ function acf_autoload_learning_resource_type_choices( $field ) {
     // reset choices
     $field['choices'] = array();
 
-    // Get Select-Field Options from Vocab Scheme
-    $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/learningResourceType/index.json');
-    $obj = json_decode($json);
+    $transient = 'vocab_learningResourceTypes';
+    $learningResourceTypes_vocab_json = null;
+    if ( false === ( $value = get_transient( $transient ) ) ) {
+        // this code runs when there is no valid transient set
+        // Get Select-Field Options from Vocab Scheme
+        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/learningResourceType/index.json');
+        $learningResourceTypes_vocab_json = json_decode($json);
+        set_transient( $transient, $learningResourceTypes_vocab_json, 60*60*12 );
+    } else{
+        $learningResourceTypes_vocab_json = get_transient( $transient );
+    }
 
-    $choices = $obj->hasTopConcept;
+
+    $choices = $learningResourceTypes_vocab_json->hasTopConcept;
     if( is_array($choices) ) {
 
         foreach( $choices as $choice ) {
@@ -116,11 +150,19 @@ function acf_autoload_oeh_widgets_choices( $field ) {
     // reset choices
     $field['choices'] = array();
 
-    // Get Select-Field Options from Vocab Scheme
-    $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/widgets/index.json');
-    $obj = json_decode($json);
+    $transient = 'vocab_oehWidgets';
+    $oehWidgets_vocab_json = null;
+    if ( false === ( $value = get_transient( $transient ) ) ) {
+        // this code runs when there is no valid transient set
+        // Get Select-Field Options from Vocab Scheme
+        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/widgets/index.json');
+        $oehWidgets_vocab_json = json_decode($json);
+        set_transient( $transient, $oehWidgets_vocab_json, 60*60*12 );
+    } else{
+        $oehWidgets_vocab_json = get_transient( $transient );
+    }
 
-    $choice_topics = $obj->hasTopConcept;
+    $choice_topics = $oehWidgets_vocab_json->hasTopConcept;
     if( is_array($choice_topics) ) {
         foreach ($choice_topics as $choice_topic){
             $choices = $choice_topic->narrower;

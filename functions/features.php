@@ -241,6 +241,41 @@ function callWloGraphApi($search_query)
     return json_decode($response);
 }
 
+function callWloRestApi($url)
+{
+    $restApiCacheObj = null;
+    if ( false === ( $value = get_transient( $url ) ) ) {
+        // this code runs when there is no valid transient set
+        // Get Select-Field Options from Vocab Scheme
+        try {
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                    'Accept: application/json',
+                    'Content-Type: application/json; charset=utf-8'
+                )
+            );
+            $response = curl_exec($curl);
+            if ($response === false) {
+                echo 'curl error';
+                return false;
+            }
+        } catch (Exception $e) {
+            echo 'curl error: ' . $e->getMessage();
+            return false;
+        }
+        curl_close($curl);
+
+        $restApiCacheObj = json_decode($response);
+        set_transient( $url, $restApiCacheObj, 10 );
+    } else{
+        $restApiCacheObj = get_transient( $url );
+    }
+
+    return $restApiCacheObj;
+}
+
 function register_query_vars($qvars)
 {
     $qvars[] = 'discipline';
