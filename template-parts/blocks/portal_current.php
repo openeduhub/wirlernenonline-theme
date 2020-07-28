@@ -6,11 +6,15 @@ if (is_admin()) {
 
 /* Filter Values prioritized GET/POST > Block-Setting > Portal-Setting */
 /*
-* collectionUrl
-* disciplines
-* educationalContexts
-* intendedEndUserRoles
-* oer
+ * collectionUrl
+ * disciplines
+ * educationalContexts
+ * intendedEndUserRoles
+ * oer
+ * objectTypes
+ * learningResourceTypes
+ * generalKeyword
+ * oehWidgets
 */
 /* ------------------------------------------------------------------- */
 $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
@@ -24,19 +28,12 @@ $disciplines = $educational_filter_values["disciplines"];
 $educationalContexts = $educational_filter_values["educationalContexts"];
 $intendedEndUserRoles = $educational_filter_values["intendedEndUserRoles"];
 $oer = $educational_filter_values["oer"];
+$objectTypes = $educational_filter_values["objectTypes"];
+$learningResourceTypes = $educational_filter_values["learningResourceTypes"];
+$generalKeywords = $educational_filter_values["generalKeyword"];
+$oehWidgets = $educational_filter_values["oehWidgets"];
+
 /* ------------------------------------------------------------------- */
-
-$block_var_objectTypes = (!empty(get_field('objectTypes'))) ? get_field('objectTypes') : [];
-$objectTypes = (!empty($block_var_objectTypes)) ? array_column($block_var_objectTypes, 'value') : [];
-$objectTypes = (!empty($objectTypes)) ? $objectTypes : get_post_meta($postID, 'objectTypes', false)[0];
-
-$block_var_learningResourceTypes = (!empty(get_field('learningResourceTypes'))) ? get_field('learningResourceTypes') : [];
-$learningResourceTypes = (!empty($block_var_learningResourceTypes)) ? array_column($block_var_learningResourceTypes, 'value') : [];
-$learningResourceTypes = (!empty($learningResourceTypes)) ? $learningResourceTypes : get_post_meta($postID, 'learningResourceTypes', false)[0];
-
-$block_var_generalKeywords = get_field('generalKeyword');
-$generalKeywords = (!empty($block_var_generalKeywords)) ? $block_var_generalKeywords : get_post_meta($postID, 'generalKeyword', false)[0];
-$generalKeywords = (!empty($generalKeywords)) ? explode(",", $generalKeywords) : [];
 
 $block_var_topic = get_field('topic');
 $topic = (!empty($block_var_topic)) ? $block_var_topic : get_post_meta($postID, 'topic', true);
