@@ -10,7 +10,7 @@ $image = get_field('icon');
 <div class="grid-container">
   <div class="grid-x grid-margin-x">
     <div class="cell auto">
-        <div class="margin-bottom-2 latest-header"><img src="<?php echo $image['url']; ?>" width="50" height="50" alt="<?php echo $image['alt']; ?>"><h1><?php echo $title; ?></h1></div>
+        <div class="margin-bottom-2 latest-header"><img src="<?php echo $image['url']; ?>" width="50" height="50" alt=""><h1><?php echo $title; ?></h1></div>
     </div>
       <?php
       $roles = get_field('role');
@@ -90,7 +90,7 @@ $image = get_field('icon');
     $posts = get_posts($source_query);
     if($posts) {
       foreach($posts as $post) {?>
-        <div class="cell">
+        <div class="cell blog-post">
           <?php include(locate_template('template-parts/edusource/edu-card.php'));  ?>
         </div>
       <?php }

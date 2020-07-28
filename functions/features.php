@@ -377,6 +377,11 @@ function map_vocab_learning_resource_types_value_only($n)
     return "http://w3id.org/openeduhub/vocabs/learningResourceType/" . strval($n) . "";
 }
 
+function map_vocab_oeh_widgets_value_only($n)
+{
+    return "http://w3id.org/openeduhub/vocabs/widgets/" . strval($n) . "";
+}
+
 function map_vocab_value_to_quotes($n)
 {
     return "\"" . strval($n) . "\"";
@@ -385,5 +390,82 @@ function map_vocab_value_to_quotes($n)
 function trim_https_http_from_array($array){
     return str_replace(["https", "http"],'', $array);
 }
+
+
+
+add_action( 'user_register', 'wlo_registration_save', 10, 1 );
+
+function wlo_registration_save( $user_id ) {
+
+    $user = '';
+    $pw = '';
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,"https://login.oer-contentbuffet.info/auth/realms/master/protocol/openid-connect/token");
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS,
+        "username=".$user."&password=".$pw."&client_id=wlo_wordpress&grant_type=password");
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_output = json_decode(curl_exec ($ch));
+    curl_close ($ch);
+
+
+    if ($server_output->access_token){
+
+        $user = get_userdata( $user_id );
+        error_log('usermail: '.$user->user_email);
+        error_log('userID: '.$user_id);
+
+        $curl_post_data = array(
+            "username" => $user->user_login,
+            "firstName" => $user->first_name,
+            "lastName" => $user->last_name,
+            "email" => $user->user_email,
+            "enabled" => 'true',
+        );
+        $data_string = json_encode($curl_post_data);
+        $url = 'https://login.oer-contentbuffet.info/auth/admin/realms/master/users';
+
+        try {
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                    'Accept: application/json',
+                    'Content-Type: application/json; charset=utf-8',
+                    'Authorization: Bearer '.$server_output->access_token
+                )
+            );
+            $response = curl_exec($curl);
+            if ($response === false) {
+                error_log( 'curl error' . curl_error($curl));
+                return false;
+            }
+        } catch (Exception $e) {
+            error_log( 'curl error: ' . $e->getMessage() );
+            return false;
+        }
+        curl_close($curl);
+
+        $response = json_decode($response);
+
+        error_log('response: '. print_r($response, true));
+
+        return true;
+    }
+
+}
+
+
+function wlo_update_custom_roles() {
+    if ( get_option( 'custom_roles_version' ) < 2 ) {
+        add_role( 'portal_redakteur', 'Themenportal Redakteur', get_role( 'editor' )->capabilities );
+        update_option( 'custom_roles_version', 2 );
+    }
+}
+add_action( 'init', 'wlo_update_custom_roles' );
 
 

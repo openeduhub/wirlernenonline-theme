@@ -266,7 +266,6 @@ function register_acf_block_types()
         'keywords' => [],
     ]);
 }
-
 if (function_exists('acf_register_block_type')) {
     add_action('acf/init', 'register_acf_block_types');
 }

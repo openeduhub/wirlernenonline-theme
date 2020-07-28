@@ -21,19 +21,22 @@
         'numberposts' => -1,
         'post_status'       => $post_status,
     ));
-    if($posts)
-    {
+    if($posts) {
+        $type = get_field('type')[0]['label'];
+        if (count($post_types) > 1){
+            $type = 'Quellen / Tools';
+        }
 
-    // get the school subjects via graphQL
-    $data = '{facet(facet:source){buckets{key, doc_count}}}';
-    $sources = callWloGraphApi($data)->data->facet->buckets;
+        // get the school subjects via graphQL
+        $data = '{facet(facet:source){buckets{key, doc_count}}}';
+        $sources = callWloGraphApi($data)->data->facet->buckets;
 
 
         ?>
         <table class="wlo_source_dev js-sort-table">
             <thead>
             <tr>
-                <th class="wlo_big_header" colspan="3">Quelle</th>
+                <th class="wlo_big_header" colspan="3"><?php echo $type; ?></th>
                 <th class="wlo_big_header" colspan="2">In unserer Suche</th>
                 <th class="wlo_big_header">1. Schritt: Check</th>
                 <th class="wlo_big_header" colspan="4">2. Schritt: Analyse</th>

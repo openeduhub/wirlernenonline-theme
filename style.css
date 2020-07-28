@@ -6,6 +6,14 @@ Author URI:     http://bananenbiegerei.de
 Version:        1.0
 %%%%%%%%%% */
 
+.gutenberg-layout-container a {
+    font-weight: 600;
+}
+
+.blog-post a{
+    font-weight: normal;
+}
+
 .admin-bar .site-header {
     top: 32px;
 }
@@ -432,6 +440,12 @@ form .wpcf7-validation-errors{
 
 .newsletter-data{
     font-size: 0.7rem;
+}
+
+.ab-block-accordion .ab-accordion-title {
+    color: #003E82;
+    font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-style: normal;
 }
 
 @media screen and (max-width: 1024px) {

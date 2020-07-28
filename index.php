@@ -4,7 +4,7 @@ get_header();?>
 	<div class="grid-container">
 		<div class="grid-x grid-margin-x">
 			<div class="medium-12 cell">
-				<h1><?php //echo get_the_title('7') ?></h1>
+				<h1><?php echo get_the_title('7') ?></h1>
 			</div>
 		</div>
 	</div>

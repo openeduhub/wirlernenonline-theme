@@ -38,6 +38,10 @@ $block_var_generalKeywords = get_field('generalKeyword');
 $generalKeywords = (!empty($block_var_generalKeywords)) ? $block_var_generalKeywords : get_post_meta($postID, 'generalKeyword', false)[0];
 $generalKeywords = (!empty($generalKeywords)) ? explode(",", $generalKeywords) : [];
 
+$block_var_oehWidgets = (!empty(get_field('oehWidgets'))) ? get_field('oehWidgets') : [];
+$oehWidgets = (!empty($block_var_oehWidgets)) ? array_column($block_var_oehWidgets, 'value') : [];
+$oehWidgets = (!empty($oehWidgets)) ? $oehWidgets : get_post_meta($postID, 'oehWidgets', false)[0];
+
 $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 
@@ -199,7 +203,7 @@ $mediaTypes = array(
                     $displayLearningResourceType = (!empty($intersectLearningResourceType)) ? $intersectLearningResourceType[0] : $propLearningResourceTypes[0];
                     $displayLearningResourceType = (!empty($displayLearningResourceType)) ? $displayLearningResourceType : 'Inhalt';
 
-                        // Filter General Keyword
+                    // Filter General Keyword
                     $propGeneralKeywords = $prop->{'cclom:general_keyword'};
                     $propGeneralKeywords = (!empty($propGeneralKeywords)) ? array_filter($propGeneralKeywords) : [];
 
@@ -209,6 +213,26 @@ $mediaTypes = array(
                         //echo '<pre style="background-color: lightgrey">' , var_dump("Keyword") , '</pre>';
                         continue;
                     }
+
+                    // Filter LearningResourceType
+                    $propOehWidgets = $prop->{'ccm:oeh_widgets'};
+                    $propOehWidgets = (!empty($propOehWidgets)) ? array_filter($propOehWidgets) : [];
+                    $propOehWidgets = (!empty($propOehWidgets)) ? trim_https_http_from_array($propOehWidgets) : [];
+
+                    $oehWidgetsVocab = (!empty($oehWidgets) && !empty(array_filter($oehWidgets))) ? array_map("map_vocab_oeh_widgets_value_only", $oehWidgets) : [];
+                    $oehWidgetsVocab = (!empty($oehWidgetsVocab)) ? array_filter($oehWidgetsVocab) : [];
+                    $oehWidgetsVocab = (!empty($oehWidgetsVocab)) ? trim_https_http_from_array($oehWidgetsVocab) : [];
+
+                    $intersectOehWidgets = array_intersect($propOehWidgets, $oehWidgetsVocab);
+                    $filterOehWidgets = (empty($propOehWidgets)) ? true : empty($intersectOehWidgets);
+
+                    if (!empty($oehWidgetsVocab) && $filterOehWidgets) {
+                        //echo '<pre style="background-color: lightgrey">' , var_dump("LRT") , '</pre>';
+                        continue;
+                    }
+
+                    $displayOehWidgets = (!empty($intersectOehWidgets)) ? $intersectOehWidgets[0] : $propOehWidgets[0];
+                    $displayOehWidgets = (!empty($displayOehWidgets)) ? $displayOehWidgets : 'Inhalt';
 
                     ?>
                     <div class="portal_content_branch">
@@ -233,7 +257,7 @@ $mediaTypes = array(
     } else {
         ?>
         <h6 class="primary">Leider gibt es in dieser Sammlung noch keine Materialien. <a
-                    href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf' uns dabei</a>, hier
+                    href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf uns dabei</a>, hier
             mehr Informationen und Materialien zusammenzutragen.</h6>
         <?php
     }
