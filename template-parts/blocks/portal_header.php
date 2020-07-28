@@ -59,9 +59,8 @@ $response = json_decode($response);
 $title = (!empty(get_field('headline'))) ? get_field('headline') : $response->collection->properties->{'cm:title'}[0];
 $description = (!empty(get_field('description'))) ? get_field('description') : $response->collection->properties->{'cm:description'}[0];
 $iconUrl = (!empty(get_field('icon'))) ? get_field('icon')['sizes']['thumbnail'] : $response->collection->preview->url;
-$authors = (!empty(get_field('authors', $postID))) ? get_field('authors', $postID) : [];
+$author_ids = (!empty(get_field('authors', $postID))) ? get_field('authors', $postID) : [];
 $author_page_link = (!empty(get_field('author_page_link', $postID))) ? get_field('author_page_link', $postID) : '';
-
 
 $headerId = uniqid('header-');
 
@@ -75,11 +74,14 @@ $headerId = uniqid('header-');
         </div>
         <div class="portal_header_top_right">
             <div class="portal_header_top_right_author_img_container">
-                <?php foreach ($authors as $author) { ?>
 
-                    <a href="mailto:<?php echo $author['user_email'] ?>"
-                       title="<?php echo $author['user_firstname'] . ' ' . $author['user_lastname'] ?>">
-                        <?php echo $author['user_avatar'] ?>
+                <?php foreach ($author_ids as $author_id) {
+                    $author = get_user_by('id', $author_id);
+                    ?>
+
+                    <a href="mailto:<?php echo $author->user_email ?>"
+                       title="<?php echo $author->display_name ?>">
+                        <img src="<?php echo um_get_user_avatar_url( $author_id, $size = '96' )?>" />
                     </a>
 
                 <?php } ?>
