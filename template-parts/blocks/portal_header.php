@@ -77,14 +77,16 @@ $headerId = uniqid('header-');
 
                 <?php foreach ($author_ids as $author_id) {
                     $author = get_user_by('id', $author_id);
+                    um_fetch_user( $author_id );
                     ?>
 
-                    <a href="mailto:<?php echo $author->user_email ?>"
-                       title="<?php echo $author->display_name ?>">
+                    <a href="mailto:<?php echo um_user('user_email') ?>"
+                       title="<?php echo um_user('display_name') ?>">
                         <img src="<?php echo um_get_user_avatar_url( $author_id, $size = '96' )?>" />
                     </a>
 
-                <?php } ?>
+                <?php um_reset_user();
+                } ?>
             </div>
             <div class="portal_header_top_right_author_button_container">
                 <a href="<?php echo $author_page_link ?>" class="button primary small">Schreib uns!</a>
