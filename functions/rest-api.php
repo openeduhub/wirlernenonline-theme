@@ -185,7 +185,7 @@ function add_portal(WP_REST_Request $request) {
             while ( $query_post->have_posts() ) {
                 $query_post->the_post();
                 $original_post_id = $query_post->post->ID;
-                $original_title = str_replace('%portal_name%',$title,$query_post->post->post_title);
+                $original_title = str_replace('%portal_name%',$topic,$query_post->post->post_title);
 
                 $post_insert = array(
                     'post_author' => 'admin',
