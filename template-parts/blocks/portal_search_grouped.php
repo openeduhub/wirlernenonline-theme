@@ -130,8 +130,11 @@ $intendedEndUserRolesLabel = (!empty(get_field_object('intendedEndUserRole', $po
         <p>Für <?php echo $disciplinesLabel; ?><?php echo (!empty($educationalContextsLabel)) ? ', ' . $educationalContextsLabel : ''; ?> gibt es <span class="font-bold"><?php echo $total; ?></span> Ergebnisse von:</p>
         <div class="portal_search_sources">
             <?php
-            foreach ($sources as $source){
-                echo '<p>'.$source->key.': <span class="font-bold">'.$source->doc_count.'</span></p>';
+            if(!empty($sources))
+            {
+                foreach ($sources as $source){
+                    echo '<p>'.$source->key.': <span class="font-bold">'.$source->doc_count.'</span></p>';
+                }
             }
             ?>
         </div>
