@@ -252,11 +252,12 @@ $response = callWloRestApi($url);
                             <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>">
                                 <div class="portal_tree_branch" style="
                                         background: <?php echo $bgColor ?>;
-                                        color: <?php echo $fontColor ?>;
                                         ">
                                     <img width="70" height="50" src="<?php echo $collection->preview->url; ?>">
                                     <div class="portal_search_text">
-                                        <h5><?php echo $collection->title; ?></h5>
+                                        <h5 style="
+                                            color: <?php echo $fontColor ?> !important;
+                                            "><?php echo $collection->title; ?></h5>
                                     </div>
                                 </div>
                             </a>
