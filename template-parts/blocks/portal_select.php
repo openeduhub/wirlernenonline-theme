@@ -222,7 +222,8 @@ $navigationId = uniqid('navigation-');
 
                     echo '<option value="">Alle Bildungsstufen</option>';
                     foreach ($subject_field['choices'] as $key => $value) {
-                        if (!empty($educationalContexts) && $educationalContexts[0] == $key) {
+//                        if (!empty($educationalContexts) && $educationalContexts[0] == $key) {
+                        if(false) {
                             echo '<option value="' . $key . '" selected>' . $value . '</option>';
                         } else {
                             echo '<option value="' . $key . '">' . $value . '</option>';
@@ -238,7 +239,8 @@ $navigationId = uniqid('navigation-');
 
                     echo '<option value="">Alle Zielgruppen</option>';
                     foreach ($subject_field['choices'] as $key => $value) {
-                        if (!empty($intendedEndUserRoles) && $intendedEndUserRoles[0] == $key) {
+//                        if (!empty($intendedEndUserRoles) && $intendedEndUserRoles[0] == $key) {
+                        if(false) {
                             echo '<option value="' . $key . '" selected>' . $value . '</option>';
                         } else {
                             echo '<option value="' . $key . '">' . $value . '</option>';
@@ -250,7 +252,8 @@ $navigationId = uniqid('navigation-');
             <div class="cell medium-4">
                 <div class="portal_checkbox_container cb-oer">
                     <label for="<?php echo $navigationId ?>-cb-oer">OER:</label>
-                    <input type="checkbox" id="<?php echo $navigationId ?>-cb-oer" value="oer" <?php echo ($oer == true) ? 'checked' : '' ?>/>
+                    <!--<input type="checkbox" id="<?php echo $navigationId ?>-cb-oer" value="oer" <?php echo ($oer == true) ? 'checked' : '' ?>/>-->
+                    <input type="checkbox" id="<?php echo $navigationId ?>-cb-oer" value="oer" />
                 </div>
             </div>
         <?php }; ?>
