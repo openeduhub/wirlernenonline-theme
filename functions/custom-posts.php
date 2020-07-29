@@ -194,6 +194,26 @@ function portal_columns( $column ) {
 }
 
 
+function portal_sortable_columns( $columns ) {
+    $columns['discipline'] = 'discipline';
+    return $columns;
+}
+add_filter( 'manage_edit-portal_sortable_columns', 'portal_sortable_columns');
+
+function wlo_portal_orderby( $query ) {
+    if( ! is_admin() ) {
+        return;
+    }
+
+    $orderby = $query->get( 'orderby');
+    if ( 'discipline' == $orderby ) {
+        $query->set('meta_key',$orderby);
+        $query->set('orderby','meta_value');
+    }
+}
+add_filter( 'pre_get_posts','wlo_portal_orderby');
+
+
 
 function prefix_disable_gutenberg($current_status, $post_type){
     // Use your post type key instead of 'product'
