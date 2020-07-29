@@ -21,6 +21,10 @@
   h6 {
     font-size: 0.8rem;
   }
+
+  h3, h4, h5, h6 {
+    color: black !important;
+  }
 }
 
 .portal_block {
@@ -683,22 +687,29 @@
 
     & > div {
       margin: 10px 0px;
-      display: flex;
-      flex-direction: column;
-      flex-basis: 100%;
       flex: 1;
     }
 
     .portal_header_top_left {
-      p {
+      h1, h6, img {
+        display: inline-block;
+        color: black;
         margin-bottom: 0px;
       }
+      h5{
+        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+      }
+      .portal_header_top_left_title_container{
+        justify-content: flex-start;
+        display: flex;
 
-      img {
-        height: 48px;
-        width: 48px;
-        object-fit: cover;
-        border-radius: 10%;
+        img {
+          height: 48px;
+          width: 48px;
+          object-fit: cover;
+          border-radius: 10%;
+          margin-right: 10px;
+        }
       }
     }
 

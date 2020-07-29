@@ -268,7 +268,7 @@ function callWloRestApi($url)
         curl_close($curl);
 
         $restApiCacheObj = json_decode($response);
-        set_transient( $url, $restApiCacheObj, 10 );
+        set_transient( $url, $restApiCacheObj, 60 );
     } else{
         $restApiCacheObj = get_transient( $url );
     }
