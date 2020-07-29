@@ -45,7 +45,7 @@ if (is_admin()) {
                     $nodes[] = [$node->title, $node->properties->{'cclom:location'}[0]];
                 }
                 //Delete highest Level
-                array_pop($nodes);
+                //array_pop($nodes);
                 $nodes = array_reverse($nodes);
 
                 foreach ($nodes as $node) {

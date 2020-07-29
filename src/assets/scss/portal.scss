@@ -56,15 +56,17 @@
   display: inline-block;
   font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-size: 0.8em;
-  font-weight: 700;
+  font-weight: normal;
 }
-
-.portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item:last-child a {
+.portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item a {
   color: black;
+}
+.portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item:last-child a {
+
 }
 
 .portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item:last-child {
-  font-weight: normal;
+  font-weight: 700;
 }
 
 .portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item:last-child .material-icons {
