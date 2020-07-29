@@ -220,10 +220,12 @@ $navigationId = uniqid('navigation-');
                     <?php
                     $subject_field = get_field_object('educationalContext', $postID);
 
+                    // GET Parameter
+                    $query_var_educationalContexts = (!empty(get_query_var('educationalContext', null))) ? explode(";", get_query_var('educationalContext', null)) : [];
+
                     echo '<option value="">Alle Bildungsstufen</option>';
                     foreach ($subject_field['choices'] as $key => $value) {
-//                        if (!empty($educationalContexts) && $educationalContexts[0] == $key) {
-                        if(false) {
+                        if (!empty($query_var_educationalContexts) && $query_var_educationalContexts[0] == $key) {
                             echo '<option value="' . $key . '" selected>' . $value . '</option>';
                         } else {
                             echo '<option value="' . $key . '">' . $value . '</option>';
@@ -237,10 +239,12 @@ $navigationId = uniqid('navigation-');
                     <?php
                     $subject_field = get_field_object('intendedEndUserRole', $postID);
 
+                    // GET Parameter
+                    $query_var_intendedEndUserRoles = (!empty(get_query_var('intendedEndUserRole', null))) ? explode(";", get_query_var('intendedEndUserRole', null)) : [];
+
                     echo '<option value="">Alle Zielgruppen</option>';
                     foreach ($subject_field['choices'] as $key => $value) {
-//                        if (!empty($intendedEndUserRoles) && $intendedEndUserRoles[0] == $key) {
-                        if(false) {
+                       if (!empty($query_var_intendedEndUserRoles) && $query_var_intendedEndUserRoles[0] == $key) {
                             echo '<option value="' . $key . '" selected>' . $value . '</option>';
                         } else {
                             echo '<option value="' . $key . '">' . $value . '</option>';
@@ -251,9 +255,9 @@ $navigationId = uniqid('navigation-');
             </div>
             <div class="cell medium-4">
                 <div class="portal_checkbox_container cb-oer">
+                    <?php $query_var_oer = get_query_var('oer', false);?>
                     <label for="<?php echo $navigationId ?>-cb-oer">OER:</label>
-                    <!--<input type="checkbox" id="<?php echo $navigationId ?>-cb-oer" value="oer" <?php echo ($oer == true) ? 'checked' : '' ?>/>-->
-                    <input type="checkbox" id="<?php echo $navigationId ?>-cb-oer" value="oer" />
+                    <input type="checkbox" id="<?php echo $navigationId ?>-cb-oer" value="oer" <?php echo ($query_var_oer == true) ? 'checked' : '' ?>/>
                 </div>
             </div>
         <?php }; ?>
