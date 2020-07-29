@@ -267,9 +267,9 @@ $response = callWloRestApi($url);
             }
         } else {
             ?>
-            <h6 class="primary">Leider gibt es in dieser Sammlung noch keine weiteren Sammlungen. <a
+            <p class="primary">Leider gibt es in dieser Sammlung noch keine weiteren Sammlungen. <a
                         href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf uns dabei</a>,
-                hier mehr Informationen und Materialien zusammenzutragen.</h6>
+                hier mehr Informationen und Materialien zusammenzutragen.</p>
             <?php
         }
         ?>

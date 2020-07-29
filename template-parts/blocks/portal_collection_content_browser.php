@@ -68,7 +68,7 @@ $mediaTypes = array(
 <div class="portal_block">
 
     <?php
-    echo '<h3>' . ((!empty(get_field('headline'))) ? get_field('headline') : 'Materialien') . '</h3>';
+    echo '<h4>' . ((!empty(get_field('headline'))) ? get_field('headline') : 'Materialien') . '</h4>';
     echo (!empty(get_field('text'))) ? '<p>' . get_field('text') . '</p>' : '';
 
     if (!empty($response->references)) { ?>
@@ -227,9 +227,9 @@ $mediaTypes = array(
         <?php
     } else {
         ?>
-        <h6 class="primary">Leider gibt es in dieser Sammlung noch keine Materialien. <a
+        <p class="primary">Leider gibt es in dieser Sammlung noch keine Materialien. <a
                     href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf uns dabei</a>, hier
-            mehr Informationen und Materialien zusammenzutragen.</h6>
+            mehr Informationen und Materialien zusammenzutragen.</p>
         <?php
     }
     ?>
