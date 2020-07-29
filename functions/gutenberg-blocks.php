@@ -209,6 +209,23 @@ function register_acf_block_types()
 ',
         'keywords' => [],
     ]);
+    acf_register_block_type(['name' => 'portal_search_grouped',
+        'title' => __('WLO Agreggierte Suchanfrage'),
+        'description' => __('Zeigt aggregierte Suchergebnisse nach Typ an'),
+        'render_template' => 'template-parts/blocks/portal_search_grouped.php',
+        'category' => 'themenportal',
+        'icon' => '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 128 128" style="enable-background:new 0 0 128 128;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#A2A2A2;}
+</style>
+<path class="st0" d="M68.5,66h-0.8l-0.3-0.3c1-1.1,1.6-2.6,1.6-4.2c0-3.6-2.9-6.5-6.5-6.5c-3.6,0-6.5,2.9-6.5,6.5
+	c0,3.6,2.9,6.5,6.5,6.5c1.6,0,3.1-0.6,4.2-1.6l0.3,0.3v0.8l5,5l1.5-1.5L68.5,66z M62.5,66C60,66,58,64,58,61.5s2-4.5,4.5-4.5
+	s4.5,2,4.5,4.5S65,66,62.5,66z"/>
+</svg>
+',
+        'keywords' => [],
+    ]);
     acf_register_block_type(['name' => 'portal_subject_tree',
         'title' => __('Themenbaum'),
         'description' => __('Zeigt die Sammlungs-Struktur der übergebenen Sammlung.'),
@@ -258,6 +275,14 @@ fill="none"></path>
 </path></svg>',
         'keywords' => [],
     ]);
+acf_register_block_type(['name' => 'edusharing_repo_button',
+    'title'				=> __('Button zu edu-sharing'),
+    'description'		=> __('Springt zum ES-Repo mit Login.'),
+    'render_template'	=> 'template-parts/blocks/edusharing_repo_button.php',
+    'category'			=> 'custom-blocks',
+    'icon'				=> 'dashicons-admin-links',
+    'keywords'			=> [ ],
+]);
 }
 if (function_exists('acf_register_block_type')) {
     add_action('acf/init', 'register_acf_block_types');

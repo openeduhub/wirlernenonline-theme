@@ -97,7 +97,10 @@ function add_portal(WP_REST_Request $request) {
         $nodes = array_reverse($nodes);
 
         $collection_level = sizeof($nodes) - 1;
-
+		// we only have templates until the first level is reached, then we'll use the same templates
+		if($collection_level > 1){
+			$collection_level = 1;
+		}
         //Copy Themenportal-Vorlage Content
         if ($template = get_page_by_path('themenportal-vorlage-'. $collection_level, OBJECT, 'portal'))
             $template_id = $template->ID;
