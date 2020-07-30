@@ -90,54 +90,13 @@ $mediaTypes = array(
                 foreach ($response->references as $reference) {
                     $prop = $reference->properties;
 
-                    // Filter Discipline
-                    $propDisciplines = $prop->{'ccm:taxonid'};
-                    $propDisciplines = (!empty($propDisciplines)) ? array_filter($propDisciplines) : [];
-                    $propDisciplines = (!empty($propDisciplines)) ? trim_https_http_from_array($propDisciplines) : [];
-
-                    $disciplinesVocab = (!empty(array_filter($disciplines))) ? array_map("map_vocab_disciplines_value_only", $disciplines) : [];
-                    $disciplinesVocab = (!empty($disciplinesVocab)) ? array_filter($disciplinesVocab) : [];
-                    $disciplinesVocab = (!empty($disciplinesVocab)) ? trim_https_http_from_array($disciplinesVocab) : [];
-
-                    $filterDiscipline = (empty($propDisciplines)) ? true : empty(array_intersect($propDisciplines, $disciplinesVocab));
-
-                    if (!empty($disciplinesVocab) && $filterDiscipline) {
-
-                        //echo '<pre style="background-color: lightgrey">' , var_dump("Discipline") , '</pre>';
+                    if(!checkPropertyMatch($prop->{'ccm:taxonid'}, $disciplines, true)) {
                         continue;
                     }
-
-                    // Filter EducationalContext
-                    $propEducationalContexts = $prop->{'ccm:educationalcontext'};
-                    $propEducationalContexts = (!empty($propEducationalContexts)) ? array_filter($propEducationalContexts) : [];
-                    $propEducationalContexts = (!empty($propEducationalContexts)) ? trim_https_http_from_array($propEducationalContexts) : [];
-
-                    $educationalContextsVocab = (!empty(array_filter($educationalContexts))) ? array_map("map_vocab_educationalContexts_value_only", $educationalContexts) : [];
-                    $educationalContextsVocab = (!empty($educationalContextsVocab)) ? array_filter($educationalContextsVocab) : [];
-                    $educationalContextsVocab = (!empty($educationalContextsVocab)) ? trim_https_http_from_array($educationalContextsVocab) : [];
-
-                    $filterEducationalContext = (empty($propEducationalContexts)) ? true : empty(array_intersect($propEducationalContexts, $educationalContextsVocab));
-
-                    if (!empty($educationalContextsVocab) && $filterEducationalContext) {
-
-                        //echo '<pre style="background-color: lightgrey">' , var_dump("EduContext") , '</pre>';
+                    if(!checkPropertyMatch($prop->{'ccm:educationalcontext'}, $educationalContexts, true)) {
                         continue;
                     }
-
-                    // Filter IntendedEndUserRole
-                    $propIntendedEndUserRoles = $prop->{'ccm:educationalintendedenduserrole'};
-                    $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? array_filter($propIntendedEndUserRoles) : [];
-                    $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? trim_https_http_from_array($propIntendedEndUserRoles) : [];
-
-                    $intendedEndUserRolesVocab = (!empty(array_filter($intendedEndUserRoles))) ? array_map("map_vocab_disciplines_value_only", $intendedEndUserRoles) : [];
-                    $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? array_filter($intendedEndUserRolesVocab) : [];
-                    $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? trim_https_http_from_array($intendedEndUserRolesVocab) : [];
-
-                    $filterIntendedEndUserRole = (empty($propIntendedEndUserRoles)) ? true : empty(array_intersect($propIntendedEndUserRoles, $intendedEndUserRolesVocab));
-
-                    if (!empty($intendedEndUserRolesVocab) && $filterIntendedEndUserRole) {
-
-                        //echo '<pre style="background-color: lightgrey">' , var_dump("Role") , '</pre>';
+                    if(!checkPropertyMatch($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, true)) {
                         continue;
                     }
 
@@ -178,7 +137,7 @@ $mediaTypes = array(
                     $propGeneralKeywords = $prop->{'cclom:general_keyword'};
                     $propGeneralKeywords = (!empty($propGeneralKeywords)) ? array_filter($propGeneralKeywords) : [];
 
-                    $filterGeneralKeywords = (empty($propGeneralKeywords)) ? true : empty(array_intersect($generalKeywords, $propGeneralKeywords));
+                    $filterGeneralKeywords = (empty($propGeneralKeywords)) ? true : empty(@array_intersect($generalKeywords, $propGeneralKeywords));
 
                     if (!empty($generalKeywords) && $filterGeneralKeywords) {
                         //echo '<pre style="background-color: lightgrey">' , var_dump("Keyword") , '</pre>';
@@ -210,14 +169,16 @@ $mediaTypes = array(
                         <h5 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h5>
                         <?php if (!empty($reference->preview->url)) { ?><img
                             src="<?php echo $reference->preview->url; ?>"><?php }; ?>
-                        <div class="portal_search_text">
-                            <a href="<?php echo $reference->content->url; ?>" target="_blank"><h6><?php echo ($reference->properties->{'cclom:title'}[0]) ? $reference->properties->{'cclom:title'}[0] : $reference->properties->{'cm:name'}[0]; ?></h6></a>&nbsp;&nbsp;
-                            <h6 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h6>
-                            <p><?php echo (!empty($reference->properties->{'cclom:general_description'})) ? (implode("\n", $reference->properties->{'cclom:general_description'})) : '' ?></p>
-                        </div>
-                        <div class="portal_search_button">
-                            <a class="button primary small" href="<?php echo $reference->content->url; ?>" target="_blank"><?php echo $mediaTypes[$reference->mediatype]?> öffnen</a>
-                            <div class="portal_search_source">Quelle: <?php echo (!empty($reference->properties->{'ccm:metadatacontributer_creatorFN'})) ? (implode(", ", $reference->properties->{'ccm:metadatacontributer_creatorFN'})) : '';?></div>
+                        <div class="portal_content_info">
+                            <div class="portal_search_text">
+                                <a href="<?php echo $reference->content->url; ?>" target="_blank"><h6><?php echo ($reference->properties->{'cclom:title'}[0]) ? $reference->properties->{'cclom:title'}[0] : $reference->properties->{'cm:name'}[0]; ?></h6></a>
+                                <h6 class="media-type"><?php echo $mediaTypes[$reference->mediatype] ?></h6>
+                                <p><?php echo (!empty($reference->properties->{'cclom:general_description'})) ? (implode("\n", $reference->properties->{'cclom:general_description'})) : '' ?></p>
+                            </div>
+                            <div class="portal_search_button">
+                                <a class="button primary small" href="<?php echo $reference->content->url; ?>" target="_blank"><?php echo $mediaTypes[$reference->mediatype]?> öffnen</a>
+                                <div class="portal_search_source">Quelle: <?php echo (!empty($reference->properties->{'ccm:metadatacontributer_creatorFN'})) ? (implode(", ", $reference->properties->{'ccm:metadatacontributer_creatorFN'})) : '';?></div>
+                            </div>
                         </div>
                     </div>
                     <?php

@@ -208,6 +208,27 @@ function acf_editor_post_id()
     endif;
 }
 
+/**
+ * checks if any of the to match values match inside the property values (from the node)
+ * returns true if the item matches the matchValue (any of them)
+ * If softMatch==true, items without a value set will always match any values
+ */
+function checkPropertyMatch($propertyValue, $matchValue, $softMatch = true){
+    // soft match == if the item has the property not defined, always display it
+    if(true || $softMatch && (empty($propertyValue))){
+        return true;
+    }
+    foreach($matchValue as $m){
+        foreach($propertyValue as $p){
+            if(portal-collection-content-browserstrpos($p, '/'.$m) !== false){
+                //echo '<pre style="background-color: lightgrey">match '.$p.'</pre>';
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 function callWloGraphApi($search_query)
 {
     $curl_post_data = array("query" => $search_query);
