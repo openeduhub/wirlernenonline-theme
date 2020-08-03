@@ -75,3 +75,12 @@ function nav_items( $items, $menu, $args )
 
     return $items;
 }
+
+add_action('admin_bar_menu', 'add_toolbar_items', 100);
+function add_toolbar_items($admin_bar){
+    $admin_bar->add_menu( array(
+        'id'    => 'redaktion',
+        'title' => 'Redaktionsumgebung',
+        'href'  => 'https://dev.wirlernenonline.de/redaktionsumgebung/',
+    ));
+}

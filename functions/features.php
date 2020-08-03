@@ -511,6 +511,29 @@ function trim_https_http_from_array($array){
 }
 
 
+function getSearchFilterValues($field, $postID){
+    $field_values = (!empty(get_field($field, $postID))) ? get_field($field, $postID) : [];
+    if(!empty(get_field($field))){
+       $field_values = get_field($field);
+    };
+    $search_filter = '';
+    if (!empty($field_values)){
+        $search_filter .= '"valuespaces.'.$field.'.de.keyword":[';
+        $i = 0;
+        $len = count($field_values);
+        foreach ($field_values as $value){
+            if ($i == $len - 1) {
+                $search_filter .= '"'.$value['label'].'"';
+            }else{
+                $search_filter .= '"'.$value['label'].'",';
+            }
+            $i++;
+        }
+        $search_filter .= '],';
+    }
+    return $search_filter;
+}
+
 
 add_action( 'user_register', 'wlo_registration_save', 10, 1 );
 
