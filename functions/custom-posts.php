@@ -223,3 +223,56 @@ function prefix_disable_gutenberg($current_status, $post_type){
     return $current_status;
 }
 add_filter('use_block_editor_for_post_type', 'prefix_disable_gutenberg', 10, 2);
+
+
+/**
+ * Add a select dropdown filter with meta values.
+ */
+function wlo_portal_dropdown() {
+    $scr = get_current_screen();
+    if ( $scr->base !== 'edit' && $scr->post_type !== 'portal') return;
+
+    $selected = filter_input(INPUT_GET, 'discipline_filter', FILTER_SANITIZE_STRING );
+
+    $choices = [
+        '720' => 'Allgemein',
+        '80' => 'Biologie',
+        '100' => 'Chemie',
+        '12002' => 'Darstellen & Gestalten',
+        '120' => 'Deutsch',
+        '240' => 'Geschichte',
+        '320' => 'Informatik',
+        '60' => 'Kunst',
+        '380' => 'Mathematik',
+        '900' => 'Medienbildung',
+        '400' => 'Mediendidaktik',
+        '460' => 'Physik ',
+    ];
+
+    echo'<select name="discipline_filter">';
+    echo '<option value="all" '. (( $selected == 'all' ) ? 'selected="selected"' : "") . '>' . 'Alle Fächer' . '</option>';
+    foreach( $choices as $key => $value ) {
+        echo '<option value="' . $key . '" '. (( $selected == $key ) ? 'selected="selected"' : "") . '>' . $value . '</option>';
+    }
+    echo'</select>';
+}
+
+add_action('restrict_manage_posts', 'wlo_portal_dropdown');
+
+
+function wlo_portal_discipline_filter($query) {
+    if ( is_admin() && $query->is_main_query() ) {
+        $scr = get_current_screen();
+        if ( $scr->base !== 'edit' && $scr->post_type !== 'portal' ) return;
+
+        if (isset($_GET['discipline_filter']) && $_GET['discipline_filter'] != 'all') {
+            $query->set('meta_query', array( array(
+                'key' => 'discipline',
+                'value' => '"'.$_GET['discipline_filter'].'"',
+                'compare' => 'LIKE',
+            ) ) );
+        }
+    }
+}
+
+add_action('pre_get_posts','wlo_portal_discipline_filter');
