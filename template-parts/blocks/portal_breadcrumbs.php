@@ -4,7 +4,7 @@ if (is_admin()) {
     echo '<div class="backend_hint">Themenportal: Breadcrumbs</div>';
 };
 ?>
-    <div class="portal_block">
+    <div class="portal_block no-margin">
         <div class="portal-breadcrumbs">
             <ul class="portal-breadcrumbs-list">
 

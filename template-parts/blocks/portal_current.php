@@ -45,55 +45,67 @@ if (get_field('count')) {
 
 $filter_query = '';
 
+$search_filter = 'https://suche.wirlernenonline.de/de/search?filters={';
+
 if (!empty($disciplines)) {
     $filter_query .= '{ 
         facet: discipline, 
         terms: [
-            ' . implode('\n', array_map("map_vocab_disciplines", $disciplines)) . '
+            ' . implode(',', array_map("map_vocab_disciplines", $disciplines)) . '
             ] 
         }';
+
+    $search_filter .= getSearchFilterValues('discipline', $postID);
 }
 
 if (!empty($educationalContexts)) {
     $filter_query .= '{ 
         facet: educationalContext, 
         terms: [
-            ' . implode('\n', array_map("map_vocab_educationalContexts", $educationalContexts)) . '
+            ' . implode(',', array_map("map_vocab_educationalContexts", $educationalContexts)) . '
             ] 
         }';
+
+    $search_filter .= getSearchFilterValues('educationalContext', $postID);
 }
 
 if (!empty($intendedEndUserRoles)) {
     $filter_query .= '{ 
         facet: intendedEndUserRole, 
         terms: [
-            ' . implode('\n', array_map("map_vocab_intendedEndUserRoles", $intendedEndUserRoles)) . '
+            ' . implode(',', array_map("map_vocab_intendedEndUserRoles", $intendedEndUserRoles)) . '
             ] 
         }';
+
+    $search_filter .= getSearchFilterValues('intendedEndUserRoles', $postID);
 }
 
 if (!empty($learningResourceTypes)) {
     $filter_query .= '{ 
         facet: learningResourceType, 
         terms: [
-            ' . implode('\n', array_map("map_vocab_learningResourceTypes", $learningResourceTypes)) . '
+            ' . implode(',', array_map("map_vocab_learningResourceTypes", $learningResourceTypes)) . '
             ] 
         }';
+
+    $search_filter .= getSearchFilterValues('learningResourceTypes', $postID);
 }
 
 if (!empty($objectTypes)) {
     $filter_query .= '{
         facet: type, 
         terms: [
-            ' . implode('\n', array_map("map_vocab_value_to_quotes", $objectTypes)) . '
+            ' . implode(',', array_map("map_vocab_value_to_quotes", $objectTypes)) . '
             ] 
         }';
+
+    $search_filter .= getSearchFilterValues('objectTypes', $postID);
 }
 if (!empty($generalKeywords)) {
     $filter_query .= '{
         facet: keyword, 
         terms: [
-            ' . implode('\n', array_map("map_vocab_value_to_quotes", $generalKeywords)) . '
+            ' . implode(',', array_map("map_vocab_value_to_quotes", $generalKeywords)) . '
             ] 
         }';
 }
@@ -109,7 +121,9 @@ if ($oer) {
 if ($topic) {
     $search_string = $topic;
 }
-
+$search_filter = substr($search_filter, 0, -1);
+$search_filter .= '}&q='.$search_string;
+error_log('search: '.$search_filter);
 
 $search_query = '
         {
@@ -160,13 +174,21 @@ $search_query = '
 if (get_field('custom_search_active')) {
     $search_query = get_field('search_query');
 }
+
+echo $search_query;
 ?>
+
 <div class="portal_block">
+    <div class="portal_block_headline">
+        <?php
+        if (!empty(get_field('headline')))
+            echo '<h3>' . get_field('headline') . '</h3>';
+        else
+            echo '<h3>Neuigkeiten</h3>';
+        ?>
+        <a href='<?php echo $search_filter; ?>' target="_blank">Alle anzeigen</a>
+    </div>
     <?php
-    if (!empty(get_field('headline')))
-        echo '<h3>' . get_field('headline') . '</h3>';
-    else
-        echo '<h3>Neuigkeiten</h3>';
     $response = callWloGraphApi($search_query);
 
     if (!empty($response->data->search->hits)) {
@@ -265,7 +287,8 @@ if (get_field('custom_search_active')) {
                                 infinite: true,
                                 slidesToShow: 3,
                                 slidesToScroll: 1,
-                                prevArrow: false,
+                                arrows: true,
+                                dots: true,
                                 zIndex: 0
                             });
                         }

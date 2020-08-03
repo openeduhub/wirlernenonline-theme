@@ -126,7 +126,8 @@ $intendedEndUserRolesLabel = (!empty(get_field_object('intendedEndUserRole', $po
             </div>
         </div>
     </form>
-    <div class="portal_search_text" style="/*display: none;*/">
+    <?php if (get_field('search_sources')): ?>
+    <div class="portal_search_text">
         <p>Für <?php echo $disciplinesLabel; ?><?php echo (!empty($educationalContextsLabel)) ? ', ' . $educationalContextsLabel : ''; ?> gibt es <span class="font-bold"><?php echo $total; ?></span> Ergebnisse von:</p>
         <div class="portal_search_sources">
             <?php
@@ -139,6 +140,7 @@ $intendedEndUserRolesLabel = (!empty(get_field_object('intendedEndUserRole', $po
             ?>
         </div>
     </div>
+    <?php endif; ?>
 </div>
 
 

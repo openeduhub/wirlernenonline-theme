@@ -1,3 +1,8 @@
+@import 'custom-variables';
+@import 'custom-fonts';
+@import 'settings';
+@import "custom-colors-variables";
+
 .portal {
   background: #f9f9f9;
 
@@ -23,12 +28,36 @@
   }
 
   h3, h4, h5, h6 {
-    color: black !important;
+    color: $black;
   }
 }
 
 .portal_block {
   margin: 40px 0px;
+
+  .portal_block_headline{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    a{
+      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 20px;
+      text-decoration-line: underline;
+      transition: 0.3s;
+    }
+
+    a:hover{
+      color: $black;
+    }
+  }
+}
+
+.no-margin{
+  margin: 0;
 }
 
 .portal-full-width {
@@ -38,12 +67,14 @@
   width: auto;
 }
 
+
+
 .portal-full-width .wp-block-cover__inner-container {
   max-width: 800px;
 }
 
 .portal_block .portal-breadcrumbs {
-
+  margin-top: 40px;
 }
 
 .portal-breadcrumbs .portal-breadcrumbs-list {
@@ -54,12 +85,14 @@
 .portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item {
   list-style-type: none;
   display: inline-block;
-  font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-  font-size: 0.8em;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-style: normal;
   font-weight: normal;
+  font-size: 16px;
+  line-height: 34px;
 }
 .portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item a {
-  color: black;
+  color: $black;
 }
 .portal-breadcrumbs .portal-breadcrumbs-list .portal-breadcrumbs-list-item:last-child a {
 
@@ -88,10 +121,9 @@
   width: 100%;
   margin: 0 auto;
   height: 250px;
-  overflow-y: hidden;
 
   h3, p, a {
-    color: white !important;
+    color: white;
   }
 }
 
@@ -100,7 +132,7 @@
   justify-content: space-evenly;
   align-items: center;
   height: 100%;
-  background: #003E82;
+  background: $wlo-blue;
   color: #ffffff;
   padding: 1rem 2rem;
 }
@@ -125,7 +157,6 @@
       font-size: 0.7em;
       text-align: right;
       margin: 0;
-      color: gray;
     }
   }
 }
@@ -145,8 +176,13 @@
   margin-bottom: 0;
 }
 
+.portal_banner_slider .portal_banner_slider_content .portal_banner_slider_content_text h3 {
+  color: white;
+}
+
 .portal_banner_slider .portal_banner_slider_content .portal_banner_slider_content_text .button {
-  background-color: #0A246A;
+  background-color: #ffffff;
+  color: $wlo-blue;
   margin-top: 20px;
 }
 
@@ -155,12 +191,12 @@
 }
 
 .portal_banner_slider .slick-dots {
-  bottom: 15px;
+  bottom: -25px;
 }
 
 .portal_banner_slider .slick-dots li button:before {
   font-size: 10px;
-  color: white;
+  color: $black;
 }
 
 .portal_widget_grid {
@@ -186,6 +222,9 @@
   background-color: white;
   border: 1px solid #ECECEC;
   padding: 30px 20px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 4px 0px rgba(0,0,0,0.25);
 }
 
 .portal_latest_posts_slider .slick-list, .portal_latest_search_results_slider .slick-list {
@@ -200,17 +239,9 @@
   z-index: 1;
 }
 
-.portal_latest_posts_slider .slick-prev, .portal_latest_search_results_slider .slick-prev {
-  left: -15px;
-}
-
-.portal_latest_posts_slider, .slick-next, .portal_latest_search_results_slider .slick-next {
-  right: -5px;
-}
 
 .portal_latest_posts_slider .slick-arrow:before, .portal_latest_search_results_slider .slick-arrow:before {
-  color: #455871;
-  font-size: 30px;
+
 }
 
 .portal_latest_posts_slider_content_text, .portal_latest_search_results_slider_content_text {
@@ -444,6 +475,7 @@
   height: 50px;
   object-fit: cover;
   border-radius: 4px;
+  margin-right: 10px;
 }
 
 .portal-collection-content-browser .portal_content_grid {
@@ -468,6 +500,7 @@
     background-color: white;
     border: 1px solid #ECECEC;
     padding: 20px 20px;
+    padding-bottom: 0.5rem;
     height: 475px;
 
     .portal_search_button{
@@ -506,6 +539,7 @@
         display: inline-block;
         text-overflow: ellipsis;
         overflow: hidden;
+        max-height: 4em;
         max-width: 300px;
         height: 1.2em;
         white-space: nowrap;
@@ -688,7 +722,6 @@
     width: 100%;
 
     & > div {
-      margin: 10px 0px;
       flex: 1;
     }
 
@@ -705,22 +738,28 @@
         justify-content: flex-start;
         display: flex;
 
+        .portal_header_title{
+          color: $wlo-blue;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 48px;
+          line-height: 59px;
+        }
+      }
+      .portal_header_icon {
         img {
           height: 48px;
           width: 48px;
           object-fit: cover;
           border-radius: 10%;
           margin-right: 10px;
+          margin-top: 20px;
         }
       }
     }
 
     .portal_header_top_right {
       text-align: right;
-
-      & > div {
-        margin: 10px 0px;
-      }
 
       .portal_header_top_right_author_img_container {
         img {
@@ -733,13 +772,23 @@
       }
 
       .portal_header_top_right_author_button_container {
-
+          a{
+            background: #27AE60;
+            margin: 20px 0;
+            padding: 12px;
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 20px;
+          }
       }
     }
   }
 
   .portal_header_bottom {
     margin: 20px 0px;
+    margin-bottom: 40px;
+
+
   }
 
 }

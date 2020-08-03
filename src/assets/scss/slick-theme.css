@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 /* Slider */
 .slick-loading .slick-list
 {
@@ -25,30 +25,34 @@
     position: absolute;
     top: 50%;
 
+    z-index: 500;
+
     display: block;
 
-    width: 20px;
-    height: 20px;
-    padding: 0;
+    width: 43px;
+    height: 43px;
     -webkit-transform: translate(0, -50%);
     -ms-transform: translate(0, -50%);
     transform: translate(0, -50%);
 
     cursor: pointer;
 
-    color: transparent;
+    color: #313131;
     border: none;
+    border-radius: 30px !important;
     outline: none;
-    background: transparent;
+    background: #E3F702;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    transition: 0.3s;
 }
 .slick-prev:hover,
 .slick-prev:focus,
 .slick-next:hover,
 .slick-next:focus
 {
-    color: transparent;
+    background: #dddddd;
     outline: none;
-    background: transparent;
 }
 .slick-prev:hover:before,
 .slick-prev:focus:before,
@@ -70,8 +74,7 @@
     font-size: 20px;
     line-height: 1;
 
-    opacity: .75;
-    color: white;
+    color: #313131;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

@@ -126,7 +126,7 @@ if ($query->have_posts()) :
                         infinite: true,
                         slidesToShow: 1,
                         autoplay: true,
-                        arrows: false,
+                        arrows: true,
                         dots: true
                     });
                 }

@@ -197,16 +197,9 @@ function register_acf_block_types()
         'description' => __('Springt direkt zur Suche, reicht Anfrage weiter.'),
         'render_template' => 'template-parts/blocks/portal_search.php',
         'category' => 'themenportal',
-        'icon' => '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 128 128" style="enable-background:new 0 0 128 128;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:#A2A2A2;}
-</style>
-<path class="st0" d="M68.5,66h-0.8l-0.3-0.3c1-1.1,1.6-2.6,1.6-4.2c0-3.6-2.9-6.5-6.5-6.5c-3.6,0-6.5,2.9-6.5,6.5
-	c0,3.6,2.9,6.5,6.5,6.5c1.6,0,3.1-0.6,4.2-1.6l0.3,0.3v0.8l5,5l1.5-1.5L68.5,66z M62.5,66C60,66,58,64,58,61.5s2-4.5,4.5-4.5
-	s4.5,2,4.5,4.5S65,66,62.5,66z"/>
-</svg>
-',
+        'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="24 24">
+  <path d="M68.5 66h-.8l-.3-.3c1-1.1 1.6-2.6 1.6-4.2 0-3.6-2.9-6.5-6.5-6.5S56 57.9 56 61.5s2.9 6.5 6.5 6.5c1.6 0 3.1-.6 4.2-1.6l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0C60 66 58 64 58 61.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" fill="#a2a2a2"/>
+</svg>',
         'keywords' => [],
     ]);
     acf_register_block_type(['name' => 'portal_search_grouped',
@@ -222,8 +215,7 @@ function register_acf_block_types()
 <path class="st0" d="M68.5,66h-0.8l-0.3-0.3c1-1.1,1.6-2.6,1.6-4.2c0-3.6-2.9-6.5-6.5-6.5c-3.6,0-6.5,2.9-6.5,6.5
 	c0,3.6,2.9,6.5,6.5,6.5c1.6,0,3.1-0.6,4.2-1.6l0.3,0.3v0.8l5,5l1.5-1.5L68.5,66z M62.5,66C60,66,58,64,58,61.5s2-4.5,4.5-4.5
 	s4.5,2,4.5,4.5S65,66,62.5,66z"/>
-</svg>
-',
+</svg>',
         'keywords' => [],
     ]);
     acf_register_block_type(['name' => 'portal_subject_tree',
@@ -259,8 +251,7 @@ function register_acf_block_types()
 		</g>
 	</g>
 </g>
-</svg>
-',
+</svg>',
         'keywords' => [],
     ]);
     acf_register_block_type(['name' => 'portal_collection_content_browser',
@@ -322,7 +313,7 @@ function register_edusharing_blocks()
         'description' => 'Zeigt eine Liste, die EduSharing-Blöcke enthält.',
         'category' => 'themenportal',
         'mode' => 'preview',
-        'icon' => '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path fill="none" d="M0 0h24v24H0z"></path><path style="fill: #a2a2a2" d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>',
+        'icon' => '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path fill="none" d="M0 0h24v24H0z"></path><path style="fill: #A2A2A2" d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>',
         'editor_script' => 'portal-edusharing-list-script',
     ));
 

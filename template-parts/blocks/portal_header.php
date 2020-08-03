@@ -46,29 +46,32 @@ $author_page_link = (!empty(get_field('author_page_link', $postID))) ? get_field
 $headerId = uniqid('header-');
 
 ?>
-<div class="portal_block">
+<div class="portal_block no-margin">
     <div class="portal_header_top">
         <div class="portal_header_top_left">
             <div class="portal_header_top_left_title_container">
+                <h1 class="portal_header_title"><?php echo $title ?></h1>
+            </div>
+            <div class="portal_header_icon">
                 <?php if($showIcon){?>
                     <img src="<?php echo $iconUrl ?>"/>
                 <?php }?>
-                <h1 class="portal_header_title"><?php echo $title ?></h1>
             </div>
-            <h6><?php echo ($collectionLevel == 0) ? "Fachportal" : "Themenportal" ?></h6>
+<!--            <h6>--><?php //echo ($collectionLevel == 0) ? "Fachportal" : "Themenportal" ?><!--</h6>-->
         </div>
         <div class="portal_header_top_right">
             <?php if($showAuthors){?>
             <div class="portal_header_top_right_author_img_container">
                 <?php
                     foreach ($author_ids as $author_id) {
-                        $author = get_user_by('id', $author_id);
-                        um_fetch_user( $author_id );
+                        //var_dump($author_id);
+                        $author = get_user_by('id', $author_id['ID']);
+                        um_fetch_user( $author_id['ID'] );
                         ?>
 
-                        <a href="mailto:<?php echo um_user('user_email') ?>"
-                           title="<?php echo um_user('display_name') ?>">
-                            <img src="<?php echo um_get_user_avatar_url( $author_id, $size = '96' )?>" />
+                        <a href="mailto:<?php echo $author_id['user_email'] ?>"
+                           title="<?php echo $author_id['nickname'] ?>">
+                            <?php echo $author_id['user_avatar'] ?>
                         </a>
 
                         <?php um_reset_user();
@@ -82,7 +85,9 @@ $headerId = uniqid('header-');
     </div>
 
     <div class="portal_header_bottom">
-        <p><?php echo $description ?></p>
+        <div>
+            <p><?php echo $description ?></p>
+        </div>
     </div>
 </div>
 <?php if (is_admin()) {
