@@ -153,6 +153,7 @@ function register_acf_block_types()
 </g>
 </svg>',
         'keywords' => [],
+        'supports' => ['anchor' => true],
     ]);
     acf_register_block_type(['name' => 'portal_header',
         'title' => __('Header'),
@@ -175,6 +176,7 @@ function register_acf_block_types()
 <path class="st0" d="M1,6.4h4.4v12.1H1V6.4z M6.5,20.8h11V4.3h-11V20.8z M8.7,6.4h6.6v12.1H8.7V6.4z M18.6,6.4H23v12.1h-4.4V6.4z"/>
 </svg>',
         'keywords' => [],
+        'supports' => ['anchor' => true],
     ]);
     acf_register_block_type(['name' => 'portal_tip',
         'title' => __('Neueste Blogbeiträge'),
@@ -191,16 +193,24 @@ function register_acf_block_types()
 	C14.8,15.9,9,10.1,2,10.1z"/>
 </svg>',
         'keywords' => [],
+        'supports' => ['anchor' => true],
     ]);
     acf_register_block_type(['name' => 'portal_search',
         'title' => __('WLO Suchanfrage'),
         'description' => __('Springt direkt zur Suche, reicht Anfrage weiter.'),
         'render_template' => 'template-parts/blocks/portal_search.php',
         'category' => 'themenportal',
-        'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="24 24">
-  <path d="M68.5 66h-.8l-.3-.3c1-1.1 1.6-2.6 1.6-4.2 0-3.6-2.9-6.5-6.5-6.5S56 57.9 56 61.5s2.9 6.5 6.5 6.5c1.6 0 3.1-.6 4.2-1.6l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0C60 66 58 64 58 61.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" fill="#a2a2a2"/>
+        'icon' => '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#A2A2A2;}
+</style>
+<path class="st0" d="M16.7,14.8h-1l-0.4-0.4c1.3-1.4,2-3.3,2-5.3c0-4.5-3.6-8.2-8.2-8.2S1,4.6,1,9.2s3.6,8.2,8.2,8.2
+	c2,0,3.9-0.8,5.3-2l0.4,0.4v1l6.3,6.3l1.9-1.9L16.7,14.8z M9.2,14.8c-3.1,0-5.7-2.5-5.7-5.7S6,3.5,9.2,3.5s5.7,2.5,5.7,5.7
+	S12.3,14.8,9.2,14.8z"/>
 </svg>',
         'keywords' => [],
+        'supports' => ['anchor' => true],
     ]);
     acf_register_block_type(['name' => 'portal_search_grouped',
         'title' => __('WLO Agreggierte Suchanfrage'),
@@ -208,15 +218,16 @@ function register_acf_block_types()
         'render_template' => 'template-parts/blocks/portal_search_grouped.php',
         'category' => 'themenportal',
         'icon' => '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 128 128" style="enable-background:new 0 0 128 128;" xml:space="preserve">
+	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#A2A2A2;}
 </style>
-<path class="st0" d="M68.5,66h-0.8l-0.3-0.3c1-1.1,1.6-2.6,1.6-4.2c0-3.6-2.9-6.5-6.5-6.5c-3.6,0-6.5,2.9-6.5,6.5
-	c0,3.6,2.9,6.5,6.5,6.5c1.6,0,3.1-0.6,4.2-1.6l0.3,0.3v0.8l5,5l1.5-1.5L68.5,66z M62.5,66C60,66,58,64,58,61.5s2-4.5,4.5-4.5
-	s4.5,2,4.5,4.5S65,66,62.5,66z"/>
+<path class="st0" d="M16.7,14.8h-1l-0.4-0.4c1.3-1.4,2-3.3,2-5.3c0-4.5-3.6-8.2-8.2-8.2S1,4.6,1,9.2s3.6,8.2,8.2,8.2
+	c2,0,3.9-0.8,5.3-2l0.4,0.4v1l6.3,6.3l1.9-1.9L16.7,14.8z M9.2,14.8c-3.1,0-5.7-2.5-5.7-5.7S6,3.5,9.2,3.5s5.7,2.5,5.7,5.7
+	S12.3,14.8,9.2,14.8z"/>
 </svg>',
         'keywords' => [],
+        'supports' => ['anchor' => true],
     ]);
     acf_register_block_type(['name' => 'portal_subject_tree',
         'title' => __('Themenbaum'),
@@ -253,6 +264,7 @@ function register_acf_block_types()
 </g>
 </svg>',
         'keywords' => [],
+        'supports' => ['anchor' => true],
     ]);
     acf_register_block_type(['name' => 'portal_collection_content_browser',
         'title' => __('Sammlungsinhalte'),
@@ -265,6 +277,7 @@ fill="none"></path>
 <path style="fill: #a2a2a2" d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z">
 </path></svg>',
         'keywords' => [],
+        'supports' => ['anchor' => true],
     ]);
 acf_register_block_type(['name' => 'edusharing_repo_button',
     'title'				=> __('Button zu edu-sharing'),
