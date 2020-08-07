@@ -38,6 +38,8 @@ $oehWidgets = $educational_filter_values["oehWidgets"];
 $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 
+$collectionID = $matches[1][0];
+
 $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $matches[1][0] . '/children/references';
 $response = callWloRestApi($url);
 
@@ -66,9 +68,14 @@ $mediaTypes = array(
 );
 ?>
 <div class="portal_block">
-
     <?php
-    echo '<h4>' . ((!empty(get_field('headline'))) ? get_field('headline') : 'Materialien') . '</h4>';
+    if (!empty($block['anchor'])) {
+        echo '<a name="' . $block['anchor'] . '"></a>';
+    }
+
+    $headline = ((!empty(get_field('headline'))) ? get_field('headline') : 'Materialien');
+
+    echo '<h3>' . $headline . '</h3>';
     echo (!empty(get_field('text'))) ? '<p>' . get_field('text') . '</p>' : '';
 
     if (!empty($response->references)) { ?>
@@ -82,6 +89,19 @@ $mediaTypes = array(
                 else if (get_field('layout') == 'grid') {
                     ?>
                     <div class="portal_content_grid <?php echo (get_field('horizontal_scroll') == true) ? 'x-scroll' : ''?>">
+                    <?php
+                }else if (get_field('layout') == 'slider'){
+                    $sliderId = uniqid('slider-');
+                    $slidesToShow = 3;
+                    if (get_field('slidesToShow')){
+                        $slidesToShow = get_field('slidesToShow');
+                    }
+                    $slidesToScroll = 1;
+                    if (get_field('slidesToScroll')){
+                        $slidesToScroll = get_field('slidesToScroll');
+                    }
+                    ?>
+                        <div class="portal_content_slider" id="<?php echo $sliderId; ?>">
                     <?php
                 }
 
@@ -180,6 +200,7 @@ $mediaTypes = array(
                                 <div class="portal_search_source">Quelle: <?php echo (!empty($reference->properties->{'ccm:metadatacontributer_creatorFN'})) ? (implode(", ", $reference->properties->{'ccm:metadatacontributer_creatorFN'})) : '';?></div>
                             </div>
                         </div>
+
                     </div>
                     <?php
                 } ?>
@@ -188,13 +209,57 @@ $mediaTypes = array(
         <?php
     } else {
         ?>
-        <p class="primary">Leider gibt es in dieser Sammlung noch keine Materialien. <a
-                    href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf uns dabei</a>, hier
-            mehr Informationen und Materialien zusammenzutragen.</p>
+            <div class="portal_content_branch">
+                <p class="primary">Leider gibt es in dieser Sammlung noch keine Materialien.
+                    <a href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf uns dabei</a>, hier
+                    mehr Informationen und Materialien zusammenzutragen.
+                </p>
+                <?php if (get_field('collection_level', $postID) == 1): ?>
+                    <a class="material-icons add-collection-button" href="<?php echo get_page_link('9081').'?collectionID='.$collectionID.'&oehWidgets='.$oehWidgets[0].'&headline='.$headline; ?>" target="_blank">add</a>
+                <?php endif; ?>
+            </div>
         <?php
     }
     ?>
 </div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        // Handler for .ready() called. Put the Slick Slider etc. init code here.
+        function loadSearchSlider() {
+            if (typeof jQuery().slick === "function") {
+                jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
+                    infinite: false,
+                    slidesToShow: <?php echo $slidesToShow; ?>,
+                    slidesToScroll: <?php echo $slidesToScroll; ?>,
+                    arrows: true,
+                    dots: true,
+                    zIndex: 0,
+                    responsive: [
+                        {
+                            breakpoint: 950,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 2
+                            }
+                        },
+                        {
+                            breakpoint: 750,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1
+                            }
+                        }
+                    ]
+                });
+            }
+        }
+
+        loadSearchSlider();
+    });
+</script>
+
+
 <?php if (is_admin()) {
     echo '</div>';
 }; ?>

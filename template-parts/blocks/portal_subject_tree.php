@@ -49,6 +49,11 @@ $response = callWloRestApi($url);
 
 ?>
 <div class="portal_block">
+    <?php
+    if (!empty($block['anchor'])) {
+        echo '<a name="' . $block['anchor'] . '"></a>';
+    }
+    ?>
     <div class="portal-subject-tree">
 
         <?php

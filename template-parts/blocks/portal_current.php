@@ -123,7 +123,6 @@ if ($topic) {
 }
 $search_filter = substr($search_filter, 0, -1);
 $search_filter .= '}&q='.$search_string;
-error_log('search: '.$search_filter);
 
 $search_query = '
         {
@@ -174,11 +173,14 @@ $search_query = '
 if (get_field('custom_search_active')) {
     $search_query = get_field('search_query');
 }
-
-echo $search_query;
 ?>
 
 <div class="portal_block">
+    <?php
+    if( !empty($block['anchor']) ) {
+       echo '<a name="'.$block['anchor'].'"></a>';
+    }
+    ?>
     <div class="portal_block_headline">
         <?php
         if (!empty(get_field('headline')))
@@ -238,6 +240,14 @@ echo $search_query;
         <?php
         } elseif (get_field('layout') == 'slider'){
         $sliderId = uniqid('slider-');
+        $slider_cards = 3;
+        if (get_field('slider_cards')){
+            $slider_cards = get_field('slider_cards');
+        }
+        $slider_count = 1;
+        if (get_field('slider_count')){
+            $slider_count = get_field('slider_count');
+        }
 
         $json = file_get_contents("https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/learningResourceType/index.json");
         $skoData = json_decode($json, true);
@@ -270,7 +280,9 @@ echo $search_query;
                             ?>
                             <div class="portal_latest_search_results_slider_content_bottom">
                                 <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" class="button primary small" target="_blank"><?php echo $learningResourceTypeLabel?> öffnen</a>
+                                <?php if (!empty($hit->source->name)) : ?>
                                 <p>Quelle: <?php echo $hit->source->name?></p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -284,12 +296,28 @@ echo $search_query;
                     function loadSearchSlider() {
                         if (typeof jQuery().slick === "function") {
                             jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
-                                infinite: true,
-                                slidesToShow: 3,
-                                slidesToScroll: 1,
+                                infinite: false,
+                                slidesToShow: <?php echo $slider_cards; ?>,
+                                slidesToScroll: <?php echo $slider_count; ?>,
                                 arrows: true,
                                 dots: true,
-                                zIndex: 0
+                                zIndex: 0,
+                                responsive: [
+                                    {
+                                        breakpoint: 950,
+                                        settings: {
+                                            slidesToShow: 2,
+                                            slidesToScroll: 2
+                                        }
+                                    },
+                                    {
+                                        breakpoint: 750,
+                                        settings: {
+                                            slidesToShow: 1,
+                                            slidesToScroll: 1
+                                        }
+                                    }
+                                ]
                             });
                         }
                     }

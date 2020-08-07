@@ -78,7 +78,7 @@ $headerId = uniqid('header-');
                     } ?>
             </div>
             <div class="portal_header_top_right_author_button_container">
-                <a href="<?php echo $author_page_link ?>" class="button primary small">Schreib uns!</a>
+                <a href="mailto:<?php echo $author_page_link ?>" class="button primary small">Schreib uns!</a>
             </div>
             <?php }?>
         </div>

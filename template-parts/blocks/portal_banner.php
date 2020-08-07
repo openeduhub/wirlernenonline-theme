@@ -98,7 +98,10 @@ $query = new WP_Query($args);
 if ($query->have_posts()) :
     $sliderId = uniqid('slider-');
     echo '<div class="portal_block">';
-        echo '<div class="portal_banner_slider" id="' . $sliderId . '">';
+    if (!empty($block['anchor'])) {
+        echo '<a name="' . $block['anchor'] . '"></a>';
+    }
+    echo '<div class="portal_banner_slider" id="' . $sliderId . '">';
         while ($query->have_posts()) : $query->the_post();
             ?>
             <div>
@@ -107,7 +110,7 @@ if ($query->have_posts()) :
                     <div class="portal_banner_slider_content_text">
                         <h3><?php the_title(); ?></h3>
                         <p><?php the_excerpt(); ?></p>
-                        <div class="text-right">
+                        <div class="text-left">
                             <a href="<?php the_permalink(); ?>" class="button">Weiterlesen</a>
                         </div>
                     </div>
@@ -126,7 +129,7 @@ if ($query->have_posts()) :
                         infinite: true,
                         slidesToShow: 1,
                         autoplay: true,
-                        arrows: true,
+                        arrows: false,
                         dots: true
                     });
                 }
