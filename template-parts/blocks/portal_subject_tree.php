@@ -30,6 +30,11 @@ if (!function_exists('helper_useLightColor')) {
 $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
 $educational_filter_values = get_educational_filter_values($postID);
 
+$backgroundColor = '#003E82';
+if (get_field('background_color', $postID)) {
+    $backgroundColor = get_field('background_color', $postID);
+}
+
 // echo '<pre style="background-color: lightgrey">' , var_dump($educational_filter_values) , '</pre>';
 // echo '<script>console.log(' , json_encode($educational_filter_values) , ')</script>';
 
@@ -44,7 +49,7 @@ $oer = $educational_filter_values["oer"];
 $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 
-$url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/local/' . $matches[1][0] . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true&';
+$url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/local/' . $matches[1][0] . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
 $response = callWloRestApi($url);
 
 ?>
@@ -57,140 +62,80 @@ $response = callWloRestApi($url);
     <div class="portal-subject-tree">
 
         <?php
-        echo '<h3>' . ((!empty(get_field('headline'))) ? get_field('headline') : 'Sammlungen') . '</h3>';
-        echo (!empty(get_field('text'))) ? '<p>' . get_field('text') . '</p>' : '';
         if (!empty($response->collections)) {
+            echo '<h3>' . ((!empty(get_field('headline'))) ? get_field('headline') : 'Sammlungen') . '</h3>';
+            echo (!empty(get_field('text'))) ? '<p>' . get_field('text') . '</p>' : '';
             if (get_field('next_level')) {
                 //Sub-Level
                 ?>
-                <div class="portal_subject_list">
+                <div class="portal_subject_grid">
                     <?php
                     foreach ($response->collections as $collection) {
                         if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated') {
                             $prop = $collection->properties;
+                            $ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
 
-                            // Filter Discipline
-                            $propDisciplines = $prop->{'ccm:taxonid'};
-                            $propDisciplines = (!empty($propDisciplines)) ? array_filter($propDisciplines) : [];
-                            $propDisciplines = (!empty($propDisciplines)) ? trim_https_http_from_array($propDisciplines) : [];
-
-                            $disciplinesVocab = (!empty(array_filter($disciplines))) ? array_map("map_vocab_disciplines_value_only", $disciplines) : [];
-                            $disciplinesVocab = (!empty($disciplinesVocab)) ? array_filter($disciplinesVocab) : [];
-                            $disciplinesVocab = (!empty($disciplinesVocab)) ? trim_https_http_from_array($disciplinesVocab) : [];
-
-                            $filterDiscipline = (empty($disciplinesVocab) || empty($propDisciplines)) ? false : empty(array_intersect($propDisciplines, $disciplinesVocab));
-
-                            if ($filterDiscipline) {
+                            // Filter Disciplines
+                            if (wlo_edu_filter($prop->{'ccm:taxonid'}, $disciplines, "map_vocab_disciplines_value_only")) {
                                 continue;
                             }
-
                             // Filter EducationalContext
-                            $propEducationalContexts = $prop->{'ccm:educationalcontext'};
-                            $propEducationalContexts = (!empty($propEducationalContexts)) ? array_filter($propEducationalContexts) : [];
-                            $propEducationalContexts = (!empty($propEducationalContexts)) ? trim_https_http_from_array($propEducationalContexts) : [];
-
-                            $educationalContextsVocab = (!empty(array_filter($educationalContexts))) ? array_map("map_vocab_educationalContexts_value_only", $educationalContexts) : [];
-                            $educationalContextsVocab = (!empty($educationalContextsVocab)) ? array_filter($educationalContextsVocab) : [];
-                            $educationalContextsVocab = (!empty($educationalContextsVocab)) ? trim_https_http_from_array($educationalContextsVocab) : [];
-
-                            $filterEducationalContext = (empty($educationalContextsVocab) || empty($propEducationalContexts)) ? false : empty(array_intersect($propEducationalContexts, $educationalContextsVocab));
-
-                            if ($filterEducationalContext) {
+                            if (wlo_edu_filter($prop->{'ccm:educationalcontext'}, $educationalContexts, "map_vocab_educationalContexts_value_only")) {
                                 continue;
                             }
-
                             // Filter IntendedEndUserRole
-                            $propIntendedEndUserRoles = $prop->{'ccm:educationalintendedenduserrole'};
-                            $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? array_filter($propIntendedEndUserRoles) : [];
-                            $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? trim_https_http_from_array($propIntendedEndUserRoles) : [];
-
-                            $intendedEndUserRolesVocab = (!empty(array_filter($intendedEndUserRoles))) ? array_map("map_vocab_disciplines_value_only", $intendedEndUserRoles) : [];
-                            $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? array_filter($intendedEndUserRolesVocab) : [];
-                            $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? trim_https_http_from_array($intendedEndUserRolesVocab) : [];
-
-                            $filterIntendedEndUserRole = (empty($intendedEndUserRolesVocab) || empty($propIntendedEndUserRoles)) ? false : empty(array_intersect($propIntendedEndUserRoles, $intendedEndUserRolesVocab));
-
-                            if ($filterIntendedEndUserRole) {
+                            if (wlo_edu_filter($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, "map_vocab_intendedEndUserRoles_value_only")) {
                                 continue;
                             }
 
                             $nodeId = $collection->ref->id;
                             ?>
-                            <ul>
-                                <li>
-                                    <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>">
-                                        <h4>
-                                            <?php echo $collection->title; ?>
-                                        </h4></a>
 
+                                    <div class="portal_menu" style="background: <?php echo $backgroundColor ?>;">
+                                        <a href="<?php echo $ccm_location; ?>">
+                                            <h5><?php echo $collection->title; ?></h5>
+                                        </a>
 
-                                    <?php
-                                    $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/local/' . $nodeId . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true&';
-                                    $response = callWloRestApi($url);
-                                    ?>
-                                    <ul>
                                         <?php
-                                        foreach ($response->collections as $collection) {
-                                            if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated') {
-                                                $prop = $collection->properties;
+                                        $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/local/' . $nodeId . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true&';
+                                        $response = callWloRestApi($url);
 
-                                                // Filter Discipline
-                                                $propDisciplines = $prop->{'ccm:taxonid'};
-                                                $propDisciplines = (!empty($propDisciplines)) ? array_filter($propDisciplines) : [];
-                                                $propDisciplines = (!empty($propDisciplines)) ? trim_https_http_from_array($propDisciplines) : [];
+                                        if (!empty($response->collections)) :?>
+                                        <div class="portal_menu_dropdown_button">
+                                            <div class="portal_menu_icon">▼</div>
+                                            <div class="portal_menu_dropdown" style="background: <?php echo $backgroundColor ?>;">
+                                                <?php foreach ($response->collections as $collection) {
+                                                    if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated') {
+                                                        $prop = $collection->properties;
+                                                        $ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
 
-                                                $disciplinesVocab = (!empty(array_filter($disciplines))) ? array_map("map_vocab_disciplines_value_only", $disciplines) : [];
-                                                $disciplinesVocab = (!empty($disciplinesVocab)) ? array_filter($disciplinesVocab) : [];
-                                                $disciplinesVocab = (!empty($disciplinesVocab)) ? trim_https_http_from_array($disciplinesVocab) : [];
+                                                        // Filter Disciplines
+                                                        if (wlo_edu_filter($prop->{'ccm:taxonid'}, $disciplines, "map_vocab_disciplines_value_only")) {
+                                                            continue;
+                                                        }
+                                                        // Filter EducationalContext
+                                                        if (wlo_edu_filter($prop->{'ccm:educationalcontext'}, $educationalContexts, "map_vocab_educationalContexts_value_only")) {
+                                                            continue;
+                                                        }
+                                                        // Filter IntendedEndUserRole
+                                                        if (wlo_edu_filter($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, "map_vocab_intendedEndUserRoles_value_only")) {
+                                                            continue;
+                                                        }
 
-                                                $filterDiscipline = (empty($disciplinesVocab) || empty($propDisciplines)) ? false : empty(array_intersect($propDisciplines, $disciplinesVocab));
+                                                        ?>
+                                                        <a href="<?php echo $ccm_location; ?>">
+                                                            <h6><?php echo $collection->title; ?></h6>
+                                                        </a>
 
-                                                if ($filterDiscipline) {
-                                                    continue;
-                                                }
+                                                    <?php }
+                                                } ?>
 
-                                                // Filter EducationalContext
-                                                $propEducationalContexts = $prop->{'ccm:educationalcontext'};
-                                                $propEducationalContexts = (!empty($propEducationalContexts)) ? array_filter($propEducationalContexts) : [];
-                                                $propEducationalContexts = (!empty($propEducationalContexts)) ? trim_https_http_from_array($propEducationalContexts) : [];
+                                            </div>
+                                        </div>
 
-                                                $educationalContextsVocab = (!empty(array_filter($educationalContexts))) ? array_map("map_vocab_educationalContexts_value_only", $educationalContexts) : [];
-                                                $educationalContextsVocab = (!empty($educationalContextsVocab)) ? array_filter($educationalContextsVocab) : [];
-                                                $educationalContextsVocab = (!empty($educationalContextsVocab)) ? trim_https_http_from_array($educationalContextsVocab) : [];
+                                        <?php endif; ?>
+                                    </div>
 
-                                                $filterEducationalContext = (empty($educationalContextsVocab) || empty($propEducationalContexts)) ? false : empty(array_intersect($propEducationalContexts, $educationalContextsVocab));
-
-                                                if ($filterEducationalContext) {
-                                                    continue;
-                                                }
-
-                                                // Filter IntendedEndUserRole
-                                                $propIntendedEndUserRoles = $prop->{'ccm:educationalintendedenduserrole'};
-                                                $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? array_filter($propIntendedEndUserRoles) : [];
-                                                $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? trim_https_http_from_array($propIntendedEndUserRoles) : [];
-
-                                                $intendedEndUserRolesVocab = (!empty(array_filter($intendedEndUserRoles))) ? array_map("map_vocab_disciplines_value_only", $intendedEndUserRoles) : [];
-                                                $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? array_filter($intendedEndUserRolesVocab) : [];
-                                                $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? trim_https_http_from_array($intendedEndUserRolesVocab) : [];
-
-                                                $filterIntendedEndUserRole = (empty($intendedEndUserRolesVocab) || empty($propIntendedEndUserRoles)) ? false : empty(array_intersect($propIntendedEndUserRoles, $intendedEndUserRolesVocab));
-
-                                                if ($filterIntendedEndUserRole) {
-                                                    continue;
-                                                }
-                                                ?>
-                                                <li>
-                                                    <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>">
-                                                        <h6>
-                                                            <?php echo $collection->title; ?>
-                                                        </h6>
-                                                    </a>
-                                                </li>
-                                            <?php }
-                                        } ?>
-                                    </ul>
-                                </li>
-                            </ul>
                             <?php
                         }
                     } ?>
@@ -202,51 +147,20 @@ $response = callWloRestApi($url);
                 <div class="portal_subject_grid">
                     <?php
                     foreach ($response->collections as $collection) {
+                        $ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
                         if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated') {
                             $prop = $collection->properties;
 
-                            // Filter Discipline
-                            $propDisciplines = $prop->{'ccm:taxonid'};
-                            $propDisciplines = (!empty($propDisciplines)) ? array_filter($propDisciplines) : [];
-                            $propDisciplines = (!empty($propDisciplines)) ? trim_https_http_from_array($propDisciplines) : [];
-
-                            $disciplinesVocab = (!empty(array_filter($disciplines))) ? array_map("map_vocab_disciplines_value_only", $disciplines) : [];
-                            $disciplinesVocab = (!empty($disciplinesVocab)) ? array_filter($disciplinesVocab) : [];
-                            $disciplinesVocab = (!empty($disciplinesVocab)) ? trim_https_http_from_array($disciplinesVocab) : [];
-
-                            $filterDiscipline = (empty($disciplinesVocab) || empty($propDisciplines)) ? false : empty(array_intersect($propDisciplines, $disciplinesVocab));
-
-                            if ($filterDiscipline) {
+                            // Filter Disciplines
+                            if (wlo_edu_filter($prop->{'ccm:taxonid'}, $disciplines, "map_vocab_disciplines_value_only")) {
                                 continue;
                             }
-
                             // Filter EducationalContext
-                            $propEducationalContexts = $prop->{'ccm:educationalcontext'};
-                            $propEducationalContexts = (!empty($propEducationalContexts)) ? array_filter($propEducationalContexts) : [];
-                            $propEducationalContexts = (!empty($propEducationalContexts)) ? trim_https_http_from_array($propEducationalContexts) : [];
-
-                            $educationalContextsVocab = (!empty(array_filter($educationalContexts))) ? array_map("map_vocab_educationalContexts_value_only", $educationalContexts) : [];
-                            $educationalContextsVocab = (!empty($educationalContextsVocab)) ? array_filter($educationalContextsVocab) : [];
-                            $educationalContextsVocab = (!empty($educationalContextsVocab)) ? trim_https_http_from_array($educationalContextsVocab) : [];
-
-                            $filterEducationalContext = (empty($educationalContextsVocab) || empty($propEducationalContexts)) ? false : empty(array_intersect($propEducationalContexts, $educationalContextsVocab));
-
-                            if ($filterEducationalContext) {
+                            if (wlo_edu_filter($prop->{'ccm:educationalcontext'}, $educationalContexts, "map_vocab_educationalContexts_value_only")) {
                                 continue;
                             }
-
                             // Filter IntendedEndUserRole
-                            $propIntendedEndUserRoles = $prop->{'ccm:educationalintendedenduserrole'};
-                            $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? array_filter($propIntendedEndUserRoles) : [];
-                            $propIntendedEndUserRoles = (!empty($propIntendedEndUserRoles)) ? trim_https_http_from_array($propIntendedEndUserRoles) : [];
-
-                            $intendedEndUserRolesVocab = (!empty(array_filter($intendedEndUserRoles))) ? array_map("map_vocab_disciplines_value_only", $intendedEndUserRoles) : [];
-                            $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? array_filter($intendedEndUserRolesVocab) : [];
-                            $intendedEndUserRolesVocab = (!empty($intendedEndUserRolesVocab)) ? trim_https_http_from_array($intendedEndUserRolesVocab) : [];
-
-                            $filterIntendedEndUserRole = (empty($intendedEndUserRolesVocab) || empty($propIntendedEndUserRoles)) ? false : empty(array_intersect($propIntendedEndUserRoles, $intendedEndUserRolesVocab));
-
-                            if ($filterIntendedEndUserRole) {
+                            if (wlo_edu_filter($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, "map_vocab_intendedEndUserRoles_value_only")) {
                                 continue;
                             }
 
@@ -254,15 +168,15 @@ $response = callWloRestApi($url);
                             $fontColor = (!empty($bgColor) && helper_useLightColor($bgColor)) ? "#000000" : "#ffffff";
 
                             ?>
-                            <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>">
-                                <div class="portal_tree_branch" style="
-                                        background: <?php echo $bgColor ?>;
-                                        ">
-                                    <img width="70" height="50" src="<?php echo $collection->preview->url; ?>">
+                            <a href="<?php echo $ccm_location; ?>">
+                                <div class="portal_tree_branch" style="background: <?php echo $backgroundColor ?>;">
+                                    <?php if (get_field('collection_icon')): ?>
+                                        <img width="70" height="50" src="<?php echo $collection->preview->url; ?>">
+                                    <?php endif; ?>
                                     <div class="portal_search_text">
-                                        <h5 style="
-                                            color: <?php echo $fontColor ?> !important;
-                                            "><?php echo $collection->title; ?></h5>
+                                        <h5 style="color: <?php echo $fontColor ?> !important;">
+                                            <?php echo $collection->title; ?>
+                                        </h5>
                                     </div>
                                 </div>
                             </a>
@@ -271,7 +185,7 @@ $response = callWloRestApi($url);
                 </div>
                 <?php
             }
-        } else {
+        } else if (false){
             ?>
             <p class="primary">Leider gibt es in dieser Sammlung noch keine weiteren Sammlungen. <a
                         href="<?php echo get_permalink(get_page_by_path('tool-hinzufuegen')) ?>">Hilf uns dabei</a>,

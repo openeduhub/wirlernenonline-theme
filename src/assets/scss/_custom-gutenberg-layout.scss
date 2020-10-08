@@ -11,6 +11,7 @@
 }
 .gutenberg-layout-container {
   .wp-block-cover {
+    padding-bottom: 0;
     @include xy-grid-container(100%);
     .wp-block-cover__inner-container {
         @include xy-grid-container;

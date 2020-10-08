@@ -62,12 +62,6 @@
     </li>
     <?php endif; ?>
 
-    <?php if( get_field( 'maker' ) ) : ?>
-        <li>
-            Anbieter: <?php the_field('maker') ?>
-        </li>
-    <?php endif; ?>
-
     <?php if( get_field( 'technical_req' ) ) : ?>
         <li>
             <?php

@@ -2,7 +2,9 @@
 if (is_admin()) {
     echo '<div class="backend_border">';
     echo '<div class="backend_hint">Themenportal: Inhaltesuche</div>';
-};
+}
+
+require_once(get_template_directory().'/functions/wlo-config.php');
 
 /* Filter Values prioritized GET/POST > Block-Setting > Portal-Setting */
 /*
@@ -45,7 +47,7 @@ if (get_field('count')) {
 
 $filter_query = '';
 
-$search_filter = 'https://suche.wirlernenonline.de/de/search?filters={';
+$search_filter = WLO_SEARCH.'de/search?filters={';
 
 if (!empty($disciplines)) {
     $filter_query .= '{ 
@@ -191,6 +193,7 @@ if (get_field('custom_search_active')) {
         <a href='<?php echo $search_filter; ?>' target="_blank">Alle anzeigen</a>
     </div>
     <?php
+    //var_dump('Search-Query: '.$search_query);
     $response = callWloGraphApi($search_query);
 
     if (!empty($response->data->search->hits)) {
@@ -199,14 +202,18 @@ if (get_field('custom_search_active')) {
             <div class="portal_latest_search_results_block">
                 <div class="portal_latest_search_results_list"><?php
                     foreach ($response->data->search->hits as $hit) {
+                        $contentUrl = WLO_SEARCH.'en-US/details/'.$hit->id;
+                        if (!empty($hit->lom->technical->location)){
+                            $contentUrl = $hit->lom->technical->location;
+                        }
                     ?>
 
                     <div class="portal_latest_search_results_list_content">
-                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>">
-                            <img src="<?php echo $hit->previewImage->thumbnail->url; ?>">
+                        <a href="<?php echo $contentUrl; ?>">
+                            <img src="<?php echo $hit->previewImage->thumbnail->url; ?>" alt="">
                         </a>
                         <div class="portal_latest_search_results_list_content_text">
-                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                            <a href="<?php echo $contentUrl; ?>"><h5><?php echo $hit->lom->general->title; ?></h5></a>
                             <p><?php echo $hit->lom->general->description; ?></p>
                         </div>
                     </div>
@@ -220,14 +227,18 @@ if (get_field('custom_search_active')) {
         } elseif (get_field('layout') == 'grid'){?>
             <div class="portal_latest_search_results_grid"><?php
                 foreach ($response->data->search->hits as $hit) {
+                    $contentUrl = WLO_SEARCH.'en-US/details/'.$hit->id;
+                    if (!empty($hit->lom->technical->location)){
+                        $contentUrl = $hit->lom->technical->location;
+                    }
                     ?>
                 <div class="portal_latest_search_results_grid_container">
                     <div class="portal_latest_search_results_grid_content">
-                        <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>">
-                            <img src="<?php echo $hit->previewImage->thumbnail->url; ?>">
+                        <a href="<?php echo $contentUrl; ?>">
+                            <img src="<?php echo $hit->previewImage->thumbnail->url; ?>" alt="">
                         </a>
                         <div class="portal_latest_search_results_grid_content_text">
-                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"><h5><?php echo $hit->lom->general->title; ?></h5></a>
+                            <a href="<?php echo $contentUrl; ?>"><h5><?php echo $hit->lom->general->title; ?></h5></a>
                             <p><?php echo $hit->lom->general->description; ?></p>
                         </div>
                     </div>
@@ -256,16 +267,21 @@ if (get_field('custom_search_active')) {
             <div class="portal_latest_search_results_slider" id="<?php echo $sliderId ?>">
                 <?php
                 foreach ($response->data->search->hits as $hit) {
+                    $contentUrl = WLO_SEARCH.'en-US/details/'.$hit->id;
+                    if (!empty($hit->lom->technical->location)){
+                        $contentUrl = $hit->lom->technical->location;
+                    }
                     ?>
                     <div>
                         <div class="portal_latest_search_results_slider_content">
-                            <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
+                            <a href="<?php echo $contentUrl; ?>"
                                target="_blank">
-                                <img src="<?php echo $hit->previewImage->thumbnail->url; ?>">
+                                <img src="<?php echo $hit->previewImage->thumbnail->url; ?>" alt="">
                             </a>
                             <div class="portal_latest_search_results_slider_content_text">
-                                <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>"
-                                   target="_blank"><h6><?php echo $hit->lom->general->title; ?></h6></a>
+                                <a href="<?php echo $contentUrl; ?>" target="_blank">
+                                    <h6><?php echo $hit->lom->general->title; ?></h6>
+                                </a>
                                 <p><?php echo $hit->lom->general->description; ?></p>
                             </div>
                             <?php
@@ -279,8 +295,8 @@ if (get_field('custom_search_active')) {
 
                             ?>
                             <div class="portal_latest_search_results_slider_content_bottom">
-                                <a href="https://staging.wirlernenonline.de/en-US/details/<?php echo $hit->id; ?>" class="button primary small" target="_blank"><?php echo $learningResourceTypeLabel?> öffnen</a>
-                                <?php if (!empty($hit->source->name)) : ?>
+                                <a href="<?php echo $contentUrl; ?>" class="button primary small" target="_blank"><?php echo $learningResourceTypeLabel?> öffnen</a>
+                                <?php if (!empty($hit->source->name) && false ) : ?>
                                 <p>Quelle: <?php echo $hit->source->name?></p>
                                 <?php endif; ?>
                             </div>

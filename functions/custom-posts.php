@@ -276,3 +276,11 @@ function wlo_portal_discipline_filter($query) {
 }
 
 add_action('pre_get_posts','wlo_portal_discipline_filter');
+
+
+function only_blog_posts( $query ) {
+    if ( $query->is_home() && $query->is_main_query() ) {
+        $query->set( 'cat', '1');
+    }
+}
+add_action( 'pre_get_posts', 'only_blog_posts' );

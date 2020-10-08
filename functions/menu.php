@@ -81,6 +81,6 @@ function add_toolbar_items($admin_bar){
     $admin_bar->add_menu( array(
         'id'    => 'redaktion',
         'title' => 'Redaktionsumgebung',
-        'href'  => 'https://dev.wirlernenonline.de/redaktionsumgebung/',
+        'href'  => 'https://wirlernenonline.de/redaktionsumgebung/',
     ));
 }

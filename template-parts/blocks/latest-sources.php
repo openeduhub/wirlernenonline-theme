@@ -28,7 +28,7 @@ $image = get_field('icon');
       $link = get_field( 'link' );
       if( $link ){ ?>
           <div class="cell shrink">
-              <a class="button hollow" href="<?php echo $link; ?>" aria-label="<?php echo $link_label; ?>">Alle Einträge</a>
+              <a class="button hollow wlo-latest-btn" href="<?php echo $link; ?>" aria-label="<?php echo $link_label; ?>">Alle Einträge</a>
           </div>
       <?php }
       ?>

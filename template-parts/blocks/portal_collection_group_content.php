@@ -1,6 +1,6 @@
 <?php if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">Themenportal: Sammlungsinhalte</div>';
+    echo '<div class="backend_hint">Themenportal: Sammlungsinhalte (Unterseiten)</div>';
 } ?>
 <?php
 
@@ -37,13 +37,15 @@ $oehWidgets = $educational_filter_values["oehWidgets"];
 $addContentPageID = 9933; //pre
 //$addContentPageID = 9081; //local
 
+$pageTitle = get_the_title($postID);
+$pageDiscipline = get_field('discipline', $postID)[0]['label'];
+
 /* ------------------------------------------------------------------- */
 
 $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 
 $collectionID = $matches[1][0];
-$collectionLevel = get_field('collection_level', $postID);
 
 $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $matches[1][0] . '/children/references';
 $response = callWloRestApi($url);
@@ -72,7 +74,12 @@ $mediaTypes = array(
     "saved_search" => "Suche"
 );
 
-$headline = ((!empty(get_field('headline'))) ? get_field('headline') : 'Materialien');
+$headline = 'Materialien';
+if(!empty(get_field('headline'))){
+    $headline = get_field('headline');
+}else if (!empty(get_field('oehWidgets')[0]['label'])){
+    $headline = get_field('oehWidgets')[0]['label'];
+}
 
 ?>
 
@@ -81,12 +88,10 @@ $headline = ((!empty(get_field('headline'))) ? get_field('headline') : 'Material
     echo '<a name="' . $block['anchor'] . '"></a>';
 }
 echo '<div class="portal_collection_content_header">';
-echo '<div class="headline big">' . $headline . '</div>';
-if (!empty(get_field('text'))) {
-    echo '<p>' . get_field('text') . '</p>';
-}
+echo '<div class="headline">' . $headline . '</div>';
+echo '<a class="portal_add_link" href="'. get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&oehWidgets=' . $oehWidgets[0] . '&headline=' . $headline. '" target="_blank">Inhalt vorschlagen</a>';
 echo '</div>';
-
+//echo (!empty(get_field('text'))) ? '<p>' . get_field('text') . '</p>' : '';
 
 $layout = get_field('layout');
 $maxResults = get_field('maxResults');
@@ -181,7 +186,6 @@ foreach ($response->references as $reference) {
     $contentArray[] = array(
         'mediatype' => $mediaTypes[$reference->mediatype],
         'image_url' => $reference->preview->url,
-        //'content_url' => $reference->content->url,
         'content_url' => $reference->properties->{'ccm:wwwurl'}[0] ? $reference->properties->{'ccm:wwwurl'}[0] : $reference->content->url,
         'title' => $reference->properties->{'cclom:title'}[0] ? $reference->properties->{'cclom:title'}[0] : $reference->properties->{'cm:name'}[0],
         'description' => !empty($reference->properties->{'cclom:general_description'}) ? (implode("\n", $reference->properties->{'cclom:general_description'})) : '',
@@ -189,19 +193,15 @@ foreach ($response->references as $reference) {
     );
 } //end foreach
 
-
 if (!empty($maxResults)){
     $contentArray = array_slice($contentArray, 0, $maxResults );
 }
 if (!empty($contentArray)){
     $contentCount = count($contentArray);
 ?>
-<div class="portal-collection-content-browser">
-    <?php if ($layout == 'list') { ?>
-        <div class="portal_content_list">
-    <?php }else if ($layout == 'grid') { ?>
-        <div class="portal_content_grid <?php echo (get_field('horizontal_scroll') == true) ? 'x-scroll' : '' ?>">
-    <?php }else if ($layout == 'slider'){
+<div class="portal-collection-group-content">
+
+    <?php
         $sliderId = uniqid('slider-');
         if (get_field('slidesToShow')) {
             $slidesToShow = get_field('slidesToShow');
@@ -210,34 +210,34 @@ if (!empty($contentArray)){
             $slidesToScroll = get_field('slidesToScroll');
         } ?>
         <div class="portal_content_slider" id="<?php echo $sliderId; ?>">
-    <?php }
+    <?php
 
         foreach ($contentArray as $content) { ?>
 
             <div class="portal_content_branch">
                 <div class="media-type"><?php echo $content['mediatype'] ?></div>
                 <?php if (!empty($content['image_url'])) { ?>
-                    <img src="<?php echo $content['image_url']; ?>" alt="<?php echo $content['title']; ?>">
+                    <div class="portal_content_image">
+                        <a href="<?php echo $content['content_url']; ?>" target="_blank">
+                            <img src="<?php echo $content['image_url']; ?>" alt="">
+                        </a>
+                    </div>
                 <?php } ?>
                 <div class="portal_content_info">
-                    <div class="portal_search_text">
+                    <div class="portal_search_text wlo-blue">
                         <a href="<?php echo $content['content_url']; ?>" target="_blank">
-                            <h6><?php echo $content['title']; ?></h6></a>
-                        <h6 class="media-type"><?php echo $content['mediatype'] ?></h6>
-                        <p><?php echo $content['description'] ?></p>
-                    </div>
-                    <div class="portal_search_button">
-                        <a class="button primary small" href="<?php echo $content['content_url']; ?>" target="_blank">
-                            <?php echo $content['mediatype']; ?> öffnen
-                            <span class="hidden_context">für <?php echo $content['title']; ?></span>
+                            <h6><?php echo $content['title']; ?></h6>
                         </a>
                     </div>
                 </div>
             </div>
 
+        <?php }
+        if ($contentCount <= 10 ){ ?>
+
+        <?php }else { ?>
 
         <?php } ?>
-
         </div>
     </div>
 
@@ -250,7 +250,7 @@ if (!empty($contentArray)){
                             infinite: false,
                             slidesToShow: <?php echo $slidesToShow; ?>,
                             slidesToScroll: <?php echo $slidesToScroll; ?>,
-                            arrows: true,
+                            arrows: false,
                             dots: true,
                             zIndex: 0,
                             responsive: [
@@ -280,10 +280,31 @@ if (!empty($contentArray)){
                 });
             });
         </script>
-
-
-    <?php } ?>
-</div>
+        <?php
+        }else { ?>
+            <div class="portal-collection-group-content">
+                <div class="portal_content_slider">
+                    <div class="portal_content_branch portal_content_branch_empty">
+                        <div class="portal_content_image">
+                            <a href="<?php echo get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&oehWidgets=' . $oehWidgets[0] . '&headline=' . $headline . '&pageTitle=' . $pageTitle .'&pageDiscipline=' . $pageDiscipline; ?>" target="_blank">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus-big.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="portal_content_info">
+                            <div class="portal_search_text">
+                                <h6>Du hast einen Inhalt, der gut hierzu passen würde?</h6>
+                            </div>
+                            <div class="portal_search_button">
+                                <a class="button primary small wlo-red"
+                                   href="<?php echo get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&oehWidgets=' . $oehWidgets[0] . '&headline=' . $headline; ?>"
+                                   target="_blank">Schlag den ersten Inhalt vor</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
 
 
 <?php if (is_admin()) {

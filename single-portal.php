@@ -3,16 +3,19 @@ get_header();
 ?>
 <?php
 while (have_posts()) : the_post(); ?>
-    <!--<style type="text/css">
-        .portal {
-            background: <?php /*the_field('background_color'); */?>;
-        }
 
-        .portal h1, .portal h2,.portal h3,.portal h4,.portal h5,.portal h6, .portal a{
-            color: <?php /*the_field('font_color'); */?>;
-        }
-    </style>-->
     <div class="portal">
+
+        <?php if( have_rows('menu') && get_field('sidemenu_active')): ?>
+            <ul class="portal-sidemenu">
+                <?php while( have_rows('menu') ): the_row(); ?>
+                    <li>
+                        <a href="#<?php echo get_sub_field('link'); ?>"><?php echo get_sub_field('name'); ?></a>
+                    </li>
+                <?php endwhile; ?>
+            </ul>
+        <?php endif; ?>
+
         <div class="grid-container">
             <div class="grid-x grid-margin-x">
                 <div class="medium-12 cell">

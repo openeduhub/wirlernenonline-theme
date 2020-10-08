@@ -18,6 +18,13 @@ if (is_admin()) {
 $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
 $educational_filter_values = get_educational_filter_values($postID);
 
+$collectionLevel = get_field('collection_level', $postID);
+
+$backgroundColor = '#003E82';
+if ( get_field('background_color', $postID)){
+    $backgroundColor = get_field('background_color', $postID);
+}
+
 // echo '<pre style="background-color: lightgrey">' , var_dump($educational_filter_values) , '</pre>';
 // echo '<script>console.log(' , json_encode($educational_filter_values) , ')</script>';
 
@@ -69,8 +76,7 @@ $headerId = uniqid('header-');
                         um_fetch_user( $author_id['ID'] );
                         ?>
 
-                        <a href="mailto:<?php echo $author_id['user_email'] ?>"
-                           title="<?php echo $author_id['nickname'] ?>">
+                        <a href="mailto:<?php echo $author_page_link ?>" title="<?php echo $author_id['nickname'] ?>">
                             <?php echo $author_id['user_avatar'] ?>
                         </a>
 
@@ -78,7 +84,9 @@ $headerId = uniqid('header-');
                     } ?>
             </div>
             <div class="portal_header_top_right_author_button_container">
-                <a href="mailto:<?php echo $author_page_link ?>" class="button primary small">Schreib uns!</a>
+                <?php if ($collectionLevel === 0  || !empty($author_page_link)): ?>
+                    <a href="mailto:<?php echo $author_page_link; ?>" class="button primary small" style="background: <?php echo $backgroundColor; ?>">Schreib uns!</a>
+                <?php endif; ?>
             </div>
             <?php }?>
         </div>

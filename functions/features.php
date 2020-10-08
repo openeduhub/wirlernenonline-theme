@@ -103,7 +103,7 @@ function acf_save_form($post_id)
     $title = get_the_title($post_id);
     $mail = get_field('email', $post_id);
     $newsletter = get_field('newsletter', $post_id);
-    # email data
+    // email data
     $to = get_bloginfo('admin_email' . ', redaktion@wirlernenonline.de');
     $headers[] = 'From: wirlernenonline.de <redaktion@wirlernenonline.de>';
     $headers[] = 'Content-Type: text/html; charset=UTF-8';
@@ -233,11 +233,9 @@ function callWloGraphApi($search_query)
 {
     $curl_post_data = array("query" => $search_query);
     $data_string = json_encode($curl_post_data);
-    //$url = 'https://suche.wirlernenonline.de/relay/graphql';
-    $url = 'https://staging.wirlernenonline.de/relay/graphql';
 
     try {
-        $curl = curl_init($url);
+        $curl = curl_init(WLO_SEARCH.'relay/graphql');
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
@@ -511,6 +509,20 @@ function trim_https_http_from_array($array){
 }
 
 
+function wlo_edu_filter($collectionData, $wpData, $filter){
+    $propDisciplines = $collectionData;
+    $propDisciplines = (!empty($propDisciplines)) ? array_filter($propDisciplines) : [];
+    $propDisciplines = (!empty($propDisciplines)) ? trim_https_http_from_array($propDisciplines) : [];
+
+    $disciplinesVocab = (!empty(array_filter($wpData))) ? array_map($filter, $wpData) : [];
+    $disciplinesVocab = (!empty($disciplinesVocab)) ? array_filter($disciplinesVocab) : [];
+    $disciplinesVocab = (!empty($disciplinesVocab)) ? trim_https_http_from_array($disciplinesVocab) : [];
+
+    $filterDiscipline = (empty($disciplinesVocab) || empty($propDisciplines)) ? false : empty(array_intersect($propDisciplines, $disciplinesVocab));
+
+    return $filterDiscipline;
+}
+
 function getSearchFilterValues($field, $postID){
     $field_values = (!empty(get_field($field, $postID))) ? get_field($field, $postID) : [];
     if(!empty(get_field($field))){
@@ -518,7 +530,10 @@ function getSearchFilterValues($field, $postID){
     };
     $search_filter = '';
     if (!empty($field_values)){
-        $search_filter .= '"valuespaces.'.$field.'.de.keyword":[';
+        if ($field == 'learningResourceTypes'){
+            $field = 'learningResourceType';
+        }
+        $search_filter .= '"'.$field.'":[';
         $i = 0;
         $len = count($field_values);
         foreach ($field_values as $value){
@@ -535,18 +550,15 @@ function getSearchFilterValues($field, $postID){
 }
 
 
-add_action( 'user_register', 'wlo_registration_save', 10, 1 );
+//add_action( 'user_register', 'wlo_registration_save', 10, 1 );
 
 function wlo_registration_save( $user_id ) {
 
-    $user = '';
-    $pw = '';
-
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,"https://login.oer-contentbuffet.info/auth/realms/master/protocol/openid-connect/token");
+    curl_setopt($ch, CURLOPT_URL,KEYCLOAK_URL."protocol/openid-connect/token");
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS,
-        "username=".$user."&password=".$pw."&client_id=wlo_wordpress&grant_type=password");
+        "username=".KEYCLOAK_USER."&password=".KEYCLOAK_PW."&client_id=wlo_wordpress&grant_type=password");
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
 
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -557,8 +569,6 @@ function wlo_registration_save( $user_id ) {
     if ($server_output->access_token){
 
         $user = get_userdata( $user_id );
-        error_log('usermail: '.$user->user_email);
-        error_log('userID: '.$user_id);
 
         $curl_post_data = array(
             "username" => $user->user_login,
@@ -568,7 +578,7 @@ function wlo_registration_save( $user_id ) {
             "enabled" => 'true',
         );
         $data_string = json_encode($curl_post_data);
-        $url = 'https://login.oer-contentbuffet.info/auth/admin/realms/master/users';
+        $url = KEYCLOAK_URL.'users';
 
         try {
             $curl = curl_init($url);
@@ -611,3 +621,66 @@ function wlo_update_custom_roles() {
 add_action( 'init', 'wlo_update_custom_roles' );
 
 
+
+function callRepoApi($restUrl, $data, $contentType = 'Content-Type: application/json', $mode = 'POST'){
+    $apiUrl = get_option('es_repo_url') . $restUrl;
+    $login = 'WLO-Upload';
+    $password = 'wlo#upload!20';
+
+
+    $curl = curl_init($apiUrl);
+    if ($mode == 'PUT'){
+        //curl_setopt($curl, CURLOPT_PUT, 1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+    }else{
+        curl_setopt($curl, CURLOPT_POST, 1);
+    }
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt($curl, CURLOPT_USERPWD, "$login:$password");
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        'Accept: application/json',
+        $contentType,
+    ));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+    // EXECUTE:
+    try{
+        $result = curl_exec($curl);
+        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        if($result === false) {
+            echo 'Result empty: '.curl_error($curl).'<br>';
+            return false;
+        }
+    } catch (Exception $e) {
+        echo 'Exception: '.$e->getMessage().'<br>';
+        return false;
+    }
+    //error_log(print_r(curl_getinfo($curl), true));
+    curl_close($curl);
+
+    if(!$result && $httpcode != 200){
+        echo "Connection Failure (http-code: ".$httpcode.")<br>";
+        return false;
+    }
+
+
+    return json_decode($result, true);
+}
+
+
+if( ! function_exists( 'post_meta_request_params' ) ) :
+    function post_meta_request_params( $args, $request )
+    {
+        $args += array(
+            'meta_key'   => $request['meta_key'],
+            'meta_value' => $request['meta_value'],
+            'meta_query' => $request['meta_query'],
+        );
+
+        return $args;
+    }
+    //add_filter( 'rest_post_query', 'post_meta_request_params', 99, 2 );
+    // add_filter( 'rest_page_query', 'post_meta_request_params', 99, 2 ); // Add support for `page`
+    add_filter( 'rest_portal_query', 'post_meta_request_params', 99, 2 ); // Add support for `my-custom-post`
+endif;

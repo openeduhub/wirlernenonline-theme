@@ -26,10 +26,12 @@ if (is_admin()) {
                 //echo '<pre style="background-color: lightgrey">' , var_dump($educational_filter_values) , '</pre>';
 
                 $collectionUrl = $educational_filter_values["collectionUrl"];
+                /*
                 $disciplines = $educational_filter_values["disciplines"];
                 $educationalContexts = $educational_filter_values["educationalContexts"];
                 $intendedEndUserRoles = $educational_filter_values["intendedEndUserRoles"];
                 $oer = $educational_filter_values["oer"];
+                */
                 /* ------------------------------------------------------------------- */
 
 
@@ -42,10 +44,12 @@ if (is_admin()) {
                 $nodes = Array();
 
                 foreach ($response->nodes as $node) {
-                    $nodes[] = [$node->title, $node->properties->{'cclom:location'}[0]];
+                    if ($node->title == 'Portale'){
+                        $nodes[] = [$node->title, get_page_link(9930)];
+                    }else{
+                        $nodes[] = [$node->title, str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $node->properties->{'cclom:location'}[0])];
+                    }
                 }
-                //Delete highest Level
-                //array_pop($nodes);
                 $nodes = array_reverse($nodes);
 
                 foreach ($nodes as $node) {

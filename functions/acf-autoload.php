@@ -24,7 +24,7 @@ function acf_autoload_discipline_field_choices( $field ) {
             $idStr = $choice->id;
             $lastSlash = strrpos($idStr, "/");
             $idNr = substr($idStr, $lastSlash + 1);
-            $field['choices'][ intval($idNr) ] = $choice->prefLabel->de;
+            $field['choices'][ $idNr ] = $choice->prefLabel->de;
 
         }
 

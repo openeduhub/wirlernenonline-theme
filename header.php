@@ -4,7 +4,7 @@
 <body <?php body_class(); ?>>
 	<header id="site-header" class="site-header" role="banner">
 		<div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="large">
-			<button class="menu-icon" type="button" data-toggle></button>
+			<button class="menu-icon" type="button" data-toggle aria-label="Hauptmenü"></button>
 			<a class="mobile-logo-container" href="<?php echo get_home_url(); ?>" aria-label="Link zur Startseite">
 				<img class="logo" src="<?php echo get_stylesheet_directory_uri() ?>/dist/assets/img/WLO-Logo-01.png" alt="Logo">
 			</a>

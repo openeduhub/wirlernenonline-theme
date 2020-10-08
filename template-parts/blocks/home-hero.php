@@ -1,5 +1,7 @@
 
 <?php
+require_once(get_template_directory().'/functions/wlo-config.php');
+
 // get the school subjects via graphQL
 $data = '{
   subjectsPortals(size: 1000, language: de) {
@@ -34,7 +36,7 @@ $response = callWloGraphApi($data);
       </div>
       <div class="cell medium-10 medium-offset-1 large-8 large-offset-2">
 
-        <form action="https://suche.wirlernenonline.de/de/search" method="GET" class="home-hero__form">
+        <form action="<?php echo WLO_SEARCH; ?>de/search" method="GET" class="home-hero__form">
           <div class="search-container">
             <p><?php the_field('search_description'); ?></p>
             <div class="input-group">
@@ -135,6 +137,7 @@ $response = callWloGraphApi($data);
                     // Show the current tab, and add an "active" class to the button that opened the tab
                     document.getElementById(schulform).style.display = "block";
                     e.currentTarget.className += " active";
+                    document.getElementById(schulform).scrollIntoView();
                 }
             </script>
         </form action="/lernstoff" method="GET">

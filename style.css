@@ -97,6 +97,15 @@ Version:        1.0
     background: #f1f1f1;
 }
 
+@media screen and (max-width: 500px) {
+    .home-hero__filter .tabcontent button, .tabcontent .subjectButton{
+        justify-content: normal;
+    }
+    .home-hero__filter .tabcontent button, .tabcontent .subjectButton{
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
+}
+
 .home-hero__filter .filter_tag{
     margin-left: 12px;
     padding: 6px 12px;
@@ -152,7 +161,7 @@ Version:        1.0
 
 .full-width {
     margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    margin-right: calc(calc(50% - 50vw) + 0.4rem);
 }
 
 .wlo_source_dev{

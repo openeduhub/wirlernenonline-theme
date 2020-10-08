@@ -1,4 +1,4 @@
-<a href="<?php the_permalink($post->ID); ?>">
+<a href="<?php echo get_field('url', $post->ID); ?>" target="_blank">
   <div class="card">
     <?php
     $image = get_field('thumbnail', $post->ID);

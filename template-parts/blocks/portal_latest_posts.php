@@ -38,15 +38,20 @@ if (get_field('active')) {
 
 
         echo '<div class="portal_block">';
-        if (!empty(get_field('headline')))
+        if (!empty($block['anchor'])) {
+            echo '<a name="' . $block['anchor'] . '"></a>';
+        }
+        if (!empty(get_field('headline'))){
             echo '<h3>' . get_field('headline') . '</h3>';
-        else
+        } else {
             echo '<h3>Blogbeiträge</h3>';
+        }
 
         if (get_field('as_list')) { ?>
             <div class="portal_latest_posts_block">
                 <div class="portal_latest_posts_list"><?php
-                    while ($query->have_posts()) : $query->the_post();
+                    while ($query->have_posts()) :
+                        $query->the_post();
                         ?>
 
                         <div class="portal_latest_posts_list_content">
@@ -59,8 +64,7 @@ if (get_field('active')) {
                             </div>
                         </div>
 
-                    <?php
-                    endwhile; ?>
+                    <?php endwhile; ?>
 
                 </div>
             </div>
@@ -68,6 +72,15 @@ if (get_field('active')) {
 
         } else {
             $sliderId = uniqid('slider-');
+            $slidesToShow = 3;
+            $slidesToScroll = 1;
+            if (get_field('slidesToShow')) {
+                $slidesToShow = get_field('slidesToShow');
+            }
+            if (get_field('slidesToScroll')) {
+                $slidesToScroll = get_field('slidesToScroll');
+            }
+
             echo '<div class="portal_latest_posts_block">';
             echo '<div class="portal_latest_posts_slider" id="' . $sliderId . '">';
             while ($query->have_posts()) : $query->the_post();
@@ -88,6 +101,9 @@ if (get_field('active')) {
                 </div>
             <?php
             endwhile;
+            echo '</div>';
+            echo '</div>';
+
             ?>
             <script type="text/javascript">
                 jQuery(function () {
@@ -95,11 +111,28 @@ if (get_field('active')) {
                     function loadBlogSlider() {
                         if (typeof jQuery().slick === "function") {
                             jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
-                                infinite: true,
-                                slidesToShow: 3,
-                                slidesToScroll: 1,
-                                prevArrow: false,
-                                zIndex: 0
+                                infinite: false,
+                                slidesToShow: <?php echo $slidesToShow; ?>,
+                                slidesToScroll: <?php echo $slidesToScroll; ?>,
+                                arrows: true,
+                                dots: true,
+                                zIndex: 0,
+                                responsive: [
+                                    {
+                                        breakpoint: 950,
+                                        settings: {
+                                            slidesToShow: 2,
+                                            slidesToScroll: 2
+                                        }
+                                    },
+                                    {
+                                        breakpoint: 750,
+                                        settings: {
+                                            slidesToShow: 1,
+                                            slidesToScroll: 1
+                                        }
+                                    }
+                                ]
                             });
                         }
                     }
@@ -108,8 +141,6 @@ if (get_field('active')) {
                 });
             </script>
             <?php
-            echo '</div>';
-            echo '</div>';
         }
         echo '</div>';
 

@@ -17,6 +17,12 @@ if (is_admin()) {
 $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
 $educational_filter_values = get_educational_filter_values($postID);
 
+$backgroundColor = '#003E82';
+if ( get_field('background_color', $postID)){
+   $backgroundColor = get_field('background_color', $postID);
+}
+
+
 // echo '<pre style="background-color: lightgrey">' , var_dump($educational_filter_values) , '</pre>';
 // echo '<script>console.log(' , json_encode($educational_filter_values) , ')</script>';
 
@@ -102,16 +108,23 @@ if ($query->have_posts()) :
         echo '<a name="' . $block['anchor'] . '"></a>';
     }
     echo '<div class="portal_banner_slider" id="' . $sliderId . '">';
-        while ($query->have_posts()) : $query->the_post();
+        while ($query->have_posts()) :
+            $query->the_post();
+            $bannerUrl = get_permalink();
+            if (get_field('url', get_the_ID())){
+                $bannerUrl = get_field('url', get_the_ID());
+            }
             ?>
             <div>
-                <div class="portal_banner_slider_content" id="<?php echo $sliderId?>">
-                    <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('medium'); ?></a>
+                <div class="portal_banner_slider_content" style="background: <?php echo $backgroundColor; ?>">
+                    <div>
+                        <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('medium'); ?></a>
+                    </div>
                     <div class="portal_banner_slider_content_text">
                         <h3><?php the_title(); ?></h3>
                         <p><?php the_excerpt(); ?></p>
                         <div class="text-left">
-                            <a href="<?php the_permalink(); ?>" class="button">Weiterlesen</a>
+                            <a href="<?php echo $bannerUrl; ?>" target="_blank" class="button">Zum Inhalt</a>
                         </div>
                     </div>
                 </div>

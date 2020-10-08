@@ -178,10 +178,10 @@ function register_acf_block_types()
         'keywords' => [],
         'supports' => ['anchor' => true],
     ]);
-    acf_register_block_type(['name' => 'portal_tip',
+    acf_register_block_type(['name' => 'portal_latest_posts',
         'title' => __('Neueste Blogbeiträge'),
         'description' => __('Zeigt aktuelle Blogbeiträge im aktuellen Blog. Nicht fachspezifisch.'),
-        'render_template' => 'template-parts/blocks/portal_tip.php',
+        'render_template' => 'template-parts/blocks/portal_latest_posts.php',
         'category' => 'themenportal',
         'icon' => '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
@@ -279,12 +279,74 @@ fill="none"></path>
         'keywords' => [],
         'supports' => ['anchor' => true],
     ]);
+acf_register_block_type(['name' => 'portal_collection_group_content',
+        'title' => __('Sammlungsinhalte (Unterseiten)'),
+        'description' => __('Zeigt den Inhalt/Materialien innerhalb der übergebenen Sammlung (für Unterseiten).'),
+        'render_template' => 'template-parts/blocks/portal_collection_group_content.php',
+        'category' => 'themenportal',
+        'icon' => '<svg xmlns="http://www.w3.org/2000/svg" height="24" 
+viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" 
+fill="none"></path>
+<path style="fill: #a2a2a2" d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z">
+</path></svg>',
+        'keywords' => [],
+        'supports' => ['anchor' => true],
+]);
+acf_register_block_type(['name' => 'portal_feature_content',
+        'title' => __('Feature des Monats'),
+        'description' => __('Hebt einen Inhalt besonders hervor.'),
+        'render_template' => 'template-parts/blocks/portal_feature_content.php',
+        'category' => 'themenportal',
+        'icon' => 'id',
+        'keywords' => [],
+        'supports' => ['anchor' => true],
+]);
 acf_register_block_type(['name' => 'edusharing_repo_button',
     'title'				=> __('Button zu edu-sharing'),
     'description'		=> __('Springt zum ES-Repo mit Login.'),
     'render_template'	=> 'template-parts/blocks/edusharing_repo_button.php',
     'category'			=> 'custom-blocks',
-    'icon'				=> 'dashicons-admin-links',
+    'icon'				=> 'admin-links',
+    'keywords'			=> [ ],
+]);
+acf_register_block_type(['name' => 'portal_toggle_content',
+    'title'				=> __('Themenportal: Ergebnis Auswahl'),
+    'description'		=> __('Wechselt zwischen Qualitätsgesicherten Inhalten und Suchergebnissen'),
+    'render_template'	=> 'template-parts/blocks/portal_toggle_content.php',
+    'category'			=> 'themenportal',
+    'icon'				=> 'admin-settings',
+    'keywords'			=> [ ],
+]);
+acf_register_block_type(['name' => 'portal_collection_group',
+    'title'				=> __('Sammlungsinhalte Gruppe'),
+    'description'		=> __('Zeigt ein Grid, das Sammlungsinhalte-Blöcke enthält.'),
+    'render_template'	=> 'template-parts/blocks/portal_collection_group.php',
+    'category'			=> 'themenportal',
+    'icon'				=> 'admin-settings',
+    'supports'          => array(
+        'mode' => false,
+        '__experimental_jsx' => true
+    ),
+    'keywords'			=> [ ],
+]);
+acf_register_block_type(['name' => 'portal_widget_content',
+    'title'				=> __('Widget-Inhalte für Themenseiten'),
+    'description'		=> __('Zeigt die Inhalte aus den Widgets an.'),
+    'render_template'	=> 'template-parts/blocks/portal_widget_content.php',
+    'category'			=> 'themenportal',
+    'icon'				=> 'images-alt2',
+    'supports'          => array(
+        'mode' => false,
+        '__experimental_jsx' => true
+    ),
+    'keywords'			=> [ ],
+]);
+acf_register_block_type(['name' => 'portal_widget',
+    'title'				=> __('Themenportal: Widget'),
+    'description'		=> __('Zeigt ein Widgets an.'),
+    'render_template'	=> 'template-parts/blocks/portal_widget.php',
+    'category'			=> 'themenportal',
+    'icon'				=> 'format-image',
     'keywords'			=> [ ],
 ]);
 }

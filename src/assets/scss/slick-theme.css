@@ -29,8 +29,8 @@
 
     display: block;
 
-    width: 43px;
-    height: 43px;
+    width: 36px;
+    height: 36px;
     -webkit-transform: translate(0, -50%);
     -ms-transform: translate(0, -50%);
     transform: translate(0, -50%);
@@ -41,8 +41,8 @@
     border: none;
     border-radius: 30px !important;
     outline: none;
-    background: #E3F702;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: white;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
 
     transition: 0.3s;
 }
@@ -61,6 +61,11 @@
 {
     opacity: 1;
 }
+.slick-prev.slick-disabled,
+.slick-next.slick-disabled
+{
+    opacity: 0;
+}
 .slick-prev.slick-disabled:before,
 .slick-next.slick-disabled:before
 {
@@ -72,7 +77,7 @@
 {
     font-family: 'slick';
     font-size: 20px;
-    line-height: 1;
+    line-height: 2.2;
 
     color: #313131;
 
@@ -82,38 +87,38 @@
 
 .slick-prev
 {
-    left: -25px;
+    left: -16px;
 }
 [dir='rtl'] .slick-prev
 {
-    right: -25px;
+    right: 0px;
     left: auto;
 }
 .slick-prev:before
 {
-    content: '←';
+    content: url('data:image/svg+xml;charset=UTF-8, <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>');
 }
 [dir='rtl'] .slick-prev:before
 {
-    content: '→';
+    content: url('data:image/svg+xml;charset=UTF-8, <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>');
 }
 
 .slick-next
 {
-    right: -25px;
+    right: 0px;
 }
 [dir='rtl'] .slick-next
 {
     right: auto;
-    left: -25px;
+    left: -16px;
 }
 .slick-next:before
 {
-    content: '→';
+    content: url('data:image/svg+xml;charset=UTF-8, <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>');
 }
 [dir='rtl'] .slick-next:before
 {
-    content: '←';
+    content: url('data:image/svg+xml;charset=UTF-8, <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>');
 }
 
 /* Dots */

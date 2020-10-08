@@ -140,7 +140,7 @@ jQuery(document).ready(function() {
   jQuery('.edu-filter__search').on('keyup change',function(e) {
     triggerSearch();
     if (e.which == 13) {
-      ga('send', 'pageview', 'lernstoff/?search='+jQuery('.edu-filter__search').val());
+      //ga('send', 'pageview', 'lernstoff/?search='+jQuery('.edu-filter__search').val());
     }
   });
 

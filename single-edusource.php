@@ -91,7 +91,7 @@ get_header();
 			<h3>Bewerten Sie diese Quelle</h3>
 		</div>
 		<div class="cell auto">
-            <?php if(function_exists('wp_ulike')) wp_ulike('get'); ?>
+            <?php //if(function_exists('wp_ulike')) wp_ulike('get'); ?>
 		</div>
 	</div>
 </div>

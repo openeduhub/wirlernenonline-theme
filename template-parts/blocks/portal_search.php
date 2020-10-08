@@ -2,7 +2,9 @@
 if (is_admin()) {
     echo '<div class="backend_border">';
     echo '<div class="backend_hint">Themenportal: WLO-Suchanfrage</div>';
-};
+}
+
+require_once(get_template_directory().'/functions/wlo-config.php');
 
 /* Filter Values prioritized GET/POST > Block-Setting > Portal-Setting */
 /*
@@ -113,13 +115,16 @@ $educationalContextsLabel = (!empty(get_field_object('educationalContext', $post
 $intendedEndUserRolesLabel = (!empty(get_field_object('intendedEndUserRole', $postID))) ? get_field_object('intendedEndUserRole', $postID)['choices'][$intendedEndUserRoles[0]] : '';
 
 
+$filter = '{"discipline":["'.$disciplinesLabel.'"]}';
+
     ?>
 <div class="portal_block portal_search">
-    <form target="_blank" action="https://staging.wirlernenonline.de/de/search/<?php echo (!empty($educationalContexts)) ? $educationalContexts[0] . '/' : ''; ?><?php echo $disciplinesLabel; ?>" method="GET" class="home-hero__form">
+    <form target="_blank" action='<?php echo WLO_SEARCH; ?>de/search' method="GET" class="home-hero__form">
         <div class="search-container">
             <p><?php the_field('search_description'); ?></p>
             <div class="portal-search-group">
                 <input class="input-group-field" type="search" name="q" id="search" aria-label="Search" placeholder="<?php echo $total; ?> Ergebnisse für <?php echo $disciplinesLabel; ?><?php echo (!empty($educationalContextsLabel)) ? ' - ' . $educationalContextsLabel : ''; ?>" autocomplete="off">
+                <input type="hidden" name="filters" value='<?php echo $filter; ?>' />
                 <div class="input-group-button">
                     <input type="submit" class="button success" value="Suche">
                 </div>

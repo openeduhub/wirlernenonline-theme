@@ -1,4 +1,4 @@
-<a href="<?php the_permalink($post->ID); ?>">
+<a href="<?php echo get_field('url', $post->ID); ?>" target="_blank">
   <div class="card">
     <?php
     $image = get_field('thumbnail', $post->ID);
@@ -26,7 +26,7 @@
               <?php endif; ?>
           </div>
           <div>
-              <?php if(function_exists('wp_ulike')) wp_ulike('get'); ?>
+              <?php //if(function_exists('wp_ulike')) wp_ulike('get'); ?>
           </div>
       </div>
   </div>
