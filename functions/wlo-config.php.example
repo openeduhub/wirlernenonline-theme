@@ -1,0 +1,18 @@
+<?php
+
+// SEARCH-URL
+define("WLO_SEARCH","https://suche.wirlernenonline.de/");
+//define("WLO_SEARCH","https://staging.wirlernenonline.de/"); //staging
+
+
+// LDAP
+define("LDAP_SERVER","10.88.88.1");
+define("LDAP_USERNAME","cn=admin,dc=oer-contentbuffet,dc=info");
+define("LDAP_PASSWORD",""); // add password
+define("LDAP_MAIN_ORG","o=people,dc=oer-contentbuffet,dc=info");
+define("LDAP_MAIN_ORG_GROUPS","ou=groups,dc=oer-contentbuffet,dc=info");
+
+// KEYCLOAK
+define("KEYCLOAK_USER", "admin");
+define("KEYCLOAK_PW", ""); // add password
+define("KEYCLOAK_URL", "https://login.oer-contentbuffet.info/auth/realms/master/");

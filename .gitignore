@@ -4,3 +4,4 @@ node_modules/
 .idea/
 prepros.config
 package-lock.json
+wlo-config.php
