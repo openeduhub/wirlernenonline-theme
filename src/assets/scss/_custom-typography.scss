@@ -10,7 +10,8 @@ h1, h2 {
 /* Sans */
 .sans,
 label,
-.label {
+.label,
+.select2-container {
 	font-family: 'Montserrat-Medium';
 	font-weight: normal;
 }
@@ -141,4 +142,10 @@ input[type='file'] > input[type='button']::-moz-focus-inner {
 	border: 0;
 	outline: 0;
 	outline: none;
+}
+
+@media (max-width: 1200px) {
+	ol{
+		margin-left: 1rem !important;
+	}
 }

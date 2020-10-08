@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "babel-register": "^6.26.0",
     "foundation-sites": "^6.6.3",
     "jquery": "^3.5.0",
     "list.js": "^1.5.0",
@@ -16,18 +17,23 @@
   "description": "Basic template for a new Foundation for Sites project.",
   "scripts": {
     "start": "gulp",
-    "build": "gulp sass"
+    "build": "gulp build"
   },
   "devDependencies": {
-    "gulp": "^4.0.0",
-    "browser-sync": "^2.18.13",
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "babel": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-babel": "^8.0.0",
     "gulp-load-plugins": "^1.1.0",
+    "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^8.0.0",
-    "autoprefixer": "^9.1.5",
     "gulp-sass": "^4.0.1"
   },
   "private": true,
-  "main": "gulpfile.js",
+  "main": "gulpfile.babel.js",
   "bugs": {
     "url": "https://github.com/zurb/foundation-sites/issues",
     "email": "foundation@zurb.com"

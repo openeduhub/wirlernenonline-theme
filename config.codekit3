@@ -7,7 +7,7 @@
 		"uuidString": "CD596436-1EE7-428C-9CF1-9B011BEC2826"
 		}
 	],
-"creatorBuild": "32001",
+"creatorBuild": "31934",
 "files": {
 	"/404.php": {
 		"cB": 0,
@@ -163,15 +163,15 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/index.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/node_modules": {
 		"ft": 65536,
 		"oA": 1,
 		"oAP": "/dist/node_modules",
-		"oF": 1
+		"oF": 0
 		},
 	"/node_modules/foundation-sites/dist/js/foundation.esm.js": {
 		"bF": 0,
@@ -696,6 +696,28 @@
 		"oAP": "/dist/assets/img/favicons/site.webmanifest",
 		"oF": 1
 		},
+	"/src/assets/img/lehrer-icon-150x150.png": {
+		"ft": 32768,
+		"iS": 15402,
+		"oA": 0,
+		"oAP": "/dist/assets/img/lehrer-icon-150x150.png",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"oT": 1,
+		"q": 100
+		},
+	"/src/assets/img/schueler-icon-150x150.png": {
+		"ft": 32768,
+		"iS": 19914,
+		"oA": 0,
+		"oAP": "/dist/assets/img/schueler-icon-150x150.png",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"oT": 1,
+		"q": 100
+		},
 	"/src/assets/img/wir-lernen-online-logo.png": {
 		"ft": 32768,
 		"iS": 143961,
@@ -737,18 +759,18 @@
 		"oA": 0,
 		"oAP": "/dist/assets/js/isotope.min.js",
 		"oF": 0,
-		"sC": 1,
+		"sC": 0,
 		"tS": 0
 		},
 	"/src/assets/js/lernstoff.js": {
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
-		"mi": 1,
+		"mi": 0,
 		"oA": 0,
 		"oAP": "/dist/assets/js/lernstoff.js",
 		"oF": 0,
-		"sC": 1,
+		"sC": 0,
 		"tS": 0
 		},
 	"/src/assets/js/portfolio.js": {
@@ -2196,17 +2218,17 @@
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/template_add_source.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/template_add_tool.php": {
 		"cB": 0,
 		"ft": 8192,
 		"hM": 0,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/dist/template_add_tool.php",
-		"oF": 0
+		"oF": 1
 		},
 	"/yarn.lock": {
 		"cB": 0,
@@ -2227,7 +2249,7 @@
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/src/assets/img/favicons/apple-touch-icon.png",
 	"iconImageWasSetByUser": 0,
-	"lastBuiltDate": 608831295.92953801
+	"lastBuiltDate": 608899138.72234797
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
@@ -2823,10 +2845,6 @@
 			"active": 0,
 			"optionString": ""
 			},
-		"grouped-accessor-pairs": {
-			"active": 0,
-			"optionString": "'anyOrder'"
-			},
 		"guard-for-in": {
 			"active": 0,
 			"optionString": ""
@@ -3003,10 +3021,6 @@
 			"active": 1,
 			"optionString": "{'checkLoops': true}"
 			},
-		"no-constructor-return": {
-			"active": 0,
-			"optionString": ""
-			},
 		"no-continue": {
 			"active": 0,
 			"optionString": ""
@@ -3032,10 +3046,6 @@
 			"optionString": ""
 			},
 		"no-dupe-class-members": {
-			"active": 1,
-			"optionString": ""
-			},
-		"no-dupe-else-if": {
 			"active": 1,
 			"optionString": ""
 			},
@@ -3339,10 +3349,6 @@
 			"active": 0,
 			"optionString": ""
 			},
-		"no-setter-return": {
-			"active": 1,
-			"optionString": ""
-			},
 		"no-shadow": {
 			"active": 0,
 			"optionString": "{'builtinGlobals': false, 'hoist': 'functions', 'allow': []}"
@@ -3546,10 +3552,6 @@
 		"prefer-destructuring": {
 			"active": 0,
 			"optionString": "{'array': true, 'object': true}, {'enforceForRenamedProperties': false}"
-			},
-		"prefer-exponentiation-operator": {
-			"active": 0,
-			"optionString": ""
 			},
 		"prefer-named-capture-group": {
 			"active": 0,

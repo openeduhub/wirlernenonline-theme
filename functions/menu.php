@@ -6,6 +6,7 @@ function custom_navigation_menus() {
         'top' => __( 'Top', 'text_domain' ),
         'footer' => __( 'Footer', 'text_domain' ),
         'top-call-top-action' => __( 'Top Call To Action', 'text_domain' ),
+        'add-content-button' => __( 'Add Content Button', 'text_domain' ),
     );
     register_nav_menus( $locations );
 
@@ -53,3 +54,33 @@ function add_slug_class_to_menu_item($output){
  return $output;
 }
 add_filter('wp_nav_menu', 'add_slug_class_to_menu_item');
+
+add_filter( 'wp_get_nav_menu_items','nav_items', 11, 3 );
+
+function nav_items( $items, $menu, $args )
+{
+    if($menu->slug == "add-content-button-menu")
+    {
+        $postID = get_the_ID();
+        if(!is_null($postID)){
+            $disciplines = (!empty(get_post_meta($postID, 'discipline', false)[0])) ? get_post_meta($postID, 'discipline', false)[0] : null;
+
+            if(!empty($disciplines)){
+                foreach ($items as $key => $item){
+                    $item->url = add_query_arg( 'discipline', implode(',',$disciplines), $item->url );
+                }
+            }
+        }
+    }
+
+    return $items;
+}
+
+add_action('admin_bar_menu', 'add_toolbar_items', 100);
+function add_toolbar_items($admin_bar){
+    $admin_bar->add_menu( array(
+        'id'    => 'redaktion',
+        'title' => 'Redaktionsumgebung',
+        'href'  => 'https://wirlernenonline.de/redaktionsumgebung/',
+    ));
+}

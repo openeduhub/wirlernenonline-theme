@@ -21,7 +21,12 @@ get_header();
                     'post_type'     => 'edusource',
                     'post_status'   => 'pending'
                 ),
-                'submit_value'  => 'Neue Quelle anlegen'
+                'fields' => array('url', 'short_text', 'fachgebiet', 'email', 'newsletter'),
+                'submit_value'  => 'Neue Quelle anlegen',
+                'html_updated_message' => '<div id="message" class="updated">
+                                                <p>Vielen Dank. Deine Quelle wurde gespeichert.<br>Sie wird vor Veröffentlichung von der Redaktion geprüft.</p>
+                                                <a class="button" href="'.get_page_link(4225).'">Zur Quellen-Übersicht</a>
+                                            </div>',
             )); ?>
 
         </div>

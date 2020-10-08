@@ -8,7 +8,9 @@ get_header();
 		<div class="medium-8 cell">
 			<?php
 			while ( have_posts() ) : the_post();?>
+			<div class="gutenberg-layout-container">
 				<?php the_content(); ?>
+			</div>
 			<?php endwhile;
 			?>
 		</div>
