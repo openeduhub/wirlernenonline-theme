@@ -39,7 +39,7 @@ $oer = $educational_filter_values["oer"];
 $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 
-$url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $matches[1][0];
+$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $matches[1][0];
 $response = callWloRestApi($url);
 
 $title = (!empty(get_field('headline'))) ? get_field('headline') : $response->collection->properties->{'cm:title'}[0];

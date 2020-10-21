@@ -49,7 +49,7 @@ $oer = $educational_filter_values["oer"];
 $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 
-$url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/local/' . $matches[1][0] . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
+$url = WLO_REPO . 'rest/collection/v1/collections/local/' . $matches[1][0] . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
 $response = callWloRestApi($url);
 
 ?>
@@ -97,7 +97,7 @@ $response = callWloRestApi($url);
                                         </a>
 
                                         <?php
-                                        $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/local/' . $nodeId . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true&';
+                                        $url = WLO_REPO . 'rest/collection/v1/collections/local/' . $nodeId . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true&';
                                         $response = callWloRestApi($url);
 
                                         if (!empty($response->collections)) :?>

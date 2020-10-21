@@ -18,7 +18,7 @@ get_header();
                 if(meta) {
 
                     var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/-inbox-/children?type=ccm%3Aio&renameIfExists=true&versionComment=MAIN_FILE_UPLOAD", true);
+                    xhr.open("POST", "<?php echo WLO_REPO; ?>rest/node/v1/nodes/-home-/-inbox-/children?type=ccm%3Aio&renameIfExists=true&versionComment=MAIN_FILE_UPLOAD", true);
                     xhr.setRequestHeader("Content-type", "application/json");
                     xhr.setRequestHeader("Accept", "application/json");
                     xhr.crossDomain = true;
@@ -34,7 +34,7 @@ get_header();
                             var formData = new FormData(document.querySelector('#uploadwlo'));
                             var mimetype = formData.get('file').type;
 
-                            xhr2.open("POST", "https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/"+nodeId+"/content?mimetype="+encodeURIComponent(mimetype), true);
+                            xhr2.open("POST", "<?php echo WLO_REPO; ?>rest/node/v1/nodes/-home-/"+nodeId+"/content?mimetype="+encodeURIComponent(mimetype), true);
                             xhr2.setRequestHeader("Authorization",  "Basic " + btoa("oer_uploader:oer_uploader"));
                             //xhr2.setRequestHeader("Content-type", "multipart/form-data");
                             xhr2.setRequestHeader("Accept", "application/json");
@@ -42,7 +42,7 @@ get_header();
                                 if (xhr2.readyState == 4 && xhr2.status === 200) {
                                     var xhr3 = new XMLHttpRequest();
                                     var payload = '{"inherited":true,"permissions":[{"authority":{"authorityName":"GROUP_WLO-Redaktion","authorityType":"GROUP"},"permissions":["Coordinator"]}]}';
-                                    xhr3.open("POST", "https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/"+nodeId+"/permissions?mailtext=&sendMail=true", true);
+                                    xhr3.open("POST", "<?php echo WLO_REPO; ?>rest/node/v1/nodes/-home-/"+nodeId+"/permissions?mailtext=&sendMail=true", true);
                                     xhr3.setRequestHeader("Authorization",  "Basic " + btoa("oer_uploader:oer_uploader"));
                                     xhr3.setRequestHeader("Content-type", "application/json");
                                     xhr3.setRequestHeader("Accept", "application/json");
@@ -50,7 +50,7 @@ get_header();
                                         if (xhr3.readyState == 4 && xhr3.status === 200) {
                                             var xhr4 = new XMLHttpRequest();
                                             var payload2 = '{"receiver":[{"authorityName":"GROUP_WLO-Redaktion"}],"comment":"Upload via Formular","status":"200_tocheck"}\n';
-                                            xhr4.open("PUT", "https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/"+nodeId+"/workflow", true);
+                                            xhr4.open("PUT", "<?php echo WLO_REPO; ?>rest/node/v1/nodes/-home-/"+nodeId+"/workflow", true);
                                             xhr4.setRequestHeader("Authorization",  "Basic " + btoa("oer_uploader:oer_uploader"));
                                             xhr4.setRequestHeader("Content-type", "application/json");
                                             xhr4.setRequestHeader("Accept", "application/json");

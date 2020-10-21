@@ -38,7 +38,7 @@ if (is_admin()) {
                 $pattern = '/http.*\?id=(.*)(&|$)/';
                 preg_match_all($pattern, $collectionUrl, $matches);
 
-                $url = 'https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/' . $matches[1][0] . '/parents?propertyFilter=-all-&fullPath=false';
+                $url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $matches[1][0] . '/parents?propertyFilter=-all-&fullPath=false';
                 $response = callWloRestApi($url);
 
                 $nodes = Array();

@@ -45,7 +45,7 @@ preg_match_all($pattern, $collectionUrl, $matches);
 $collectionID = $matches[1][0];
 $collectionLevel = get_field('collection_level', $postID);
 
-$url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $matches[1][0] . '/children/references';
+$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $matches[1][0] . '/children/references';
 $response = callWloRestApi($url);
 
 $mediaTypes = array(

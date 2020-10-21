@@ -623,9 +623,9 @@ add_action( 'init', 'wlo_update_custom_roles' );
 
 
 function callRepoApi($restUrl, $data, $contentType = 'Content-Type: application/json', $mode = 'POST'){
-    $apiUrl = get_option('es_repo_url') . $restUrl;
-    $login = 'WLO-Upload';
-    $password = 'wlo#upload!20';
+    $apiUrl = WLO_REPO . $restUrl;
+    $login = WLO_REPO_LOGIN;
+    $password = WLO_REPO_PW;
 
 
     $curl = curl_init($apiUrl);

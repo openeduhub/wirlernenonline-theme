@@ -4,6 +4,11 @@
 define("WLO_SEARCH","https://suche.wirlernenonline.de/");
 //define("WLO_SEARCH","https://staging.wirlernenonline.de/"); //staging
 
+// REPO
+define("WLO_REPO", "https://redaktion.openeduhub.net/edu-sharing/");
+//define("WLO_REPO", "https://redaktion-staging.openeduhub.net/edu-sharing/"); // staging
+define("WLO_REPO_LOGIN", ""); // add login
+define("WLO_REPO_PW", ""); // add password
 
 // LDAP
 define("LDAP_SERVER","10.88.88.1");
