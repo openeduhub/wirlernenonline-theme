@@ -30,6 +30,7 @@ class Wlo_ldap{
         return $obj;
     }
     function editUser($user){
+        //error_log(print_r($user, true));
         $obj=$this->toLdapObject($user);
         return ldap_mod_replace($this->ds,"uid=".ldap_escape($obj["uid"]).",".LDAP_MAIN_ORG,$obj);
     }
@@ -115,7 +116,6 @@ class Wlo_ldap{
     function validateLogin($email,$password){
         error_log('validating_login... ('.$email.')');
         $user=$this->getUser($email);
-        error_log(print_r($user));
         if($user==0){
             error_log('validateLogin user not found! ');
             return false;

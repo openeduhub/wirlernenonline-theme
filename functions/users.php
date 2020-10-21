@@ -20,34 +20,43 @@ function wlo_register_ldap( $user_id ) {
 
 add_filter('authenticate', 'wlo_login', 10, 3);
 function wlo_login($user1, $username, $password, $already_md5 = false){
-    error_log('wlo_login');
+    error_log('wlo_login (authenticate)');
     $formId = $_POST['form_id'];
     $wp_user = get_user_by('login', $username);
 
+    if (!empty($_POST['pwd'])){
+        $userPassword = $_POST['pwd'];
+    }else{
+        $userPassword = $_POST['user_password-'.$formId];
+    }
+
+    //error_log(print_r($_POST, true));
+
     $user = array();
     $user["login"] = $username;
-    $user["password"] = $_POST['user_password-'.$formId];
+    $user["password"] = $userPassword;
     $user["firstName"] = $wp_user->first_name;
     $user["lastName"] = $wp_user->last_name;
     $user["email"] =  $wp_user->user_email;
 
-    //error_log(print_r($user, true));
-
-
-    $check = wp_authenticate_username_password( $wp_user, $user["login"], $user["password"] );
-    if(!is_wp_error( $check )){
+    if ($wp_user && wp_check_password( $user["password"], $wp_user->user_pass, $wp_user->ID )){
+        error_log('wp_check_password PASSED ('.$user["login"].')');
         $ldap = new Wlo_ldap();
 
         if ($ldap->validateLogin($user["login"], $user["password"]) == false ){;
             if ($ldap->userExists($user["login"])){
-                error_log('ldap: editUser');
+                error_log('ldap: editUser ('.$user["login"].')');
                 $ldap->editUser($user);
             }else{
                 error_log('ldap: createUser');
                 $ldap->createUser($user);
             }
         }
+    }else{
+        error_log('wp_check_password FAILED ('.$user["login"].')');
+        error_log('attempted password: '.$user["password"]);
     }
+
 
     return $user;
 }
@@ -72,7 +81,7 @@ function wlo_update_user( $user_id ) {
 }
 
 
-add_action( 'password_reset', 'wlo_password_reset', 10, 1 );
+add_action( 'password_reset', 'wlo_password_reset', 10, 2 );
 function wlo_password_reset( $user, $new_pass ) {
 
     error_log('################### WP-RESET_PW');
