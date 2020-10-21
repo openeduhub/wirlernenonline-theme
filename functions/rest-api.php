@@ -1,4 +1,7 @@
 <?php
+
+require_once(get_template_directory().'/functions/wlo-config.php');
+
 function url_valid(&$url) {
     stream_context_set_default(
         array(
@@ -53,9 +56,9 @@ function add_portal(WP_REST_Request $request) {
     $edu_contexts = explode(",",urldecode($request->get_param( 'educationalContext')));
     $intended_end_user_roles = explode(",",urldecode($request->get_param( 'intendedEndUserRole')));
 
-    $collection_url = "https://redaktion.openeduhub.net/edu-sharing/components/collections?id=" . $collection_id;
+    $collection_url = WLO_REPO . "components/collections?id=" . $collection_id;
 
-    $check_url = 'https://redaktion.openeduhub.net/edu-sharing/rest/collection/v1/collections/-home-/' . $collection_id;
+    $check_url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collection_id;
     $check_url_ret = $check_url;
 
     //Check if Collection was not already added, Check if Collection exists
@@ -63,7 +66,7 @@ function add_portal(WP_REST_Request $request) {
     if(true) {
 
         //Get Level of Collection
-        $parents_api_url = 'https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/' . $collection_id . '/parents?propertyFilter=-all-&fullPath=false';
+        $parents_api_url = WLO_REPO . '/rest/node/v1/nodes/-home-/' . $collection_id . '/parents?propertyFilter=-all-&fullPath=false';
 
         try {
             $curl = curl_init($parents_api_url);
@@ -131,7 +134,8 @@ function add_portal(WP_REST_Request $request) {
 
 
         // Insert the post into the database
-        $post_id = wp_insert_post($portal_insert, true);
+        //$post_id = wp_insert_post($portal_insert, true);
+        /*
         if (!empty($post_id) && is_numeric($post_id)) {
             update_field('collection_url', $collection_url, $post_id);
             update_field('collection_level', $collection_level, $post_id);
@@ -235,6 +239,7 @@ function add_portal(WP_REST_Request $request) {
             http_response_code(404);
             die();
         }
+        */
 
 
 
