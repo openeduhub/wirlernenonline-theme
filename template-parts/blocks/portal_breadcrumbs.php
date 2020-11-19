@@ -43,17 +43,19 @@ if (is_admin()) {
 
                 $nodes = Array();
 
-                foreach ($response->nodes as $node) {
-                    if ($node->title == 'Portale'){
-                        $nodes[] = [$node->title, get_page_link(9930)];
-                    }else{
-                        $nodes[] = [$node->title, str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $node->properties->{'cclom:location'}[0])];
+                if (!empty($response->nodes)){
+                    foreach ($response->nodes as $node) {
+                        if ($node->title == 'Portale'){
+                            $nodes[] = [$node->title, get_page_link(9930)];
+                        }else{
+                            $nodes[] = [$node->title, str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $node->properties->{'cclom:location'}[0])];
+                        }
                     }
-                }
-                $nodes = array_reverse($nodes);
+                    $nodes = array_reverse($nodes);
 
-                foreach ($nodes as $node) {
-                    echo "<li class='portal-breadcrumbs-list-item'><a href='" . $node[1] . "'>" . $node[0] . "</a><span class='material-icons'>chevron_right</span></li>";
+                    foreach ($nodes as $node) {
+                        echo "<li class='portal-breadcrumbs-list-item'><a href='" . $node[1] . "'>" . $node[0] . "</a><span class='material-icons'>chevron_right</span></li>";
+                    }
                 }
 
                 ?>

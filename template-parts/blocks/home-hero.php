@@ -49,7 +49,7 @@ $response = callWloGraphApi($data);
 
             <div class="home-hero__filter full-width">
                 <div class="home-hero__tab">
-                    <button type="button" class="home-hero__tablinks" onclick="openSchool(event, 'grundschule')">Grundschule</button>
+                    <button type="button" class="home-hero__tablinks" onclick="openSchool(event, 'grundschule')">Primarstufe</button>
                     <button type="button" class="home-hero__tablinks" onclick="openSchool(event, 'sekundarstufe_1')">Sekundarstufe I</button>
                     <button type="button" class="home-hero__tablinks" onclick="openSchool(event, 'sekundarstufe_2')">Sekundarstufe II</button>
                     <button type="button" class="home-hero__tablinks" onclick="openSchool(event, 'berufliche_bildung')">Berufliche Bildung</button>

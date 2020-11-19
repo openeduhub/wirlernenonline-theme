@@ -716,6 +716,7 @@
 
 .portal-subject-tree .portal_tree_branch .portal_search_text h5 {
   font-size: 0.8em;
+  text-transform: capitalize;
   text-overflow: ellipsis;
   margin: 0;
 }
@@ -1343,6 +1344,7 @@
           font-weight: bold;
           font-size: 42px;
           line-height: 59px;
+          text-transform: capitalize;
         }
       }
       .portal_header_icon {

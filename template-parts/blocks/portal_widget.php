@@ -17,6 +17,10 @@
  * oehWidgets
 */
 /* ------------------------------------------------------------------- */
+
+
+require_once(get_template_directory().'/functions/wlo-config.php');
+
 $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
 $educational_filter_values = get_educational_filter_values($postID);
 
@@ -83,116 +87,115 @@ if(!empty(get_field('headline'))){
 
 
 $contentArray = array();
-foreach ($response->references as $reference) {
-    $prop = $reference->properties;
+if (!empty($response->references)){
+    foreach ($response->references as $reference) {
+        $prop = $reference->properties;
 
-    //check if deleted
-    if($reference->originalId == null){
-        continue;
-    }
-
-
-
-    if (!checkPropertyMatch($prop->{'ccm:taxonid'}, $disciplines, true)) {
-        continue;
-    }
-    if (!checkPropertyMatch($prop->{'ccm:educationalcontext'}, $educationalContexts, true)) {
-        continue;
-    }
-    if (!checkPropertyMatch($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, true)) {
-        continue;
-    }
-
-    // Filter ObjectType
-    $propObjectType = $prop->{'ccm:objectType'};
-    if ($propObjectType &&
-        !empty($propObjectType) &&
-        !empty($objectTypes) &&
-        !in_array($propObjectType, $objectTypes)) {
-
-        //echo '<pre style="background-color: lightgrey">' , var_dump("OType") , '</pre>';
-        continue;
-    }
-
-    $displayObjectType = (!empty($objectTypes)) ? array_intersect($propObjectType, $objectTypes)[0] : $propObjectType[0];
-
-
-    // Filter LearningResourceType
-    $propLearningResourceTypes = $prop->{'ccm:educationallearningresourcetype'};
-    $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? array_filter($propLearningResourceTypes) : [];
-    $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? trim_https_http_from_array($propLearningResourceTypes) : [];
-
-    $learningResourceTypesVocab = (!empty($learningResourceTypes) && !empty(array_filter($learningResourceTypes))) ? array_map("map_vocab_learning_resource_types_value_only", $learningResourceTypes) : [];
-    $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? array_filter($learningResourceTypesVocab) : [];
-    $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? trim_https_http_from_array($learningResourceTypesVocab) : [];
-
-    $intersectLearningResourceType = array_intersect($propLearningResourceTypes, $learningResourceTypesVocab);
-    $filterLearningResourceTypes = (empty($propLearningResourceTypes)) ? true : empty($intersectLearningResourceType);
-    if (!empty($learningResourceTypesVocab) && $filterLearningResourceTypes) {
-        //echo '<pre style="background-color: lightgrey">' , var_dump("LRT") , '</pre>';
-        continue;
-    }
-
-    $displayLearningResourceType = (!empty($intersectLearningResourceType)) ? $intersectLearningResourceType[0] : $propLearningResourceTypes[0];
-    $displayLearningResourceType = (!empty($displayLearningResourceType)) ? $displayLearningResourceType : 'Inhalt';
-
-    // Filter General Keyword
-    $propGeneralKeywords = $prop->{'cclom:general_keyword'};
-    $propGeneralKeywords = (!empty($propGeneralKeywords)) ? array_filter($propGeneralKeywords) : [];
-
-    $filterGeneralKeywords = (empty($propGeneralKeywords)) ? true : empty(@array_intersect($generalKeywords, $propGeneralKeywords));
-
-    if (!empty($generalKeywords) && $filterGeneralKeywords) {
-        //echo '<pre style="background-color: lightgrey">' , var_dump("Keyword") , '</pre>';
-        continue;
-    }
-
-    // Filter LearningResourceType
-    $propOehWidgets = $prop->{'ccm:oeh_widgets'};
-    $propOehWidgets = (!empty($propOehWidgets)) ? array_filter($propOehWidgets) : [];
-    $propOehWidgets = (!empty($propOehWidgets)) ? trim_https_http_from_array($propOehWidgets) : [];
-
-    $oehWidgetsVocab = (!empty($oehWidgets) && !empty(array_filter($oehWidgets))) ? array_map("map_vocab_oeh_widgets_value_only", $oehWidgets) : [];
-    $oehWidgetsVocab = (!empty($oehWidgetsVocab)) ? array_filter($oehWidgetsVocab) : [];
-    $oehWidgetsVocab = (!empty($oehWidgetsVocab)) ? trim_https_http_from_array($oehWidgetsVocab) : [];
-
-    $intersectOehWidgets = array_intersect($propOehWidgets, $oehWidgetsVocab);
-    $filterOehWidgets = (empty($propOehWidgets)) ? true : empty($intersectOehWidgets);
-
-    if (!empty($oehWidgetsVocab) && $filterOehWidgets) {
-        //echo '<pre style="background-color: lightgrey">' , var_dump("LRT") , '</pre>';
-        continue;
-    }
-
-    $displayOehWidgets = (!empty($intersectOehWidgets)) ? $intersectOehWidgets[0] : $propOehWidgets[0];
-    $displayOehWidgets = (!empty($displayOehWidgets)) ? $displayOehWidgets : 'Inhalt';
-
-    $oerLicenses = array(
-        'CC_0',
-        'CC_BY',
-        'CC_BY_SA',
-        'PDM',
-    );
-    $nodeLicense = $prop->{'ccm:commonlicense_key'}[0];
-    $isOER = false;
-    foreach ($oerLicenses as $license){
-        if( $nodeLicense == $license){
-            $isOER = true;
-        }
-    }
-
-    // check for duplicates
-    if (!empty($GLOBALS['wlo_widget_duplicates'])){
-        if (in_array($reference->ref->id, $GLOBALS['wlo_widget_duplicates'] )){
+        //check if deleted
+        if($reference->originalId == null){
             continue;
         }
-    }
 
-    $GLOBALS['wlo_widget_duplicates'][] = $reference->ref->id;
+        if (!checkPropertyMatch($prop->{'ccm:taxonid'}, $disciplines, true)) {
+            continue;
+        }
+        if (!checkPropertyMatch($prop->{'ccm:educationalcontext'}, $educationalContexts, true)) {
+            continue;
+        }
+        if (!checkPropertyMatch($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, true)) {
+            continue;
+        }
+
+        // Filter ObjectType
+        $propObjectType = $prop->{'ccm:objectType'};
+        if ($propObjectType &&
+            !empty($propObjectType) &&
+            !empty($objectTypes) &&
+            !in_array($propObjectType, $objectTypes)) {
+
+            //echo '<pre style="background-color: lightgrey">' , var_dump("OType") , '</pre>';
+            continue;
+        }
+
+        $displayObjectType = (!empty($objectTypes)) ? array_intersect($propObjectType, $objectTypes)[0] : $propObjectType[0];
+
+
+        // Filter LearningResourceType
+        $propLearningResourceTypes = $prop->{'ccm:educationallearningresourcetype'};
+        $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? array_filter($propLearningResourceTypes) : [];
+        $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? trim_https_http_from_array($propLearningResourceTypes) : [];
+
+        $learningResourceTypesVocab = (!empty($learningResourceTypes) && !empty(array_filter($learningResourceTypes))) ? array_map("map_vocab_learning_resource_types_value_only", $learningResourceTypes) : [];
+        $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? array_filter($learningResourceTypesVocab) : [];
+        $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? trim_https_http_from_array($learningResourceTypesVocab) : [];
+
+        $intersectLearningResourceType = array_intersect($propLearningResourceTypes, $learningResourceTypesVocab);
+        $filterLearningResourceTypes = (empty($propLearningResourceTypes)) ? true : empty($intersectLearningResourceType);
+        if (!empty($learningResourceTypesVocab) && $filterLearningResourceTypes) {
+            //echo '<pre style="background-color: lightgrey">' , var_dump("LRT") , '</pre>';
+            continue;
+        }
+
+        $displayLearningResourceType = (!empty($intersectLearningResourceType)) ? $intersectLearningResourceType[0] : $propLearningResourceTypes[0];
+        $displayLearningResourceType = (!empty($displayLearningResourceType)) ? $displayLearningResourceType : 'Inhalt';
+
+        // Filter General Keyword
+        $propGeneralKeywords = $prop->{'cclom:general_keyword'};
+        $propGeneralKeywords = (!empty($propGeneralKeywords)) ? array_filter($propGeneralKeywords) : [];
+
+        $filterGeneralKeywords = (empty($propGeneralKeywords)) ? true : empty(@array_intersect($generalKeywords, $propGeneralKeywords));
+
+        if (!empty($generalKeywords) && $filterGeneralKeywords) {
+            //echo '<pre style="background-color: lightgrey">' , var_dump("Keyword") , '</pre>';
+            continue;
+        }
+
+        // Filter LearningResourceType
+        $propOehWidgets = $prop->{'ccm:oeh_widgets'};
+        $propOehWidgets = (!empty($propOehWidgets)) ? array_filter($propOehWidgets) : [];
+        $propOehWidgets = (!empty($propOehWidgets)) ? trim_https_http_from_array($propOehWidgets) : [];
+
+        $oehWidgetsVocab = (!empty($oehWidgets) && !empty(array_filter($oehWidgets))) ? array_map("map_vocab_oeh_widgets_value_only", $oehWidgets) : [];
+        $oehWidgetsVocab = (!empty($oehWidgetsVocab)) ? array_filter($oehWidgetsVocab) : [];
+        $oehWidgetsVocab = (!empty($oehWidgetsVocab)) ? trim_https_http_from_array($oehWidgetsVocab) : [];
+
+        $intersectOehWidgets = array_intersect($propOehWidgets, $oehWidgetsVocab);
+        $filterOehWidgets = (empty($propOehWidgets)) ? true : empty($intersectOehWidgets);
+
+        if (!empty($oehWidgetsVocab) && $filterOehWidgets) {
+            //echo '<pre style="background-color: lightgrey">' , var_dump("LRT") , '</pre>';
+            continue;
+        }
+
+        $displayOehWidgets = (!empty($intersectOehWidgets)) ? $intersectOehWidgets[0] : $propOehWidgets[0];
+        $displayOehWidgets = (!empty($displayOehWidgets)) ? $displayOehWidgets : 'Inhalt';
+
+        $oerLicenses = array(
+            'CC_0',
+            'CC_BY',
+            'CC_BY_SA',
+            'PDM',
+        );
+        $nodeLicense = $prop->{'ccm:commonlicense_key'}[0];
+        $isOER = false;
+        foreach ($oerLicenses as $license){
+            if( $nodeLicense == $license){
+                $isOER = true;
+            }
+        }
+
+        // check for duplicates
+        if (!empty($GLOBALS['wlo_widget_duplicates'])){
+            if (in_array($reference->ref->id, $GLOBALS['wlo_widget_duplicates'] )){
+                continue;
+            }
+        }
+
+        $GLOBALS['wlo_widget_duplicates'][] = $reference->ref->id;
 
 
 
-    $contentArray[] = array(
+        $contentArray[] = array(
             'id' => $reference->ref->id,
             'mediatype' => $mediaTypes[$reference->mediatype],
             'image_url' => $reference->preview->url,
@@ -201,8 +204,10 @@ foreach ($response->references as $reference) {
             'description' => !empty($reference->properties->{'cclom:general_description'}) ? (implode("\n", $reference->properties->{'cclom:general_description'})) : '',
             'source' => !empty($reference->properties->{'ccm:metadatacontributer_creatorFN'}) ? (implode("\n", $reference->properties->{'cclom:general_description'})) : '',
             'oer' => $isOER
-    );
-} //end foreach
+        );
+    } //end foreach
+}
+
 
 
 if (is_admin()) {
