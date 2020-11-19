@@ -140,7 +140,7 @@ if (!empty($response->references)){
         $displayLearningResourceType = (!empty($displayLearningResourceType)) ? $displayLearningResourceType : 'Inhalt';
 
         // Filter General Keyword
-        $propGeneralKeywords = $prop->{'cclom:general_keyword'};
+        /*$propGeneralKeywords = $prop->{'cclom:general_keyword'};
         $propGeneralKeywords = (!empty($propGeneralKeywords)) ? array_filter($propGeneralKeywords) : [];
 
         $filterGeneralKeywords = (empty($propGeneralKeywords)) ? true : empty(@array_intersect($generalKeywords, $propGeneralKeywords));
@@ -148,7 +148,7 @@ if (!empty($response->references)){
         if (!empty($generalKeywords) && $filterGeneralKeywords) {
             //echo '<pre style="background-color: lightgrey">' , var_dump("Keyword") , '</pre>';
             continue;
-        }
+        }*/
 
         // Filter LearningResourceType
         $propOehWidgets = $prop->{'ccm:oeh_widgets'};

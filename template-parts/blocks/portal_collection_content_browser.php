@@ -148,15 +148,17 @@ foreach ($response->references as $reference) {
     $displayLearningResourceType = (!empty($displayLearningResourceType)) ? $displayLearningResourceType : 'Inhalt';
 
     // Filter General Keyword
-    $propGeneralKeywords = $prop->{'cclom:general_keyword'};
+    /*$propGeneralKeywords = $prop->{'cclom:general_keyword'};
     $propGeneralKeywords = (!empty($propGeneralKeywords)) ? array_filter($propGeneralKeywords) : [];
 
+    error_log('$generalKeywords: '.print_r($generalKeywords, true));
+    error_log('$propGeneralKeywords: '.print_r($propGeneralKeywords, true));
     $filterGeneralKeywords = (empty($propGeneralKeywords)) ? true : empty(@array_intersect($generalKeywords, $propGeneralKeywords));
 
     if (!empty($generalKeywords) && $filterGeneralKeywords) {
         //echo '<pre style="background-color: lightgrey">' , var_dump("Keyword") , '</pre>';
         continue;
-    }
+    }*/
 
     // Filter LearningResourceType
     $propOehWidgets = $prop->{'ccm:oeh_widgets'};
