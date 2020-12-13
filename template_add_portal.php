@@ -133,9 +133,7 @@ global $post;
 
 	<?php if(!empty($formOk)) echo '<h4 class="portal_form_succes">'.$formOk.'</h4>'; ?>
 
-<!--	<iframe id="mds-frame" src="https://redaktion-staging.openeduhub.net/edu-sharing/components/embed/mds?set=mds_oeh&group=sidebar&data=
--->
-	<iframe id="mds-frame" src="http://localhost:4200/components/embed/mds?set=mds_oeh&group=sidebar&data=<?php
+	<iframe id="mds-frame" src="https://redaktion-staging.openeduhub.net/edu-sharing/components/embed/mds?set=mds_oeh&group=sidebar&data=<?php
 		echo urlencode(json_encode([
 			"ccm:curriculum" => ['http://w3id.org/openeduhub/vocabs/oeh-topics/' . $collectionID],
 		]));
