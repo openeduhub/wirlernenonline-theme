@@ -43,6 +43,7 @@ $addContentPageID = 9933; //pre
 
 $pageTitle = get_the_title($postID);
 $pageDiscipline = get_field('discipline', $postID)[0]['label'];
+$pageDisciplineId = get_field('discipline', $postID)[0]['value'];
 
 /* ------------------------------------------------------------------- */
 
@@ -247,7 +248,7 @@ if (!empty($contentArray)){
     <div class="portal_content_branch portal_content_branch_empty">
         <div class="headline"><?php echo $headline; ?></div>
         <div class="portal_content_image">
-            <a href="<?php echo get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&oehWidgets=' . $oehWidgets[0] . '&headline=' . $headline . '&pageTitle=' . $pageTitle .'&pageDiscipline=' . $pageDiscipline; ?>" target="_blank">
+            <a href="<?php echo get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&oehWidgets=' . $oehWidgets[0] . '&headline=' . $headline . '&pageTitle=' . $pageTitle .'&pageDiscipline=' . $pageDisciplineId; ?>" target="_blank">
                 <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus-big.jpg" alt="">
             </a>
         </div>
@@ -257,7 +258,7 @@ if (!empty($contentArray)){
             </div>
             <div class="portal_search_button">
                 <a class="button primary small wlo-red"
-                   href="<?php echo get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&oehWidgets=' . $oehWidgets[0] . '&headline=' . $headline . '&pageTitle=' . $pageTitle .'&pageDiscipline=' . $pageDiscipline; ?>"
+                   href="<?php echo get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&oehWidgets=' . $oehWidgets[0] . '&headline=' . $headline . '&pageTitle=' . $pageTitle .'&pageDiscipline=' . $pageDisciplineId; ?>"
                    target="_blank">
                     Schlag den ersten Inhalt vor
                 </a>
