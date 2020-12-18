@@ -31,11 +31,11 @@ $response = callWloRestApi($url, 'POST', $search_criterias);
         <table class="wlo_source_dev table js-sort-table">
             <thead>
             <tr>
-                <th class="wlo_big_header">Quellen die wir haben / daran arbeiten:</th>
-                <th class="wlo_big_header">Inhalte</th>
-                <th class="wlo_big_header">für dein Fach haben wir ...</th>
-                <th class="wlo_big_header">Status Erschließung</th>
-                <th class="wlo_big_header">Qualität & Priorität der Erschließung</th>
+                <th class="wlo_big_header">Vorhandene Quellen</th>
+                <th class="wlo_big_header">Erfasste Inhalte</th>
+                <th class="wlo_big_header">Fächerzuordnung</th>
+                <th class="wlo_big_header">Erschließungs-Status</th>
+                <th class="wlo_big_header">Qualitätskriterien-Check</th>
             </tr>
             <tr class="filters">
                 <th><input type="text" placeholder="Suche..." disabled></th>
