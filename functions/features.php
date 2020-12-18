@@ -260,7 +260,7 @@ function callWloGraphApi($search_query)
     return json_decode($response);
 }
 
-function callWloRestApi($url)
+function callWloRestApi($url, $type='GET', $body=null)
 {
     $restApiCacheObj = null;
     if ( false === ( $value = get_transient( $url ) ) ) {
@@ -268,13 +268,16 @@ function callWloRestApi($url)
         // Get Select-Field Options from Vocab Scheme
         try {
             $curl = curl_init($url);
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $type);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HTTPHEADER, array(
                     'Accept: application/json',
                     'Content-Type: application/json; charset=utf-8'
                 )
             );
+            if (!empty($body)){
+                curl_setopt( $curl, CURLOPT_POSTFIELDS, $body );
+            }
             $response = curl_exec($curl);
             if ($response === false) {
                 echo 'curl error';
@@ -305,6 +308,21 @@ function register_query_vars($qvars)
 }
 
 add_filter('query_vars', 'register_query_vars');
+
+function getWloVocaps($type){
+    $transient = 'vocab_'.$type;
+    $vocab_json = null;
+    if ( false === ( $value = get_transient( $transient ) ) ) {
+        // this code runs when there is no valid transient set
+        // Get Select-Field Options from Vocab Scheme
+        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/'.$type.'/index.json');
+        $vocab_json = json_decode($json);
+        set_transient( $transient, $vocab_json, 60*60*12 );
+    } else{
+        $vocab_json = get_transient( $transient );
+    }
+    return $vocab_json;
+}
 
 function get_educational_filter_values($postID)
 {
@@ -340,6 +358,7 @@ function get_educational_filter_values($postID)
 
     // Preview
     $disciplines = (!empty($disciplines)) ? $disciplines : get_post_meta($postID, 'discipline', false)[0];
+
 
 
     //EducationalContext
@@ -622,26 +641,35 @@ add_action( 'init', 'wlo_update_custom_roles' );
 
 
 
-function callRepoApi($restUrl, $data, $contentType = 'Content-Type: application/json', $mode = 'POST'){
+function callRepoApi($restUrl, $data=null, $contentType = 'Content-Type: application/json', $mode = 'POST', $ticket=null){
     $apiUrl = WLO_REPO . $restUrl;
     $login = WLO_REPO_LOGIN;
     $password = WLO_REPO_PW;
 
-
     $curl = curl_init($apiUrl);
     if ($mode == 'PUT'){
-        //curl_setopt($curl, CURLOPT_PUT, 1);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
     }else{
         curl_setopt($curl, CURLOPT_POST, 1);
     }
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-    curl_setopt($curl, CURLOPT_USERPWD, "$login:$password");
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-        'Accept: application/json',
-        $contentType,
-    ));
+    if (!empty($data)){
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    }
+    if (empty($ticket)){
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($curl, CURLOPT_USERPWD, "$login:$password");
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Accept: application/json',
+            $contentType,
+        ));
+    }else{
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: EDU-TICKET '.$ticket,
+            'Accept: application/json',
+            $contentType,
+        ));
+    }
+
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
     // EXECUTE:
@@ -676,6 +704,7 @@ if( ! function_exists( 'post_meta_request_params' ) ) :
             'meta_key'   => $request['meta_key'],
             'meta_value' => $request['meta_value'],
             'meta_query' => $request['meta_query'],
+            'meta_compare' => $request['meta_compare']
         );
 
         return $args;
@@ -684,3 +713,71 @@ if( ! function_exists( 'post_meta_request_params' ) ) :
     // add_filter( 'rest_page_query', 'post_meta_request_params', 99, 2 ); // Add support for `page`
     add_filter( 'rest_portal_query', 'post_meta_request_params', 99, 2 ); // Add support for `my-custom-post`
 endif;
+
+
+function updateCCMlocation($post_ID, $post_after, $post_before) {
+    if ( 'portal' == get_post_type($post_ID) && $post_before->post_name != $post_after->post_name ) {
+
+        $educational_filter_values = get_educational_filter_values($post_ID);
+        $collectionUrl = $educational_filter_values["collectionUrl"];
+
+        $pattern = '/http.*\?id=(.*)(&|$)/';
+        preg_match_all($pattern, $collectionUrl, $matches);
+
+        $url = 'rest/node/v1/nodes/-home-/' . $matches[1][0] . '/metadata?versionComment=change%20cclom%3Alocation';
+        $data = '{"cclom:location":["'.get_permalink($post_ID).'"]}';
+
+        $result = callRepoApi($url, $data);
+        if ($result){
+            error_log('changed slug');
+        }else{
+            error_log('curl error');
+        }
+    }
+}
+add_action('post_updated', 'updateCCMlocation', 10, 3);
+
+
+function hex2rgb($hex) {
+    $hex = str_replace("#", "", $hex);
+
+    if(strlen($hex) == 3) {
+        $r = hexdec(substr($hex,0,1).substr($hex,0,1));
+        $g = hexdec(substr($hex,1,1).substr($hex,1,1));
+        $b = hexdec(substr($hex,2,1).substr($hex,2,1));
+    } else {
+        $r = hexdec(substr($hex,0,2));
+        $g = hexdec(substr($hex,2,2));
+        $b = hexdec(substr($hex,4,2));
+    }
+    $rgb = array($r, $g, $b);
+    return implode(",", $rgb); // returns the rgb values separated by commas
+    //return $rgb; // returns an array with the rgb values
+}
+
+add_action("wpcf7_before_send_mail", "registerNewsletter");
+function registerNewsletter($cf7) {
+    // get the contact form object
+    $wpcf = WPCF7_ContactForm::get_current();
+    $submission = WPCF7_Submission::get_instance();
+    //Below statement will return all data submitted by form.
+    $data = $submission->get_posted_data();
+
+    if ($data['acceptance-31']){
+        //error_log('reg newsletter');
+        $data = array(
+            'email' => $data['newsltter-mail']
+        );
+        $url = 'https://t67a421c2.emailsys2a.net/190/4793/d40d75cfb1/subscribe/form.html';
+        $ch = curl_init($url);
+        $postString = http_build_query($data, '', '&');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        //error_log('response: '.print_r($response));
+        curl_close($ch);
+    }
+
+    return $wpcf;
+}

@@ -40,13 +40,48 @@ global $post;
         $pageDiscipline = $_POST['pageDiscipline'];
         $pageTitle = $_POST['pageTitle'];
 
+        $orgID = '0fa24aa1-709e-4e86-8ac0-a5bbc093e6cb';
+        $workflowGroup = 'GROUP_ORG_WLO-Uploadmanager';
+
+        switch ($pageDiscipline){
+            case 'Chemie':
+                $orgID = '';
+                $workflowGroup = '';
+                break;
+            case 'Deutsch':
+                $orgID = '';
+                $workflowGroup = '';
+                break;
+            case 'Deutsch als Zweitsprache':
+                $orgID = '';
+                $workflowGroup = '';
+                break;
+            case 'Informatik':
+                $orgID = '';
+                $workflowGroup = '';
+                break;
+            case 'Kunst':
+                $orgID = '';
+                $workflowGroup = '';
+                break;
+            case 'Medienbildung':
+                $orgID = '';
+                $workflowGroup = '';
+                break;
+            case 'Physik':
+                $orgID = '';
+                $workflowGroup = '';
+                break;
+        }
+
         if (!empty($_FILES['fileToUpload']['name'])) {
             if ($_POST['consent']) {
                 //first api-call to create node
                 $data_array = array(
                     "cm:name" => [$_FILES['fileToUpload']['name']],
+                    'ccm:taxonid' => $pageDiscipline,
                 );
-                $apiUrl = 'rest/node/v1/nodes/-home-/0fa24aa1-709e-4e86-8ac0-a5bbc093e6cb/children?type=ccm%3Aio&renameIfExists=true';
+                $apiUrl = 'rest/node/v1/nodes/-home-/'.$orgID.'/children?type=ccm%3Aio&renameIfExists=true';
                 $nodeID = callRepoApi($apiUrl, json_encode($data_array))['node']['ref']['id'];
 
                 //second api-call for file upload
@@ -86,7 +121,7 @@ global $post;
                         $emailBody = '<h3>Es wurde eine neute Datei ("'.[$_FILES['fileToUpload']['name']].'") hochgeladen.</h3>';
                         $emailBody .= '<p>'.$workflowComment.'</p>';
 
-                        $data = '{"receiver":[{"authorityName":"GROUP_ORG_WLO-Uploadmanager"}],"comment":' . $workflowComment . '","status":"200_tocheck"}';
+                        $data = '{"receiver":[{"authorityName":"'.$workflowGroup.'"}],"comment":' . $workflowComment . '","status":"200_tocheck"}';
                         $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/workflow';
 
                         if (callRepoApi($apiUrl, $data, 'Content-Type: application/json', 'PUT') !== false) {

@@ -16,15 +16,10 @@ while (have_posts()) : the_post(); ?>
             </ul>
         <?php endif; ?>
 
-        <div class="grid-container">
-            <div class="grid-x grid-margin-x">
-                <div class="medium-12 cell">
-                    <div class="portal-wrapper">
-                        <?php the_content(); ?>
-                    </div>
-                </div>
-            </div>
+        <div class="portal-wrapper">
+            <?php the_content(); ?>
         </div>
+
     </div>
     <div class="add-content-menu-container">
         <?php
@@ -51,8 +46,8 @@ while (have_posts()) : the_post(); ?>
         wp_nav_menu($defaults);
         ?>
         <span class="material-icons add-content-menu-button" onclick="jQuery('.add-content-menu-list').toggle()">
-        add
-    </span>
+            add
+        </span>
     </div>
 <?php
 endwhile;

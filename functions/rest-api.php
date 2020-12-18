@@ -51,8 +51,13 @@ function check_unique_collection_link($collection_url) {
 function add_portal(WP_REST_Request $request) {
 
     $collection_id = $request->get_param( 'collectionId' );
-    $topic = urldecode($request->get_param( 'title' ));
+
     $disciplines = explode(",",urldecode($request->get_param( 'discipline' )));
+    $disciplinesMapped = array_map("clean_discipline", $disciplines);
+
+    $topic = urldecode($request->get_param( 'title' ));
+
+
     $edu_contexts = explode(",",urldecode($request->get_param( 'educationalContext')));
     $intended_end_user_roles = explode(",",urldecode($request->get_param( 'intendedEndUserRole')));
 
@@ -116,7 +121,7 @@ function add_portal(WP_REST_Request $request) {
             'post_content' => $content,
             'post_content_filtered' => '',
             'post_title' => $topic,
-            'post_name' => sanitize_title_with_dashes($topic, '', 'save'),
+            'post_name' => sanitize_title_with_dashes($topic.'-'.$node->properties->{'ccm:taxonid_DISPLAYNAME'}[0], '', 'save'),
             'post_excerpt' => '',
             'post_status' => 'draft',
             'post_type' => 'portal',
@@ -134,8 +139,8 @@ function add_portal(WP_REST_Request $request) {
 
 
         // Insert the post into the database
-        //$post_id = wp_insert_post($portal_insert, true);
-        /*
+        $post_id = wp_insert_post($portal_insert, true);
+
         if (!empty($post_id) && is_numeric($post_id)) {
             update_field('collection_url', $collection_url, $post_id);
             update_field('collection_level', $collection_level, $post_id);
@@ -146,7 +151,7 @@ function add_portal(WP_REST_Request $request) {
                 function clean_discipline($n){
                     $disciplineLastSlash = strrpos($n, "/");
                     $disciplineIdNr = substr($n, $disciplineLastSlash + 1);
-                    return intval($disciplineIdNr);
+                    return $disciplineIdNr;
                 }
             }
             update_field('discipline', array_map("clean_discipline", $disciplines), $post_id);
@@ -173,7 +178,8 @@ function add_portal(WP_REST_Request $request) {
 
             update_field('intendedEndUserRole', array_map("clean_intended_end_user_role", $intended_end_user_roles), $post_id);
 
-            //Copy Template Blog Posts
+          /*
+          //Copy Template Blog Posts
             $post_args = array(
                 'post_type' => 'post',
                 'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit'),
@@ -224,9 +230,10 @@ function add_portal(WP_REST_Request $request) {
                 }
             }
             $query_post->reset_postdata();
+          */
 
             require_once ABSPATH . '/wp-admin/includes/post.php';
-            $sample_permalink_obj = get_sample_permalink($post_id);
+            $sample_permalink_obj = get_sample_permalink($post_id, $title);
 
             http_response_code(200);
             print(str_replace('%pagename%', $sample_permalink_obj[1], $sample_permalink_obj[0]));
@@ -239,9 +246,6 @@ function add_portal(WP_REST_Request $request) {
             http_response_code(404);
             die();
         }
-        */
-
-
 
 
     } else {

@@ -22,7 +22,12 @@ add_filter('authenticate', 'wlo_login', 10, 3);
 function wlo_login($user1, $username, $password, $already_md5 = false){
     error_log('wlo_login (authenticate)');
     $formId = $_POST['form_id'];
-    $wp_user = get_user_by('login', $username);
+
+    if(filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        $wp_user = get_user_by('email', $username);
+    }else{
+        $wp_user = get_user_by('login', $username);
+    }
 
     if (!empty($_POST['pwd'])){
         $userPassword = $_POST['pwd'];
@@ -33,7 +38,7 @@ function wlo_login($user1, $username, $password, $already_md5 = false){
     //error_log(print_r($_POST, true));
 
     $user = array();
-    $user["login"] = $username;
+    $user["login"] = $wp_user->user_login;
     $user["password"] = $userPassword;
     $user["firstName"] = $wp_user->first_name;
     $user["lastName"] = $wp_user->last_name;
@@ -54,7 +59,7 @@ function wlo_login($user1, $username, $password, $already_md5 = false){
         }
     }else{
         error_log('wp_check_password FAILED ('.$user["login"].')');
-        error_log('attempted password: '.$user["password"]);
+        //error_log('attempted password: '.$user["password"]);
     }
 
 

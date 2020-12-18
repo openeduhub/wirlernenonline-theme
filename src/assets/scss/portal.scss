@@ -4,7 +4,7 @@
 @import "custom-colors-variables";
 
 .portal {
-  background: #f9f9f9;
+  background: white;
 
   h1 {
     font-size: 1.8rem;
@@ -33,6 +33,11 @@
 
   h3, h4, h5, h6 {
     color: $black;
+  }
+
+  .portal-wrapper{
+    margin: 0 auto;
+    max-width: 1200px;
   }
 }
 
@@ -716,9 +721,12 @@
 
 .portal-subject-tree .portal_tree_branch .portal_search_text h5 {
   font-size: 0.8em;
-  text-transform: capitalize;
   text-overflow: ellipsis;
   margin: 0;
+}
+
+.portal-subject-tree .portal_tree_branch .portal_search_text h5::first-letter{
+  text-transform: capitalize;
 }
 
 .portal-subject-tree .portal_tree_branch img {
@@ -1317,12 +1325,13 @@
 .portal_block {
   .portal_header_top {
     display: flex;
+    justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
 
     & > div {
-      flex: 1;
+      //flex: 1;
     }
 
     .portal_header_top_left {
@@ -1344,6 +1353,9 @@
           font-weight: bold;
           font-size: 42px;
           line-height: 59px;
+        }
+
+        .portal_header_title::first-letter{
           text-transform: capitalize;
         }
       }

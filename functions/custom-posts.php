@@ -1,4 +1,10 @@
 <?php
+
+function enable_page_excerpt() {
+    add_post_type_support('page', array('excerpt'));
+}
+add_action('init', 'enable_page_excerpt');
+
 function create_eduSource() {
 
     register_post_type( 'edusource',
@@ -236,17 +242,23 @@ function wlo_portal_dropdown() {
 
     $choices = [
         '720' => 'Allgemein',
-        '80' => 'Biologie',
+        '080' => 'Biologie',
         '100' => 'Chemie',
         '12002' => 'Darstellen & Gestalten',
         '120' => 'Deutsch',
         '240' => 'Geschichte',
         '320' => 'Informatik',
-        '60' => 'Kunst',
+        '060' => 'Kunst',
         '380' => 'Mathematik',
         '900' => 'Medienbildung',
         '400' => 'Mediendidaktik',
         '460' => 'Physik ',
+        '64018' => 'Nachhaltigkeit',
+        '20007' => 'Spanisch',
+        '600' => 'Sport',
+        '20008' => 'Tuerkisch',
+        '20001' => 'Englisch',
+        '520' => 'Religion',
     ];
 
     echo'<select name="discipline_filter">';

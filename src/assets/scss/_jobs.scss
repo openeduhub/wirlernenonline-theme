@@ -1,0 +1,177 @@
+@import "custom-colors-variables";
+@import 'custom-fonts';
+
+.jobs-page{
+  background: white;
+  min-height: 100vh;
+
+  .jobs-header{
+    color: white;
+    background: $wlo-primary;
+    border-top: 46px solid $wlo-primary-dark;
+
+    .jobs-header-wrapper{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      margin: 0 auto;
+      padding-bottom: 25px;
+      max-width: 1200px;
+
+      h1{
+        font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 28px;
+        line-height: 150%;
+        color: black;
+        margin-top: 1em;
+      }
+
+      p{
+        font-size: 0.8em;
+
+      }
+
+      .jobs-header-content{
+        color: black;
+        background: white;
+        width: 75%;
+        margin-top: 3.5em;
+        margin-left: 2em;
+        padding: 0 2em 2em;
+        border-radius: 25px 25px 0px 0px;
+      }
+
+      .jobs-header-bottom{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 25px;
+        background: #F4F4F4;
+        border-radius: 25px 25px 0px 0px;
+      }
+    }
+
+  }
+
+
+  .jobs-wrapper{
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 2em;
+    background: #F4F4F4;
+    //border-radius: 0px 0px 25px 25px;
+
+    .wp-block-column{
+      //padding: 0 1em;
+    }
+
+    h2{
+      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 40px;
+      line-height: 150%;
+      color: #333333;
+      margin-top: 1em;
+    }
+
+    p{
+      font-size: 0.8em;
+      color: #545454;
+    }
+  }
+
+  .wp-block-buttons{
+    text-align: right;
+  }
+
+  .bewerbung-button a{
+    font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    color: #00356F;
+    background: $wlo-neon;
+    transition: 0.3s;
+  }
+
+  .bewerbung-button a:hover{
+    background: $wlo-neon-dark;
+  }
+
+}
+
+.wlo-job-block{
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 1em 0;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+  transition: 0.3s;
+
+  img{
+    border-radius: 15px 15px 0 0;
+    width: 100%;
+    height: 175px;
+    object-fit: cover;
+  }
+
+  .wlo-job-block-content{
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+
+    h3{
+      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 150%;
+      color: #333333;
+    }
+
+    p{
+      font-size: 0.8em;
+      color: black;
+      min-height: 48px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .wlo-job-block-button{
+      max-width: 220px;
+      align-self: flex-end;
+      color: #032850;
+      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      background: $wlo-neon;
+      padding: 6px 12px;
+      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      transition: 0.3s;
+
+      img{
+        height: 18px;
+        width: 18px;
+      }
+    }
+
+    .wlo-job-block-button:hover{
+      //color: #E4F700;
+      background: $wlo-neon-dark;
+    }
+  }
+}
+
+.wlo-job-block:hover{
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+}

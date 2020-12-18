@@ -1,0 +1,182 @@
+@import 'fachportal';
+@import 'jobs';
+
+
+@import "custom-colors-variables";
+@import 'custom-fonts';
+
+
+.wunschbox-wrapper{
+  justify-content: center;
+  margin-top: 50px;
+
+  .wp-block-column{
+    position: relative;
+    background: white url('../../../src/assets/img/wunschbox.png') no-repeat top;
+    background-size: contain;
+    padding: 150px 1em 1em;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+
+    h2{
+      font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 28px;
+      margin-top: 2em;
+      margin-bottom: 1em;
+      margin-left: 0.25em;
+    }
+  }
+
+  .ab-block-accordion .ab-accordion-title{
+    font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 16px;
+    border-radius: 15px 15px 0 0;
+  }
+
+  .ab-block-accordion .ab-accordion-text{
+    background: #f2f2f2;
+  }
+
+  .wunschbox{
+    p{
+      margin: 1.5em 0 0;
+    }
+
+    label{
+      font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
+      font-weight: bold;
+      font-size: 16px;
+      margin-left: 0.5em;
+    }
+
+    select, textarea, input{
+      font-family: "Source-Serif-Regular", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+      color: #545454;
+      background: #e5ebf2;
+      border: none;
+    }
+
+    select{
+      background: #e5ebf2 url('../../../src/assets/img/arrow_down.svg') no-repeat 95%;
+      -webkit-appearance: none;
+    }
+
+    .wunschbox-newsletter{
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      .your-email{
+        width: 100%;
+      }
+
+      .wunschbox-checkbox{
+        height: 40px;
+        width: 40px;
+        margin-right: 1em;
+      }
+    }
+
+    .wpcf7-submit{
+      float: right;
+      font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 14px;
+      text-align: center;
+      color: #00356F;
+      background: $wlo-neon;
+      height: 30px;
+      padding: 0 1em;
+      margin-top: 1em;
+      border-radius: 15px;
+      transition: 0.3s;
+    }
+
+    .wpcf7-submit:hover{
+      background: $wlo-neon-dark;
+    }
+
+  }
+
+  .wp-block-column::before{
+    content: " ";
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 210px;
+    height: 200px;
+    z-index: 500;
+    background-image: url('../../../src/assets/img/wunschbox-hat.svg');
+  }
+}
+
+.wunschbox-cta{
+  position: absolute;
+  top: -50px;
+  right: -25px;
+
+  animation: 2500ms ease-in-out 500ms 1 wiggle;
+  transition: 0.3s;
+
+  .wunschbox-close{
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    padding-right: 1px;
+    padding-left: 5px;
+    padding-bottom: 3px;
+    transition: 0.3s;
+    border-radius: 0 0 0 15px;
+  }
+
+  .wunschbox-close:hover{
+    background: #3da6ee;
+  }
+}
+
+.wunschbox-cta:hover {
+  transform: scale(1.1);
+}
+
+.wunschbox-small{
+  display: none;
+  position: absolute;
+  cursor: pointer;
+  top: -50px;
+  right: -25px;
+  transition: 0.3s;
+}
+
+.wunschbox-small:hover {
+  transform: scale(1.1);
+}
+
+@-webkit-keyframes wiggle {
+  0% {-webkit-transform: rotate(10deg);}
+  25% {-webkit-transform: rotate(-10deg);}
+  50% {-webkit-transform: rotate(20deg);}
+  75% {-webkit-transform: rotate(-5deg);}
+  100% {-webkit-transform: rotate(0deg);}
+}
+
+@-ms-keyframes wiggle {
+  0% {-ms-transform: rotate(1deg);}
+  25% {-ms-transform: rotate(-1deg);}
+  50% {-ms-transform: rotate(1.5deg);}
+  75% {-ms-transform: rotate(-5deg);}
+  100% {-ms-transform: rotate(0deg);}
+}
+
+@keyframes wiggle1 {
+  0% {transform: rotate(10deg);}
+  25% {transform: rotate(-10deg);}
+  50% {transform: rotate(20deg);}
+  75% {transform: rotate(-5deg);}
+  100% {transform: rotate(0deg);}
+}
+
+
+

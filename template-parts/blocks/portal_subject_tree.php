@@ -71,7 +71,7 @@ $response = callWloRestApi($url);
                 <div class="portal_subject_grid">
                     <?php
                     foreach ($response->collections as $collection) {
-                        if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated') {
+                        if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated' || true) {
                             $prop = $collection->properties;
                             $ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
 
@@ -89,11 +89,15 @@ $response = callWloRestApi($url);
                             }
 
                             $nodeId = $collection->ref->id;
+                            $title = $collection->title;
+                            if (!empty($prop->{'ccm:collectionshorttitle'}[0])){
+                                $title = $prop->{'ccm:collectionshorttitle'}[0];
+                            }
                             ?>
 
                                     <div class="portal_menu" style="background: <?php echo $backgroundColor ?>;">
                                         <a href="<?php echo $ccm_location; ?>">
-                                            <h5><?php echo $collection->title; ?></h5>
+                                            <h5><?php echo $title; ?></h5>
                                         </a>
 
                                         <?php
@@ -122,9 +126,13 @@ $response = callWloRestApi($url);
                                                             continue;
                                                         }
 
+                                                        $title = $collection->title;
+                                                        if (!empty($prop->{'ccm:collectionshorttitle'}[0])){
+                                                            $title = $prop->{'ccm:collectionshorttitle'}[0];
+                                                        }
                                                         ?>
                                                         <a href="<?php echo $ccm_location; ?>">
-                                                            <h6><?php echo $collection->title; ?></h6>
+                                                            <h6><?php echo $title; ?></h6>
                                                         </a>
 
                                                     <?php }
@@ -164,6 +172,11 @@ $response = callWloRestApi($url);
                                 continue;
                             }
 
+                            $title = $collection->title;
+                            if (!empty($prop->{'ccm:collectionshorttitle'}[0])){
+                                $title = $prop->{'ccm:collectionshorttitle'}[0];
+                            }
+
                             $bgColor = $prop->{'ccm:collectioncolor'}[0];
                             $fontColor = (!empty($bgColor) && helper_useLightColor($bgColor)) ? "#000000" : "#ffffff";
 
@@ -175,7 +188,7 @@ $response = callWloRestApi($url);
                                     <?php endif; ?>
                                     <div class="portal_search_text">
                                         <h5 style="color: <?php echo $fontColor ?> !important;">
-                                            <?php echo $collection->title; ?>
+                                            <?php echo $title; ?>
                                         </h5>
                                     </div>
                                 </div>

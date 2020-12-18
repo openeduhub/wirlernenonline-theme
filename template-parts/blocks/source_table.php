@@ -1,237 +1,242 @@
+<?php if (is_admin()) {
+    echo '<div class="backend_border">';
+    echo '<div class="backend_hint">Quellenübersicht-Tabelle</div>';
+} ?>
+<?php
 
-    <?php
+$url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/ngsearch/?maxItems=500&skipCount=0&propertyFilter=-all-';
+$search_criterias = '{"criterias":[{"property":"ccm:objecttype","values":["SOURCE"]}],"facettes":[]}';
+$response = callWloRestApi($url, 'POST', $search_criterias);
 
-    $post_types = array();
-    foreach (get_field('type') as $type){
-        $post_types[] = $type['value'];
-    }
+    if($response) {
 
-    if (get_field('post_status')){
-        $post_status = array();
-        foreach (get_field('post_status') as $status){
-            $post_status[] = $status['value'];
-        }
-    }else{
-        $post_status = 'any';
-    }
-
-
-    $posts = get_posts(array(
-        'post_type' => $post_types,
-        'numberposts' => -1,
-        'post_status'       => $post_status,
-    ));
-    if($posts) {
-        $type = get_field('type')[0]['label'];
-        if (count($post_types) > 1){
-            $type = 'Quellen / Tools';
-        }
-
-        // get the school subjects via graphQL
-        $data = '{facet(facet:source){buckets{key, doc_count}}}';
+        //$data = '{facet(facet:source){buckets{key, doc_count}}}';
+        $data = '{
+                  facet(
+                    facet: source
+                    skipOutputMapping: true
+                  ) {
+                    buckets {
+                      key
+                      doc_count
+                    }
+                  }
+                }';
         $sources = callWloGraphApi($data)->data->facet->buckets;
-
+        //var_dump($sources);
 
         ?>
-        <table class="wlo_source_dev js-sort-table">
+
+    <div class="filterable">
+        <table class="wlo_source_dev table js-sort-table">
             <thead>
             <tr>
-                <th class="wlo_big_header" colspan="3"><?php echo $type; ?></th>
-                <th class="wlo_big_header" colspan="2">In unserer Suche</th>
-                <th class="wlo_big_header">1. Schritt: Check</th>
-                <th class="wlo_big_header" colspan="4">2. Schritt: Analyse</th>
-                <th class="wlo_big_header" colspan="4">3. Schritt: Erschließungs-Zustand</th>
-                <th class="wlo_big_header">Fortschritt</th>
+                <th class="wlo_big_header">Quellen die wir haben / daran arbeiten:</th>
+                <th class="wlo_big_header">Inhalte</th>
+                <th class="wlo_big_header">für dein Fach haben wir ...</th>
+                <th class="wlo_big_header">Status Erschließung</th>
+                <th class="wlo_big_header">Qualität & Priorität der Erschließung</th>
             </tr>
-            <tr>
-                <th class="clickable js-sort-string">Name</th>
-                <th class="clickable js-sort-string">OER</th>
-                <th class="clickable js-sort-number">Inhalte</th>
-
-                <th class="clickable js-sort-string">Quelle</th>
-                <th class="clickable js-sort-string">Quellen-Inhalten</th>
-
-                <th class="clickable js-sort-string">Vorprüfung komplett</th>
-
-                <th class="clickable js-sort-string">Redaktion</th>
-                <th class="clickable js-sort-string">Jurist</th>
-                <th class="clickable js-sort-string">IT</th>
-                <th class="clickable js-sort-string">Finanzierung</th>
-
-                <th class="clickable js-sort-string">Rohdaten</th>
-                <th class="clickable js-sort-string">Rohdaten-Test</th>
-                <th class="clickable js-sort-string">1. Verbesserung</th>
-                <th class="clickable js-sort-string">2. Verbesserung</th>
-
-                <th class="clickable js-sort-number"></th>
+            <tr class="filters">
+                <th><input type="text" placeholder="Suche..." disabled></th>
+                <th></th>
+                <th><input type="text" placeholder="Suche..." disabled></th>
+                <th><input type="text" placeholder="Suche..." disabled></th>
+                <th></th>
             </tr>
+
             </thead>
             <tbody>
 
-                <?php foreach($posts as $post) { ?>
+                <?php
+                foreach($response->nodes as $reference) {
+                    $prop = $reference->properties;
+                    ?>
                 <tr>
                     <?php
 
-                    /*
-                     * $values = array(
-                        'verfuegbar_als_quelle'	=>	1
-                    );
-                    $values2 = array(
-                        'redaktion_planung'	=>	1
-                    );
-                    update_field( 'verfuegbar_als_quelle_group', $values, $post->ID );
-                    update_field( 'redaktion_planung_group', $values2, $post->ID );
-                    */
+                    echo '<td class="wlo_name"><a target="_blank" href="'.$reference->content->url.'">'.$reference->title.'</a></td>';
 
-                    $positiv = 0;
-
-                    echo '<td class="wlo_name"><a target="_blank" href="'.get_page_link($post->ID).'">'.get_the_title($post->ID).'</a></td>';
-
-                    if ( get_field('licence', $post->ID) ){
-                        $licences = get_field( 'licence', $post->ID );
-                        if( $licences ){
-                            foreach ($licences as $licence){
-                                switch ($licence['value']){
-                                    case 10:
-                                        echo '<td class="wlo-green">'.$licence['label'].'</td>';
-                                        break;
-                                    case 11:
-                                        echo '<td class="wlo-yellow">'.$licence['label'].'</td>';
-                                        break;
-                                    case 12:
-                                        echo '<td class="wlo-red">'.$licence['label'].'</td>';
-                                        break;
-                                }
-                            }
-                        }
-                    }else{
-                        echo '<td></td>';
-                    }
-
-                    if ( get_field('filtername', $post->ID) ){
-                        $sourceName = get_field('filtername', $post->ID);
-                        $sourceCount = 0;
+                    $sourceCount = 0;
+                    if (!empty($sources)){
                         foreach ($sources as $source){
-                            if ($source->key == $sourceName){
+                            //if (strtolower($source->key) == strtolower($prop->{'cclom:title'}[0])){
+                            if ($source->key == $prop->{'ccm:general_identifier'}[0]){
                                 $sourceCount = $source->doc_count;
                             }
                         }
-                        echo '<td class="wlo_count">'.$sourceCount.'</td>';
-                    }else{
-                        echo '<td class="wlo_count"></td>';
+                    }
+                    echo '<td class="wlo_count">'.$sourceCount.'</td>';
+                    //echo '<td class="wlo_count">'.$prop->{'ccm:general_identifier'}[0].'</td>';
+
+                    echo '<td class="wlo_subjects">';
+                    if (!empty($prop->{'ccm:taxonid_DISPLAYNAME'})){
+
+                            foreach ($prop->{'ccm:taxonid_DISPLAYNAME'} as $subject) {
+                                echo '<span class="wlo_subject">' . $subject . '</span>';
+                            }
+
+                    }
+
+                    '</td>';
+
+
+                    echo '<td>'.$prop->{'ccm:editorial_checklist_DISPLAYNAME'}[0].'</td>';
+
+
+                    echo '<td>';
+
+                    // Zugangsbedingungen (Login)
+                    switch ($prop->{'ccm:conditionsOfAccess'}[0]){
+                        case 'http://w3id.org/openeduhub/vocabs/conditionsOfAccess/no_login':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/ANMELDEN_GRUEN.svg" title="'.$prop->{'ccm:conditionsOfAccess_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/conditionsOfAccess/login_for_additional_features':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/ANMELDEN_ORANGE.svg" title="'.$prop->{'ccm:conditionsOfAccess_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/conditionsOfAccess/login':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/ANMELDEN_ROT.svg" title="'.$prop->{'ccm:conditionsOfAccess_DISPLAYNAME'}[0].'">';
+                            break;
+                        default:
+                            echo '<img class="wlo_source_icon grey" src="'.get_template_directory_uri().'/src/assets/img/table_icons/ANMELDEN_GRUEN.svg" title="Login unbekannt">';
+                    }
+
+                    // Enthält Werbung
+                    switch ($prop->{'ccm:containsAdvertisement'}[0]){
+                        case 'http://w3id.org/openeduhub/vocabs/containsAdvertisement/yes':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/WERBUNG_ROT.svg" title="Enthält Werbung: '.$prop->{'ccm:containsAdvertisement_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/containsAdvertisement/no':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/WERBUNG_GRUEN.svg" title="Enthält Werbung: '.$prop->{'ccm:containsAdvertisement_DISPLAYNAME'}[0].'">';
+                            break;
+                        default:
+                            echo '<img class="wlo_source_icon grey" src="'.get_template_directory_uri().'/src/assets/img/table_icons/WERBUNG_GRUEN.svg" title="Werbung unbekannt">';
+                    }
+
+                    // Kosten
+                    switch ($prop->{'ccm:price'}[0]){
+                        case 'http://w3id.org/openeduhub/vocabs/price/no':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/KOSTEN_GRUEN.svg" title="Kosten: '.$prop->{'ccm:price_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/price/yes_for_additional':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/KOSTEN_ORANGE.svg" title="Kosten: '.$prop->{'ccm:price_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/price/yes':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/KOSTEN_ROT.svg" title="Kosten: '.$prop->{'ccm:price_DISPLAYNAME'}[0].'">';
+                            break;
+                        default:
+                            echo '<img class="wlo_source_icon grey" src="'.get_template_directory_uri().'/src/assets/img/table_icons/KOSTEN_GRUEN.svg" title="Kosten unbekannt">';
+                    }
+
+                    // Barrierefreiheit
+                    switch ($prop->{'ccm:accessibilitySummary'}[0]){
+                        case 'http://w3id.org/openeduhub/vocabs/accessibilitySummary/a':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/ACCASSIBILITY_GRUEN.svg" title="Barrierefreiheit: '.$prop->{'ccm:accessibilitySummary_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/accessibilitySummary/aa':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/ACCASSIBILITY_ORANGE.svg" title="Barrierefreiheit: '.$prop->{'ccm:accessibilitySummary_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/accessibilitySummary/aaa':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/ACCASSIBILITY_ROT.svg" title="Barrierefreiheit: '.$prop->{'ccm:accessibilitySummary_DISPLAYNAME'}[0].'">';
+                            break;
+                        default:
+                            echo '<img class="wlo_source_icon grey" src="'.get_template_directory_uri().'/src/assets/img/table_icons/ACCASSIBILITY_GRUEN.svg" title="Barrierefreiheit unbekannt">';
+                    }
+
+                    // DSGVO
+                    switch ($prop->{'ccm:dataProtectionConformity'}[0]){
+                        case 'http://w3id.org/openeduhub/vocabs/dataProtectionConformity/generalDataProtectionRegulation':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/DGSVO_GRUEN.svg" title="'.$prop->{'ccm:dataProtectionConformity_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/dataProtectionConformity/noGeneralDataProtectionRegulation':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/DGSVO_ROT.svg" title="'.$prop->{'ccm:dataProtectionConformity_DISPLAYNAME'}[0].'">';
+                            break;
+                        default:
+                            echo '<img class="wlo_source_icon grey" src="'.get_template_directory_uri().'/src/assets/img/table_icons/DGSVO_GRUEN.svg" title="DSGVO unbekannt">';
+                    }
+
+                    // FSK
+                    switch ($prop->{'ccm:fskRating'}[0]){
+                        case 'http://w3id.org/openeduhub/vocabs/fskRating/0':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/FSK0.svg" title="'.$prop->{'ccm:fskRating_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/fskRating/6':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/FSK6.svg" title="'.$prop->{'ccm:fskRating_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/fskRating/12':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/FSK12.svg" title="'.$prop->{'ccm:fskRating_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/fskRating/16':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/FSK16.svg" title="'.$prop->{'ccm:fskRating_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/fskRating/18':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/FSK18.svg" title="'.$prop->{'ccm:fskRating_DISPLAYNAME'}[0].'">';
+                            break;
+                        default:
+                            echo '<img class="wlo_source_icon grey" src="'.get_template_directory_uri().'/src/assets/img/table_icons/FSK_Gruen.svg" title="FSK unbekannt">';
+                    }
+
+                    // OER
+                    switch ($prop->{'ccm:license_oer'}[0]){
+                        case 'http://w3id.org/openeduhub/vocabs/oer/0':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/OER_Gruen.svg" title="'.$prop->{'ccm:license_oer_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/oer/1':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/OER_ORANGE.svg" title="'.$prop->{'ccm:license_oer_DISPLAYNAME'}[0].'">';
+                            break;
+                        case 'http://w3id.org/openeduhub/vocabs/oer/2':
+                            echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/OER_ROT.svg" title="'.$prop->{'ccm:license_oer_DISPLAYNAME'}[0].'">';
+                            break;
+                        default:
+                            echo '<img class="wlo_source_icon grey" src="'.get_template_directory_uri().'/src/assets/img/table_icons/OER_Gruen.svg" title="OER unbekannt">';
                     }
 
 
+                    echo '</td>';
 
-                    //In unserer Suche
-                    $verfuegbar_als_quelle = get_field('verfuegbar_als_quelle_group', $post->ID);
-                    if( $verfuegbar_als_quelle['verfuegbar_als_quelle'] ) {
-                        if ($verfuegbar_als_quelle['verfuegbar_als_quelle_date']){
-                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja <span class="wlo_date">('.$verfuegbar_als_quelle['verfuegbar_als_quelle_date'].')</span></td>';
-                        }else{
-                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
-                        }
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
-                    }
-                    $verfuegbar_mit_inhalten = get_field('verfuegbar_mit_inhalten_group', $post->ID);
-                    if( $verfuegbar_mit_inhalten['verfuegbar_mit_inhalten'] ) {
-                        if ($verfuegbar_mit_inhalten['verfuegbar_mit_inhalten_date']){
-                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja <span class="wlo_date">('.$verfuegbar_mit_inhalten['verfuegbar_mit_inhalten_date'].')</span></td>';
-                        }else{
-                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
-                        }
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
-                    }
-
-                    //Vorprüfung abgeschlossen
-                    $redaktion = get_field('redaktion_group', $post->ID);
-                    $recht = get_field('recht_group', $post->ID);
-                    $it = get_field('it_group', $post->ID);
-                    $projektmanagement = get_field('projektmanagement_group', $post->ID);
-                    if( $redaktion['redaktion'] && $recht['recht'] && $it['it'] && $projektmanagement['projektmanagement'] ) {
-                        if ($redaktion['redaktion_date']){
-                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja <span class="wlo_date">('.$redaktion['redaktion_date'].')</span></td>';
-                        }else{
-                            echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
-                        }
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';;
-                    }
-
-                    //Planung
-                    $redaktion_planung = get_field('redaktion_planung_group', $post->ID);
-                    if( $redaktion_planung['redaktion_planung'] ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
-                    }
-                    $recht_planung = get_field('recht_planung_group', $post->ID);
-                    if( $recht_planung['recht_planung'] ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
-                    }
-                    $it_planung = get_field('it_planung_group', $post->ID);
-                    if( $it_planung['it_planung'] ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
-                    }
-                    $projektmanagement_planung = get_field('projektmanagement_planung_group', $post->ID);
-                    if( $projektmanagement_planung['projektmanagement_planung'] ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
-                    }
-
-                    //Erschließung
-                    $roherschliesung = get_field('roherschliesung_group', $post->ID);
-                    if( $roherschliesung['roherschliesung'] ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
-                    }
-                    $test = get_field('test_group', $post->ID);
-                    if( $test['test'] ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
-                    }
-                    $metadatenverbesserung = get_field('metadatenverbesserung_group', $post->ID);
-                    if( $metadatenverbesserung['metadatenverbesserung'] ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';;
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
-                    }
-                    $metadatenverbesserung_manuell = get_field('metadatenverbesserung_manuell_group', $post->ID);
-                    if( $metadatenverbesserung_manuell['metadatenverbesserung_manuell'] ) {
-                        echo '<td class="wloTrue"><span class="wlo_checkmark">&#10004;</span>Ja</td>';
-                        $positiv++;
-                    }else{
-                        echo '<td class="wloFalse"><span class="wlo_error">×</span>Nein</td>';
-                    }
-
-                    //Auswertung
-                    echo '<td>'.$positiv.'</td>';
-                    ?>
-
-                <?php }
+                }
                 echo '</tr>';
                 }
                 ?>
 
             </tbody>
         </table>
+</div>
 
+<script>
+    function checkval() {
+        1 == jQuery("tbody tr:visible").length && "No result found" == jQuery("tbody tr:visible td").html() ? jQuery("#rowcount").html("0") : jQuery("#rowcount").html(jQuery("tr:visible").length - 1);
+    }
+    function filterReady() {
+        const t = jQuery(".filterable")
+        const e = t.find(".filters input");
+        const l = t.find(".table tbody");
+        1 == e.prop("disabled") ? (e.prop("disabled", !1), e.first()) : (e.val("").prop("disabled", !0), l.find(".no-result").remove(), l.find("tr").show()), jQuery("#rowcount").html(jQuery(".filterable tr").length - 1);
+    }
+    jQuery(document).ready(function () {
+        jQuery("#rowcount").html(jQuery(".filterable tr").length - 1),
+            jQuery(".filterable .filters input").keyup(function (t) {
+                if ("9" != (t.keyCode || t.which)) {
+                    var e = jQuery(this),
+                        l = e.val().toLowerCase(),
+                        n = e.parents(".filterable"),
+                        i = n.find(".filters th").index(e.parents("th")),
+                        r = n.find(".table"),
+                        o = r.find("tbody tr"),
+                        d = o.filter(function () {
+                            return -1 === jQuery(this).find("td").eq(i).text().toLowerCase().indexOf(l);
+                        });
+                    r.find("tbody .no-result").remove(),
+                        o.show(),
+                        d.hide(),
+                    d.length === o.length && r.find("tbody").prepend(jQuery('<tr class="no-result text-center"><td colspan="' + r.find(".filters th").length + '">No result found</td></tr>'));
+                }
+                jQuery("#rowcount").html(jQuery("tr:visible").length - 1), checkval();
+            });
+        filterReady();
+    });
+</script>
+
+<?php if (is_admin()) {
+    echo '</div>';
+} ?>

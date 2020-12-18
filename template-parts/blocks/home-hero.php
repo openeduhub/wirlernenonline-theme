@@ -30,6 +30,26 @@ $response = callWloGraphApi($data);
 ?>
 
 <div class="grid-container home-hero">
+    
+    <div class="wunschbox-cta" id="wunschbox-cta">
+        <img class="wunschbox-close" onclick="toggleWunschbox()" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/wunschbox-close.svg">
+
+        <a href="https://wirlernenonline.de/wunschbox/">
+            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/wunschbox-cta.svg">
+        </a>
+    </div>
+
+    <div class="wunschbox-small" id="wunschbox-small" onclick="toggleWunschbox()">
+        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/wunschbox-small.svg">
+    </div>
+
+    <script>
+        function toggleWunschbox() {
+            jQuery('#wunschbox-cta').toggle('slow');
+            jQuery('#wunschbox-small').toggle('slow');
+        }
+    </script>
+    
     <div class="grid-x grid-margin-x">
       <div class="medium-12 cell">
         <h1><?php the_field('description') ?></h1>
