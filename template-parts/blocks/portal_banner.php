@@ -58,7 +58,7 @@ if (!empty($disciplines)) {
     foreach ($disciplines as $discipline) {
         $meta_query_args_disciplines[] = array(
             'key' => 'discipline',
-            'value' => $discipline,
+            'value' => '"'.$discipline.'"',
             'compare' => 'LIKE'
         );
     }
