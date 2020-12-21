@@ -16,7 +16,14 @@ if (empty(get_field('authors', $postID))){
         '060'   => 6515,    // kunst
         '380'   => 6955,    // mathe
         '900'   => 6463,     // medienbildung
-        '12002'   => 20473     // darstellendes spiel
+        '12002'   => 20473,     // darstellendes spiel
+        '080'   => 20627,     // biologie
+        '64018'   => 21313,     // nachhaltigkeit
+        '20007'   => 20503,     // spanisch
+        '20008'   => 21153,     // türkisch
+        '20001'   => 20931,     // englisch
+        '520'   => 21348,     // religion
+        '480'   => 20266     // politik
     );
     $educational_filter_values = get_educational_filter_values($postID);
     $authors = get_field('authors', $portalID[ $educational_filter_values['disciplines'][0] ]);
