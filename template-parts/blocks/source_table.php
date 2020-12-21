@@ -152,7 +152,7 @@ $response = callWloRestApi($url, 'POST', $search_criterias);
                             echo '<img class="wlo_source_icon" src="'.get_template_directory_uri().'/src/assets/img/table_icons/DGSVO_ROT.svg" title="'.$prop->{'ccm:dataProtectionConformity_DISPLAYNAME'}[0].'">';
                             break;
                         default:
-                            echo '<img class="wlo_source_icon grey" src="'.get_template_directory_uri().'/src/assets/img/table_icons/DGSVO_GRUEN.svg" title="DSGVO unbekannt">';
+                            echo '<img class="wlo_source_icon grey" src="'.get_template_directory_uri().'/src/assets/img/table_icons/DGSVO_GRUEN.svg" title="Nicht DSGVO geprüft">';
                     }
 
                     // FSK
