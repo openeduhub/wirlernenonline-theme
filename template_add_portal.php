@@ -43,6 +43,7 @@ global $post;
         $orgID = '0fa24aa1-709e-4e86-8ac0-a5bbc093e6cb';
         $workflowGroup = 'GROUP_ORG_WLO-Uploadmanager';
 
+        /*
         switch ($pageDiscipline){
             case 'Chemie':
                 $orgID = '';
@@ -73,6 +74,7 @@ global $post;
                 $workflowGroup = '';
                 break;
         }
+        */
 
         if (!empty($_FILES['fileToUpload']['name'])) {
             if ($_POST['consent']) {
