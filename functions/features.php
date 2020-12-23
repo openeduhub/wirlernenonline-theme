@@ -545,7 +545,7 @@ function wlo_edu_filter($collectionData, $wpData, $filter){
 function getSearchFilterValues($field, $postID){
     $field_values = (!empty(get_field($field, $postID))) ? get_field($field, $postID) : [];
     if(!empty(get_field($field))){
-       $field_values = get_field($field);
+        $field_values = get_field($field);
     };
     $search_filter = '';
     if (!empty($field_values)){
@@ -764,10 +764,27 @@ function registerNewsletter($cf7) {
     $data = $submission->get_posted_data();
 
     if ($data['acceptance-31']){
-        //error_log('reg newsletter');
         $data = array(
-            'email' => $data['newsltter-mail']
+            'fields[email]' => $data['newsltter-mail'],
+            'ml-submit' => 1
         );
+        $url = 'https://static.mailerlite.com/webforms/submit/c6v7a9';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/x-www-form-urlencoded',
+            'Accept: */*',
+        ]);
+        $response = curl_exec($ch);
+        //$info = curl_getinfo($ch);
+        curl_close($ch);
+        //error_log('response: ' . $response);
+
+        //error_log(print_r($info, true));
+        // wikimedia
+        /*
         $url = 'https://t67a421c2.emailsys2a.net/190/4793/d40d75cfb1/subscribe/form.html';
         $ch = curl_init($url);
         $postString = http_build_query($data, '', '&');
@@ -777,6 +794,7 @@ function registerNewsletter($cf7) {
         $response = curl_exec($ch);
         //error_log('response: '.print_r($response));
         curl_close($ch);
+        */
     }
 
     return $wpcf;
