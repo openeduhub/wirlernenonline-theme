@@ -94,7 +94,7 @@ $search_query = '
                 ?>
 
                 <div class="portal_content_branch">
-                    <img src="<?php echo $hit->previewImage->thumbnail->url; ?>" alt="">
+                    <img src="<?php echo $hit->previewImage->thumbnail->url; ?>&crop=true&maxWidth=400&maxHeight=400" alt="">
                     <div class="portal_content_info">
                         <div class="portal_search_text">
                             <a href="<?php echo $contentUrl; ?>" target="_blank">

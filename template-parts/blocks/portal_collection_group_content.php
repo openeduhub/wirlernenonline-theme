@@ -219,7 +219,7 @@ if (!empty($contentArray)){
                 <?php if (!empty($content['image_url'])) { ?>
                     <div class="portal_content_image">
                         <a href="<?php echo $content['content_url']; ?>" target="_blank">
-                            <img src="<?php echo $content['image_url']; ?>" alt="">
+                            <img src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=400&maxHeight=400" alt="">
                         </a>
                     </div>
                 <?php } ?>

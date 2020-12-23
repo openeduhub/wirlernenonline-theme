@@ -223,7 +223,7 @@ if (!empty($contentArray)){
                 <img class="widget-badge oer" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/oer.png">
             <?php } ?>
             <?php if (!empty($content['image_url'])) { ?>
-                <img src="<?php echo $content['image_url']; ?> alt="">
+                <img src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=400&maxHeight=400" alt="">
             <?php } ?>
             <div class="portal_content_info">
                 <div class="portal_search_text">

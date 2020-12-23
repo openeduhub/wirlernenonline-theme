@@ -219,7 +219,7 @@ if (!empty($contentArray)){
             <div class="portal_content_branch">
                 <div class="media-type"><?php echo $content['mediatype'] ?></div>
                 <?php if (!empty($content['image_url'])) { ?>
-                    <img src="<?php echo $content['image_url']; ?>" alt="<?php echo $content['title']; ?>">
+                    <img src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=400&maxHeight=400" alt="<?php echo $content['title']; ?>">
                 <?php } ?>
                 <div class="portal_content_info">
                     <div class="portal_search_text">
