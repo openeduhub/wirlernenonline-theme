@@ -101,7 +101,8 @@
 
   }
 
-  .wp-block-column::before{
+  /*
+  .wp-block-column::before{  // x-mas hat
     content: " ";
     position: absolute;
     top: -100px;
@@ -111,6 +112,7 @@
     z-index: 500;
     background-image: url('../../../src/assets/img/wunschbox-hat.svg');
   }
+  */
 }
 
 .wunschbox-cta{

@@ -35,12 +35,12 @@ $response = callWloGraphApi($data);
         <img class="wunschbox-close" onclick="toggleWunschbox()" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/wunschbox-close.svg">
 
         <a href="https://wirlernenonline.de/wunschbox/">
-            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/wunschbox-cta.svg">
+            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/wunschbox-cta-2.svg">
         </a>
     </div>
 
     <div class="wunschbox-small" id="wunschbox-small" onclick="toggleWunschbox()">
-        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/wunschbox-small.svg">
+        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/wunschbox-cta-small.svg">
     </div>
 
     <script>
