@@ -4,7 +4,7 @@
 } ?>
 <?php
 
-$url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/ngsearch/?maxItems=500&skipCount=0&propertyFilter=-all-';
+$url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/ngsearch/?maxItems=5000&skipCount=0&propertyFilter=-all-';
 $search_criterias = '{"criterias":[{"property":"ccm:objecttype","values":["SOURCE"]}],"facettes":[]}';
 $response = callWloRestApi($url, 'POST', $search_criterias);
 
@@ -25,6 +25,8 @@ $response = callWloRestApi($url, 'POST', $search_criterias);
         $sources = callWloGraphApi($data)->data->facet->buckets;
         //var_dump($sources);
 
+        //echo "<script>console.log('".print_r($sources, true)."')</script>";
+
         ?>
 
     <div class="filterable">
@@ -32,14 +34,14 @@ $response = callWloRestApi($url, 'POST', $search_criterias);
             <thead>
             <tr>
                 <th class="wlo_big_header">Vorhandene Quellen</th>
-                <th class="wlo_big_header">Erfasste Inhalte</th>
+                <th class="wlo_big_header js-sort-number">Erfasste Inhalte</th>
                 <th class="wlo_big_header">Fächerzuordnung</th>
                 <th class="wlo_big_header">Erschließungs-Status</th>
                 <th class="wlo_big_header">Qualitätskriterien-Check</th>
             </tr>
             <tr class="filters">
                 <th><input type="text" placeholder="Suche..." disabled></th>
-                <th></th>
+                <th class="js-sort-number"></th>
                 <th><input type="text" placeholder="Suche..." disabled></th>
                 <th><input type="text" placeholder="Suche..." disabled></th>
                 <th></th>
@@ -59,6 +61,7 @@ $response = callWloRestApi($url, 'POST', $search_criterias);
 
                     $sourceCount = 0;
                     if (!empty($sources)){
+
                         foreach ($sources as $source){
                             //if (strtolower($source->key) == strtolower($prop->{'cclom:title'}[0])){
                             if ($source->key == $prop->{'ccm:general_identifier'}[0]){
@@ -67,7 +70,7 @@ $response = callWloRestApi($url, 'POST', $search_criterias);
                         }
                     }
                     echo '<td class="wlo_count">'.$sourceCount.'</td>';
-                    //echo '<td class="wlo_count">'.$prop->{'ccm:general_identifier'}[0].'</td>';
+                    //echo '<script>console.log("'.$prop->{"ccm:general_identifier"}[0].'");</script>';
 
                     echo '<td class="wlo_subjects">';
                     if (!empty($prop->{'ccm:taxonid_DISPLAYNAME'})){
@@ -81,7 +84,11 @@ $response = callWloRestApi($url, 'POST', $search_criterias);
                     '</td>';
 
 
-                    echo '<td>'.$prop->{'ccm:editorial_checklist_DISPLAYNAME'}[0].'</td>';
+                    if (empty($prop->{'ccm:editorial_checklist_DISPLAYNAME'}[0])){
+                        echo '<td>1. redaktionelle Sichtung anstehend</td>';
+                    }else{
+                        echo '<td>'.$prop->{'ccm:editorial_checklist_DISPLAYNAME'}[0].'</td>';
+                    }
 
 
                     echo '<td>';
