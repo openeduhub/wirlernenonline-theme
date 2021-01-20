@@ -1,45 +1,68 @@
 <?php
-function custom_taxonomies() {
-    register_taxonomy('locations', 'event', array(
-        'labels' => array(
-            'name' => __('Locations', 'gtf-theme'),
-            'singular_name' => __('Location', 'gtf-theme'),
-            'all_items' => __('All Locations', 'gtf-theme'),
-            'edit_item' => __('Edit Location', 'gtf-theme'), 
-            'view_item' => __('View Location', 'gtf-theme'), 
-            'update_item' => __('Update Location', 'gtf-theme'), 
-            'add_new_item' => __('Add New Location', 'gtf-theme'), 
-            'new_item_name' => __('New Location Name', 'gtf-theme'), 
-        ),
-        'public' => false, 
-    ));
 
-    register_taxonomy('speakers', 'event', array(
-        'labels' => array(
-            'name' => __('Speakers', 'gtf-theme'),
-            'singular_name' => __('Speaker', 'gtf-theme'),
-            'all_items' => __('All Speakers', 'gtf-theme'),
-            'edit_item' => __('Edit Speaker', 'gtf-theme'), 
-            'view_item' => __('View Speaker', 'gtf-theme'), 
-            'update_item' => __('Update Speaker', 'gtf-theme'), 
-            'add_new_item' => __('Add New Speaker', 'gtf-theme'), 
-            'new_item_name' => __('New Speaker Name', 'gtf-theme'), 
-        ),
-        'public' => false, 
-    ));
-
-    register_taxonomy('event_types', 'event', array(
-        'labels' => array(
-            'name' => __('Event Types', 'gtf-theme'),
-            'singular_name' => __('Event Type', 'gtf-theme'),
-            'all_items' => __('All Event Types', 'gtf-theme'),
-            'edit_item' => __('Edit Event Type', 'gtf-theme'), 
-            'view_item' => __('View Event Type', 'gtf-theme'), 
-            'update_item' => __('Update Event Type', 'gtf-theme'), 
-            'add_new_item' => __('Add New Event Type', 'gtf-theme'), 
-            'new_item_name' => __('New Event Type Name', 'gtf-theme'), 
-        ),
-        'public' => false, 
-    ));
+function recurseBuildTaxonomy($taxonomyId, $skos, int $parent){
+    foreach($skos as $s){
+        $idStr = $s->id;
+        $lastSlash = strrpos($idStr, "/");
+        $id = substr($idStr, $lastSlash + 1);
+        //$field['choices'][ $id ] = $choice->prefLabel->de;
+        $parent = wp_insert_term($s->prefLabel->de, $taxonomyId, [ 'slug' => $id, 'parent' => $parent])['term_id'];
+        if($s -> narrower){
+            recurseBuildTaxonomy($taxonomyId, $s -> narrower, $parent);
+        }
+    }
 }
-add_action( 'init', 'custom_taxonomies', 0 );
+function buildTaxonomyForField($field, $taxonomyName, $taxonomyId, $vocabUrl){
+
+    $transient = 'vocab_'.$taxonomyId;
+    $vocab_json = null;
+    if (false === ( $value = get_transient( $transient ) ) ) {
+        // this code runs when there is no valid transient set
+        // Get Select-Field Options from Vocab Scheme
+        $json = file_get_contents($vocabUrl);
+        $vocab_json = json_decode($json);
+        set_transient( $transient, $vocab_json, 60*60*12 );
+    } else{
+        $field['taxonomy'] = $taxonomyId;
+        return;
+    }
+
+    register_taxonomy($taxonomyId, 'method', array(
+        'hierarchical' => true,
+        'labels' => array(
+            'name' => _x( $taxonomyName, 'taxonomy general name' ),
+        ),
+        'show_ui' => false,
+        'show_in_rest' => true,
+        'show_admin_column' => false,
+        'query_var' => true,
+    ));
+
+    // cleanup terms
+
+    $terms = get_terms( array(
+        'taxonomy' => $taxonomyId,
+        'hide_empty' => false,
+    ));
+    foreach ( $terms as $value ) {
+        wp_delete_term( $value->term_id, $taxonomyId);
+    }
+
+    $choices = $vocab_json->hasTopConcept;
+    if( is_array($choices) ) {
+        foreach( $choices as $choice ) {
+
+            $idStr = $choice->id;
+            $lastSlash = strrpos($idStr, "/");
+            $id = substr($idStr, $lastSlash + 1);
+            //$field['choices'][ $id ] = $choice->prefLabel->de;
+            $parent = wp_insert_term($choice->prefLabel->de, $taxonomyId, [ 'slug' => $id ])['term_id'];
+            if($choice -> narrower){
+                recurseBuildTaxonomy($taxonomyId, $choice -> narrower, $parent);
+            }
+        }
+    }
+    $field['taxonomy'] = $taxonomyId;
+    return $field;
+
+}

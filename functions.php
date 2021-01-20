@@ -23,6 +23,8 @@ require_once(get_template_directory().'/functions/gutenberg-blocks.php');
 // Register custom features
 require_once(get_template_directory().'/functions/features.php');
 
+require_once(get_template_directory().'/functions/custom-taxonomies.php');
+
 // Register Autoload ACF Fields
 require_once(get_template_directory().'/functions/acf-autoload.php');
 
