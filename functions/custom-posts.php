@@ -117,6 +117,72 @@ function create_wloUxIdeas() {
 // Hooking up our function to theme setup
 add_action( 'init', 'create_wloUxIdeas' );
 
+function create_methodPage() {
+
+    register_post_type( 'methodPage',
+        // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Methoden-Seite' ),
+                'singular_name' => __( 'Methoden-Seite' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'methodPage'),
+            'show_in_rest' => true,
+            'supports' => array('title','editor','author','excerpt','comments','revisions'),
+            'menu_icon' => 'dashicons-analytics',
+            'taxonomies' => array('post_tag'),
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'create_methodPage' );
+
+function create_toolScenarioPage() {
+
+    register_post_type( 'toolScenarioPage',
+        // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Tool-Szenarien-Seite' ),
+                'singular_name' => __( 'Tool-Szenarien-Seite' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'toolScenarioPage'),
+            'show_in_rest' => true,
+            'supports' => array('title','editor','author','excerpt','comments','revisions'),
+            'menu_icon' => 'dashicons-analytics',
+            'taxonomies' => array('post_tag'),
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'create_toolScenarioPage' );
+
+function create_toolPage() {
+
+    register_post_type( 'toolPage',
+        // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Tool-Seite' ),
+                'singular_name' => __( 'Tool-Seite' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'toolPage'),
+            'show_in_rest' => true,
+            'supports' => array('title','editor','author','excerpt','comments','revisions'),
+            'menu_icon' => 'dashicons-analytics',
+            'taxonomies' => array('post_tag'),
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'create_toolPage' );
+
 
 function create_subjectPortal() {
 

@@ -21,7 +21,7 @@ get_header();
                     'post_type'     => 'edutool',
                     'post_status'   => 'pending'
                 ),
-                'fields' => array('url', 'short_text', 'category', 'email', 'newsletter'),
+                'fields' => array('url', 'short_text', 'email', 'newsletter'),
                 'submit_value'  => 'Neues Tool anlegen',
                 'html_updated_message' => '<div id="message" class="updated">
                                                 <p>Vielen Dank. Dein Tool wurde gespeichert.<br>Es wird vor Veröffentlichung von der Redaktion geprüft.</p>
