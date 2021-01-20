@@ -6,6 +6,13 @@
 @import 'custom-fonts';
 
 
+.block-editor{
+  .wp-block {
+    max-width: 1200px;
+
+  }
+}
+
 .wunschbox-wrapper{
   justify-content: center;
   margin-top: 50px;
