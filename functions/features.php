@@ -630,11 +630,21 @@ function wlo_registration_save( $user_id ) {
 
 }
 
+function restrict_redaktionsumgebung(){
+    if(is_page (9935) && !is_user_logged_in ()){
+        $loginUrl = home_url('/login/');
+        wp_redirect($loginUrl);
+        exit();
+    }
+}
+add_action( 'template_redirect', 'restrict_redaktionsumgebung' );
+
 
 function wlo_update_custom_roles() {
-    if ( get_option( 'custom_roles_version' ) < 2 ) {
+    if ( get_option( 'custom_roles_version' ) < 4 ) {
         add_role( 'portal_redakteur', 'Themenportal Redakteur', get_role( 'editor' )->capabilities );
-        update_option( 'custom_roles_version', 2 );
+        add_role( 'community_redakteur', 'Community Redakteur', get_role( 'subscriber' )->capabilities );
+        update_option( 'custom_roles_version', 4 );
     }
 }
 add_action( 'init', 'wlo_update_custom_roles' );
