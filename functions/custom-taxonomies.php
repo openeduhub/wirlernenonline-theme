@@ -15,7 +15,7 @@ function recurseBuildTaxonomy($taxonomy, $skos, int $parent){
                 'name' => $s->prefLabel->de
             ]);
         } else {
-            $parent2 = wp_insert_term($s->prefLabel->de, $taxonomyId, [ 'slug' => $id ])['term_id'];
+            $parent2 = wp_insert_term($s->prefLabel->de, $taxonomyId, [ 'slug' => $id, 'parent' => $parent ])['term_id'];
         }
         if($s -> narrower){
             recurseBuildTaxonomy($taxonomy, $s -> narrower, $parent2);
