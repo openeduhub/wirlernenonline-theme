@@ -71,6 +71,27 @@ function acf_autoload_edu_context_field_choices( $field ) {
 
 add_filter('acf/load_field/name=educationalContext', 'acf_autoload_edu_context_field_choices');
 
+function acf_autoload_teaching_methods_field_choices( $field ) {
+    return buildTaxonomyForField(
+        $field,
+        'Unterrichtsmethoden',
+        'teachingMethods',
+        'http://w3id.org/openeduhub/vocabs-playground/teachingMethods/index.json');
+}
+
+add_filter('acf/load_field/name=teachingMethods', 'acf_autoload_teaching_methods_field_choices');
+
+function acf_autoload_digital_competencies_field_choices( $field ) {
+    return buildTaxonomyForField(
+        $field,
+        'Digitale Kompetenzen',
+        'digitalCompetencies',
+        'https://openeduhub.github.io/oeh-metadata-vocabs-playground/w3id.org/openeduhub/vocabs-playground/digitalCompetencies/index.json');
+}
+
+add_filter('acf/load_field/name=digitalCompetencies', 'acf_autoload_digital_competencies_field_choices');
+
+
 function acf_autoload_intended_user_role_field_choices( $field ) {
 
     // reset choices
@@ -284,10 +305,10 @@ function render_intendedEndUserRole_field( $field ) {
         echo '<p class="acf-preset-desc">Voreinstellung: </p><br/>';
         foreach ($field['choices'] as $value => $label) {
             if(in_array($value, $intendedEndUserRoles))
-    {
-        echo '<div class="acf-preset-field">' . $label . '</div>';
-    }
-    }
+            {
+                echo '<div class="acf-preset-field">' . $label . '</div>';
+            }
+        }
         echo '</div>';
     }
 
