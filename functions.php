@@ -31,6 +31,9 @@ require_once(get_template_directory().'/functions/acf-autoload.php');
 // Register Custom API Endpoint
 require_once(get_template_directory().'/functions/rest-api.php');
 
+// Register ajax functions
+require_once(get_template_directory().'/functions/ajax.php');
+
 
 // Handle User Regristration / LDAP
 //require_once(get_template_directory().'/functions/users.php');
