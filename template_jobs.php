@@ -1,4 +1,8 @@
-<?php /* Template Name: Jobs */
+<?php
+/*
+Template Name: Jobs
+Template Post Type: post, page, portal
+ */
 
 get_header();
 ?>
