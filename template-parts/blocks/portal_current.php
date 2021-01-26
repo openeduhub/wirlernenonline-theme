@@ -150,10 +150,13 @@ $search_query = '
               }
               previewImage {
                 thumbnail {
-                  __typename
-                  ... on ExternalThumbnail{
-                    url
-                  }
+                    ... on EmbeddedThumbnail {
+                        mimetype
+                        image
+                    }
+                    ... on ExternalThumbnail {
+                        url
+                    }
                 }
                 url
               }
@@ -210,7 +213,11 @@ if (get_field('custom_search_active')) {
 
                     <div class="portal_latest_search_results_list_content">
                         <a href="<?php echo $contentUrl; ?>">
-                            <img src="<?php echo $hit->previewImage->thumbnail->url; ?>" alt="">
+                            <?php if(empty($hit->previewImage->thumbnail->url)){ ?>
+                                <img src="data:<?php echo $hit->previewImage->thumbnail->mimetype; ?>;base64,<?php echo $hit->previewImage->thumbnail->image; ?>" alt="">
+                            <?php }else{ ?>
+                                <img src="<?php echo $hit->previewImage->thumbnail->url; ?>" alt="">
+                            <?php } ?>
                         </a>
                         <div class="portal_latest_search_results_list_content_text">
                             <a href="<?php echo $contentUrl; ?>"><h5><?php echo $hit->lom->general->title; ?></h5></a>
@@ -235,7 +242,11 @@ if (get_field('custom_search_active')) {
                 <div class="portal_latest_search_results_grid_container">
                     <div class="portal_latest_search_results_grid_content">
                         <a href="<?php echo $contentUrl; ?>">
-                            <img src="<?php echo $hit->previewImage->thumbnail->url; ?>" alt="">
+                            <?php if(empty($hit->previewImage->thumbnail->url)){ ?>
+                                <img src="data:<?php echo $hit->previewImage->thumbnail->mimetype; ?>;base64,<?php echo $hit->previewImage->thumbnail->image; ?>" alt="">
+                            <?php }else{ ?>
+                                <img src="<?php echo $hit->previewImage->thumbnail->url; ?>" alt="">
+                            <?php } ?>
                         </a>
                         <div class="portal_latest_search_results_grid_content_text">
                             <a href="<?php echo $contentUrl; ?>"><h5><?php echo $hit->lom->general->title; ?></h5></a>
@@ -276,7 +287,11 @@ if (get_field('custom_search_active')) {
                         <div class="portal_latest_search_results_slider_content">
                             <a href="<?php echo $contentUrl; ?>"
                                target="_blank">
-                                <img src="<?php echo $hit->previewImage->thumbnail->url; ?>" alt="">
+                                <?php if(empty($hit->previewImage->thumbnail->url)){ ?>
+                                    <img src="data:<?php echo $hit->previewImage->thumbnail->mimetype; ?>;base64,<?php echo $hit->previewImage->thumbnail->image; ?>" alt="">
+                                <?php }else{ ?>
+                                    <img src="<?php echo $hit->previewImage->thumbnail->url; ?>" alt="">
+                                <?php } ?>
                             </a>
                             <div class="portal_latest_search_results_slider_content_text">
                                 <a href="<?php echo $contentUrl; ?>" target="_blank">
