@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
 <?php get_template_part('head') ?>
+<a class="skip-link" href="#main-content">Zum Inhalt springen</a>
 <body <?php body_class(); ?>>
 	<header id="site-header" class="site-header" role="banner">
 		<div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="large">
