@@ -381,6 +381,14 @@ acf_register_block_type(['name' => 'fachportal_header_block',
     'icon'				=> 'format-image',
     'keywords'			=> [ ],
 ]);
+acf_register_block_type(['name' => 'fachportal_footer_block',
+    'title'				=> __('Fachportal: Footer'),
+    'description'		=> __('Zeigt den Footer an.'),
+    'render_template'	=> 'template-parts/blocks/fachportal_footer_block.php',
+    'category'			=> 'themenportal',
+    'icon'				=> 'format-image',
+    'keywords'			=> [ ],
+]);
 }
 if (function_exists('acf_register_block_type')) {
     add_action('acf/init', 'register_acf_block_types');

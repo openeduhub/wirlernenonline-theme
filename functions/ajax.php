@@ -14,9 +14,12 @@ function wlo_submenu() {
     global $wpdb; // this is how you get access to the database
 
     $nodeId =  $_POST['nodeID'];
-    $disciplines =  $_POST['disciplines'];
-    $educationalContexts =  $_POST['educationalContexts'];
-    $intendedEndUserRoles =  $_POST['intendedEndUserRoles'];
+    $educational_filter_json =  $_POST['educational_filter_values'];
+    $educational_filter_values = json_decode(html_entity_decode($educational_filter_json), true);
+
+    $disciplines = $educational_filter_values["disciplines"];
+    $educationalContexts = $educational_filter_values["educationalContexts"];
+    $intendedEndUserRoles = $educational_filter_values["intendedEndUserRoles"];
 
     $url = WLO_REPO . 'rest/collection/v1/collections/local/' . $nodeId . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true&fetchCounts=false&';
     $response = callWloRestApi($url);
@@ -30,16 +33,22 @@ function wlo_submenu() {
                 $ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
 
                 // Filter Disciplines
-                if (wlo_edu_filter($prop->{'ccm:taxonid'}, $disciplines, "map_vocab_disciplines_value_only")) {
-                    continue;
+                if (!empty($prop->{'ccm:taxonid'})) {
+                    if (wlo_edu_filter($prop->{'ccm:taxonid'}, $disciplines, "map_vocab_disciplines_value_only")) {
+                        continue;
+                    }
                 }
                 // Filter EducationalContext
-                if (wlo_edu_filter($prop->{'ccm:educationalcontext'}, $educationalContexts, "map_vocab_educationalContexts_value_only")) {
-                    continue;
+                if (!empty($prop->{'ccm:educationalcontext'})) {
+                    if (wlo_edu_filter($prop->{'ccm:educationalcontext'}, $educationalContexts, "map_vocab_educationalContexts_value_only")) {
+                        continue;
+                    }
                 }
                 // Filter IntendedEndUserRole
-                if (wlo_edu_filter($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, "map_vocab_intendedEndUserRoles_value_only")) {
-                    continue;
+                if (!empty($prop->{'ccm:educationalintendedenduserrole'})) {
+                    if (wlo_edu_filter($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, "map_vocab_intendedEndUserRoles_value_only")) {
+                        continue;
+                    }
                 }
 
                 $title = $collection->title;
@@ -85,13 +94,11 @@ function collection_content_browser() {
     $generalKeywords = $educational_filter_values["generalKeyword"];
     $oehWidgets = $educational_filter_values["oehWidgets"];
 
-
     //$addContentPageID = 9614; //dev
     $addContentPageID = 9933; //pre
     //$addContentPageID = 9081; //local
 
     /* ------------------------------------------------------------------- */
-
 
     $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references';
     $response = callWloRestApi($url);
@@ -131,60 +138,43 @@ function collection_content_browser() {
             continue;
         }
 
-        if (!checkPropertyMatch($prop->{'ccm:taxonid'}, $disciplines, true)) {
-            continue;
+        if (!empty($prop->{'ccm:taxonid'})) {
+            if (!checkPropertyMatch($prop->{'ccm:taxonid'}, $disciplines, true)) {
+                continue;
+            }
         }
-        if (!checkPropertyMatch($prop->{'ccm:educationalcontext'}, $educationalContexts, true)) {
-            continue;
+        if (!empty($prop->{'ccm:educationalcontext'})) {
+            if (!checkPropertyMatch($prop->{'ccm:educationalcontext'}, $educationalContexts, true)) {
+                continue;
+            }
         }
-        if (!checkPropertyMatch($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, true)) {
-            continue;
+        if (!empty($prop->{'ccm:educationalintendedenduserrole'})) {
+            if (!checkPropertyMatch($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, true)) {
+                continue;
+            }
         }
 
         // Filter ObjectType
-        $propObjectType = $prop->{'ccm:objectType'};
-        if ($propObjectType && !empty($propObjectType) && !empty($objectTypes) && !in_array($propObjectType, $objectTypes)) {
-            continue;
+        if (!empty($prop->{'ccm:objectType'})) {
+            $propObjectType = $prop->{'ccm:objectType'};
+            if ($propObjectType && !empty($propObjectType) && !empty($objectTypes) && !in_array($propObjectType, $objectTypes)) {
+                continue;
+            }
         }
-
-        $displayObjectType = (!empty($objectTypes)) ? array_intersect($propObjectType, $objectTypes)[0] : $propObjectType[0];
 
         // Filter LearningResourceType
-        $propLearningResourceTypes = $prop->{'ccm:educationallearningresourcetype'};
-        $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? array_filter($propLearningResourceTypes) : [];
-        $propLearningResourceTypes = (!empty($propLearningResourceTypes)) ? trim_https_http_from_array($propLearningResourceTypes) : [];
-
-        $learningResourceTypesVocab = (!empty($learningResourceTypes) && !empty(array_filter($learningResourceTypes))) ? array_map("map_vocab_learning_resource_types_value_only", $learningResourceTypes) : [];
-        $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? array_filter($learningResourceTypesVocab) : [];
-        $learningResourceTypesVocab = (!empty($learningResourceTypesVocab)) ? trim_https_http_from_array($learningResourceTypesVocab) : [];
-
-        $intersectLearningResourceType = array_intersect($propLearningResourceTypes, $learningResourceTypesVocab);
-        $filterLearningResourceTypes = (empty($propLearningResourceTypes)) ? true : empty($intersectLearningResourceType);
-        if (!empty($learningResourceTypesVocab) && $filterLearningResourceTypes) {
-            continue;
+        if (!empty($prop->{'ccm:educationallearningresourcetype'})){
+            if (wlo_edu_filter($prop->{'ccm:educationallearningresourcetype'}, $learningResourceTypes, "map_vocab_learning_resource_types_value_only")) {
+                continue;
+            }
         }
 
-        $displayLearningResourceType = (!empty($intersectLearningResourceType)) ? $intersectLearningResourceType[0] : $propLearningResourceTypes[0];
-        $displayLearningResourceType = (!empty($displayLearningResourceType)) ? $displayLearningResourceType : 'Inhalt';
-
-        // Filter LearningResourceType
-        $propOehWidgets = $prop->{'ccm:oeh_widgets'};
-        $propOehWidgets = (!empty($propOehWidgets)) ? array_filter($propOehWidgets) : [];
-        $propOehWidgets = (!empty($propOehWidgets)) ? trim_https_http_from_array($propOehWidgets) : [];
-
-        $oehWidgetsVocab = (!empty($oehWidgets) && !empty(array_filter($oehWidgets))) ? array_map("map_vocab_oeh_widgets_value_only", $oehWidgets) : [];
-        $oehWidgetsVocab = (!empty($oehWidgetsVocab)) ? array_filter($oehWidgetsVocab) : [];
-        $oehWidgetsVocab = (!empty($oehWidgetsVocab)) ? trim_https_http_from_array($oehWidgetsVocab) : [];
-
-        $intersectOehWidgets = array_intersect($propOehWidgets, $oehWidgetsVocab);
-        $filterOehWidgets = (empty($propOehWidgets)) ? true : empty($intersectOehWidgets);
-
-        if (!empty($oehWidgetsVocab) && $filterOehWidgets) {
-            continue;
+        // Filter Widgets
+        if (!empty($prop->{'ccm:oeh_widgets'})){
+            if (wlo_edu_filter($prop->{'ccm:oeh_widgets'}, $oehWidgets, "map_vocab_oeh_widgets_value_only")) {
+                continue;
+            }
         }
-
-        $displayOehWidgets = (!empty($intersectOehWidgets)) ? $intersectOehWidgets[0] : $propOehWidgets[0];
-        $displayOehWidgets = (!empty($displayOehWidgets)) ? $displayOehWidgets : 'Inhalt';
 
         $contentArray[] = array(
             'mediatype' => $mediaTypes[$reference->mediatype],
