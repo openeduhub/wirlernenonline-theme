@@ -263,7 +263,7 @@ function callWloGraphApi($search_query)
 function callWloRestApi($url, $type='GET', $body=null)
 {
     $restApiCacheObj = null;
-    if ( false === ( $value = get_transient( $url ) ) ) {
+    if ( ( get_transient( $url.$body ) ) === false ) {
         // this code runs when there is no valid transient set
         // Get Select-Field Options from Vocab Scheme
         try {
@@ -290,9 +290,9 @@ function callWloRestApi($url, $type='GET', $body=null)
         curl_close($curl);
 
         $restApiCacheObj = json_decode($response);
-        set_transient( $url, $restApiCacheObj, 60 );
+        set_transient( $url.$body, $restApiCacheObj, 60 );
     } else{
-        $restApiCacheObj = get_transient( $url );
+        $restApiCacheObj = get_transient( $url.$body );
     }
 
     return $restApiCacheObj;
@@ -324,146 +324,18 @@ function getWloVocaps($type){
     return $vocab_json;
 }
 
-function get_educational_filter_values($postID)
-{
+function get_educational_filter_values($postID){
 
-    //Collection Level
-    //******************************************************************************************************************
-    $block_var_collection_level = (is_numeric(get_field('collection_level'))) ? get_field('collection_level') : [];
-    $portal_var_collection_level = (is_numeric(get_field('collection_level', $postID))) ? get_field('collection_level', $postID) : [];
-
-    $collection_level = (is_numeric($portal_var_collection_level)) ? $portal_var_collection_level : [];
-    $collection_level = (is_numeric($block_var_collection_level)) ? $block_var_collection_level : $collection_level;
-    $collection_level = (is_numeric($collection_level)) ? $collection_level : get_post_meta($postID, 'collection_level', true);
-
-    //Collection URL
-    //******************************************************************************************************************
-    $block_var_collection_url = (!empty(get_field('collection_url'))) ? get_field('collection_url') : [];
-    $portal_var_collection_url = (!empty(get_field('collection_url', $postID))) ? get_field('collection_url', $postID) : [];
-
-    $collection_url = (!empty($portal_var_collection_url)) ? $portal_var_collection_url : [];
-    $collection_url = (!empty($block_var_collection_url)) ? $block_var_collection_url : $collection_url;
-    $collection_url = (!empty($collection_url)) ? $collection_url : get_post_meta($postID, 'collection_url', true);
-
-    //Disciplines
-    //******************************************************************************************************************
-    $query_var_disciplines = (!empty(get_query_var('discipline', null))) ? explode(";", get_query_var('discipline', null)) : [];
-    $block_var_disciplines = (!empty(get_field('discipline'))) ? get_field('discipline') : [];
-    $portal_var_disciplines = (!empty(get_field('discipline', $postID))) ? get_field('discipline', $postID) : [];
-
-    $disciplines = (!empty($portal_var_disciplines)) ? $portal_var_disciplines : [];
-    $disciplines = (!empty($block_var_disciplines)) ? $block_var_disciplines : $disciplines;
-    $disciplines = (!empty($disciplines)) ? array_column($disciplines, 'value') : [];
-    $disciplines = (!empty($query_var_disciplines)) ? $query_var_disciplines : $disciplines;
-
-    // Preview
-    $disciplines = (!empty($disciplines)) ? $disciplines : get_post_meta($postID, 'discipline', false)[0];
-
-
-
-    //EducationalContext
-    //******************************************************************************************************************
-    $query_var_educationalContexts = (!empty(get_query_var('educationalContext', null))) ? explode(";", get_query_var('educationalContext', null)) : [];
-    $block_var_educationalContexts = (!empty(get_field('educationalContext'))) ? get_field('educationalContext') : [];
-    $portal_var_educationalContexts = (!empty(get_field('educationalContext', $postID))) ? get_field('educationalContext', $postID) : [];
-
-
-    $educationalContexts = (!empty($portal_var_educationalContexts)) ? $portal_var_educationalContexts : [];
-    $educationalContexts = (!empty($block_var_educationalContexts)) ? $block_var_educationalContexts : $educationalContexts;
-    $educationalContexts = (!empty($educationalContexts)) ? array_column($educationalContexts, 'value') : [];
-    $educationalContexts = (!empty($query_var_educationalContexts)) ? $query_var_educationalContexts : $educationalContexts;
-
-    // Preview
-    $educationalContexts = (!empty($educationalContexts)) ? $educationalContexts : get_post_meta($postID, 'educationalContext', false)[0];
-
-
-    //intendedEndUserRole
-    //******************************************************************************************************************
-    $query_var_intendedEndUserRoles = (!empty(get_query_var('intendedEndUserRole', null))) ? explode(";", get_query_var('intendedEndUserRole', null)) : [];
-    $block_var_intendedEndUserRoles = (!empty(get_field('intendedEndUserRole'))) ? get_field('intendedEndUserRole') : [];
-    $portal_var_intendedEndUserRoles = (!empty(get_field('intendedEndUserRole', $postID))) ? get_field('intendedEndUserRole', $postID) : [];
-
-    $intendedEndUserRoles = (!empty($portal_var_intendedEndUserRoles)) ? $portal_var_intendedEndUserRoles : [];
-    $intendedEndUserRoles = (!empty($block_var_intendedEndUserRoles)) ? $block_var_intendedEndUserRoles : $intendedEndUserRoles;
-    $intendedEndUserRoles = (!empty($intendedEndUserRoles)) ? array_column($intendedEndUserRoles, 'value') : [];
-    $intendedEndUserRoles = (!empty($query_var_intendedEndUserRoles)) ? $query_var_intendedEndUserRoles : $intendedEndUserRoles;
-
-    // Preview
-    $intendedEndUserRoles = (!empty($intendedEndUserRoles)) ? $intendedEndUserRoles : get_post_meta($postID, 'intendedEndUserRole', false)[0];
-
-
-    //OER
-    //******************************************************************************************************************
-    $query_var_oer = get_query_var('oer', false);
-    $block_var_oer = get_field('oer');
-    $portal_var_oer = (!empty(get_field('oer', $postID))) ? get_field('oer', $postID) : [];
-
-    $oer = (!empty($portal_var_oer)) ? $portal_var_oer : false;
-    $oer = (!empty($block_var_oer)) ? $block_var_oer : $oer;
-    $oer = (!empty($query_var_oer)) ? $query_var_oer : $oer;
-
-    // Preview
-    $oer = (!empty($oer)) ? $oer : get_post_meta($postID, 'oer', false)[0];
-
-    //objectTypes
-    //******************************************************************************************************************
-    $query_var_objectTypes = (!empty(get_query_var('objectTypes', null))) ? explode(";", get_query_var('objectTypes', null)) : [];
-    $block_var_objectTypes = (!empty(get_field('objectTypes'))) ? get_field('objectTypes') : [];
-    $portal_var_objectTypes = (!empty(get_field('objectTypes', $postID))) ? get_field('objectTypes', $postID) : [];
-
-    $objectTypes = (!empty($portal_var_objectTypes)) ? $portal_var_objectTypes : [];
-    $objectTypes = (!empty($block_var_objectTypes)) ? $block_var_objectTypes : $objectTypes;
-    $objectTypes = (!empty($objectTypes)) ? array_column($objectTypes, 'value') : [];
-    $objectTypes = (!empty($query_var_objectTypes)) ? $query_var_objectTypes : $objectTypes;
-
-    // Preview
-    $objectTypes = (!empty($objectTypes)) ? $objectTypes : get_post_meta($postID, 'objectTypes', false)[0];
-
-
-    //learningResourceTypes
-    //******************************************************************************************************************
-    $query_var_learningResourceTypes = (!empty(get_query_var('learningResourceTypes', null))) ? explode(";", get_query_var('learningResourceTypes', null)) : [];
-    $block_var_learningResourceTypes = (!empty(get_field('learningResourceTypes'))) ? get_field('learningResourceTypes') : [];
-    $portal_var_learningResourceTypes = (!empty(get_field('learningResourceTypes', $postID))) ? get_field('learningResourceTypes', $postID) : [];
-
-    $learningResourceTypes = (!empty($portal_var_learningResourceTypes)) ? $portal_var_learningResourceTypes : [];
-    $learningResourceTypes = (!empty($block_var_learningResourceTypes)) ? $block_var_learningResourceTypes : $learningResourceTypes;
-    $learningResourceTypes = (!empty($learningResourceTypes)) ? array_column($learningResourceTypes, 'value') : [];
-    $learningResourceTypes = (!empty($query_var_learningResourceTypes)) ? $query_var_learningResourceTypes : $learningResourceTypes;
-
-    // Preview
-    $learningResourceTypes = (!empty($learningResourceTypes)) ? $learningResourceTypes : get_post_meta($postID, 'learningResourceTypes', false)[0];
-
-    //generalKeyword
-    //******************************************************************************************************************
-    $query_var_generalKeywords = (!empty(get_query_var('generalKeyword', null))) ? explode(";", get_query_var('generalKeyword', null)) : [];
-    $block_var_generalKeywords = (!empty(get_field('generalKeyword'))) ? get_field('generalKeyword') : [];
-    $portal_var_generalKeywords = (!empty(get_field('generalKeyword', $postID))) ? get_field('generalKeyword', $postID) : [];
-
-    $generalKeywords = (!empty($portal_var_generalKeywords)) ? $portal_var_generalKeywords : '';
-    $generalKeywords = (!empty($block_var_generalKeywords)) ? $block_var_generalKeywords : $generalKeywords;
-    $generalKeywords = (!empty($query_var_generalKeywords)) ? $query_var_generalKeywords : $generalKeywords;
-
-    // Preview
-    $generalKeywords = (!empty($generalKeywords)) ? $generalKeywords : get_post_meta($postID, 'generalKeyword', true)[0];
-    $generalKeywords = (!empty($generalKeywords)) ? explode(",", $generalKeywords) : [];
-
-
-    //OEH Widgets
-    //******************************************************************************************************************
-    $query_var_oehWidgets= (!empty(get_query_var('oehWidgets', null))) ? explode(";", get_query_var('oehWidgets', null)) : [];
-    $block_var_oehWidgets = (!empty(get_field('oehWidgets'))) ? get_field('oehWidgets') : [];
-    $portal_var_oehWidgets = (!empty(get_field('oehWidgets', $postID))) ? get_field('oehWidgets', $postID) : [];
-
-    $oehWidgets = (!empty($portal_var_oehWidgets)) ? $portal_var_oehWidgets : [];
-    $oehWidgets = (!empty($block_var_oehWidgets)) ? $block_var_oehWidgets : $oehWidgets;
-    $oehWidgets = (!empty($oehWidgets)) ? array_column($oehWidgets, 'value') : [];
-    $oehWidgets = (!empty($query_var_oehWidgets)) ? $query_var_oehWidgets : $oehWidgets;
-
-    // Preview
-    $oehWidgets = (!empty($oehWidgets)) ? $oehWidgets : get_post_meta($postID, 'oehWidgets', false)[0];
-
-
+    $collection_level = map_educational_filter_values('collection_level', $postID);
+    $collection_url = map_educational_filter_values('collection_url', $postID);
+    $disciplines = map_educational_filter_values('discipline', $postID, true);
+    $educationalContexts = map_educational_filter_values('educationalContext', $postID, true);
+    $intendedEndUserRoles = map_educational_filter_values('intendedEndUserRole', $postID, true);
+    $oer = map_educational_filter_values('oer', $postID);
+    $objectTypes = map_educational_filter_values('objectTypes', $postID, true);
+    $learningResourceTypes = map_educational_filter_values('learningResourceTypes', $postID, true);
+    $generalKeywords = map_educational_filter_values('generalKeyword', $postID);
+    $oehWidgets = map_educational_filter_values('oehWidgets', $postID, true);
 
     return [
         "collectionUrl" => (!empty($collection_url)) ? $collection_url : '',
@@ -479,47 +351,50 @@ function get_educational_filter_values($postID)
     ];
 }
 
-function map_vocab_disciplines($n)
-{
+function map_educational_filter_values($filter, $postID, $array = false){
+
+    if (!empty(get_query_var($filter, null))){
+        return get_query_var($filter, null);
+    }else if (!empty(get_field($filter))) {
+        return ($array) ? array_column(get_field($filter), 'value') : get_field($filter);
+    }else if (!empty(get_field($filter, $postID))){
+        return ($array) ? array_column(get_field($filter, $postID), 'value') : get_field($filter, $postID);
+    }
+    return '';
+}
+
+
+function map_vocab_disciplines($n){
     return "\"http://w3id.org/openeduhub/vocabs/discipline/" . strval($n) . "\"";
 }
-function map_vocab_educationalContexts($n)
-{
+function map_vocab_educationalContexts($n){
     return "\"http://w3id.org/openeduhub/vocabs/educationalContext/" . strval($n) . "\"";
 }
-function map_vocab_intendedEndUserRoles($n)
-{
+function map_vocab_intendedEndUserRoles($n){
     return "\"http://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "\"";
 }
-function map_vocab_learningResourceTypes($n)
-{
+function map_vocab_learningResourceTypes($n){
     return "\"http://w3id.org/openeduhub/vocabs/learningResourceType/" . strval($n) . "\"";
 }
-function map_vocab_disciplines_value_only($n)
-{
+function map_vocab_disciplines_value_only($n){
     return "http://w3id.org/openeduhub/vocabs/discipline/" . strval($n) . "";
 }
-function map_vocab_educationalContexts_value_only($n)
-{
+function map_vocab_educationalContexts_value_only($n){
     return "http://w3id.org/openeduhub/vocabs/educationalContext/" . strval($n) . "";
 }
-function map_vocab_intendedEndUserRoles_value_only($n)
-{
+function map_vocab_intendedEndUserRoles_value_only($n){
     return "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "";
 }
 
-function map_vocab_learning_resource_types_value_only($n)
-{
+function map_vocab_learning_resource_types_value_only($n){
     return "http://w3id.org/openeduhub/vocabs/learningResourceType/" . strval($n) . "";
 }
 
-function map_vocab_oeh_widgets_value_only($n)
-{
+function map_vocab_oeh_widgets_value_only($n){
     return "http://w3id.org/openeduhub/vocabs/widgets/" . strval($n) . "";
 }
 
-function map_vocab_value_to_quotes($n)
-{
+function map_vocab_value_to_quotes($n){
     return "\"" . strval($n) . "\"";
 }
 
@@ -529,7 +404,9 @@ function trim_https_http_from_array($array){
 
 
 function wlo_edu_filter($collectionData, $wpData, $filter){
-    $propDisciplines = $collectionData;
+    $propDisciplines = (!empty($collectionData)) ? $collectionData : [];
+    $wpData = (!empty($wpData)) ? $wpData : [];
+
     $propDisciplines = (!empty($propDisciplines)) ? array_filter($propDisciplines) : [];
     $propDisciplines = (!empty($propDisciplines)) ? trim_https_http_from_array($propDisciplines) : [];
 
@@ -808,4 +685,44 @@ function registerNewsletter($cf7) {
     }
 
     return $wpcf;
+}
+
+function wloSubjectColors($subject){
+    switch ($subject) {
+        case 'Biologie':
+        case 'Mathematik':
+        case 'Physik':
+        case 'Chemie':
+        case 'Informatik':
+            return '#003B7C';
+
+        case 'Politik':
+        case 'Geschichte':
+            return '#3DA6EE';
+
+        case 'Religion':
+            return '#7F6FEE';
+
+        case 'Musik':
+        case 'Kunst':
+        case 'Darstellendes Spiel':
+            return '#E73445';
+
+        case 'Deutsch':
+        case 'Deutsch als Zweitsprache':
+            return '#EC4A70';
+
+        case 'Englisch':
+        case 'Türkisch':
+        case 'Spanisch':
+            return '#EF809A';
+
+        case 'Sport':
+            return '#B4DA1C';
+
+        case 'Medienbildung':
+        case 'Nachhaltigkeit':
+        default:
+            return '#FFB930';
+    }
 }

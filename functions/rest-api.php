@@ -261,6 +261,7 @@ add_action( 'rest_api_init', function () {
     register_rest_route( 'portal/v1', '/add/', array(
         'methods' => 'GET',
         'callback' => 'add_portal',
+        'permission_callback' => '__return_true',
         'args' => array(
             'collectionId' => array(
                 'validate_callback' => function($param, $request, $key) {
