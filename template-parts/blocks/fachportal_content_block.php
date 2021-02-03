@@ -14,6 +14,7 @@ $objectTypes = $educational_filter_values["objectTypes"];
 $oehWidgets = $educational_filter_values["oehWidgets"];
 
 $pageTitle = get_the_title($postID);
+$pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
 /* ------------------------------------------------------------------- */
 
@@ -22,38 +23,19 @@ preg_match_all($pattern, $collectionUrl, $matches);
 
 $collectionID = $matches[1][0];
 
-$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $matches[1][0] . '/children/references';
-$response = callWloRestApi($url);
+//$addContentPageID = 9614; //dev
+$addContentPageID = 9933; //pre
+//$addContentPageID = 9081; //local
 
-$mediaTypes = array(
-    "file-image" => "Bild",
-    "file-word" => "Word-Dokument",
-    "file-excel" => "Tabelle",
-    "file-powerpoint" => "Präsentation",
-    "file-odt" => "OpenOffice Dokument",
-    "file-ods" => "OpenOffice Tabelle",
-    "file-odp" => "OpenOffice Präsentation",
-    "file-zip" => "Zip-Datei",
-    "file-script" => "Skript",
-    "file-xml" => "XML-Datei",
-    "file-audio" => "Audio",
-    "file-txt" => "Textdatei",
-    "file-video" => "Video",
-    "file-qti" => "ONYX-Datei",
-    "file-h5p" => "H5P-Datei",
-    "file-pdf" => "PDF-Datei",
-    "link" => "Website",
-    "folder" => "Ordner",
-    "file" => "Unbekannt",
-    "collection" => "Sammlung",
-    "saved_search" => "Suche"
-);
+$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references';
+$response = callWloRestApi($url);
 
 $headline = get_field('contentType')['label'];
 if(!empty(get_field('headline'))){
     $headline = get_field('headline');
 }
 
+//$rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
 $rgbBackgroundColor = '255,255,255';
 
 switch (get_field('contentType')['value']){
@@ -92,7 +74,7 @@ if (!empty($response->references)){
         }
 
         $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
-        $nodeLicense = $prop->{'ccm:commonlicense_key'}[0];
+        $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
         $isOER = false;
         foreach ($oerLicenses as $license){
             if( $nodeLicense == $license){
@@ -102,18 +84,18 @@ if (!empty($response->references)){
 
         $contentArray[] = array(
             'id' => $reference->ref->id,
-            'mediatype' => $mediaTypes[$reference->mediatype],
             'image_url' => $reference->preview->url,
             'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
             'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
             'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-            'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-            'subjects' => $prop->{'ccm:taxonid_DISPLAYNAME'},
-            'resourcetype' => $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'},
-            'educationalcontext' => $prop->{'ccm:educationalcontext_DISPLAYNAME'},
+            'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
+            'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
+            'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
+            'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
             'oer' => $isOER,
-            'widget' =>  $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]
+            'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
         );
+
     } //end foreach
 }
 
@@ -126,13 +108,16 @@ if (get_field('slidesToShow')) {
 if (get_field('slidesToScroll')) {
     $slidesToScroll = get_field('slidesToScroll');
 }
+$showSliderDots = 'true';
+if (count($contentArray) <= 4){
+    $showSliderDots = 'false';
+}
 
 ?>
 
 <div class="fachportal-content-block" id="<?php echo str_replace(' ', '-', get_field('contentType')['label']); ?>">
     <div class="header">
-        <h3><?php echo $headline.' ('.count($contentArray).')'; ?></h3>
-        <a href="#">Alle ansehen</a>
+        <h2><?php echo $headline.' ('.count($contentArray).')'; ?></h2>
     </div>
 
     <div class="content" id="<?php echo $sliderId; ?>">
@@ -143,7 +128,7 @@ if (get_field('slidesToScroll')) {
 
 
                         <?php if (!empty($content['image_url'])) { ?>
-                            <img class="main-image" src="<?php echo $content['image_url']; ?> alt="">
+                            <img class="main-image" src="<?php echo $content['image_url']; ?>" alt="">
                         <?php } ?>
                         <div class="content-info">
                             <div class="content-header">
@@ -161,8 +146,13 @@ if (get_field('slidesToScroll')) {
                                 <?php if (!empty($content['resourcetype'])){
                                     echo '<img src="'. get_template_directory_uri() .'/src/assets/img/img_icon.svg">';
                                     echo '<p>';
+                                    $i = 0;
                                     foreach ($content['resourcetype'] as $type){
-                                        echo $type.', ';
+                                        if(++$i === count($content['resourcetype'])) {
+                                            echo $type;
+                                        }else{
+                                            echo $type.', ';
+                                        }
                                     }
                                     echo '</p>';
                                 } ?>
@@ -171,8 +161,13 @@ if (get_field('slidesToScroll')) {
                                 <?php if (!empty($content['subjects'])){
                                     echo '<img src="'. get_template_directory_uri() .'/src/assets/img/subject_icon.svg">';
                                     echo '<p>';
+                                    $i = 0;
                                     foreach ($content['subjects'] as $subject) {
-                                        echo $subject . ', ';
+                                        if(++$i === count($content['subjects'])) {
+                                            echo $subject;
+                                        }else{
+                                            echo $subject.', ';
+                                        }
                                     }
                                     echo '</p>';
                                 } ?>
@@ -181,8 +176,13 @@ if (get_field('slidesToScroll')) {
                                 <?php if (!empty($content['educationalcontext'])){
                                     echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg">';
                                     echo '<p>';
+                                    $i = 0;
                                     foreach ($content['educationalcontext'] as $subject) {
-                                        echo  $subject . ', ';
+                                        if(++$i === count($content['educationalcontext'])) {
+                                            echo $subject;
+                                        }else{
+                                            echo $subject.', ';
+                                        }
                                     }
                                     echo '</p>';
                                 } ?>
@@ -195,7 +195,20 @@ if (get_field('slidesToScroll')) {
 
                 </div>
             <?php }
-        } ?>
+        }else{ ?>
+
+        <div class="widget-content no-widget-content">
+            <img class="main-image" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/no-content.png" alt="">
+            <div class="content-info no-content-info">
+                <div class="content-title">Noch kein Inhalt?</div>
+                <p class="content-description">Füge Inhalte zu diesem Thema hinzu...</p>
+                <a class="content-button no-content-button" href="<?php echo get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&headline=' . $pageTitle .'&pageDiscipline=' . $pageDiscipline; ?>" target="_blank">
+                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus.svg"> Inhalte vorschlagen
+                </a>
+            </div>
+        </div>
+
+        <?php } ?>
     </div>
 </div>
 
@@ -209,7 +222,7 @@ if (get_field('slidesToScroll')) {
                     slidesToShow: <?php echo $slidesToShow; ?>,
                     slidesToScroll: <?php echo $slidesToScroll; ?>,
                     arrows: true,
-                    dots: true,
+                    dots:  <?php echo $showSliderDots; ?>,
                     zIndex: 0,
                     responsive: [
                         {

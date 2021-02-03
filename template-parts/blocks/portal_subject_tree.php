@@ -5,17 +5,14 @@
 <?php
 
 if (!function_exists('helper_useLightColor')) {
-    function helper_useLightColor($bgColor)
-    {
-        $color = ($bgColor{0} === '#') ? substr($bgColor, 1, 7) : $bgColor;
+    function helper_useLightColor($bgColor){
+        $color = ($bgColor[0] === '#') ? substr($bgColor, 1, 7) : $bgColor;
         $r = intval(substr($color, 0, 2), 16); // hexToR
         $g = intval(substr($color, 2, 4), 16); // hexToG
         $b = intval(substr($color, 4, 6), 16); // hexToB
         return ((($r * 0.299) + ($g * 0.587) + ($b * 0.114)) > 186) ?
             false : true;
     }
-
-    ;
 }
 
 /* Filter Values prioritized GET/POST > Block-Setting > Portal-Setting */
@@ -46,10 +43,16 @@ $oer = $educational_filter_values["oer"];
 /* ------------------------------------------------------------------- */
 
 
+
 $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 
-$url = WLO_REPO . 'rest/collection/v1/collections/local/' . $matches[1][0] . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true&fetchCounts=false';
+$fetchCounts = 'false';
+if (get_field('next_level')) {
+    $fetchCounts = 'true';
+}
+
+$url = WLO_REPO . 'rest/collection/v1/collections/local/' . $matches[1][0] . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true&fetchCounts='.$fetchCounts;
 $response = callWloRestApi($url);
 
 ?>
@@ -73,19 +76,27 @@ $response = callWloRestApi($url);
                     foreach ($response->collections as $collection) {
                         if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated' || true) {
                             $prop = $collection->properties;
-                            $ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
+                            //$ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
+                            //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
 
                             // Filter Disciplines
-                            if (wlo_edu_filter($prop->{'ccm:taxonid'}, $disciplines, "map_vocab_disciplines_value_only")) {
-                                continue;
+                            if (!empty($prop->{'ccm:taxonid'})){
+                                if (wlo_edu_filter($prop->{'ccm:taxonid'}, $disciplines, "map_vocab_disciplines_value_only")) {
+                                    continue;
+                                }
                             }
+
                             // Filter EducationalContext
-                            if (wlo_edu_filter($prop->{'ccm:educationalcontext'}, $educationalContexts, "map_vocab_educationalContexts_value_only")) {
-                                continue;
+                            if (!empty($prop->{'ccm:educationalcontext'})) {
+                                if (wlo_edu_filter($prop->{'ccm:educationalcontext'}, $educationalContexts, "map_vocab_educationalContexts_value_only")) {
+                                    continue;
+                                }
                             }
                             // Filter IntendedEndUserRole
-                            if (wlo_edu_filter($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, "map_vocab_intendedEndUserRoles_value_only")) {
-                                continue;
+                            if (!empty($prop->{'ccm:educationalintendedenduserrole'})) {
+                                if (wlo_edu_filter($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, "map_vocab_intendedEndUserRoles_value_only")) {
+                                    continue;
+                                }
                             }
 
                             $nodeId = $collection->ref->id;
@@ -93,6 +104,7 @@ $response = callWloRestApi($url);
                             if (!empty($prop->{'ccm:collectionshorttitle'}[0])){
                                 $title = $prop->{'ccm:collectionshorttitle'}[0];
                             }
+
                             ?>
 
                                     <div class="portal_menu" style="background: <?php echo $backgroundColor ?>;">
@@ -100,48 +112,31 @@ $response = callWloRestApi($url);
                                             <h5><?php echo $title; ?></h5>
                                         </a>
 
-                                        <?php
-                                        $url = WLO_REPO . 'rest/collection/v1/collections/local/' . $nodeId . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true&fetchCounts=false&';
-                                        $response = callWloRestApi($url);
-
-                                        if (!empty($response->collections)) :?>
-                                        <div class="portal_menu_dropdown_button">
-                                            <div class="portal_menu_icon">▼</div>
-                                            <div class="portal_menu_dropdown" style="background: <?php echo $backgroundColor ?>;">
-                                                <?php foreach ($response->collections as $collection) {
-                                                    if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated') {
-                                                        $prop = $collection->properties;
-                                                        $ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
-
-                                                        // Filter Disciplines
-                                                        if (wlo_edu_filter($prop->{'ccm:taxonid'}, $disciplines, "map_vocab_disciplines_value_only")) {
-                                                            continue;
-                                                        }
-                                                        // Filter EducationalContext
-                                                        if (wlo_edu_filter($prop->{'ccm:educationalcontext'}, $educationalContexts, "map_vocab_educationalContexts_value_only")) {
-                                                            continue;
-                                                        }
-                                                        // Filter IntendedEndUserRole
-                                                        if (wlo_edu_filter($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, "map_vocab_intendedEndUserRoles_value_only")) {
-                                                            continue;
-                                                        }
-
-                                                        $title = $collection->title;
-                                                        if (!empty($prop->{'ccm:collectionshorttitle'}[0])){
-                                                            $title = $prop->{'ccm:collectionshorttitle'}[0];
-                                                        }
-                                                        ?>
-                                                        <a href="<?php echo $ccm_location; ?>">
-                                                            <h6><?php echo $title; ?></h6>
-                                                        </a>
-
-                                                    <?php }
-                                                } ?>
-
+                                        <?php if($collection->collection->childCollectionsCount > 0){ ?>
+                                            <div class="portal_menu_dropdown_button">
+                                                <div class="portal_menu_icon">▼</div>
+                                                <div id="<?php echo $nodeId; ?>" class="portal_menu_dropdown" style="background: <?php echo $backgroundColor ?>;">
+                                                    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <script type="text/javascript" >
+                                                jQuery(document).ready(function($) {
 
-                                        <?php endif; ?>
+                                                    var data = {
+                                                        'action': 'wlo_submenu',
+                                                        'nodeID': '<?php echo $nodeId; ?>',
+                                                        'educational_filter_values': '<?php echo htmlentities(json_encode($educational_filter_values)); ?>',
+                                                    };
+
+                                                    jQuery.post(ajaxurl, data, function(response) {
+                                                        jQuery('#<?php echo $nodeId; ?>').html(response);
+                                                    });
+                                                });
+                                            </script>
+                                        <?php } ?>
+
+
+
                                     </div>
 
                             <?php
@@ -155,7 +150,8 @@ $response = callWloRestApi($url);
                 <div class="portal_subject_grid">
                     <?php
                     foreach ($response->collections as $collection) {
-                        $ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
+                        //$ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
+                        $ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
                         if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated') {
                             $prop = $collection->properties;
 

@@ -6,10 +6,11 @@ require_once(get_template_directory().'/functions/wlo-config.php');
 // Register scripts and stylesheets
 require_once(get_template_directory().'/functions/enqueue-scripts.php');
 
+// Register custom posts
 require_once(get_template_directory().'/functions/custom-posts.php');
 
-// custom image sizes
-require_once(get_template_directory().'/functions/gutenberg-blocks.php');
+// Register custom features
+require_once(get_template_directory().'/functions/features.php');
 
 // custom image sizes
 require_once(get_template_directory().'/functions/image-sizes.php');
@@ -20,9 +21,7 @@ require_once(get_template_directory().'/functions/menu.php');
 // Gutenberg Blocks
 require_once(get_template_directory().'/functions/gutenberg-blocks.php');
 
-// Register custom features
-require_once(get_template_directory().'/functions/features.php');
-
+// Custom Taxonomies
 require_once(get_template_directory().'/functions/custom-taxonomies.php');
 
 // Register Autoload ACF Fields
@@ -31,6 +30,8 @@ require_once(get_template_directory().'/functions/acf-autoload.php');
 // Register Custom API Endpoint
 require_once(get_template_directory().'/functions/rest-api.php');
 
+// Register ajax functions
+require_once(get_template_directory().'/functions/ajax.php');
 
 // Handle User Regristration / LDAP
-//require_once(get_template_directory().'/functions/users.php');
+require_once(get_template_directory().'/functions/users.php');

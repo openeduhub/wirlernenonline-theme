@@ -20,6 +20,10 @@
         <input type="text" class="form_field" name="firstname" id="firstname" value="" />
       </label>
       -->
+        <label class="field_label required" for="dsgvo">
+            <input type="checkbox" name="dsgvo" value="" aria-label="Datenschutz zustimmen" required=""> Ich habe den Datenschutzhinweis gelesen
+            <span class="form-error">Bitte stimmen sie dem Datenschutzhinweis zu.</span>
+        </label>
       <button class="button no-space" type="submit" value="Submit">Anmelden</button>
     </div>
 
@@ -27,11 +31,10 @@
 </form>
 
 <p class="newsletter-data">
-    Indem ich meine E-Mail-Adresse eintrage, erkläre ich mich damit einverstanden, dass edu-sharing.net und Wikimedia
-    Deutschland mich aufgrund meiner Einwilligung (Art. 6 Abs. 1 lit. a) DSGVO) per E-Mail bis auf Widerruf, jedoch
-    spätestens bis zum 30.06.2021 über Freie Bildung zum Mitmachen informieren und die hierzu erforderlichen
-    Datenverarbeitungen vornimmt. Ich kann meine Einwilligung jederzeit mit Wirkung für die Zukunft per E-Mail an
-    redaktion@wirlernenonline.de widerrufen. Nähere Informationen zur Datenverarbeitung und zu meinen Rechten
-    finde ich unter <a href="https://wirlernenonline.de/datenschutz/">Datenschutz</a>.
+    Mit dem Klick auf „Absenden“ erkläre ich mich mit dem Empfang des wirlernenonline-Newsletters einverstanden.
+    Des Weiteren erkläre ich mich mit dessen Analyse durch individuelle Messung, Speicherung und Auswertung von
+    Öffnungsraten und der Klickraten in Empfängerprofilen zu Zwecken der Gestaltung künftiger Newsletter entsprechend
+    den Interessen unserer Leser einverstanden. Die Einwilligung kann mit Wirkung für die Zukunft widerrufen werden.
+    Ausführliche Hinweise erhältst du in unserer <a href="https://wirlernenonline.de/datenschutz/">Datenschutzerklärung</a>.
 </p>
 
