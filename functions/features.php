@@ -659,7 +659,7 @@ function callRepoApi($restUrl, $data=null, $contentType = 'Content-Type: applica
     $curl = curl_init($apiUrl);
     if ($mode == 'PUT'){
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-    }else{
+    }else if($mode == 'POST'){
         curl_setopt($curl, CURLOPT_POST, 1);
     }
     if (!empty($data)){
