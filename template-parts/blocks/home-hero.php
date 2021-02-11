@@ -48,6 +48,20 @@ $response = callWloGraphApi($data);
             jQuery('#wunschbox-cta').toggle('slow');
             jQuery('#wunschbox-small').toggle('slow');
         }
+
+        jQuery(document).ready(function() {
+            if (jQuery(this).width() < 900) {
+                jQuery('#wunschbox-cta').hide('slow');
+                jQuery('#wunschbox-small').show('slow');
+            }
+
+            jQuery(window).resize(function() {
+                if (jQuery(this).width() < 900) {
+                    jQuery('#wunschbox-cta').hide('slow');
+                    jQuery('#wunschbox-small').show('slow');
+                }
+            });
+        });
     </script>
     
     <div class="grid-x grid-margin-x">
