@@ -16,11 +16,6 @@ $collectionID = $matches[1][0];
 $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID;
 $response = callWloRestApi($url);
 
-if (empty($response->collection->properties->{'cm:description'}[0])){
-    $description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-}else{
-    $description = $response->collection->properties->{'cm:description'}[0];
-}
 
 
 $url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $collectionID . '/parents?propertyFilter=-all-&fullPath=false';
@@ -33,6 +28,19 @@ if (!empty($portal->title)){
 $portalUrl = '#';
 if (!empty($portal->properties->{'cclom:location'}[0])){
     $portalUrl = $portal->properties->{'cclom:location'}[0];
+}
+
+if (empty($response->collection->properties->{'cm:description'}[0])){
+    $description = '
+                    Hier findest du zahlreiches kostenloses Material für '.$portalTitle.'!<br><br>
+                    Neben sorgfältig ausgewählten Inhalten für jede Art von Unterricht findest du auch kurzweilige 
+                    Inhalte für '.$portalTitle.' zum eigenständigen Lernen.<br><br>
+                    Du kennst tolle Inhalte? Dann bringe dich und dein Wissen ein! Hilf mit, die besten Inhalte zu sammeln 
+                    und zu teilen, empfehle dein persönliches Fach-Highlight oder 
+                    <a href="'.get_page_link(97).'">mach mit</a> in unserer Fachredaktion!
+    ';
+}else{
+    $description = $response->collection->properties->{'cm:description'}[0];
 }
 
 if (!function_exists('helper_useLightColor')) {

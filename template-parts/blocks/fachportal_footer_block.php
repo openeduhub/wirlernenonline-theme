@@ -67,14 +67,14 @@ if (empty(get_field('authors', $postID))){
         ?>
 
         <?php if ($widget_search_result == 1){ ?>
-            <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg"> 1 weiteres (ungeprüftes) Ergebniss in unserer Suchmaschine</p>
+            <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg"> 1 weiteres (ungeprüftes) Ergebnis in unserer Suchmaschine</p>
         <?php }else if ($widget_search_result > 1){ ?>
             <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg"> <?php echo $response->data->search->total->value; ?> weitere (ungeprüfte) Ergebnisse in unserer Suchmaschine</p>
         <?php }else{ ?>
             <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg"> Leider keine Ergebnisse in unserer Suchmaschine</p>
         <?php }?>
         <a class="fachportal-footer-searchbutton" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
-            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"> Zur den Ergebnissen
+            Zu den Ergebnissen
         </a>
     </div>
 
