@@ -114,7 +114,7 @@ class Wlo_ldap{
         return $data;
     }
     function validateLogin($email,$password){
-        error_log('validating_login... ('.$email.')');
+        //error_log('validating_login... ('.$email.')');
         $user=$this->getUser($email);
         if($user==0){
             error_log('validateLogin user not found! ');

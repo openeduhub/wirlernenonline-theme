@@ -45,12 +45,12 @@ function wlo_login($user1, $username, $password, $already_md5 = false){
     $user["email"] =  $wp_user->user_email;
 
     if ($wp_user && wp_check_password( $user["password"], $wp_user->user_pass, $wp_user->ID )){
-        error_log('wp_check_password PASSED ('.$user["login"].')');
+        //error_log('wp_check_password PASSED ('.$user["login"].')');
         $ldap = new Wlo_ldap();
 
         if ($ldap->validateLogin($user["login"], $user["password"]) == false ){;
             if ($ldap->userExists($user["login"])){
-                error_log('ldap: editUser ('.$user["login"].')');
+                ('ldap: editUser');
                 $ldap->editUser($user);
             }else{
                 error_log('ldap: createUser');
@@ -58,7 +58,7 @@ function wlo_login($user1, $username, $password, $already_md5 = false){
             }
         }
     }else{
-        error_log('wp_check_password FAILED ('.$user["login"].')');
+        error_log('wp_check_password FAILED');
         //error_log('attempted password: '.$user["password"]);
     }
 
@@ -89,10 +89,10 @@ function wlo_update_user( $user_id ) {
 add_action( 'password_reset', 'wlo_password_reset', 10, 2 );
 function wlo_password_reset( $user, $new_pass ) {
 
-    error_log('################### WP-RESET_PW');
-    error_log('$new_pass: '.$new_pass);
-    error_log('login: '.$user->user_login);
-    error_log('first_name: '.$user->first_name);
+    //error_log('################### WP-RESET_PW');
+    //error_log('$new_pass: '.$new_pass);
+    //error_log('login: '.$user->user_login);
+    //error_log('first_name: '.$user->first_name);
 
     $wlo_user = array();
     $wlo_user["login"] = $user->user_login;
