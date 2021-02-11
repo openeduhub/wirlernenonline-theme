@@ -9,21 +9,21 @@ get_header();
 <?php
 while (have_posts()) : the_post(); ?>
 
-    <div class="jobs-page">
+    <div class="wlo-page">
 
-        <div class="jobs-header">
-            <div class="jobs-header-wrapper">
-                <div class="jobs-header-content">
+        <div class="wlo-header">
+            <div class="wlo-header-wrapper">
+                <div class="wlo-header-content">
                     <h1><?php the_title(); ?></h1>
                     <?php the_excerpt(); ?>
                 </div>
-                <div class="jobs-header-bottom"></div>
+                <div class="wlo-header-bottom"></div>
             </div>
 
 
         </div>
 
-        <div class="jobs-wrapper">
+        <div class="wlo-wrapper">
 
 
 
