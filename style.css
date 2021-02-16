@@ -488,6 +488,10 @@ form .wpcf7-validation-errors{
     font-size: 0.7rem;
 }
 
+.newsletter-data a{
+    font-weight: bold;
+}
+
 .ab-block-accordion .ab-accordion-title {
     color: #003E82;
     font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;

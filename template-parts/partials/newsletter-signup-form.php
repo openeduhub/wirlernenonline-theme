@@ -1,4 +1,4 @@
-<form action="https://t67a421c2.emailsys2a.net/190/4793/d40d75cfb1/subscribe/form.html" method="post" data-abide novalidate>
+<form role="form" action="https://t67a421c2.emailsys2a.net/190/4793/d40d75cfb1/subscribe/form.html" method="post" data-abide novalidate>
   <div class="grid-x grid-margin-x margin-bottom-1">
       <div class="cell small-12">
           <h3>Newsletter Anmeldung</h3>
@@ -21,7 +21,7 @@
       </label>
       -->
         <label class="field_label required" for="dsgvo">
-            <input type="checkbox" name="dsgvo" value="" aria-label="Datenschutz zustimmen" required=""> Ich habe den Datenschutzhinweis gelesen
+            <input type="checkbox" name="dsgvo" id="dsgvo" value="" aria-label="Datenschutz zustimmen" required=""> Ich habe den Datenschutzhinweis gelesen
             <span class="form-error">Bitte stimmen sie dem Datenschutzhinweis zu.</span>
         </label>
       <button class="button no-space" type="submit" value="Submit">Anmelden</button>

@@ -27,8 +27,23 @@ $collectionID = $matches[1][0];
 $addContentPageID = 9933; //pre
 //$addContentPageID = 9081; //local
 
-$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references';
-$response = callWloRestApi($url);
+//$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references';
+//$response = callWloRestApi($url);
+
+$url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=5000&skipCount=0&propertyFilter=-all-';
+$body = '{
+  "criterias": [
+    {
+      "property": "collection",
+      "values": [
+        "'.$collectionID.'"
+      ]
+    }
+  ],
+  "facettes": [
+  ]
+}';
+$response = callWloRestApi($url, 'POST', $body);
 
 $headline = get_field('contentType')['label'];
 if(!empty(get_field('headline'))){
@@ -57,8 +72,8 @@ switch (get_field('contentType')['value']){
 }
 
 $contentArray = array();
-if (!empty($response->references)){
-    foreach ($response->references as $reference) {
+if (!empty($response->nodes)){
+    foreach ($response->nodes as $reference) {
         $prop = $reference->properties;
 
         //check if deleted
@@ -128,14 +143,14 @@ if (count($contentArray) <= 4){
 
 
                         <?php if (!empty($content['image_url'])) { ?>
-                            <img class="main-image" src="<?php echo $content['image_url']; ?>" alt="">
+                            <img class="main-image" src="<?php echo $content['image_url']; ?>" alt="Cover: <?php echo $content['title']; ?>">
                         <?php } ?>
                         <div class="content-info">
                             <div class="content-header">
                                 <?php if ($content['source']){ ?>
                                    <p class="content-source"><?php echo $content['source']; ?></p>
                                 <?php } ?>
-                                <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_red.svg">
+                                <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_red.svg"  alt="Auszeichnung: geprüfter Inhalt">
                                 <?php if ($content['oer']){ ?>
                                     <div class="badge ">OER</div>
                                 <?php } ?>
@@ -144,7 +159,7 @@ if (count($contentArray) <= 4){
                             <p class="content-description"><?php echo $content['description'] ?></p>
                             <div class="content-meta">
                                 <?php if (!empty($content['resourcetype'])){
-                                    echo '<img src="'. get_template_directory_uri() .'/src/assets/img/img_icon.svg">';
+                                    echo '<img src="'. get_template_directory_uri() .'/src/assets/img/img_icon.svg" alt="Materialart">';
                                     echo '<p>';
                                     $i = 0;
                                     foreach ($content['resourcetype'] as $type){
@@ -159,7 +174,7 @@ if (count($contentArray) <= 4){
                             </div>
                             <div class="content-meta">
                                 <?php if (!empty($content['subjects'])){
-                                    echo '<img src="'. get_template_directory_uri() .'/src/assets/img/subject_icon.svg">';
+                                    echo '<img src="'. get_template_directory_uri() .'/src/assets/img/subject_icon.svg" alt="Fächer">';
                                     echo '<p>';
                                     $i = 0;
                                     foreach ($content['subjects'] as $subject) {
@@ -174,7 +189,7 @@ if (count($contentArray) <= 4){
                             </div>
                             <div class="content-meta">
                                 <?php if (!empty($content['educationalcontext'])){
-                                    echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg">';
+                                    echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg" alt="Bildungsebene">';
                                     echo '<p>';
                                     $i = 0;
                                     foreach ($content['educationalcontext'] as $subject) {
@@ -188,7 +203,7 @@ if (count($contentArray) <= 4){
                                 } ?>
                             </div>
 
-                            <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank">Zum Inhalt</a>
+                            <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
 
                         </div>
 
@@ -198,12 +213,12 @@ if (count($contentArray) <= 4){
         }else{ ?>
 
         <div class="widget-content no-widget-content">
-            <img class="main-image" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/no-content.png" alt="">
+            <img class="main-image" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/no-content.png" alt="Cover: Keine Inhalte">
             <div class="content-info no-content-info">
                 <div class="content-title">Noch kein Inhalt?</div>
                 <p class="content-description">Füge Inhalte zu diesem Thema hinzu...</p>
                 <a class="content-button no-content-button" href="<?php echo get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&headline=' . $pageTitle .'&pageDiscipline=' . $pageDiscipline; ?>" target="_blank">
-                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus.svg"> Inhalte vorschlagen
+                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus.svg" alt="Icon: Plus"> Inhalte vorschlagen
                 </a>
             </div>
         </div>

@@ -21,7 +21,7 @@ while (have_posts()) : the_post(); ?>
         </div>
 
     </div>
-    <div class="add-content-menu-container">
+    <div class="add-content-menu-container" role="navigation" aria-label="Hinzufügen-Button">
         <?php
         $defaults = array(
             'menu'            => '',

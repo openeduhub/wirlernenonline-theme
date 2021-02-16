@@ -154,10 +154,10 @@ if (get_field('slidesToScroll')) {
                 <?php if (!empty($subCollections->collections)) : ?>
                     <div class="sub-subjects">
                         <div class="sub-subjects-header">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/categories.svg">
+                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/categories.svg" alt="Icon: Unterthemen">
                             <h2>Unterthemen <?php echo get_the_title($postID); ?></h2>
                             <?php if (count($subCollections->collections) > $maxSubCollections): ?>
-                                <img id="sub-subjects-button" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg">
+                                <img id="sub-subjects-button" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg" alt="Mehr Unterthemen anzeigen">
                             <?php endif; ?>
                         </div>
                         <div class="sub-subjects-container">
@@ -215,7 +215,7 @@ if (get_field('slidesToScroll')) {
         <div class="fachportal-new-content-inner" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 0.2);">
             <div class="fachportal-accordion">
                 <h2>Die neusten geprüften Inhalte für dich!</h2>
-                <img class="fachportal-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg">
+                <img class="fachportal-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg"  alt="Die neusten Inhalte ein odder ausklappen">
             </div>
 
             <div class="content fachportal-accordion-content" id="<?php echo $sliderId; ?>">
@@ -226,14 +226,14 @@ if (get_field('slidesToScroll')) {
 
 
                             <?php if (!empty($content['image_url'])) { ?>
-                                <img class="main-image" src="<?php echo $content['image_url']; ?> alt="">
+                                <img class="main-image" src="<?php echo $content['image_url']; ?>" alt="Cover: <?php echo $content['title']; ?>">
                             <?php } ?>
                             <div class="content-info">
                                 <div class="content-header">
                                     <?php if ($content['source']){ ?>
                                         <p class="content-source"><?php echo $content['source']; ?></p>
                                     <?php } ?>
-                                    <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_red.svg">
+                                    <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_red.svg"  alt="Auszeichnung: geprüfter Inhalt">
                                     <?php if ($content['oer']){ ?>
                                         <div class="badge ">OER</div>
                                     <?php } ?>
@@ -242,7 +242,7 @@ if (get_field('slidesToScroll')) {
                                 <p class="content-description"><?php echo $content['description'] ?></p>
                                 <div class="content-meta">
                                     <?php if (!empty($content['resourcetype'])){
-                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/img_icon.svg">';
+                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/img_icon.svg"  alt="Materialart">';
                                         echo '<p>';
                                         $i = 0;
                                         foreach ($content['resourcetype'] as $type){
@@ -257,7 +257,7 @@ if (get_field('slidesToScroll')) {
                                 </div>
                                 <div class="content-meta">
                                     <?php if (!empty($content['subjects'])){
-                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/subject_icon.svg">';
+                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/subject_icon.svg"  alt="Fächer">';
                                         echo '<p>';
                                         $i = 0;
                                         foreach ($content['subjects'] as $subject) {
@@ -272,7 +272,7 @@ if (get_field('slidesToScroll')) {
                                 </div>
                                 <div class="content-meta">
                                     <?php if (!empty($content['educationalcontext'])){
-                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg">';
+                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg"  alt="Bildungsebene">';
                                         echo '<p>';
                                         $i = 0;
                                         foreach ($content['educationalcontext'] as $subject) {
@@ -286,7 +286,7 @@ if (get_field('slidesToScroll')) {
                                     } ?>
                                 </div>
 
-                                <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank">Zum Inhalt</a>
+                                <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
 
                             </div>
 
