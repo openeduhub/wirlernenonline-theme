@@ -179,7 +179,7 @@ global $post;
                             //wp_mail($to, $subject, $body, $headers);
                             $formOk = 'Vielen Dank für deinen Vorschlag!<br>Er wird jetzt von unserem Redaktionteam geprüft.';
 
-                            $post = get_post(url_to_postid('inhalt-hinzugefugt'));
+                            $post = get_post(url_to_postid('inhalt-hinzugefuegt'));
                             wp_redirect($post->guid);
                         }
                     }
