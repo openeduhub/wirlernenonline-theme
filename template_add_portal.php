@@ -2,6 +2,14 @@
 get_header();
 global $post;
 
+$title = get_the_title();
+if($_GET['type'] == 'source'){
+    $title = 'Quellen vorschlagen';
+}
+if($_GET['type'] == 'tool'){
+    $title = 'Tools vorschlagen';
+}
+
 ?>
 <style>
     #mds-frame{
@@ -16,6 +24,10 @@ global $post;
         justify-content: flex-end;
         margin: 0.5em;
     }
+    .submit-btn .wlo-button{
+        margin: 1em;
+        cursor: pointer;
+    }
 </style>
 
 
@@ -24,7 +36,7 @@ global $post;
     <div class="wlo-header">
         <div class="wlo-header-wrapper">
             <div class="wlo-header-content">
-                <h1><?php the_title(); ?></h1>
+                <h1><?php echo $title; ?></h1>
                 <?php the_excerpt(); ?>
             </div>
             <div class="wlo-header-bottom"></div>
@@ -149,8 +161,11 @@ global $post;
                         @unlink($uploadFile);
                     }
                     if(!$formErr){
-                        $workflowComment = 'Für folgende Sammlung vorgeschlagen: ' . $pageTitle . ' > ' . $widgetName . ' (ID: ' . $collectionID . ')';
-
+                        $workflowComment = 'Für folgende Sammlung(en) vorgeschlagen: ';
+                        if($mdsData['ccm:curriculum']){
+                            array_walk($mdsData['ccm:curriculum'], function(&$m){ $m = str_replace('http://w3id.org/openeduhub/vocabs/oeh-topics/', '', $m);});
+                            $workflowComment.=implode(',', $mdsData['ccm:curriculum']);
+                        }
 
                         $emailBody = '<h3>Es wurde eine neute Datei ("'.[$_FILES['fileToUpload']['name']].'") hochgeladen.</h3>';
                         $emailBody .= '<p>'.$workflowComment.'</p>';
@@ -176,11 +191,11 @@ global $post;
                             $body = $emailBody;
 
                             // send email
-                            //wp_mail($to, $subject, $body, $headers);
+                            wp_mail($to, $subject, $body, $headers);
                             $formOk = 'Vielen Dank für deinen Vorschlag!<br>Er wird jetzt von unserem Redaktionteam geprüft.';
 
                             $post = get_post(url_to_postid('inhalt-hinzugefuegt'));
-                            wp_redirect($post->guid);
+                            wp_redirect(get_page_link($post->ID));
                         }
                     }
                 }
@@ -200,11 +215,11 @@ global $post;
 
         <?php if(!empty($formOk)) echo '<h4 class="portal_form_succes">'.$formOk.'</h4>'; ?>
 
-        <iframe id="mds-frame"
+        <iframe id="mds-frame" class="wlo-form-iframe"
                 style="opacity:0"
                 src="https://redaktion-staging.openeduhub.net/edu-sharing/components/embed/mds?set=mds_oeh&group=<?php echo $mdsGroup;?>&data=<?php
                 echo urlencode(json_encode([
-                    "ccm:curriculum" => (isset($collectionId) ? ['http://w3id.org/openeduhub/vocabs/oeh-topics/' . $collectionID] : []),
+                    "ccm:curriculum" => (isset($collectionID) ? ['http://w3id.org/openeduhub/vocabs/oeh-topics/' . $collectionID] : []),
                     "ccm:oeh_widgets" => (isset($widgetId) ? [$widgetId] : []),
                 ]));
                 ?>
@@ -217,7 +232,7 @@ global $post;
             <input type="hidden" id="formMds" name="mds">
         </form>
         <div class="portal_form_button submit-btn">
-            <button class="button" id="mds-submit" onclick="submitForm()" style="display:none">Absenden</button>
+            <button class="wlo-button" id="mds-submit" onclick="submitForm()" style="display:none">Absenden</button>
         </div>
 
 
@@ -238,7 +253,7 @@ global $post;
             }
             function receiveMessage(event){
                 if(event.data.event === 'CONTENT_HEIGHT'){
-                    document.getElementById('mds-frame').style.height = event.data.data + 'px';
+                    document.getElementById('mds-frame').style.height = (event.data.data) + 'px';
                     // timeout to make sure mds is prepared by edu-sharing
                     setTimeout(() => document.getElementById('mds-frame').style.opacity = 1, 1000);
                     setTimeout(() => document.getElementById('mds-submit').style.display = '', 2000);
@@ -248,6 +263,7 @@ global $post;
                 }
                 if(event.data.event == 'POST_DATA'){
                     const mds = event.data.data;
+                    console.log(event.data);
                     if(mds==null){
                         alert('Bitte fügen Sie eine Datei/Link hinzu und geben dem Inhalt einen Titel.');
                         document.getElementById('mds-submit').disabled = false;
