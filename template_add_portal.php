@@ -1,4 +1,7 @@
 <?php /* Template Name: TP Inhalte Formular 2 */
+
+define('COLLECTION_ADD_ID', '7b1fab33-e2d9-4a19-a1ba-3079c49f1239');
+
 get_header();
 global $post;
 
@@ -117,6 +120,31 @@ if($_GET['type'] == 'tool'){
                     $mdsData['ccm:commonlicense_key'] = [$license];
                 }
             }
+            // clean up empty keyword
+            $kw = @$mdsData['cclom:general_keyword'];
+            if(!$kw || count($kw) == 0){
+                unset($mdsData['cclom:general_keyword']);
+            }
+            if(isset($mdsData['virtual:email'])){
+                $mdsData['ccm:metadatacontributer_creator'] = ["BEGIN:VCARD\nVERSION:3.0\nN:Upload;WLO\nFN:WLO Upload\nORG:\nURL:\nTITLE:\nTEL;TYPE=WORK,VOICE:\nADR;TYPE=intl,postal,parcel,work:;;;;;;\nX-ES-LOM-CONTRIBUTE-DATE:\nEMAIL;TYPE=PREF,INTERNET:".$mdsData['virtual:email'][0]."\nEND:VCARD\n"];
+                if(isset($mdsData['virtual:newsletter']) && $mdsData['virtual:newsletter'][0] == 'true'){
+                    $data = array(
+                        'fields[email]' => $mdsData['virtual:email'][0],
+                        'ml-submit' => 1
+                    );
+                    $url = 'https://static.mailerlite.com/webforms/submit/c6v7a9';
+                    $ch = curl_init($url);
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                        'Content-Type: application/x-www-form-urlencoded',
+                        'Accept: /',
+                    ]);
+                    $response = curl_exec($ch);
+                    curl_close($ch);
+                }
+            }
 
             $location = $mdsData["virtual:publish_location"];
             if(!$location ||!trim($location[0])){
@@ -161,6 +189,8 @@ if($_GET['type'] == 'tool'){
                         @unlink($uploadFile);
                     }
                     if(!$formErr){
+                        $apiUrl = 'rest/collection/v1/collections/-home-/'.COLLECTION_ADD_ID.'/references/' . $nodeID;
+                        callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
                         $workflowComment = 'Für folgende Sammlung(en) vorgeschlagen: ';
                         if($mdsData['ccm:curriculum']){
                             array_walk($mdsData['ccm:curriculum'], function(&$m){ $m = str_replace('http://w3id.org/openeduhub/vocabs/oeh-topics/', '', $m);});
