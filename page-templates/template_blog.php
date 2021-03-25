@@ -35,9 +35,9 @@ while (have_posts()) : the_post(); ?>
                     </button>
                 </div>
 
-                <div class="wlo-blog-news">
-                    <h2>WLO News</h2>
-                    <div class="wlo-blog-tiles" id="wlo-blog-news-mobile">
+                <div class="wlo-blog-news" id="wlo-blog-news-mobile">
+                    <h3>WLO News</h3>
+                    <div class="wlo-blog-tiles">
                         <?php
                         $query = new WP_Query(array(
                             'category_name' => 'wlo-in-eigener-sache,wlo-news',
@@ -54,7 +54,7 @@ while (have_posts()) : the_post(); ?>
                                         <p><?php echo get_the_excerpt(); ?></p>
                                         <a class="wlo-blog-button" href="<?php echo esc_url( get_permalink() ); ?>">
                                             zum Blogbeitrag
-                                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward.svg">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward_white.svg">
                                         </a>
                                     </div>
 
@@ -69,9 +69,9 @@ while (have_posts()) : the_post(); ?>
                     </div>
                 </div>
 
-                <div class="wlo-blog-themen">
-                    <h2>Themenartikel</h2>
-                    <div class="wlo-blog-tiles" id="wlo-blog-themen-mobile">
+                <div class="wlo-blog-themen" id="wlo-blog-themen-mobile">
+                    <h3>Themenartikel</h3>
+                    <div class="wlo-blog-tiles">
                         <?php
                         $query = new WP_Query(array(
                             'category_name' => 'themenartikel',
@@ -87,7 +87,7 @@ while (have_posts()) : the_post(); ?>
                                         <p><?php echo get_the_excerpt(); ?></p>
                                         <a class="wlo-blog-button" href="<?php echo esc_url( get_permalink() ); ?>">
                                             zum Blogbeitrag
-                                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward.svg">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward_white.svg">
                                         </a>
                                     </div>
                                 </div>

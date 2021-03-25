@@ -169,7 +169,7 @@ Version:        1.0
     font-style: normal;
     font-weight: 300;
     font-size: 0.8rem;
-    width: 90%;
+    width: 100%;
     margin: 0 auto 40px;
 }
 
@@ -190,9 +190,9 @@ Version:        1.0
 }
 
 .wlo_source_dev .wlo_big_header{
-    font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 16px;
-    font-weight: normal;
+    font-family: 'Source-Sans-Pro-Bold', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
     text-align: left;
     padding: 18px 24px 18px 8px;
     color: #fff;
@@ -201,6 +201,8 @@ Version:        1.0
 }
 
 .wlo_source_dev td{
+    font-family: 'Source-Sans-Pro-Regular', sans-serif;
+    font-size: 15px;
     text-align: center;
     border-left: 1px solid #ddd;
 }
@@ -239,11 +241,11 @@ Version:        1.0
 }
 
 .wlo_source_dev .wlo_name{
-    font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 1rem;
+    font-family: 'Source-Sans-Pro-Bold', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
     text-align: left;
     text-decoration: none;
-    cursor: pointer;
     border: none;
     white-space: nowrap;
     max-width: 300px;
@@ -263,11 +265,15 @@ Version:        1.0
 
 .wlo_source_dev .wlo_subject{
     background: #ccc;
-    font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 11px;
+    font-family: 'Source-Sans-Pro-Regular', sans-serif;
+    font-size: 12px;
     padding: 2px 4px;
     margin: 4px;
     border-radius: 2px;
+}
+
+.wlo_source_dev .wlo_status{
+    min-width: 240px;
 }
 
 .wlo_source_dev .wlo-green{
@@ -287,8 +293,9 @@ Version:        1.0
 .wlo_source_dev .wlo_name a{
     font-weight: normal;
     text-decoration: none;
+    cursor: pointer;
     transition: 0.3s;
-    color: #333333;
+    color: #313131;
 }
 
 .wlo_source_dev .wlo_name a:hover{
@@ -385,43 +392,6 @@ form .wpcf7-validation-errors{
     border-radius: 5px;
 }
 
-
-.footer-license p{
-    text-align: center;
-    font-size: 0.8rem;
-}
-
-.partnerBlock{
-
-    margin: 2em auto;
-}
-
-.partnerCell{
-    margin: 12px 24px;
-    text-align: center;
-}
-
-.partnerCell img{
-    max-height: 120px;
-    transition: 0.3s;
-}
-
-.partnerCell img:hover{
-    transform: scale(1.1);
-}
-
-.logoCell{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 200px;
-}
-
-.logoCell p{
-    margin-top: 12px;
-}
-
 .sourceLogosBlock{
     align-items: center;
     margin: 2em auto;
@@ -480,10 +450,6 @@ form .wpcf7-validation-errors{
     color: #002145;
 }
 
-.footer-menu{
-    align-items: flex-start;
-}
-
 .newsletter-data{
     font-size: 0.7rem;
 }
@@ -492,11 +458,6 @@ form .wpcf7-validation-errors{
     font-weight: bold;
 }
 
-.ab-block-accordion .ab-accordion-title {
-    color: #003E82;
-    font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-style: normal;
-}
 
 @media screen and (max-width: 1024px) {
     h1, .h1 {
@@ -537,10 +498,6 @@ form .wpcf7-validation-errors{
     }
     .site-footer .grid-x{
         justify-content: center;
-    }
-    .footer-menu{
-        justify-content: space-between;
-        margin: 1.5rem 0;
     }
 }
 

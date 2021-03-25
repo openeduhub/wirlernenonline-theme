@@ -14,7 +14,7 @@ get_header();?>
 
     if (is_user_logged_in()) { ?>
         <div class="wp-block-buttons aligncenter">
-            <div class="wp-block-button"><a class="wp-block-button__link has-text-color has-very-light-gray-color has-background has-very-dark-gray-background-color" href="https://wirlernenonline.de/redaktionsumgebung/">Zur Redaktionsumgebung</a></div>
+            <div class="wp-block-button"><a class="wp-block-button__link has-text-color has-very-light-gray-color has-background has-very-dark-gray-background-color" href="https://wirlernenonline.de/redaktionsumgebung-organisatorisches/">Zur Redaktionsumgebung</a></div>
         </div>
     <?php };
     ?>

@@ -4,7 +4,7 @@ require_once(get_template_directory().'/functions/wlo-config.php');
 
 // get the school subjects via graphQL
 $data = '{
-  subjectsPortals(size: 1000, language: de) {
+  subjectsPortals(size: 100, language: de) {
     grundschule {
       ...subjectsPortalDiscipline
     }

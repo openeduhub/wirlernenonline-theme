@@ -2,15 +2,26 @@
 
 acf_form_head();
 get_header();
-?><div class="grid-container">
-    <div class="grid-x grid-margin-x">
-        <div class="medium-12 cell">
-            <h1 class="page-title"><?php the_title(); ?></h1>
+?>
+
+    <div class="wlo-page">
+
+        <div class="wlo-header">
+            <div class="wlo-header-wrapper">
+                <div class="wlo-header-content">
+                    <h1><?php the_title(); ?></h1>
+                    <?php the_excerpt(); ?>
+                </div>
+                <div class="wlo-header-bottom"></div>
+            </div>
         </div>
+
+        <div class="wlo-wrapper">
+
         <?php
         while ( have_posts() ) : the_post(); ?>
 
-        <div class="medium-8 cell">
+
             <?php
             the_content();
 
@@ -25,16 +36,18 @@ get_header();
                 'submit_value'  => 'Neue Quelle anlegen',
                 'html_updated_message' => '<div id="message" class="updated">
                                                 <p>Vielen Dank. Deine Quelle wurde gespeichert.<br>Sie wird vor Veröffentlichung von der Redaktion geprüft.</p>
-                                                <a class="button" href="'.get_page_link(4225).'">Zur Quellen-Übersicht</a>
+                                                <a class="wlo-button" href="'.get_page_link(4225).'">Zur Quellen-Übersicht</a>
                                             </div>',
             )); ?>
 
-        </div>
+
 
         <?php endwhile;
         ?>
+
+        </div>
+
     </div>
-    </div>
-    </div>
+
 <?php
 get_footer();

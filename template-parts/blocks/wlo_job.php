@@ -16,7 +16,7 @@
     <div class="wlo-job-block-content">
         <h3><?php echo $headline; ?></h3>
         <p><?php the_field('text'); ?></p>
-        <a class="wlo-job-block-button" href="<?php the_field('url'); ?>">zur Ausschreibung <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward.svg"></a>
+        <a class="wlo-job-block-button" href="<?php the_field('url'); ?>">zur Ausschreibung</a>
     </div>
 </div>
 

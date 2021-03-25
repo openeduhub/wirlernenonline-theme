@@ -4,10 +4,11 @@
 @import "custom-colors-variables";
 
 .lds-ring {
-  display: inline-block;
+  display: block;
   position: relative;
   width: 40px;
   height: 40px;
+  margin: 0.5em auto;
 }
 .lds-ring div {
   box-sizing: border-box;
@@ -71,9 +72,17 @@
     color: $black;
   }
 
+  p, ul{
+    font-family: 'Source-Sans-Pro-Regular', sans-serif;
+    font-size: 15px;
+    color: #313131;
+  }
+
   .portal-wrapper{
     margin: 0 auto;
     max-width: 1200px;
+    background: #F4F4F4;
+    padding-bottom: 0.5em;
   }
 }
 
@@ -96,7 +105,7 @@
     }
 
     a:hover{
-      color: $black;
+      color: #313131;
     }
 
   }
@@ -121,7 +130,7 @@
 
 .portal-sidemenu{
   position: fixed;
-  top: 150px;
+  top: 220px;
   max-width: 300px;
   font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
   font-style: normal;
@@ -134,7 +143,7 @@
   li{
     margin-bottom: 16px;
     a{
-      color: $black;
+      color: #313131;
       transition: 0.3s;
     }
     a:hover{
@@ -304,7 +313,7 @@
 
 .portal_banner_slider .slick-dots li button:before {
   font-size: 10px;
-  color: $black;
+  color: #313131;
 }
 
 .portal_widget_grid {
@@ -613,7 +622,7 @@
         }
 
         h4:hover{
-          color: $black;
+          color: #313131;
         }
 
         & > ul {
@@ -910,7 +919,7 @@
     font-weight: normal;
     font-size: 22px;
     line-height: 30px;
-    color: $black;
+    color: #313131;
   }
 
   .portal_add_link{
@@ -1373,7 +1382,7 @@
     .portal_header_top_left {
       h1, h6, img {
         display: inline-block;
-        color: black;
+        color: #313131;
         margin-bottom: 0px;
       }
       h5{
@@ -1642,7 +1651,7 @@
     font-weight: bold;
     font-size: 24px;
     line-height: 150%;
-    color: $black;
+    color: #313131;
     margin-bottom: 16px;
   }
 
@@ -1703,7 +1712,7 @@
 
   a{
     margin: 0 !important;
-    color: $black !important;
+    color: #313131 !important;
   }
 }
 

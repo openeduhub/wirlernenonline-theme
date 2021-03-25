@@ -70,7 +70,7 @@ $search_query = '
         {
           search(
             searchString: ""
-            size: 9999
+            size: 50
             from: 0
             filters: [
                ' . $filter_query . '

@@ -18,7 +18,7 @@
 
     $posts = get_posts(array(
         'post_type' => $post_types,
-        'numberposts' => -1,
+        'posts_per_page'	=> 50,
         'post_status'       => $post_status,
     ));
     if($posts) {
@@ -30,6 +30,7 @@
         // get the school subjects via graphQL
         $data = '{facet(facet:source){buckets{key, doc_count}}}';
         $sources = callWloGraphApi($data)->data->facet->buckets;
+
 
 
         ?>
@@ -234,4 +235,8 @@
 
             </tbody>
         </table>
+
+    <nav class="pagination">
+        <?php pagination_bar(); ?>
+    </nav>
 

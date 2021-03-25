@@ -1,6 +1,6 @@
 <?php if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">Fachportal: Header</div>';
+    echo '<div class="backend_hint">Themenseite: Header</div>';
 } ?>
 
 <?php
@@ -55,7 +55,7 @@ if (!function_exists('helper_useLightColor')) {
     }
 }
 
-$backgroundColor = wloSubjectColors($portalTitle);
+$backgroundColor = wloSubjectType($portalTitle)['color'];
 $rgbBackgroundColor = hex2rgb($backgroundColor);
 $fontColor = (!empty($backgroundColor) && helper_useLightColor($backgroundColor)) ? "#313131" : "#ffffff";
 
@@ -63,8 +63,7 @@ $GLOBALS['wlo_fachportal'] = array(
         'title' => $portalTitle,
         'backgroundColor' => $backgroundColor,
         'rgbBackgroundColor' => $rgbBackgroundColor
-) ;
-
+);
 
 // newest contents
 $url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=8&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
@@ -116,6 +115,7 @@ if (!empty($newestContent->nodes)){
         );
     } //end foreach
 }
+$accordionID = uniqid();
 $sliderId = uniqid('slider-');
 $slidesToShow = 4;
 $slidesToScroll = 4;
@@ -148,32 +148,69 @@ if (get_field('slidesToScroll')) {
             <?php
             $url = WLO_REPO . 'rest/collection/v1/collections/local/' . $collectionID . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
             $subCollections = callWloRestApi($url);
+            $filteredSubCollections = [];
+
+            foreach ($subCollections->collections as $collection){
+
+                // Filter hidden collections
+                if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated' ) {
+                    continue;
+                }
+
+                // Filter educationalContexts
+                if (!empty($educationalContexts)) {
+                    if (empty($collection->properties->{'ccm:educationalcontext'})){ // skip empty?
+                        //continue;
+                    }else{
+                        if (!checkPropertyMatch($collection->properties->{'ccm:educationalcontext'}, $educationalContexts, true)) {
+                            continue;
+                        }
+                    }
+                }
+
+                $filteredSubCollections[] = $collection;
+            }
+
             $maxSubCollections = 6;
             ?>
             <div class="collections">
-                <?php if (!empty($subCollections->collections)) : ?>
+                <?php if (!empty($filteredSubCollections)) : ?>
                     <div class="sub-subjects">
                         <div class="sub-subjects-header">
                             <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/categories.svg" alt="Icon: Unterthemen">
                             <h2>Unterthemen <?php echo get_the_title($postID); ?></h2>
-                            <?php if (count($subCollections->collections) > $maxSubCollections): ?>
+                            <?php if (count($filteredSubCollections) > $maxSubCollections): ?>
                                 <img id="sub-subjects-button" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg" alt="Mehr Unterthemen anzeigen">
                             <?php endif; ?>
                         </div>
                         <div class="sub-subjects-container">
-                            <?php foreach (array_slice($subCollections->collections, 0, $maxSubCollections) as $collection) {?>
+                            <?php foreach (array_slice($filteredSubCollections, 0, $maxSubCollections) as $collection) {
+                                $ccm_location = $collection->properties->{'cclom:location'}[0];
+
+                                $title = $collection->title;
+                                if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
+                                    $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
+                                }
+                                //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
+                                //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);?>
                                 <div class="sub-subject">
-                                    <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>">
-                                        <p><?php echo $collection->title; ?></p>
+                                    <a href="<?php echo $ccm_location; ?>">
+                                        <p><?php echo $title; ?></p>
                                     </a>
                                 </div>
                             <?php } ?>
                         </div>
                         <div id="hidden-sub-subjects-container" class="sub-subjects-container">
-                            <?php foreach (array_slice($subCollections->collections, $maxSubCollections) as $collection) { ?>
+                            <?php foreach (array_slice($filteredSubCollections, $maxSubCollections) as $collection) {
+                                $ccm_location = $collection->properties->{'cclom:location'}[0];
+                                $title = $collection->title;
+                                if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
+                                    $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
+                                }
+                                ?>
                                 <div class="sub-subject">
-                                    <a href="<?php echo $collection->properties->{'cclom:location'}[0]; ?>">
-                                        <p><?php echo $collection->title; ?></p>
+                                    <a href="<?php echo $ccm_location; ?>">
+                                        <p><?php echo $title; ?></p>
                                     </a>
                                 </div>
                             <?php } ?>
@@ -213,10 +250,10 @@ if (get_field('slidesToScroll')) {
 <div class="fachportal-header-block fachportal-new-content">
     <div class="fachportal-header-wrapper" >
         <div class="fachportal-new-content-inner" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 0.2);">
-            <div class="fachportal-accordion">
+            <button class="fachportal-accordion" id="fachportal-accordion-<?php echo $accordionID; ?>">
                 <h2>Die neusten geprüften Inhalte für dich!</h2>
                 <img class="fachportal-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg"  alt="Die neusten Inhalte ein odder ausklappen">
-            </div>
+            </button>
 
             <div class="content fachportal-accordion-content" id="<?php echo $sliderId; ?>">
                 <?php
@@ -233,7 +270,7 @@ if (get_field('slidesToScroll')) {
                                     <?php if ($content['source']){ ?>
                                         <p class="content-source"><?php echo $content['source']; ?></p>
                                     <?php } ?>
-                                    <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_red.svg"  alt="Auszeichnung: geprüfter Inhalt">
+                                    <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_green.svg"  alt="Auszeichnung: geprüfter Inhalt">
                                     <?php if ($content['oer']){ ?>
                                         <div class="badge ">OER</div>
                                     <?php } ?>
@@ -302,12 +339,13 @@ if (get_field('slidesToScroll')) {
 </div>
 
 <script>
-    function addData(chart, label, data, color) {
-        chart.data.labels.push(label);
+    function addData(chart, label, data, color, index) {
+        //chart.data.labels.push(label);
+        chart.data.labels[index] = label;
         chart.data.datasets.forEach((dataset) => {
-            dataset.data.push(data);
-            dataset.backgroundColor.push(color);
-            dataset.borderWidth.push(0);
+            dataset.data[index] = data;
+            dataset.backgroundColor[index] = color;
+            dataset.borderWidth[index] = 0;
         });
         chart.update();
     }
@@ -356,6 +394,13 @@ if (get_field('slidesToScroll')) {
                     zIndex: 0,
                     responsive: [
                         {
+                            breakpoint: 1230,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3
+                            }
+                        },
+                        {
                             breakpoint: 950,
                             settings: {
                                 slidesToShow: 2,
@@ -385,18 +430,11 @@ if (get_field('slidesToScroll')) {
         jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
     });
 
-
-
-    var accordion = document.getElementsByClassName("fachportal-accordion-icon");
-    var i;
-
-    for (i = 0; i < accordion.length; i++) {
-        accordion[i].addEventListener("click", function() {
-            this.classList.toggle("fachportal-accordion-active");
-            jQuery('#<?php echo $sliderId?>').toggle('slow');
-            jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
-        });
-    }
+    jQuery('#fachportal-accordion-<?php echo $accordionID; ?>').click(function(){
+        jQuery(this).find("img").toggleClass("fachportal-accordion-icon-active");
+        jQuery('#<?php echo $sliderId; ?>').slideToggle('slow');
+        jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+    });
 
     jQuery( "#sub-subjects-button" ).click(function() {
         jQuery('#hidden-sub-subjects-container').slideToggle('medium', function() {
@@ -408,10 +446,8 @@ if (get_field('slidesToScroll')) {
     });
 
     jQuery( document ).ready(function() {
-
         //addData(contentChart, 'Tools', 25, 'rgba(255,255,255,0.8)');
         //addData(contentChart, 'Gut zu Wissen', 5, 'rgba(255,255,255,0.2)');
-
     });
 
 </script>

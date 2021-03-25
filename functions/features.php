@@ -189,13 +189,17 @@ function themenportal_block_categories($categories, $post)
         array(
             array(
                 'slug' => 'themenportal',
-                'title' => 'Themenportal',
+                'title' => 'Fachportal',
                 'icon' => 'list-view',
+            ),
+            array(
+                'slug' => 'wlo',
+                'title' => 'WLO',
+                'icon' => 'marker',
             ),
         )
     );
 }
-
 add_filter('block_categories', 'themenportal_block_categories', 10, 2);
 
 function acf_editor_post_id()
@@ -212,16 +216,31 @@ function acf_editor_post_id()
  * checks if any of the to match values match inside the property values (from the node)
  * returns true if the item matches the matchValue (any of them)
  * If softMatch==true, items without a value set will always match any values
+ * @param $propertyValue
+ * @param $matchValue
+ * @param bool $softMatch
+ * @return bool
  */
 function checkPropertyMatch($propertyValue, $matchValue, $softMatch = true){
     // soft match == if the item has the property not defined, always display it
-    if(true || $softMatch && (empty($propertyValue))){
+    if($softMatch && (empty($propertyValue))){
+        //error_log('softmatch!');
         return true;
     }
-    foreach($matchValue as $m){
+
+    if (is_array($matchValue)){
+        foreach($matchValue as $m){
+            foreach($propertyValue as $p){
+                if(basename($p) == $m){
+                    //error_log('match: '.basename($p).'-'.$m);
+                    return true;
+                }
+            }
+        }
+    }else{
         foreach($propertyValue as $p){
-            if(portal-collection-content-browserstrpos($p, '/'.$m) !== false){
-                //echo '<pre style="background-color: lightgrey">match '.$p.'</pre>';
+            if(basename($p) == $matchValue){
+                //error_log('$matchValue: '.basename($p).'-'.$matchValue);
                 return true;
             }
         }
@@ -234,34 +253,50 @@ function callWloGraphApi($search_query)
     $curl_post_data = array("query" => $search_query);
     $data_string = json_encode($curl_post_data);
 
-    try {
-        $curl = curl_init(WLO_SEARCH.'relay/graphql');
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                'Accept: application/json',
-                'Content-Type: application/json; charset=utf-8'
-            )
-        );
-        $response = curl_exec($curl);
-        if ($response === false) {
-            echo 'curl error';
-            trigger_error(curl_error($curl), E_USER_WARNING);
+    $restApiCacheObj = null;
+    if ( ( get_transient( $search_query ) ) === false ) {
+        // this code runs when there is no valid transient set
+        // Get Select-Field Options from Vocab Scheme
+        try {
+            $curl = curl_init(WLO_SEARCH.'relay/graphql');
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                    'Accept: application/json',
+                    'Content-Type: application/json; charset=utf-8'
+                )
+            );
+            $response = curl_exec($curl);
+            if ($response === false) {
+                echo 'curl error';
+                trigger_error(curl_error($curl), E_USER_WARNING);
+                return false;
+            }
+        } catch (Exception $e) {
+            echo 'curl error: ' . $e->getMessage();
+            trigger_error($e->getMessage(), E_USER_WARNING);
             return false;
         }
-    } catch (Exception $e) {
-        echo 'curl error: ' . $e->getMessage();
-        trigger_error($e->getMessage(), E_USER_WARNING);
-        return false;
-    }
-    curl_close($curl);
+        curl_close($curl);
 
-    return json_decode($response);
+        $restApiCacheObj = json_decode($response);
+        set_transient( $search_query, $restApiCacheObj, 60 );
+    } else{
+        $restApiCacheObj = get_transient( $search_query );
+    }
+
+    return $restApiCacheObj;
 }
 
-function callWloRestApi($url, $type='GET', $body=null)
-{
+function callWloRestApi($url, $type='GET', $body=null){
+
+    $cacheTime = 60;
+    // cache source_table for 24h
+    if ($url == WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/ngsearch/?maxItems=5000&skipCount=0&propertyFilter=-all-'){
+        $cacheTime = 86400;
+    }
+
     $restApiCacheObj = null;
     if ( ( get_transient( $url.$body ) ) === false ) {
         // this code runs when there is no valid transient set
@@ -290,7 +325,7 @@ function callWloRestApi($url, $type='GET', $body=null)
         curl_close($curl);
 
         $restApiCacheObj = json_decode($response);
-        set_transient( $url.$body, $restApiCacheObj, 60 );
+        set_transient( $url.$body, $restApiCacheObj, $cacheTime );
     } else{
         $restApiCacheObj = get_transient( $url.$body );
     }
@@ -354,7 +389,10 @@ function get_educational_filter_values($postID){
 function map_educational_filter_values($filter, $postID, $array = false){
 
     if (!empty(get_query_var($filter, null))){
-        return get_query_var($filter, null);
+        //return array(get_query_var($filter, null));
+        error_log('$_GET: '.print_r($_GET[$filter], true));
+        return $_GET[$filter];
+
     }else if (!empty(get_field($filter))) {
         return ($array) ? array_column(get_field($filter), 'value') : get_field($filter);
     }else if (!empty(get_field($filter, $postID))){
@@ -650,9 +688,9 @@ function registerNewsletter($cf7) {
     //Below statement will return all data submitted by form.
     $data = $submission->get_posted_data();
 
-    if ($data['acceptance-31']){
+    if ($data['newsletter']){
         $data = array(
-            'fields[email]' => $data['newsltter-mail'],
+            'fields[email]' => $data['your-email'],
             'ml-submit' => 1
         );
         $url = 'https://static.mailerlite.com/webforms/submit/c6v7a9';
@@ -668,61 +706,91 @@ function registerNewsletter($cf7) {
         //$info = curl_getinfo($ch);
         curl_close($ch);
         //error_log('response: ' . $response);
-
-        //error_log(print_r($info, true));
-        // wikimedia
-        /*
-        $url = 'https://t67a421c2.emailsys2a.net/190/4793/d40d75cfb1/subscribe/form.html';
-        $ch = curl_init($url);
-        $postString = http_build_query($data, '', '&');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        //error_log('response: '.print_r($response));
-        curl_close($ch);
-        */
     }
 
     return $wpcf;
 }
 
-function wloSubjectColors($subject){
+function wloSubjectType($subject){
     switch ($subject) {
         case 'Biologie':
         case 'Mathematik':
         case 'Physik':
         case 'Chemie':
         case 'Informatik':
-            return '#003B7C';
+            return array(
+                    'color' => '#003B7C',
+                    'type' => 'MINT',
+            );
 
         case 'Politik':
+        case 'Politische Bildung':
         case 'Geschichte':
-            return '#3DA6EE';
+            return array(
+                'color' => '#3DA6EE',
+                'type' => 'Gesellschaftswissenschaften',
+            );
+
 
         case 'Religion':
-            return '#7F6FEE';
+            return array(
+                'color' => '#7F6FEE',
+                'type' => 'Religion',
+            );
 
         case 'Musik':
         case 'Kunst':
         case 'Darstellendes Spiel':
-            return '#E73445';
+            return array(
+                'color' => '#E73445',
+                'type' => 'Musische-Fächer',
+            );
 
         case 'Deutsch':
         case 'Deutsch als Zweitsprache':
-            return '#EC4A70';
+            return array(
+                'color' => '#EC4A70',
+                'type' => 'Deutsch',
+            );
 
         case 'Englisch':
         case 'Türkisch':
         case 'Spanisch':
-            return '#EF809A';
+            return array(
+                'color' => '#EF809A',
+                'type' => 'Fremdsprachen',
+            );
 
         case 'Sport':
-            return '#B4DA1C';
+            return array(
+                'color' => '#B4DA1C',
+                'type' => 'Sport',
+            );
 
         case 'Medienbildung':
         case 'Nachhaltigkeit':
         default:
-            return '#FFB930';
+            return array(
+                'color' => '#FFB930',
+                'type' => 'Querschnittsthemen',
+            );
+    }
+}
+
+
+function pagination_bar() {
+    global $wp_query;
+
+    $total_pages = $wp_query->max_num_pages;
+
+    if ($total_pages > 1){
+        $current_page = max(1, get_query_var('paged'));
+
+        echo paginate_links(array(
+            'base' => get_pagenum_link(1) . '%_%',
+            'format' => '/page/%#%',
+            'current' => $current_page,
+            'total' => $total_pages,
+        ));
     }
 }

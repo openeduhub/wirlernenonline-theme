@@ -1,3 +1,8 @@
+<?php if (is_admin()) {
+    echo '<div class="backend_border">';
+    echo '<div class="backend_hint">WLO: Partner</div>';
+} ?>
+
 <?php
 $title = get_field( 'title' );
 $carousel = intval(get_field('carousel'));
@@ -19,7 +24,7 @@ if( $title ){
         foreach ($partner as $supporter){
             $partner_query[] = array(
                 'key' => 'supporter',
-                'value' => $supporter['value'],
+                'value' => '"'.$supporter['value'].'"',
                 'compare' => 'LIKE'
             );
         }
@@ -49,7 +54,7 @@ if( $title ){
 
     <div class="partnerCell">
         <div class="logoCell">
-            <a href="<?php echo get_field('link', $post->ID); ?>"><img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo $image_alt; ?>"></a>
+            <a href="<?php echo get_page_link(5262); ?>"><img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo $image_alt; ?>"></a>
         </div>
     </div>
 
@@ -65,11 +70,37 @@ if( $title ){
         jQuery('.partnerBlock').slick({
             slidesToShow: <?php echo $carousel; ?>,
             slidesToScroll: 1,
-            centerMode: true,
-            centerPadding: '60px',
             autoplay: true,
             autoplaySpeed: 2000,
+            focusOnChange: true,
+            accessibility: false,
+            responsive: [
+                {
+                    breakpoint: 950,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 750,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 500,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
         });
     });
 </script>
 
+<?php if (is_admin()) {
+    echo '</div>';
+} ?>

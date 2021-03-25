@@ -8,7 +8,7 @@
 		<div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="large">
 			<button class="menu-icon" type="button" data-toggle aria-label="Hauptmenü"></button>
 			<a class="mobile-logo-container" href="<?php echo get_home_url(); ?>" aria-label="Link zur Startseite">
-				<img class="logo" src="<?php echo get_stylesheet_directory_uri() ?>/dist/assets/img/WLO-Logo-01.png" alt="Logo">
+				<img class="logo" src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/img/wlo-logo.svg" alt="Logo WLO">
 			</a>
 		</div>
 		<div class="top-bar" id="main-menu" data-animate="fade-in fade-out">
@@ -17,7 +17,7 @@
 					<div class="grid-x grid-margin-x align-middle">
 						<div class="auto cell show-for-large">
 							<a href="<?php echo get_home_url(); ?>">
-								<img class="logo" src="<?php echo get_stylesheet_directory_uri() ?>/dist/assets/img/WLO-Logo-01.png" alt="Logo">
+								<img class="logo" src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/img/wlo-logo.svg" alt="Logo WLO">
 							</a>
 						</div>
 						<div class="large-shrink small-12 cell">

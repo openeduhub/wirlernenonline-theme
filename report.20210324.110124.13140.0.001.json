@@ -1,0 +1,461 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20210324.110124.13140.0.001.json",
+    "dumpEventTime": "2021-03-24T11:01:24Z",
+    "dumpEventTimeStamp": "1616580084923",
+    "processId": 13140,
+    "cwd": "C:\\xampp\\htdocs\\oeh\\wp-content\\themes\\wir-lernen-online",
+    "commandLine": [
+      "node",
+      "C:\\xampp\\htdocs\\oeh\\wp-content\\themes\\wir-lernen-online\\node_modules\\.bin\\\\..\\gulp\\bin\\gulp.js"
+    ],
+    "nodejsVersion": "v12.14.1",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.14.1",
+      "v8": "7.7.299.13-node.16",
+      "uv": "1.33.1",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.40.0",
+      "napi": "5",
+      "llhttp": "2.0.1",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019c",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "lts": "Erbium",
+      "headersUrl": "https://nodejs.org/download/release/v12.14.1/node-v12.14.1-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.14.1/node-v12.14.1.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.14.1/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.19042",
+    "osVersion": "Windows 10 Pro",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 1992,
+        "user": 10170984,
+        "nice": 0,
+        "sys": 8290109,
+        "idle": 55469625,
+        "irq": 2130390
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 1992,
+        "user": 9786859,
+        "nice": 0,
+        "sys": 3589265,
+        "idle": 60554171,
+        "irq": 314031
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 1992,
+        "user": 12794171,
+        "nice": 0,
+        "sys": 5701546,
+        "idle": 55434578,
+        "irq": 131796
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 1992,
+        "user": 7583828,
+        "nice": 0,
+        "sys": 3489937,
+        "idle": 62856531,
+        "irq": 79734
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 1992,
+        "user": 10379203,
+        "nice": 0,
+        "sys": 5115453,
+        "idle": 58435625,
+        "irq": 117828
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 1992,
+        "user": 12039656,
+        "nice": 0,
+        "sys": 3460968,
+        "idle": 58429656,
+        "irq": 81343
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 1992,
+        "user": 11141031,
+        "nice": 0,
+        "sys": 4522218,
+        "idle": 58267031,
+        "irq": 107765
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 1992,
+        "user": 10872375,
+        "nice": 0,
+        "sys": 2889078,
+        "idle": 60168828,
+        "irq": 69453
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "vEthernet (Default Switch)",
+        "internal": false,
+        "mac": "00:15:5d:72:98:77",
+        "address": "fe80::9d0a:6ad4:b64c:f8e1",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 11
+      },
+      {
+        "name": "vEthernet (Default Switch)",
+        "internal": false,
+        "mac": "00:15:5d:72:98:77",
+        "address": "172.26.48.1",
+        "netmask": "255.255.240.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "vEthernet (WSL)",
+        "internal": false,
+        "mac": "00:15:5d:49:96:44",
+        "address": "fe80::d4e2:94b5:63cb:1191",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 64
+      },
+      {
+        "name": "vEthernet (WSL)",
+        "internal": false,
+        "mac": "00:15:5d:49:96:44",
+        "address": "172.29.208.1",
+        "netmask": "255.255.240.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "LAN-Verbindung 2",
+        "internal": false,
+        "mac": "00:ff:fa:60:78:63",
+        "address": "fe80::4d1a:e802:1ba9:c30f",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 23
+      },
+      {
+        "name": "LAN-Verbindung 2",
+        "internal": false,
+        "mac": "00:ff:fa:60:78:63",
+        "address": "10.23.43.14",
+        "netmask": "255.255.255.252",
+        "family": "IPv4"
+      },
+      {
+        "name": "WLAN",
+        "internal": false,
+        "mac": "a4:c3:f0:87:96:37",
+        "address": "fe80::d9d0:f89e:4d9f:8bb8",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 21
+      },
+      {
+        "name": "WLAN",
+        "internal": false,
+        "mac": "a4:c3:f0:87:96:37",
+        "address": "192.168.178.135",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      }
+    ],
+    "host": "DESKTOP-3P5THK5"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff79b111759",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+10873"
+    },
+    {
+      "pc": "0x00007ff79b115b7c",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+28316"
+    },
+    {
+      "pc": "0x00007ff79b114b38",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+24152"
+    },
+    {
+      "pc": "0x00007ff79b20433b",
+      "symbol": "v8::base::CPU::has_sse+37723"
+    },
+    {
+      "pc": "0x00007ff79ba08c5e",
+      "symbol": "v8::Isolate::ReportExternalAllocationLimitReached+94"
+    },
+    {
+      "pc": "0x00007ff79b9f0ca1",
+      "symbol": "v8::SharedArrayBuffer::Externalize+833"
+    },
+    {
+      "pc": "0x00007ff79b8be56c",
+      "symbol": "v8::internal::Heap::EphemeronKeyWriteBarrierFromCode+1436"
+    },
+    {
+      "pc": "0x00007ff79b8c9910",
+      "symbol": "v8::internal::Heap::ProtectUnprotectedMemoryChunks+1312"
+    },
+    {
+      "pc": "0x00007ff79b8c6444",
+      "symbol": "v8::internal::Heap::PageFlagsAreConsistent+3204"
+    },
+    {
+      "pc": "0x00007ff79b8bbcd3",
+      "symbol": "v8::internal::Heap::CollectGarbage+1283"
+    },
+    {
+      "pc": "0x00007ff79b8ba4a4",
+      "symbol": "v8::internal::Heap::AddRetainedMap+2356"
+    },
+    {
+      "pc": "0x00007ff79b8db775",
+      "symbol": "v8::internal::Factory::NewFillerObject+53"
+    },
+    {
+      "pc": "0x00007ff79b647a49",
+      "symbol": "v8::internal::interpreter::JumpTableTargetOffsets::iterator::operator=+4057"
+    },
+    {
+      "pc": "0x00007ff79be3463d",
+      "symbol": "v8::internal::SetupIsolateDelegate::SetupHeap+567949"
+    },
+    {
+      "pc": "0x000000113f9a9885",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2153414656,
+    "totalCommittedMemory": 2153414656,
+    "usedMemory": 2144017624,
+    "availableMemory": 48800000,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 261872,
+        "used": 32296,
+        "available": 229576
+      },
+      "new_space": {
+        "memorySize": 4194304,
+        "committedMemory": 4194304,
+        "capacity": 2094976,
+        "used": 128816,
+        "available": 1966160
+      },
+      "old_space": {
+        "memorySize": 2027794432,
+        "committedMemory": 2027794432,
+        "capacity": 2023471224,
+        "used": 2023362576,
+        "available": 108648
+      },
+      "code_space": {
+        "memorySize": 950272,
+        "committedMemory": 950272,
+        "capacity": 739904,
+        "used": 739904,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 1314816,
+        "committedMemory": 1314816,
+        "capacity": 918320,
+        "used": 918320,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 118849536,
+        "committedMemory": 118849536,
+        "capacity": 118832160,
+        "used": 118832160,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 49152,
+        "committedMemory": 49152,
+        "capacity": 3552,
+        "used": 3552,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 2094976,
+        "used": 0,
+        "available": 2094976
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 1090.03,
+    "kernelCpuSeconds": 1472.03,
+    "cpuConsumptionPercent": 2.83916,
+    "maxRss": 4746620928,
+    "pageFaults": {
+      "IORequired": 4634363,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 2889,
+      "writes": 777
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "=C:": "C:\\xampp\\htdocs\\oeh\\wp-content\\themes\\wir-lernen-online",
+    "dp0": "C:\\xampp\\htdocs\\oeh\\wp-content\\themes\\wir-lernen-online\\node_modules\\.bin\\",
+    "FPS_BROWSER_APP_PROFILE_STRING": "Internet Explorer",
+    "CommonProgramFiles": "C:\\Program Files\\Common Files",
+    "INIT_CWD": "C:\\xampp\\htdocs\\oeh\\wp-content\\themes\\wir-lernen-online",
+    "ProgramFiles": "C:\\Program Files",
+    "PROMPT": "$P$G",
+    "SESSIONNAME": "Console",
+    "COMPUTERNAME": "DESKTOP-3P5THK5",
+    "IntelliJ IDEA Community Edition": "C:\\Program Files\\JetBrains\\IntelliJ IDEA Community Edition 2019.2.3\\bin;",
+    "OneDriveConsumer": "C:\\Users\\Chris\\OneDrive",
+    "_prog": "node",
+    "__INTELLIJ_COMMAND_HISTFILE__": "C:\\Users\\Chris\\AppData\\Roaming\\JetBrains\\PhpStorm2020.2\\terminal\\history\\history-538",
+    "SystemDrive": "C:",
+    "NUMBER_OF_PROCESSORS": "8",
+    "LOGONSERVER": "\\\\DESKTOP-3P5THK5",
+    "TEMP": "C:\\Users\\Chris\\AppData\\Local\\Temp",
+    "TMP": "C:\\Users\\Chris\\AppData\\Local\\Temp",
+    "HOMEPATH": "\\Users\\Chris",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JSE;.WSF;.WSH;.MSC",
+    "ZES_ENABLE_SYSMAN": "1",
+    "OS": "Windows_NT",
+    "=::": "::\\",
+    "USERNAME": "Chris",
+    "NVM_HOME": "C:\\Users\\Chris\\AppData\\Roaming\\nvm",
+    "USERDOMAIN_ROAMINGPROFILE": "DESKTOP-3P5THK5",
+    "LOCALAPPDATA": "C:\\Users\\Chris\\AppData\\Local",
+    "TERMINAL_EMULATOR": "JetBrains-JediTerm",
+    "PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 142 Stepping 11, GenuineIntel",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "APPDATA": "C:\\Users\\Chris\\AppData\\Roaming",
+    "IDEA_INITIAL_DIRECTORY": "C:\\xampp\\htdocs\\oeh\\wp-content\\themes",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "USERDOMAIN": "DESKTOP-3P5THK5",
+    "NVM_SYMLINK": "C:\\Program Files\\nodejs",
+    "PROCESSOR_LEVEL": "6",
+    "ProgramData": "C:\\ProgramData",
+    "ComSpec": "C:\\WINDOWS\\system32\\cmd.exe",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "FPS_BROWSER_USER_PROFILE_STRING": "Default",
+    "SystemRoot": "C:\\WINDOWS",
+    "PhpStorm": "C:\\Program Files\\JetBrains\\PhpStorm 2019.2.3\\bin;",
+    "PROCESSOR_REVISION": "8e0b",
+    "OneDrive": "C:\\Users\\Chris\\OneDrive",
+    "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "PATH": "C:\\xampp\\htdocs\\oeh\\wp-content\\themes\\wir-lernen-online\\node_modules\\.bin;C:\\Program Files\\AdoptOpenJDK\\jdk-8.0.222.10-hotspot\\bin;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\xampp\\php;C:\\Program Files\\PuTTY\\;C:\\Program Files\\Git\\cmd;C:\\Users\\Chris\\AppData\\Roaming\\nvm;C:\\Program Files\\nodejs;C:\\ProgramData\\ComposerSetup\\bin;C:\\Program Files\\Perforce\\;C:\\Program Files\\SafeNet\\Authentication\\SAC\\x64;C:\\Program Files\\SafeNet\\Authentication\\SAC\\x32;C:\\github\\apache-maven-3.6.3\\bin;;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\ProgramData\\DockerDesktop\\version-bin;C:\\xampp\\htdocs\\wordpress\\wp-content\\plugins\\edusharing\\node_modules\\.bin;C:\\Program Files\\AdoptOpenJDK\\jdk-12.0.1.12-hotspot\\bin;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\xampp\\php;C:\\Users\\Chris\\AppData\\Local\\Microsoft\\WindowsApps;C:\\wp-cli;C:\\Users\\Chris\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\xampp\\apache\\conf\\openssl.cnf;c:\\xampp\\apache\\bin;C:\\Users\\Chris\\AppData\\Roaming\\nvm;C:\\Program Files\\nodejs;C:\\Users\\Chris\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Program Files\\JetBrains\\IntelliJ IDEA Community Edition 2019.2.3\\bin;;C:\\Program Files\\JetBrains\\PhpStorm 2019.2.3\\bin;;C:\\Program Files (x86)\\Sophos\\Sophos SSL VPN Client\\bin;C:\\Users\\Chris\\AppData\\Local\\Microsoft\\WindowsApps;",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "USERPROFILE": "C:\\Users\\Chris",
+    "windir": "C:\\WINDOWS",
+    "ProgramW6432": "C:\\Program Files",
+    "configsetroot": "C:\\WINDOWS\\ConfigSetRoot",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "PUBLIC": "C:\\Users\\Public",
+    "HOMEDRIVE": "C:",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+    "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+    "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+    "C:\\WINDOWS\\System32\\WS2_32.dll",
+    "C:\\WINDOWS\\System32\\RPCRT4.dll",
+    "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+    "C:\\WINDOWS\\System32\\msvcrt.dll",
+    "C:\\WINDOWS\\System32\\ucrtbase.dll",
+    "C:\\WINDOWS\\System32\\sechost.dll",
+    "C:\\WINDOWS\\System32\\USER32.dll",
+    "C:\\WINDOWS\\System32\\win32u.dll",
+    "C:\\WINDOWS\\System32\\GDI32.dll",
+    "C:\\WINDOWS\\System32\\gdi32full.dll",
+    "C:\\WINDOWS\\System32\\msvcp_win.dll",
+    "C:\\WINDOWS\\System32\\PSAPI.DLL",
+    "C:\\WINDOWS\\System32\\CRYPT32.dll",
+    "C:\\WINDOWS\\System32\\bcrypt.dll",
+    "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+    "C:\\WINDOWS\\System32\\IMM32.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\powrprof.dll",
+    "C:\\WINDOWS\\SYSTEM32\\UMPDC.dll",
+    "C:\\WINDOWS\\SYSTEM32\\CRYPTBASE.DLL",
+    "C:\\WINDOWS\\system32\\uxtheme.dll",
+    "C:\\WINDOWS\\System32\\combase.dll",
+    "C:\\WINDOWS\\system32\\mswsock.dll",
+    "C:\\WINDOWS\\SYSTEM32\\kernel.appcore.dll",
+    "C:\\WINDOWS\\System32\\bcryptprimitives.dll",
+    "\\\\?\\C:\\xampp\\htdocs\\oeh\\wp-content\\themes\\wir-lernen-online\\node_modules\\node-sass\\vendor\\win32-x64-72\\binding.node",
+    "C:\\WINDOWS\\System32\\NSI.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+    "C:\\WINDOWS\\system32\\napinsp.dll",
+    "C:\\WINDOWS\\system32\\pnrpnsp.dll",
+    "C:\\WINDOWS\\system32\\wshbth.dll",
+    "C:\\WINDOWS\\system32\\NLAapi.dll",
+    "C:\\WINDOWS\\System32\\winrnr.dll"
+  ]
+}

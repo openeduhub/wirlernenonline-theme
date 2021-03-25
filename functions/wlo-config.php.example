@@ -9,6 +9,7 @@ define("WLO_REPO", "https://redaktion.openeduhub.net/edu-sharing/");
 //define("WLO_REPO", "https://redaktion-staging.openeduhub.net/edu-sharing/"); // staging
 define("WLO_REPO_LOGIN", ""); // add login
 define("WLO_REPO_PW", ""); // add password
+define("WLO_REPO_UPLOAD_LOCATION", "0fa24aa1-709e-4e86-8ac0-a5bbc093e6cb");
 
 // LDAP
 define("LDAP_SERVER","10.88.88.1");

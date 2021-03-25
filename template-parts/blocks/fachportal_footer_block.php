@@ -1,6 +1,6 @@
 <?php if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">Fachportal: Footer</div>';
+    echo '<div class="backend_hint">Themenseite: Footer</div>';
 } ?>
 
 <?php
@@ -13,7 +13,7 @@ preg_match_all($pattern, $collectionUrl, $matches);
 $collectionID = $matches[1][0];
 
 $pageTitle = get_the_title($postID);
-$pageDiscipline = get_field('discipline', $postID)[0]['label'];
+$pageDiscipline = get_the_title($postID);
 
 $showAuthors = get_field('showAuthors');
 $author_ids = (!empty(get_field('authors', $postID))) ? get_field('authors', $postID) : [];
@@ -91,7 +91,7 @@ if (empty(get_field('authors', $postID))){
         <h3>Redaktion <?php echo $GLOBALS['wlo_fachportal']['title']; ?></h3>
         <p>
             Unser <?php echo $GLOBALS['wlo_fachportal']['title']; ?>-Team trägt die besten Inhalte und Materialien zusammen
-            und überprüft vorgeschlagene Inhalte. Mach mit uns werde Teil unserer Community!
+            und überprüft vorgeschlagene Inhalte. Mach mit und werde Teil unserer Community!
         </p>
     </div>
 

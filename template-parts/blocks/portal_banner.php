@@ -66,7 +66,7 @@ if (!empty($disciplines)) {
 }
 
 
-if (!empty($educationalContexts)) {
+if (!empty($educationalContexts) && false) {   // deactivated!
     $meta_query_args_educationalContexts = array(
         'relation' => 'OR'
     );

@@ -94,6 +94,28 @@ function create_wloPresse() {
 // Hooking up our function to theme setup
 add_action( 'init', 'create_wloPresse' );
 
+function create_wloTestimonials() {
+
+    register_post_type( 'testimonials',
+        // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Testimonials' ),
+                'singular_name' => __( 'Testimonial' )
+            ),
+            'public' => true,
+            'has_archive' => false,
+            'rewrite' => array('slug' => 'testimonials'),
+            'show_in_rest' => true,
+            'supports' => array('title','editor','author','revisions'),
+            'menu_icon' => 'dashicons-format-quote',
+            'taxonomies' => array('post_tag'),
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'create_wloTestimonials' );
+
 
 function create_wloUxIdeas() {
 
@@ -190,15 +212,15 @@ function create_subjectPortal() {
         // CPT Options
         array(
             'labels' => array(
-                'name' => __( 'Themenportal' ),
-                'singular_name' => __( 'Themenportal' ),
-                'edit_item' => __( 'Themenportal bearbeiten'),
+                'name' => __( 'Fachportal' ),
+                'singular_name' => __( 'Fachportal' ),
+                'edit_item' => __( 'Fachportal bearbeiten'),
             ),
             'public' => true,
             'has_archive' => true,
             'rewrite' => array('slug' => 'portal'),
             'show_in_rest' => true,
-            'supports' => array('title','editor','author','excerpt','comments','revisions','custom-fields'),
+            'supports' => array('title','editor','author', 'thumbnail', 'excerpt','comments','revisions','custom-fields'),
             'menu_icon' => 'dashicons-list-view',
             'taxonomies' => array('post_tag')
         )
@@ -289,7 +311,7 @@ add_filter( 'pre_get_posts','wlo_portal_orderby');
 
 function prefix_disable_gutenberg($current_status, $post_type){
     // Use your post type key instead of 'product'
-    if ($post_type === 'edusource' || $post_type === 'edutool' || $post_type === 'partner' || $post_type === 'presse' || $post_type === 'uxideas'){
+    if ($post_type === 'edusource' || $post_type === 'edutool' || $post_type === 'partner' || $post_type === 'presse' || $post_type === 'uxideas' || $post_type === 'testimonials'){
         return false;
     }
     return $current_status;
@@ -325,6 +347,7 @@ function wlo_portal_dropdown() {
         '20008' => 'Tuerkisch',
         '20001' => 'Englisch',
         '520' => 'Religion',
+        '480' => 'Politik',
     ];
 
     echo'<select name="discipline_filter">';
@@ -352,7 +375,6 @@ function wlo_portal_discipline_filter($query) {
         }
     }
 }
-
 add_action('pre_get_posts','wlo_portal_discipline_filter');
 
 
