@@ -225,7 +225,7 @@ if($_GET['type'] == 'tool'){
                             $formOk = 'Vielen Dank für deinen Vorschlag!<br>Er wird jetzt von unserem Redaktionteam geprüft.';
 
                             $post = get_post(url_to_postid('inhalt-hinzugefuegt'));
-                            wp_redirect(get_page_link($post->ID));
+                            wp_redirect(get_page_link($post->ID).'?type=' . $_GET['type']);
                         }
                     }
                 }
@@ -261,9 +261,9 @@ if($_GET['type'] == 'tool'){
             <input type="hidden" id="pageTitle" name="pageTitle" value="<?php echo @$pageTitle; ?>">
             <input type="hidden" id="formMds" name="mds">
         </form>
-        <div class="portal_form_button submit-btn">
+        <!--<div class="portal_form_button submit-btn">
             <button class="wlo-button" id="mds-submit" onclick="submitForm()" style="display:none">Absenden</button>
-        </div>
+        </div>-->
 
 
         <script type="application/javascript">
@@ -278,7 +278,7 @@ if($_GET['type'] == 'tool'){
             }
             ?>
             function submitForm() {
-                document.getElementById('mds-submit').disabled = true;
+                //document.getElementById('mds-submit').disabled = true;
                 document.getElementById('mds-frame').contentWindow.postMessage({event:'PARENT_FETCH_DATA'}, '*');
             }
             function receiveMessage(event){
@@ -286,7 +286,7 @@ if($_GET['type'] == 'tool'){
                     document.getElementById('mds-frame').style.height = (event.data.data) + 'px';
                     // timeout to make sure mds is prepared by edu-sharing
                     setTimeout(() => document.getElementById('mds-frame').style.opacity = 1, 1000);
-                    setTimeout(() => document.getElementById('mds-submit').style.display = '', 2000);
+                    //setTimeout(() => document.getElementById('mds-submit').style.display = '', 2000);
                 }
                 if(event.data.event !== 'CONTENT_HEIGHT') {
                     //console.log(event);
@@ -296,7 +296,7 @@ if($_GET['type'] == 'tool'){
                     console.log(event.data);
                     if(mds==null){
                         alert('Bitte fügen Sie eine Datei/Link hinzu und geben dem Inhalt einen Titel.');
-                        document.getElementById('mds-submit').disabled = false;
+                        //document.getElementById('mds-submit').disabled = false;
                         return;
                     }
                     console.log(mds);
@@ -304,7 +304,7 @@ if($_GET['type'] == 'tool'){
                     console.log(size / 1024 / 1024);
                     if((!mds['ccm:wwwurl'] && !mds['fileupload-link']) && !size || size > 1024*1024*100){
                         alert('Die Größe von Dateien ist aktuell auf 100MB begrenzt');
-                        document.getElementById('mds-submit').disabled = false;
+                        //document.getElementById('mds-submit').disabled = false;
                         return;
                     }
                     document.getElementById('formMds').value = JSON.stringify(mds);
