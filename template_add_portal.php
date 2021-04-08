@@ -105,6 +105,7 @@ if($_GET['type'] == 'tool'){
                 $mdsData["ccm:wwwurl"] = $mdsData['fileupload-link'];
             }
             $mdsData["ccm:objecttype"] = [$objectType];
+            $mdsData["ccm:editorial_checklist"] = ['1'];
 
             // unfold license
             if(isset($mdsData["ccm:custom_license"])){
@@ -189,8 +190,8 @@ if($_GET['type'] == 'tool'){
                         @unlink($uploadFile);
                     }
                     if(!$formErr){
-                        $apiUrl = 'rest/collection/v1/collections/-home-/'.COLLECTION_ADD_ID.'/references/' . $nodeID;
-                        callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
+                        // $apiUrl = 'rest/collection/v1/collections/-home-/'.COLLECTION_ADD_ID.'/references/' . $nodeID;
+                        // callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
                         $workflowComment = 'Für folgende Sammlung(en) vorgeschlagen: ';
                         if($mdsData['ccm:curriculum']){
                             array_walk($mdsData['ccm:curriculum'], function(&$m){ $m = str_replace('http://w3id.org/openeduhub/vocabs/oeh-topics/', '', $m);});
