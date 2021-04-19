@@ -104,8 +104,14 @@ if($_GET['type'] == 'tool'){
             } else if($mdsData['fileupload-link']) {
                 $mdsData["ccm:wwwurl"] = $mdsData['fileupload-link'];
             }
+            // prefix with http if missing
+            if($mdsData["ccm:wwwurl"] && strtolower(substr($mdsData["ccm:wwwurl"][0],0,4)) != 'http'){
+                $mdsData["ccm:wwwurl"][0] = 'http://' . $mdsData["ccm:wwwurl"][0];
+            }
             $mdsData["ccm:objecttype"] = [$objectType];
-            $mdsData["ccm:editorial_checklist"] = ['1'];
+            $mdsData["ccm:editorial_checklist"] = ['0'];
+            // to generate thumbs
+            $mdsData["ccm:linktype"] = ['USER_GENERATED'];
 
             // unfold license
             if(isset($mdsData["ccm:custom_license"])){
