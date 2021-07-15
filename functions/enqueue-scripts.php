@@ -6,7 +6,6 @@ function site_scripts() {
     $versionDate = '20200821';
     //JS
     wp_enqueue_script( 'site-js', get_template_directory_uri() . '/dist/assets/js/app.js', array( 'jquery' ), '', true );
-    wp_enqueue_script( 'sort-table', get_template_directory_uri() . '/src/assets/js/sort-table.min.js', array(), '', true );
     wp_enqueue_script( 'slick', get_template_directory_uri() . '/dist/assets/js/slick.min.js', array( 'jquery' ), '', true );
 
     if (is_page_template('archive-edusource.php') || is_page_template('archive-edutool.php') || is_front_page() || true) {
@@ -20,6 +19,12 @@ function site_scripts() {
     if ( is_singular( 'portal' ) ) {
         wp_enqueue_script( 'chart-js', get_template_directory_uri() . '/dist/assets/js/Chart.min.js', array( 'jquery' ), '', false );
         wp_enqueue_style( 'chart-css', get_template_directory_uri() . '/dist/assets/scss/Chart.css', array(), $versionDate, 'all' );
+    }
+
+    // source_table
+    if ( is_page('4225' ) ) {
+        wp_enqueue_script( 'chart-js', get_template_directory_uri() . '/src/assets/js/datatables/datatables.min.js', array( 'jquery' ), '', false );
+        wp_enqueue_style( 'chart-css', get_template_directory_uri() . '/src/assets/js/datatables/datatables.min.css', array(), $versionDate, 'all' );
     }
 
 
@@ -39,11 +44,16 @@ function admin_scripts() {
     $versionDate = '20200821';
     //JS
     //wp_enqueue_script( 'site-js', get_template_directory_uri() . '/dist/assets/js/app.js', array( 'jquery' ), '', true );
-    wp_enqueue_script( 'sort-table', get_template_directory_uri() . '/src/assets/js/sort-table.min.js', array(), '', true );
     wp_enqueue_script( 'slick', get_template_directory_uri() . '/dist/assets/js/slick.min.js', array( 'jquery' ), '', true );
 
     wp_enqueue_script( 'chart-js', get_template_directory_uri() . '/dist/assets/js/Chart.min.js', array( 'jquery' ), '', true );
     wp_enqueue_style( 'chart-css', get_template_directory_uri() . '/dist/assets/scss/Chart.css', array(), $versionDate, 'all' );
+
+    // source_table
+    if ( is_page('4225' ) ) {
+        wp_enqueue_script( 'chart-js', get_template_directory_uri() . '/src/assets/js/datatables/datatables.min.js', array( 'jquery' ), '', false );
+        wp_enqueue_style( 'chart-css', get_template_directory_uri() . '/src/assets/js/datatables/datatables.min.css', array(), $versionDate, 'all' );
+    }
 
 
     // CSS

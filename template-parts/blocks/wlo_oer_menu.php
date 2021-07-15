@@ -1,6 +1,6 @@
 <?php if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">WLO: einfache Kachel</div>';
+    echo '<div class="backend_hint">WLO: OER-Menü</div>';
 } ?>
 
 <?php

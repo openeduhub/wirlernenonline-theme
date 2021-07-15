@@ -28,6 +28,7 @@ $contentCount = get_field('content_count');
 $contentType = get_field('contentType');
 $blockIcon = get_field('blockIcon')['url'];
 $softmatch = get_field('softmatch');
+$sorting = get_field('sorting');
 $descrText = base64_encode(get_field('descrText'));
 
 $headline = '';
@@ -65,6 +66,7 @@ $showSliderDots = 'true';
             'collectionLevel': '<?php echo $collectionLevel; ?>',
             'blockIcon': '<?php echo $blockIcon; ?>',
             'softmatch': '<?php echo $softmatch; ?>',
+            'sorting': '<?php echo $sorting; ?>',
             'slidesToShow': '<?php echo $slidesToShow; ?>',
             'slidesToScroll': '<?php echo $slidesToScroll; ?>',
             'contentCount': '<?php echo $contentCount; ?>',

@@ -19,8 +19,8 @@ add_filter('block_categories', 'custom_block_category', 10, 2);
 // Register Custom Blocks
 // For Icons go to: https://developer.wordpress.org/resource/dashicons/ – But leafe the "dashicons-" Prefix
 
-function register_acf_block_types()
-{
+function register_acf_block_types() {
+    /*
     acf_register_block_type(['name' => 'Home Hero Field',
         'title' => __('Home Hero Field'),
         'description' => __('Big Field with Search input and checkboxes'),
@@ -45,22 +45,18 @@ function register_acf_block_types()
         'icon' => 'format-gallery',
         'keywords' => [],
     ]);
-    acf_register_block_type(['name' => 'Quellenerschliesung',
-        'title' => __('Quellenerschliesung'),
-        'description' => __('Zeigt eine Auflistung der Quellenerschließung'),
-        'render_template' => 'template-parts/blocks/source_development.php',
-        'category' => 'custom-blocks',
-        'icon' => 'tag',
-        'keywords' => [],
-    ]);
+    */
+
     acf_register_block_type(['name' => 'Quellentabelle',
-        'title' => __('Quellentabelle'),
+        'title' => __('WLO: Quellentabelle'),
         'description' => __('Zeigt eine Auflistung der Quellenerschließung'),
         'render_template' => 'template-parts/blocks/source_table.php',
         'category' => 'custom-blocks',
         'icon' => 'tag',
         'keywords' => [],
     ]);
+
+    /*
     acf_register_block_type(['name' => 'Letzte Blog Posts',
         'title' => __('Letzte Blog Posts'),
         'description' => __('Letzte Blog Posts'),
@@ -93,6 +89,8 @@ function register_acf_block_types()
         'icon' => 'media-document',
         'keywords' => [],
     ]);
+    */
+
     acf_register_block_type(['name' => 'wlo-job',
         'title' => __('WLO-Job'),
         'description' => __('Block mit Job-link'),
@@ -101,6 +99,8 @@ function register_acf_block_types()
         'icon' => 'id-alt',
         'keywords' => [],
     ]);
+
+    /*
     acf_register_block_type(['name' => 'portal_breadcrumbs',
         'title' => __('Breadcrumbs'),
         'description' => __('Zeigt den Pfad der übergeordneten Seiten an.'),
@@ -308,6 +308,18 @@ fill="none"></path>
         'keywords' => [],
         'supports' => ['anchor' => true],
 ]);
+*/
+
+
+    acf_register_block_type(['name' => 'edusharing_repo_button',
+        'title'				=> __('Button zu edu-sharing'),
+        'description'		=> __('Springt zum ES-Repo mit Login.'),
+        'render_template'	=> 'template-parts/blocks/edusharing_repo_button.php',
+        'category'			=> 'custom-blocks',
+        'icon'				=> 'admin-links',
+        'keywords'			=> [ ],
+    ]);
+
 acf_register_block_type(['name' => 'portal_feature_content',
         'title' => __('Feature des Monats'),
         'description' => __('Hebt einen Inhalt besonders hervor.'),
@@ -317,15 +329,9 @@ acf_register_block_type(['name' => 'portal_feature_content',
         'keywords' => [],
         'supports' => ['anchor' => true],
 ]);
-acf_register_block_type(['name' => 'edusharing_repo_button',
-    'title'				=> __('Button zu edu-sharing'),
-    'description'		=> __('Springt zum ES-Repo mit Login.'),
-    'render_template'	=> 'template-parts/blocks/edusharing_repo_button.php',
-    'category'			=> 'custom-blocks',
-    'icon'				=> 'admin-links',
-    'keywords'			=> [ ],
-]);
-acf_register_block_type(['name' => 'portal_toggle_content',
+
+
+/*acf_register_block_type(['name' => 'portal_toggle_content',
     'title'				=> __('Themenportal: Ergebnis Auswahl'),
     'description'		=> __('Wechselt zwischen Qualitätsgesicherten Inhalten und Suchergebnissen'),
     'render_template'	=> 'template-parts/blocks/portal_toggle_content.php',
@@ -364,7 +370,9 @@ acf_register_block_type(['name' => 'portal_widget',
     'category'			=> 'themenportal',
     'icon'				=> 'format-image',
     'keywords'			=> [ ],
-]);
+]);*/
+
+
 acf_register_block_type(['name' => 'fachportal_content_block',
     'title'				=> __('Fachportal: Inhaltsblock'),
     'description'		=> __('Zeigt Sammlungs-Inhalte an.'),
@@ -473,6 +481,14 @@ acf_register_block_type(['name' => 'wlo_basic_tile',
     ),
     'keywords'			=> [ ],
 ]);
+acf_register_block_type(['name' => 'wlo_collapsable_text',
+    'title'				=> __('WLO einklappbarer Text'),
+    'description'		=> __('z.B. für die Beirats-Seite'),
+    'render_template'	=> 'template-parts/blocks/wlo_collapsable_text.php',
+    'category'			=> 'wlo',
+    'icon'				=> 'editor-alignleft',
+    'keywords'			=> [ ],
+]);
 acf_register_block_type(['name' => 'wlo_oer_menu',
     'title'				=> __('WLO Untermenü für OER-Seiten'),
     'description'		=> __('Nur für die OER-Seiten'),
@@ -483,6 +499,22 @@ acf_register_block_type(['name' => 'wlo_oer_menu',
         'mode' => false,
         '__experimental_jsx' => true
     ),
+    'keywords'			=> [ ],
+]);
+acf_register_block_type(['name' => 'wlo_redaktion_menu',
+    'title'				=> __('WLO Nav für Redaktionsseiten'),
+    'description'		=> __('Nur für Redaktionsseiten'),
+    'render_template'	=> 'template-parts/blocks/wlo_redaktion_menu.php',
+    'category'			=> 'wlo',
+    'icon'				=> 'admin-links',
+    'keywords'			=> [ ],
+]);
+acf_register_block_type(['name' => 'wlo_redaktion_tool',
+    'title'				=> __('Qualitätskontrolle für die Themenseiten'),
+    'description'		=> __('Nur für Redaktionsseiten'),
+    'render_template'	=> 'template-parts/blocks/wlo_redaktion_tool.php',
+    'category'			=> 'wlo',
+    'icon'				=> 'admin-settings',
     'keywords'			=> [ ],
 ]);
 acf_register_block_type(['name' => 'wlo_testimonials',

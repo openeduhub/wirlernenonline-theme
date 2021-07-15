@@ -17,11 +17,9 @@ $(document).ready(function($) {
   $window.on('scroll', function(){
     var scrollTop = $window.scrollTop();
     if (scrollTop < 0) {
-      console.log('nav.removeClass("hidden")');
       nav.removeClass('hidden');
       return;
     } else {
-      console.log('toggleClass nav-hidden');
       nav.toggleClass('hidden', scrollTop > prev);
     }
     prev = scrollTop;

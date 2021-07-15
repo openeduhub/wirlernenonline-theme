@@ -159,7 +159,7 @@ function create_methodPage() {
     );
 }
 // Hooking up our function to theme setup
-add_action( 'init', 'create_methodPage' );
+//add_action( 'init', 'create_methodPage' );
 
 function create_toolScenarioPage() {
 
@@ -181,7 +181,7 @@ function create_toolScenarioPage() {
     );
 }
 // Hooking up our function to theme setup
-add_action( 'init', 'create_toolScenarioPage' );
+//add_action( 'init', 'create_toolScenarioPage' );
 
 function create_toolPage() {
 
@@ -203,7 +203,7 @@ function create_toolPage() {
     );
 }
 // Hooking up our function to theme setup
-add_action( 'init', 'create_toolPage' );
+//add_action( 'init', 'create_toolPage' );
 
 
 function create_subjectPortal() {

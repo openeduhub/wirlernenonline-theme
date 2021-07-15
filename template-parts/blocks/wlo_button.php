@@ -20,6 +20,20 @@ $buttonIconAlign = 'flex-direction: row;';
 if (get_field('buttonIconAlign') == 'right'){
     $buttonIconAlign = 'flex-direction: row-reverse;';
 }
+$linkUrl = get_field('url');
+if (strpos($linkUrl, 'redaktion.openeduhub.net') && is_page_template( 'page-templates/template_redaktion.php' )  ){
+    if (function_exists('get_repo_ticket')){
+        $ticket = get_repo_ticket();
+    }else{
+        $ticket = '';
+    }
+
+    if (strpos($linkUrl, '?') !== false){
+        $linkUrl .= '&ticket='.$ticket;
+    }else{
+        $linkUrl .= '?ticket='.$ticket;
+    }
+}
 $externalLink = '';
 if (get_field('external')){
     $externalLink = 'target="_blank"';
@@ -35,7 +49,7 @@ if ( is_page_template( 'page-templates/template_redaktion.php' ) ) {
 
 ?>
 
-<a class="wlo-block-button <?php echo $yellowButton; ?>" href="<?php echo get_field('url'); ?>" <?php echo $externalLink; ?>
+<a class="wlo-block-button <?php echo $yellowButton; ?>" href="<?php echo $linkUrl; ?>" <?php echo $externalLink; ?>
    style="<?php echo $buttonAlign . $buttonIconAlign . $buttonMargin; ?>">
     <?php if (!empty(get_field('buttonIcon'))){ ?>
         <img src="<?php echo get_field('buttonIcon')['url']; ?>" alt="">

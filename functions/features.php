@@ -388,15 +388,12 @@ function get_educational_filter_values($postID){
 
 function map_educational_filter_values($filter, $postID, $array = false){
 
-    if (!empty(get_query_var($filter, null))){
-        //return array(get_query_var($filter, null));
-        error_log('$_GET: '.print_r($_GET[$filter], true));
+    if (!empty($_GET[$filter])){
         return $_GET[$filter];
-
     }else if (!empty(get_field($filter))) {
-        return ($array) ? array_column(get_field($filter), 'value') : get_field($filter);
+        return $array ? array_column(get_field($filter), 'value') : get_field($filter);
     }else if (!empty(get_field($filter, $postID))){
-        return ($array) ? array_column(get_field($filter, $postID), 'value') : get_field($filter, $postID);
+        return $array ? array_column(get_field($filter, $postID), 'value') : get_field($filter, $postID);
     }
     return '';
 }
@@ -556,10 +553,11 @@ add_action( 'template_redirect', 'restrict_redaktionsumgebung' );
 
 
 function wlo_update_custom_roles() {
-    if ( get_option( 'custom_roles_version' ) < 4 ) {
+    if ( get_option( 'custom_roles_version' ) < 5 ) {
         add_role( 'portal_redakteur', 'Themenportal Redakteur', get_role( 'editor' )->capabilities );
         add_role( 'community_redakteur', 'Community Redakteur', get_role( 'subscriber' )->capabilities );
-        update_option( 'custom_roles_version', 4 );
+        add_role( 'uploadtahon_user', 'Uploadtahon', get_role( 'editor' )->capabilities );
+        update_option( 'custom_roles_version', 5 );
     }
 }
 add_action( 'init', 'wlo_update_custom_roles' );
@@ -613,11 +611,11 @@ function callRepoApi($restUrl, $data=null, $contentType = 'Content-Type: applica
     curl_close($curl);
 
     if(!$result && $httpcode != 200){
-        echo "Connection Failure (http-code: ".$httpcode.")<br>";
+        echo "Connection Failure (http-code: ".$httpcode.", mode: ".$mode.")<br>";
         return false;
     }
 
-
+    //error_log(print_r($result, true));
     return json_decode($result, true);
 }
 
@@ -793,4 +791,33 @@ function pagination_bar() {
             'total' => $total_pages,
         ));
     }
+}
+
+/**
+ * Ultimate Member 2.0 - Customization
+ * Description: Allow everyone to upload profile registration pages.
+ */
+add_filter("um_user_pre_updating_files_array","um_custom_user_pre_updating_files_array", 10, 1);
+function um_custom_user_pre_updating_files_array( $arr_files ){
+
+    if( is_array( $arr_files ) ){
+        foreach( $arr_files as $key => $details ){
+            if( $key == "reg_profile_img" ){
+                unset( $arr_files[ $key ] );
+                $arr_files[ "profile_photo" ] = $details;
+            }
+        }
+    }
+
+    return $arr_files;
+}
+
+add_filter("um_allow_frontend_image_uploads","um_custom_allow_frontend_image_uploads",10, 3);
+function um_custom_allow_frontend_image_uploads( $allowed, $user_id, $key ){
+
+    if( $key == "profile_photo" ){
+        return true;
+    }
+
+    return $allowed; // false
 }
