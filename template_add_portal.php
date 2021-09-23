@@ -177,7 +177,11 @@ if($_GET['type'] == 'tool'){
                 //second api-call for file upload
                 if (!empty($nodeID)) {
                     //echo 'Uploading File...<br>';
-
+                    // fix auto-generated www title, description, etc.
+                    if($mdsData['ccm:wwwurl']) {
+                        $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/metadata?versionComment=WLO-Uploadformular';
+                        callRepoApi($apiUrl, json_encode($mdsData));
+                    }
                     $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/content?versionComment=MAIN_FILE_UPLOAD&mimetype=' . $mdsData['fileupload-filetype'][0];
                     if($mdsData['fileupload-filedata']) {
                         $uploadFile = tempnam(".", "upload_");
