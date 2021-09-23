@@ -161,6 +161,7 @@ $GLOBALS['wlo_fachportal'] = array(
                                     <div class="sub-subject">
                                         <a href="<?php echo $ccm_location; ?>">
                                             <p><?php echo $title; ?></p>
+                                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward_white.svg">
                                         </a>
                                     </div>
                                 <?php } ?>

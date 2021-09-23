@@ -52,11 +52,19 @@ function add_portal(WP_REST_Request $request) {
 
     $collection_id = $request->get_param( 'collectionId' );
 
-    $disciplines = explode(",",urldecode($request->get_param( 'discipline' )));
-    $disciplinesMapped = array_map("clean_discipline", $disciplines);
+    $requestDiciplines = explode(",",urldecode($request->get_param( 'discipline' )));
+
+    $diciplines = getWloVocaps('discipline')->hasTopConcept;
+    $disciplinesMapped = [];
+    foreach ($requestDiciplines as $currentDicipline){
+        foreach ($diciplines as $dicipline){
+            if ($dicipline->id == $currentDicipline){
+                $disciplinesMapped[] = $dicipline->prefLabel->de;
+            }
+        }
+    }
 
     $topic = urldecode($request->get_param( 'title' ));
-
 
     $edu_contexts = explode(",",urldecode($request->get_param( 'educationalContext')));
     $intended_end_user_roles = explode(",",urldecode($request->get_param( 'intendedEndUserRole')));
@@ -109,19 +117,29 @@ function add_portal(WP_REST_Request $request) {
 		if($collection_level > 1){
 			$collection_level = 1;
 		}
-        //Copy Themenportal-Vorlage Content
-        if ($template = get_page_by_path('themenportal-vorlage-'. $collection_level, OBJECT, 'portal'))
-            $template_id = $template->ID;
 
-        if ($template_id)
+        //Copy Themenportal-Vorlage Content
+        if ($template = get_page_by_path('themenportal-vorlage-'. $collection_level, OBJECT, 'portal')){
+            $template_id = $template->ID;
+        }
+
+        if ($template_id){
             $content = get_post_field('post_content', $template_id);
+        }
+
+        $slug = '';
+        foreach ($disciplinesMapped as $discipline){
+            $slug .= $discipline.'-';
+        }
+        $slug .= $topic;
 
         $portal_insert = array(
             'post_author' => 'admin',
             'post_content' => $content,
             'post_content_filtered' => '',
             'post_title' => $topic,
-            'post_name' => sanitize_title_with_dashes($topic.'-'.$node->properties->{'ccm:taxonid_DISPLAYNAME'}[0], '', 'save'),
+            //'post_name' => sanitize_title_with_dashes($topic.'-'.$node->properties->{'ccm:taxonid_DISPLAYNAME'}[0], '', 'save'),
+            'post_name' => sanitize_title_with_dashes($slug, '', 'save'),
             'post_excerpt' => '',
             'post_status' => 'draft',
             'post_type' => 'portal',
@@ -154,7 +172,7 @@ function add_portal(WP_REST_Request $request) {
                     return $disciplineIdNr;
                 }
             }
-            update_field('discipline', array_map("clean_discipline", $disciplines), $post_id);
+            update_field('discipline', array_map("clean_discipline", $requestDiciplines), $post_id);
 
 
             //Edu Context
@@ -233,10 +251,10 @@ function add_portal(WP_REST_Request $request) {
           */
 
             require_once ABSPATH . '/wp-admin/includes/post.php';
-            $sample_permalink_obj = get_sample_permalink($post_id, $title);
+            $slug = get_post_field( 'post_name', $post_id );
 
             http_response_code(200);
-            print(str_replace('%pagename%', $sample_permalink_obj[1], $sample_permalink_obj[0]));
+            print(get_site_url().'/portal/'.$slug);
 
             return;
         } else {

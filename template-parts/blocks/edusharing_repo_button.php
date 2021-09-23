@@ -5,7 +5,6 @@ if (function_exists('get_repo_ticket')){
     $ticket = get_repo_ticket();
     $repo_url = get_option('es_repo_url');
     $link_text = get_field('text');
-
 }else{
     $ticket = '';
     $repo_url = '#';

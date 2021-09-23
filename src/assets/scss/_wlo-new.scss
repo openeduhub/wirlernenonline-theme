@@ -30,6 +30,7 @@
     color: white;
     font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 14px;
+    text-decoration: none;
     border-radius: 15px;
     transition: 0.3s;
 
@@ -74,12 +75,18 @@
   a{
     font-family: 'Source-Sans-Pro-Bold', sans-serif;
     font-weight: 700;
-    //text-decoration: underline;
+    text-decoration: underline;
   }
 
-  ul{
+  ul, ol{
     font-family: 'Source-Sans-Pro-Regular', sans-serif;
     font-size: 15px;
+
+    a{
+      font-family: 'Source-Sans-Pro-Bold', sans-serif;
+      font-weight: 700;
+      text-decoration: underline;
+    }
   }
 
   .wlo-button{
@@ -94,6 +101,7 @@
     color: $wlo-primary-dark;
     font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 14px;
+    text-decoration: none;
     border-radius: 15px;
     transition: 0.3s;
 
@@ -543,7 +551,7 @@
       font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
       font-style: normal;
       font-weight: 500;
-      font-size: 40px;
+      font-size: 26px;
       line-height: 150%;
       color: #333333;
       margin-top: 1em;
@@ -624,6 +632,7 @@
       font-style: normal;
       font-weight: 600;
       font-size: 14px;
+      text-decoration: none;
       background: $wlo-primary-dark;
       padding: 6px 12px;
       box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2);
@@ -648,7 +657,7 @@
 }
 
 .wlo-page .wlo-wrapper .wlo-blog-wrapper h2{
-  font-size: 22px;
+  font-size: 26px;
   margin-left: 12px;
 }
 
@@ -758,6 +767,7 @@
       color: white;
       font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
       font-size: 14px;
+      text-decoration: none;
       border-radius: 15px;
       transition: 0.3s;
 
@@ -877,6 +887,7 @@
   color: white;
   font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-size: 14px;
+  text-decoration: none !important;
   cursor: pointer;
   border-radius: 15px;
   transition: 0.3s;
@@ -961,62 +972,83 @@
       font-size: 16px;
     }
 
-    .wlo-partner-text{
-      position: relative;
-      overflow: hidden;
-      max-height: 3.7em;
-      width: 85%;
-      transition: 0.5s;
 
-      p{
-        margin: 0.5em 0 0;
-      }
-    }
+  }
 
-    .wlo-partner-text::after {
-      content: "";
-      text-align: right;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 30%;
-      height: 1.2em;
-      background: linear-gradient(to right, rgba(244, 244, 244, 0), rgba(244, 244, 244, 1) 50%);
+
+}
+
+.wlo-partner-text{
+  position: relative;
+  overflow: hidden;
+  max-height: 3.7em;
+  width: 85%;
+  transition: 0.5s;
+
+  p{
+    margin: 0.5em 0 0;
+  }
+}
+
+.wlo-partner-text::after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.2em;
+  background: linear-gradient(to right, rgba(244, 244, 244, 0), rgba(244, 244, 244, 1) 50%);
+}
+
+.wlo-partner-button{
+  width: 10%;
+  align-self: flex-end;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 14px;
+    height: 30px;
+    width: fit-content;
+    margin: 0.5em 1em 0.5em 0;
+    padding: 8px 1em;
+    background: $wlo-primary-dark;
+    cursor: pointer;
+    border: 2px solid $wlo-primary-dark;
+    border-radius: 50px;
+    transition: 0.3s;
+
+    img {
+      margin-left: 4px;
+      max-width: 15px;
+      transition: 0.3s;
     }
   }
 
+  div:hover{
+    color: white;
+    background: $wlo-primary;
+  }
+}
+
+.wlo-collapsable-text{
+  .wlo-partner-text{
+    max-height: 6.94em;
+    width: 90%;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .wlo-partner-text::after {
+    height: 1.1em;
+  }
+
   .wlo-partner-button{
-    width: 10%;
-    align-self: flex-end;
-
-    div {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
-      font-size: 14px;
-      height: 30px;
-      width: fit-content;
-      margin: 0.5em 1em 0.5em 0;
-      padding: 8px 1em;
-      background: $wlo-primary-dark;
-      cursor: pointer;
-      border: 2px solid $wlo-primary-dark;
-      border-radius: 50px;
-      transition: 0.3s;
-
-      img {
-        margin-left: 4px;
-        max-width: 15px;
-        transition: 0.3s;
-      }
-    }
-
-    div:hover{
-      color: white;
-      background: $wlo-primary;
-    }
+    width: 100%;
   }
 }
 
@@ -1251,9 +1283,54 @@
   }
 }
 
+.wlo-redaktion-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+
+  h1{
+    margin: 0;
+  }
+
+  .wlo-redaktion-header-buttons{
+    max-width: 180px;
+    display: flex;
+    justify-content: space-evenly;
+
+    a{
+      margin: 0 0.75em;
+      transition: 0.3s;
+    }
+
+    a:first-child{
+      margin-left: 0;
+    }
+
+    a:hover{
+      transform: translate(0, -4px);
+    }
+
+    img{
+      max-height: 38px;
+    }
+  }
+}
 
 
 
+@media (max-width: 1175px) {
+  .wlo-oer-menu {
+    .wlo-oer-menu-tabs {
+
+      .wlo-oer-menu-tab {
+        min-width: auto;
+        padding: 0.25em 0.75em;
+      }
+    }
+  }
+
+}
 
 
 
@@ -1338,6 +1415,16 @@
           width: 90%;
         }
       }
+    }
+  }
+
+  .wlo-redaktion-header{
+    flex-direction: column-reverse;
+    align-items: flex-start;
+
+    .wlo-redaktion-header-buttons{
+      margin-bottom: 1em;
+      align-self: flex-end;
     }
   }
 

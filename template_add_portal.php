@@ -172,7 +172,7 @@ if($_GET['type'] == 'tool'){
             if(!$parent){
                 $formErr = 'Interner Verarbeitungsfehler: Gruppenordner ' . $location. ' nicht gefunden';
             }else {
-                $apiUrl = 'rest/node/v1/nodes/-home-/'.$parent.'/children?type=ccm%3Aio&renameIfExists=true';
+                $apiUrl = 'rest/node/v1/nodes/-home-/'.$parent.'/children?type=ccm:io&renameIfExists=true';
                 $nodeID = callRepoApi($apiUrl, json_encode($mdsData))['node']['ref']['id'];
                 //second api-call for file upload
                 if (!empty($nodeID)) {

@@ -150,28 +150,33 @@ if (get_field('slidesToScroll')) {
             $subCollections = callWloRestApi($url);
             $filteredSubCollections = [];
 
-            foreach ($subCollections->collections as $collection){
+            if (!empty($subCollections->collections)){
+                foreach ($subCollections->collections as $collection){
 
-                // Filter hidden collections
-                if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated' ) {
-                    continue;
-                }
+                    // Filter hidden collections
+                    if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated' ) {
+                        continue;
+                    }
 
-                // Filter educationalContexts
-                if (!empty($educationalContexts)) {
-                    if (empty($collection->properties->{'ccm:educationalcontext'})){ // skip empty?
-                        //continue;
-                    }else{
-                        if (!checkPropertyMatch($collection->properties->{'ccm:educationalcontext'}, $educationalContexts, true)) {
-                            continue;
+                    // Filter educationalContexts
+                    if (!empty($educationalContexts)) {
+                        if (empty($collection->properties->{'ccm:educationalcontext'})){ // skip empty?
+                            //continue;
+                        }else{
+                            if (!checkPropertyMatch($collection->properties->{'ccm:educationalcontext'}, $educationalContexts, true)) {
+                                continue;
+                            }
                         }
                     }
-                }
 
-                $filteredSubCollections[] = $collection;
+                    $filteredSubCollections[] = $collection;
+                }
             }
 
             $maxSubCollections = 6;
+            if (get_field('maxSubCollections')) {
+                $maxSubCollections = get_field('maxSubCollections');
+            }
             ?>
             <div class="collections">
                 <?php if (!empty($filteredSubCollections)) : ?>
@@ -179,9 +184,6 @@ if (get_field('slidesToScroll')) {
                         <div class="sub-subjects-header">
                             <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/categories.svg" alt="Icon: Unterthemen">
                             <h2>Unterthemen <?php echo get_the_title($postID); ?></h2>
-                            <?php if (count($filteredSubCollections) > $maxSubCollections): ?>
-                                <img id="sub-subjects-button" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg" alt="Mehr Unterthemen anzeigen">
-                            <?php endif; ?>
                         </div>
                         <div class="sub-subjects-container">
                             <?php foreach (array_slice($filteredSubCollections, 0, $maxSubCollections) as $collection) {
@@ -196,9 +198,19 @@ if (get_field('slidesToScroll')) {
                                 <div class="sub-subject">
                                     <a href="<?php echo $ccm_location; ?>">
                                         <p><?php echo $title; ?></p>
+                                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward_white.svg">
                                     </a>
                                 </div>
                             <?php } ?>
+                            <?php if (count($filteredSubCollections) > $maxSubCollections): ?>
+                                <div class="sub-subject">
+                                    <a id="sub-subjects-button" href="#">
+                                        <p>mehr anzeigen</p>
+                                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down_white.svg">
+                                    </a>
+                                </div>
+
+                            <?php endif; ?>
                         </div>
                         <div id="hidden-sub-subjects-container" class="sub-subjects-container">
                             <?php foreach (array_slice($filteredSubCollections, $maxSubCollections) as $collection) {
@@ -211,6 +223,7 @@ if (get_field('slidesToScroll')) {
                                 <div class="sub-subject">
                                     <a href="<?php echo $ccm_location; ?>">
                                         <p><?php echo $title; ?></p>
+                                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward_white.svg">
                                     </a>
                                 </div>
                             <?php } ?>
@@ -236,9 +249,9 @@ if (get_field('slidesToScroll')) {
 
             <div class="diagram-legend">
                 <div class="diagram-legend-entry Wissen" style="color: <?php echo $fontColor ?> !important;">Gut zu Wissen <div class="diagram-legend-color"></div></div>
-                <div class="diagram-legend-entry Lerninhalte" style="color: <?php echo $fontColor ?> !important;"><div class="diagram-legend-color"></div> Lerninhalte</div>
-                <div class="diagram-legend-entry Methoden" style="color: <?php echo $fontColor ?> !important;">Methoden <div class="diagram-legend-color"></div></div>
-                <div class="diagram-legend-entry Tools" style="color: <?php echo $fontColor ?> !important;"><div class="diagram-legend-color"></div> Tools</div>
+                <div class="diagram-legend-entry Lerninhalte" style="color: <?php echo $fontColor ?> !important;"><div class="diagram-legend-color"></div> Material</div>
+                <div class="diagram-legend-entry Methoden" style="color: <?php echo $fontColor ?> !important;">Unterrichtsplanung <div class="diagram-legend-color"></div></div>
+                <div class="diagram-legend-entry Tools" style="color: <?php echo $fontColor ?> !important;"><div class="diagram-legend-color"></div> Software und Tools</div>
             </div>
         </div>
 
@@ -442,7 +455,7 @@ if (get_field('slidesToScroll')) {
                 jQuery(this).css('display','flex');
             }
         });
-        jQuery('#sub-subjects-button').toggleClass('sub-subjects-button-active');
+        jQuery('#sub-subjects-button').hide();
     });
 
     jQuery( document ).ready(function() {
