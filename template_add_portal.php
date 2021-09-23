@@ -205,15 +205,16 @@ if($_GET['type'] == 'tool'){
                                 $m = $m[count($m) - 1];
                             });
                             $workflowComment.=implode(',', $mdsData['ccm:curriculum']);
-                            print_r($mdsData['ccm:curriculum']);
                             foreach($mdsData['ccm:curriculum'] as $node) {
                                 $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode($node) . '/references/' . $nodeID . '?asProposal=true';
                                 callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
-                                echo $apiUrl.'<br>';
                             }
                         }
-
-                        $emailBody = '<h3>Es wurde eine neue Datei ("'.[$_FILES['fileToUpload']['name']].'") hochgeladen.</h3>';
+                        if($mdsData['cm:name']) {
+                            $emailBody = '<h3>Es wurde eine neue Datei ("' . $mdsData["cm:name"][0] . '") hochgeladen.</h3>';
+                        } else {
+                            $emailBody = '<h3>Es wurde ein neuer Link ("' . $mdsData["ccm:wwwurl"][0] . '") vorgeschlagen.</h3>';
+                        }
                         $emailBody .= '<p>'.$workflowComment.'</p>';
 
                         $data = [
@@ -227,15 +228,15 @@ if($_GET['type'] == 'tool'){
                         if (callRepoApi($apiUrl, json_encode($data), 'Content-Type: application/json', 'PUT') !== false) {
                             //echo '<div>Workflow added<br>'.$workflowComment.'</div>';
                             $success = true;
-                            if(strpos(WLO_REPO, 'redaktion-staging') === false) {
-                                // email data
-                                $to = get_bloginfo('admin_email') . ', redaktion@wirlernenonline.de';
-                                //$to = get_bloginfo('admin_email');
-                                $headers[] = 'From: wirlernenonline.de <redaktion@wirlernenonline.de>';
-                                $headers[] = 'Content-Type: text/html; charset=UTF-8';
-                                $subject = 'Neuer Vorschlag für das Themenprotal: ' . $pageDiscipline . ' - ' . $pageTitle . ' - ' . $widgetName;
-                                $body = $emailBody;
+                            // email data
+                            $to = get_bloginfo('admin_email') . ', redaktion@wirlernenonline.de';
+                            //$to = get_bloginfo('admin_email');
+                            $headers[] = 'From: wirlernenonline.de <redaktion@wirlernenonline.de>';
+                            $headers[] = 'Content-Type: text/html; charset=UTF-8';
+                            $subject = 'Neuer Vorschlag für das Themenprotal: ' . $pageDiscipline . ' - ' . $pageTitle . ' - ' . $widgetName;
+                            $body = $emailBody;
 
+                            if(strpos(WLO_REPO, 'redaktion-staging') === false) {
                                 // send email
                                 wp_mail($to, $subject, $body, $headers);
                                 $formOk = 'Vielen Dank für deinen Vorschlag!<br>Er wird jetzt von unserem Redaktionteam geprüft.';
@@ -244,6 +245,7 @@ if($_GET['type'] == 'tool'){
                                 wp_redirect(get_page_link($post->ID) . '?type=' . $_GET['type']);
                             } else {
                                 echo '<h4 class="portal_form_succes">Staging Formular, E-Mail Benachrichtigung + Redirect wurde übersprungen</h4>';
+                                echo '<pre>' . $body . '</pre>';
                             }
                         }
                     }
@@ -256,7 +258,7 @@ if($_GET['type'] == 'tool'){
         ?>
 
         <?php
-        if(isset($pageTitle)) {
+        if(isset($pageTitle) && $pageTitle) {
             echo "<h4>Für das Thema $pageTitle</h4>";
         }
         ?>
