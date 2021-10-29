@@ -177,7 +177,11 @@ if($_GET['type'] == 'tool'){
                 //second api-call for file upload
                 if (!empty($nodeID)) {
                     //echo 'Uploading File...<br>';
-
+                    // fix auto-generated www title, description, etc.
+                    if($mdsData['ccm:wwwurl']) {
+                        $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/metadata?versionComment=WLO-Uploadformular';
+                        callRepoApi($apiUrl, json_encode($mdsData));
+                    }
                     $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/content?versionComment=MAIN_FILE_UPLOAD&mimetype=' . $mdsData['fileupload-filetype'][0];
                     if($mdsData['fileupload-filedata']) {
                         $uploadFile = tempnam(".", "upload_");
@@ -199,10 +203,19 @@ if($_GET['type'] == 'tool'){
                         // $apiUrl = 'rest/collection/v1/collections/-home-/'.COLLECTION_ADD_ID.'/references/' . $nodeID;
                         // callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
                         $workflowComment = 'Für folgende Sammlung(en) vorgeschlagen: ';
-                        if($mdsData['ccm:curriculum']){
-                            array_walk($mdsData['ccm:curriculum'], function(&$m){ $m = str_replace('http://w3id.org/openeduhub/vocabs/oeh-topics/', '', $m);});
+                        if(count(@$mdsData['ccm:curriculum'])){
+                            array_walk($mdsData['ccm:curriculum'], function(&$m){
+                                $m = explode('/', $m);
+                                $m = $m[count($m) - 1];
+                            });
                             $workflowComment.=implode(',', $mdsData['ccm:curriculum']);
+                            foreach($mdsData['ccm:curriculum'] as $node) {
+                                $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode($node) . '/references/' . $nodeID . '?asProposal=true';
+                                callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
+                            }
                         }
+
+                        $emailBody = '<h3>Es wurde eine neute Datei ("'.[$_FILES['fileToUpload']['name']].'") hochgeladen.</h3>';
 
                         if (!empty($mdsData['fileupload-link'])){
                             $emailBody = '<h3>Es wurde eine neuer Link vorgeschlagen.</h3>';
@@ -218,6 +231,10 @@ if($_GET['type'] == 'tool'){
                         }else{
                             $emailBody = '<h3>Es wurde eine neue Datei hochgeladen ("'.$mdsData['cclom:title'][0].'")</h3>';
                             $emailBody .= '<p>Dateiname: '.$mdsData['fileupload-filename'][0].'</p>';
+                        if($mdsData['cm:name']) {
+                            $emailBody = '<h3>Es wurde eine neue Datei ("' . $mdsData["cm:name"][0] . '") hochgeladen.</h3>';
+                        } else {
+                            $emailBody = '<h3>Es wurde ein neuer Link ("' . $mdsData["ccm:wwwurl"][0] . '") vorgeschlagen.</h3>';
                         }
 
                         $emailBody .= '<h4>Zusätzliche Informationen:</h4>';
@@ -272,9 +289,8 @@ if($_GET['type'] == 'tool'){
                         if (callRepoApi($apiUrl, json_encode($data), 'Content-Type: application/json', 'PUT') !== false) {
                             //echo '<div>Workflow added<br>'.$workflowComment.'</div>';
                             $success = true;
-
                             // email data
-                            $to = get_bloginfo('admin_email'). ', redaktion@wirlernenonline.de';
+                            $to = get_bloginfo('admin_email') . ', redaktion@wirlernenonline.de';
                             //$to = get_bloginfo('admin_email');
                             $headers[] = 'From: wirlernenonline.de <redaktion@wirlernenonline.de>';
                             $headers[] = 'Content-Type: text/html; charset=UTF-8';
@@ -291,12 +307,17 @@ if($_GET['type'] == 'tool'){
                             }
                             $body = $emailBody;
 
-                            // send email
-                            wp_mail($to, $subject, $body, $headers);
-                            $formOk = 'Vielen Dank für deinen Vorschlag!<br>Er wird jetzt von unserem Redaktionteam geprüft.';
+                            if(strpos(WLO_REPO, 'redaktion-staging') === false) {
+                                // send email
+                                wp_mail($to, $subject, $body, $headers);
+                                $formOk = 'Vielen Dank für deinen Vorschlag!<br>Er wird jetzt von unserem Redaktionteam geprüft.';
 
-                            $post = get_post(url_to_postid('inhalt-hinzugefuegt'));
-                            wp_redirect(get_page_link($post->ID).'?type=' . $_GET['type']);
+                                $post = get_post(url_to_postid('inhalt-hinzugefuegt'));
+                                wp_redirect(get_page_link($post->ID) . '?type=' . $_GET['type']);
+                            } else {
+                                echo '<h4 class="portal_form_succes">Staging Formular, E-Mail Benachrichtigung + Redirect wurde übersprungen</h4>';
+                                echo '<pre>' . $body . '</pre>';
+                            }
                         }
                     }
                 }
@@ -329,7 +350,7 @@ if($_GET['type'] == 'tool'){
         ?>
 
         <?php
-        if(isset($pageTitle)) {
+        if(isset($pageTitle) && $pageTitle) {
             echo "<h4>Für das Thema $pageTitle</h4>";
         }
         ?>
