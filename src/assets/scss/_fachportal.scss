@@ -27,10 +27,10 @@ $fachportal_bright: $wlo-primary;
       max-height: 60px;
     }
 
-    h2{
+    h2, h3{
       color: #313131;
       font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
-      font-size: 18px;
+      font-size: 20px;
       padding-top: 16px;
       max-width: 100%;
       white-space: nowrap;
@@ -72,8 +72,10 @@ $fachportal_bright: $wlo-primary;
     transition: 0.3s;
 
     a{
+      width: 100%;
       font-weight: 500;
       text-decoration: none;
+      text-align: center;
     }
 
     .main-image{
@@ -97,7 +99,7 @@ $fachportal_bright: $wlo-primary;
     .content-info{
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: space-evenly;
       height: 250px;
       padding: 16px;
 
@@ -965,7 +967,7 @@ $fachportal_bright: $wlo-primary;
   border-radius: 4px;
 }
 
-.main-content .wlo-tile, .block-editor .wlo-tile{
+.main-content .wlo-tile, .block-editor .wlo-tile, .wlo-editorial-page .wlo-tile, .wlo-embed .wlo-tile{
 
   .widget-content{
     height: auto;
@@ -975,6 +977,12 @@ $fachportal_bright: $wlo-primary;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    .wlo-tile-link{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
     .wlo-tile-icon{
       width: auto;
@@ -986,6 +994,7 @@ $fachportal_bright: $wlo-primary;
       position: relative;
       height: auto;
       justify-content: flex-start;
+      align-items: center;
 
       .content-title{
         height: auto;
@@ -1032,8 +1041,11 @@ $fachportal_bright: $wlo-primary;
       align-items: center;
       position: absolute;
       bottom: 0;
-      right: 1em;
+      //right: 1em;
       height: 30px;
+      width: fit-content;
+      white-space: nowrap;
+      cursor: pointer;
       padding: 0 1.5em;
       margin: 1em auto;
       background: $wlo-primary-dark;
@@ -1216,6 +1228,17 @@ $fachportal_bright: $wlo-primary;
 
   a{
     text-decoration: none !important;
+  }
+}
+
+.wlo-portals-subjects{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin-top: 2em;
+
+  .wlo-portals-tile{
+    background: #D9E2EB;
   }
 }
 

@@ -133,6 +133,11 @@ function add_portal(WP_REST_Request $request) {
         }
         $slug .= $topic;
 
+        $post_status = 'draft';
+        if ($collection_level == 1){
+            $post_status = 'publish';
+        }
+
         $portal_insert = array(
             'post_author' => 'admin',
             'post_content' => $content,

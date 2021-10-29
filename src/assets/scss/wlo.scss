@@ -1,6 +1,6 @@
 @import 'fachportal';
 @import 'wlo-new';
-
+@import 'editorial-desk';
 
 @import "custom-colors-variables";
 @import 'custom-fonts';
@@ -553,6 +553,116 @@ table.dataTable tfoot th, table.dataTable tfoot td{
     color: $wlo-primary;
   }
 }
+
+.wlo-new-content{
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+
+  .wlo-new-content-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    min-width: 250px;
+    padding: 0 1.5em;
+    background: $wlo-red;
+    color: white;
+    font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 15px;
+    transition: 0.3s;
+
+    img{
+      margin: 0 0.5em;
+    }
+  }
+
+  .wlo-new-content-dropdown{
+    display: none;
+    position: absolute;
+    top: 30px;
+    flex-direction: column;
+    min-width: 250px;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    z-index: 500;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+    transition: 0.3s;
+
+    a{
+      text-decoration: none;
+      padding: 0.5em;
+      width: 100%;
+      transition: 0.3s;
+    }
+
+    a:hover{
+      background: #F4F4F4;
+    }
+  }
+}
+
+.wlo-new-content:hover .wlo-new-content-dropdown {
+  display: flex;
+}
+
+.wlo-check-new-content{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.wlo-check-new-content{
+  .wlo-check-new-content-button-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 33%;
+  }
+
+  .wlo-check-new-content-source-box{
+    display: flex;
+    flex-direction: column;
+
+    .wlo-check-new-content-sources{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      margin-bottom: 0.5em;
+
+      .wlo-check-new-content-source{
+        display: flex;
+        align-items: center;
+        height: 30px;
+        width: fit-content;
+        margin: 0.5em;
+        color: white;
+        font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 14px;
+        text-decoration: none;
+        padding: 0 16px;
+        background: $wlo-primary-dark;
+        border-radius: 50px;
+        transition: 0.3s;
+      }
+
+      .wlo-check-new-content-source:hover{
+        background: $wlo-primary;
+      }
+    }
+
+    .wlo-check-new-content-new-sources{
+      margin-top: 1em;
+    }
+  }
+}
+
+.wlo-redaktion-metaqs{
+  font-size: 0.7em;
+}
+
 
 
 // Ultimate Member Form

@@ -7,9 +7,10 @@
 $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
 $educational_filter_values = get_educational_filter_values($postID);
 $collectionUrl = $educational_filter_values["collectionUrl"];
-$pattern = '/http.*\?id=(.*)(&|$)/';
-preg_match_all($pattern, $collectionUrl, $matches);
-$collectionID = $matches[1][0];
+
+$url_components = parse_url($collectionUrl);
+parse_str($url_components['query'], $params);
+$collectionID = $params['id'];
 
 $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID;
 $response = callWloRestApi($url);

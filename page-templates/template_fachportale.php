@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Fachportale (Übersicht)
+Template Name: Fachportale (Ãœbersicht)
 Template Post Type: page
  */
 
@@ -16,8 +16,19 @@ $current_query_args = array(
     'post_status' => 'publish',
     'orderby'     => 'modified',
     'order'       => 'DESC',
-    'meta_key' => 'collection_level',
-    'meta_value' => '0'
+    'meta_query' => array(
+        'relation' => 'AND', // both of below conditions must match
+        array(
+            'key' => 'collection_level',
+            'value' => '0',
+            'compare' 	=> '=',
+        ),
+        array(
+            'key' => 'type',
+            'value' => '1',
+            'compare'	=> '=',
+        ),
+    ),
 );
 $current_query = new WP_Query( $current_query_args );
 
@@ -35,7 +46,7 @@ $showSliderDots = 'false';
                     <h1><?php the_title(); ?></h1>
                     <?php the_excerpt(); ?>
                 </div>
-<!--                <div class="wlo-header-bottom"></div> -->
+                <!--                <div class="wlo-header-bottom"></div> -->
 
             </div>
 
@@ -59,15 +70,15 @@ $showSliderDots = 'false';
                             while ($current_query->have_posts()) :
                                 $current_query->the_post(); ?>
 
-                            <div class="wlo-portals-slider-tile">
-                                <a class="wlo-portals-tile" href="<?php the_permalink(); ?>" aria-label="Zum-Fachportal: <?php echo get_the_title(); ?>">
-                                    <?php if (has_post_thumbnail()){ ?>
-                                        <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="Icon: <?php echo get_the_title(); ?>">
-                                    <?php } ?>
-<!--                                    <div class="wlo-portals-tile-type">--><?php //echo wloSubjectType(get_the_title())['type']; ?><!--</div>-->
-                                    <div class="wlo-portals-tile-title"><?php echo get_the_title(); ?></div>
-                                </a>
-                            </div>
+                                <div class="wlo-portals-slider-tile">
+                                    <a class="wlo-portals-tile" href="<?php the_permalink(); ?>" aria-label="Zum-Fachportal: <?php echo get_the_title(); ?>">
+                                        <?php if (has_post_thumbnail()){ ?>
+                                            <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="Icon: <?php echo get_the_title(); ?>">
+                                        <?php } ?>
+                                        <!--                                    <div class="wlo-portals-tile-type">--><?php //echo wloSubjectType(get_the_title())['type']; ?><!--</div>-->
+                                        <div class="wlo-portals-tile-title"><?php echo get_the_title(); ?></div>
+                                    </a>
+                                </div>
 
 
                             <?php endwhile; ?>
@@ -93,83 +104,94 @@ $showSliderDots = 'false';
                 'post_status' => 'publish',
                 'order' => 'ASC',
                 'orderby' => 'title',
-                'meta_key' => 'collection_level',
-                'meta_value' => '0'
+                'meta_query' => array(
+                    'relation' => 'AND', // both of below conditions must match
+                    array(
+                        'key' => 'collection_level',
+                        'value' => '0',
+                        'compare' 	=> '=',
+                    ),
+                    array(
+                        'key' => 'type',
+                        'value' => '1',
+                        'compare'	=> '=',
+                    ),
+                ),
             );
             $portal_query = new WP_Query( $portal_query_args );
 
             if ($portal_query->have_posts()) : ?>
-            <div class="wlo-portals-filter">
-                <p>Wähle hier aus, welche Fächergruppen Du angezeigt bekommen möchtest.</p>
-                <div class="wlo-portals-filter-tags">
-                    <button onclick="onClickFilterButton(this, 'MINT')">
-                        <div class="wlo-portals-filter-tag">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                            MINT
-                        </div>
-                    </button>
-                    <button onclick="onClickFilterButton(this, 'Gesellschaftswissenschaften')">
-                        <div class="wlo-portals-filter-tag">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                            Gesellschaftswissenschaften
-                        </div>
-                    </button>
-                    <button onclick="onClickFilterButton(this, 'Deutsch')">
-                        <div class="wlo-portals-filter-tag">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                            Deutsch
-                        </div>
-                    </button>
-                    <button onclick="onClickFilterButton(this, 'Fremdsprachen')">
-                        <div class="wlo-portals-filter-tag">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                            Fremdsprachen
-                        </div>
-                    </button>
-                    <button onclick="onClickFilterButton(this, 'Musische-Fächer')">
-                        <div class="wlo-portals-filter-tag">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                            Musische Fächer
-                        </div>
-                    </button>
-                    <button onclick="onClickFilterButton(this, 'Querschnittsthemen')">
-                        <div class="wlo-portals-filter-tag">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                            Querschnittsthemen
-                        </div>
-                    </button>
-                    <button onclick="onClickFilterButton(this, 'Religion')">
-                        <div class="wlo-portals-filter-tag">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                            Religion
-                        </div>
-                    </button>
-                    <button onclick="onClickFilterButton(this, 'Sport')">
-                        <div class="wlo-portals-filter-tag">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                            Sport
-                        </div>
-                    </button>
+                <div class="wlo-portals-filter">
+                    <p>Wähle hier aus, welche Fächergruppen Du angezeigt bekommen möchtest.</p>
+                    <div class="wlo-portals-filter-tags">
+                        <button onclick="onClickFilterButton(this, 'MINT')">
+                            <div class="wlo-portals-filter-tag">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                                MINT
+                            </div>
+                        </button>
+                        <button onclick="onClickFilterButton(this, 'Gesellschaftswissenschaften')">
+                            <div class="wlo-portals-filter-tag">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                                Gesellschaftswissenschaften
+                            </div>
+                        </button>
+                        <button onclick="onClickFilterButton(this, 'Deutsch')">
+                            <div class="wlo-portals-filter-tag">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                                Deutsch
+                            </div>
+                        </button>
+                        <button onclick="onClickFilterButton(this, 'Fremdsprachen')">
+                            <div class="wlo-portals-filter-tag">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                                Fremdsprachen
+                            </div>
+                        </button>
+                        <button onclick="onClickFilterButton(this, 'Musische-Fächer')">
+                            <div class="wlo-portals-filter-tag">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                                Musische Fächer
+                            </div>
+                        </button>
+                        <button onclick="onClickFilterButton(this, 'Querschnittsthemen')">
+                            <div class="wlo-portals-filter-tag">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                                Querschnittsthemen
+                            </div>
+                        </button>
+                        <button onclick="onClickFilterButton(this, 'Religion')">
+                            <div class="wlo-portals-filter-tag">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                                Religion
+                            </div>
+                        </button>
+                        <button onclick="onClickFilterButton(this, 'Sport')">
+                            <div class="wlo-portals-filter-tag">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                                Sport
+                            </div>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="wlo-portals-tiles">
+                <div class="wlo-portals-tiles">
 
-                <?php
-                while ($portal_query->have_posts()) :
-                    $portal_query->the_post(); ?>
+                    <?php
+                    while ($portal_query->have_posts()) :
+                        $portal_query->the_post(); ?>
 
-                    <a class="wlo-portals-tile <?php echo wloSubjectType(get_the_title())['type']; ?>" href="<?php the_permalink(); ?>" aria-label="Zum-Fachportal: <?php echo get_the_title(); ?>">
-                        <?php if (has_post_thumbnail()){ ?>
-                            <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="Icon: <?php echo get_the_title(); ?>">
-                        <?php } ?>
-<!--                        <div class="wlo-portals-tile-type">--><?php //echo wloSubjectType(get_the_title())['type']; ?><!--</div>-->
-                        <div class="wlo-portals-tile-title"><?php echo get_the_title(); ?></div>
-                    </a>
+                        <a class="wlo-portals-tile <?php echo wloSubjectType(get_the_title())['type']; ?>" href="<?php the_permalink(); ?>" aria-label="Zum-Fachportal: <?php echo get_the_title(); ?>">
+                            <?php if (has_post_thumbnail()){ ?>
+                                <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="Icon: <?php echo get_the_title(); ?>">
+                            <?php } ?>
+                            <!--                        <div class="wlo-portals-tile-type">--><?php //echo wloSubjectType(get_the_title())['type']; ?><!--</div>-->
+                            <div class="wlo-portals-tile-title"><?php echo get_the_title(); ?></div>
+                        </a>
 
-                <?php endwhile; ?>
+                    <?php endwhile; ?>
 
-            </div>
+                </div>
 
 
             <?php endif;

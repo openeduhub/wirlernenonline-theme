@@ -310,7 +310,6 @@ function fachportal_content_block() {
     $generalKeywords = $educational_filter_values["generalKeyword"];
     $oehWidgets = $educational_filter_values["oehWidgets"];
 
-
     if ($collectionLevel >= 1){  // activate softmatch for 'themenseiten'
         $softmatch = '1';
     }
@@ -327,7 +326,7 @@ function fachportal_content_block() {
     $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
     //only content from the given collection
-    $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references';
+    $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
     $response = callWloRestApi($url);
 
     //also content from the sub-collections
@@ -486,12 +485,12 @@ function fachportal_content_block() {
             <?php if(!empty($blockIcon)){?>
                 <img class="header-icon" src="<?php echo $blockIcon ?>" alt=""/>
             <?php }?>
-            <h2>
+            <h3>
             <?php echo $headline;
                 if ($collectionLevel >= 1){
                     echo ' ('.count($contentArray).')';
                 } ?>
-            </h2>
+            </h3>
             <?php if(!empty($descrText)){?>
                 <p><?php echo $descrText ?></p>
             <?php }?>
@@ -500,7 +499,8 @@ function fachportal_content_block() {
         <div class="content" id="<?php echo $sliderId; ?>">
             <?php
             if (!empty($contentArray)){
-                if ($sorting = '2'){
+                if ($sorting == '2'){
+                    error_log('shuffeld content: '.$headline);
                     shuffle($contentArray);
                 }
                 foreach (array_slice($contentArray, 0,$contentCount) as $content) { ?>

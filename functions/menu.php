@@ -7,11 +7,53 @@ function custom_navigation_menus() {
         'footer' => __( 'Footer', 'text_domain' ),
         'top-call-top-action' => __( 'Top Call To Action', 'text_domain' ),
         'add-content-button' => __( 'Add Content Button', 'text_domain' ),
+        'editorial-menu' => __( 'Redaktionsumgebung', 'text_domain' ),
     );
     register_nav_menus( $locations );
 
 }
 add_action( 'init', 'custom_navigation_menus' );
+
+class editorial_walker_nav_menu extends Walker_Nav_Menu {
+
+    function start_lvl(&$output, $depth = 0, $args = array()) {
+        $output .= '<ul class="sub-menu">';
+        $parent = $depth>0 ? 'zurück' : 'Hauptmenu';
+        $output .= '<button class="menu-back-button"><img src="'.get_template_directory_uri().'/src/assets/img/arrow_down_white.svg" alt=""> '.$parent.'</button>';
+    }
+
+    function start_el(&$output, $item, $depth=0, $args=[], $id=0) {
+        //require_once(get_template_directory().'/functions/wlo-config.php');
+        $output .= "<li class='" .  implode(" ", $item->classes) . "'>";
+
+
+        $has_children = array_search ( 'menu-item-has-children' , $item->classes );
+        if ($has_children != false) {
+            $output .= '<a class="toggle-button" href="#"><span>' . apply_filters( 'the_title', $item->title, $item->ID ).'</span>';
+            $output .= '<img class="toggle-arrow" src="'.get_template_directory_uri().'/src/assets/img/arrow_down.svg" alt="">';
+            $output .= '</a>';
+        }else{
+            $linkUrl = $item->url;
+            if (strpos($linkUrl, WLO_REPO) !== false && is_user_logged_in() ){
+                if (function_exists('get_repo_ticket')){
+                    $ticket = get_repo_ticket();
+                }else{
+                    $ticket = '';
+                }
+
+                if (strpos($linkUrl, '?') !== false){
+                    $linkUrl .= '&ticket='.$ticket;
+                }else{
+                    $linkUrl .= '?ticket='.$ticket;
+                }
+            }
+            $output .= '<a href="' . $linkUrl . '" target="'.$item->target.'"><span>' . apply_filters( 'the_title', $item->title, $item->ID ).'</span></a>';
+
+        }
+
+        $output .= '</a>';
+    }
+}
 
 // %%%%%%%%%% Custom Walker for foundation 6 menu %%%%%%%%%%
 class insertcart_walker extends Walker_Nav_Menu
@@ -81,6 +123,6 @@ function add_toolbar_items($admin_bar){
     $admin_bar->add_menu( array(
         'id'    => 'redaktion',
         'title' => 'Redaktionsumgebung',
-        'href'  => get_page_link( 37166 ),
+        'href'  => get_page_link( 44703 ),
     ));
 }

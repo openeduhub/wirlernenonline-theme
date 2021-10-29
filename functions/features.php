@@ -724,6 +724,9 @@ function wloSubjectType($subject){
         case 'Politik':
         case 'Politische Bildung':
         case 'Geschichte':
+        case 'Wirtschaft':
+        case 'Pädagogik':
+        case 'Geographie':
             return array(
                 'color' => '#3DA6EE',
                 'type' => 'Gesellschaftswissenschaften',
@@ -731,6 +734,8 @@ function wloSubjectType($subject){
 
 
         case 'Religion':
+        case 'Philosophie':
+        case 'Ethik':
             return array(
                 'color' => '#7F6FEE',
                 'type' => 'Religion',
@@ -754,6 +759,7 @@ function wloSubjectType($subject){
         case 'Englisch':
         case 'Türkisch':
         case 'Spanisch':
+        case 'Französisch':
             return array(
                 'color' => '#EF809A',
                 'type' => 'Fremdsprachen',
@@ -767,6 +773,9 @@ function wloSubjectType($subject){
 
         case 'Medienbildung':
         case 'Nachhaltigkeit':
+        case 'Zeitgemäßse Bildung':
+        case 'Berufsorientierung':
+        case 'Lernen lernen':
         default:
             return array(
                 'color' => '#FFB930',
@@ -821,3 +830,47 @@ function um_custom_allow_frontend_image_uploads( $allowed, $user_id, $key ){
 
     return $allowed; // false
 }
+
+
+add_action( 'show_user_profile', 'wlo_show_extra_profile_fields' );
+add_action( 'edit_user_profile', 'wlo_show_extra_profile_fields' );
+function wlo_show_extra_profile_fields( $user ) {
+    $mainSubject = get_the_author_meta( 'mainSubject', $user->ID );
+    ?>
+    <h3><?php esc_html_e( 'Fachredaktion', 'crf' ); ?></h3>
+
+    <table class="form-table">
+        <tr>
+            <th><label for="mainSubject"><?php esc_html_e( 'Hautptfach', 'wlo' ); ?></label></th>
+            <td>
+                <select id="mainSubject" name="mainSubject">
+                    <?php
+                    $subjects = getWloVocaps('discipline')->hasTopConcept;
+
+                    foreach ($subjects as $subject){
+                        if ($subject->prefLabel->de == $mainSubject){
+                            echo '<option value="'.$subject->prefLabel->de.'" selected="selected">'.$subject->prefLabel->de.'</option>';
+                        }else{
+                            echo '<option value="'.$subject->prefLabel->de.'">'.$subject->prefLabel->de.'</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <?php
+}
+
+add_action( 'personal_options_update', 'wlo_update_profile_fields' );
+add_action( 'edit_user_profile_update', 'wlo_update_profile_fields' );
+function wlo_update_profile_fields( $user_id ) {
+    if ( ! current_user_can( 'edit_user', $user_id ) ) {
+        return false;
+    }
+
+    if ( ! empty($_POST['mainSubject'])  ) {
+        update_user_meta( $user_id, 'mainSubject',  $_POST['mainSubject'] );
+    }
+}
+

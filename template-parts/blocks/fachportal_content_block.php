@@ -18,10 +18,10 @@ $pageDiscipline = get_the_title($postID);
 
 /* ------------------------------------------------------------------- */
 
-$pattern = '/http.*\?id=(.*)(&|$)/';
-preg_match_all($pattern, $collectionUrl, $matches);
+$url_components = parse_url($collectionUrl);
+parse_str($url_components['query'], $params);
+$collectionID = $params['id'];
 
-$collectionID = $matches[1][0];
 $fachportalContentId = uniqid('fachportalContentId-');
 
 $contentCount = get_field('content_count');

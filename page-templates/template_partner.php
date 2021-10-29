@@ -40,9 +40,14 @@ while (have_posts()) : the_post(); ?>
                 ),
             );
             $current_query = new WP_Query( $current_query_args );
+
+            $partnerHeader = 'Konsortialpartner';
+            if(!empty(get_field('headerKonsortialPartner'))){
+                $partnerHeader = get_field('headerKonsortialPartner');
+            }
             ?>
 
-            <h3>Konsortialpartner</h3>
+            <h3><?php echo $partnerHeader; ?></h3>
             <p>
                 <?php if(!empty(get_field('textKonsortialPartner'))){
                     echo get_field('textKonsortialPartner');
@@ -121,9 +126,15 @@ while (have_posts()) : the_post(); ?>
                 ),
             );
             $current_query = new WP_Query( $current_query_args );
+
+            $otherPartnerHeader = 'Weitere Partner';
+            if(!empty(get_field('otherPartnerHeader'))){
+                $otherPartnerHeader = get_field('otherPartnerHeader');
+            }
+
             ?>
 
-            <h3>Weitere Partner</h3>
+            <h3><?php echo $otherPartnerHeader; ?></h3>
             <p>
                 <?php if(!empty(get_field('textOtherPartner'))){
                     echo get_field('textOtherPartner');
