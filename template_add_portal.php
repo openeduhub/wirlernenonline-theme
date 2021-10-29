@@ -204,15 +204,69 @@ if($_GET['type'] == 'tool'){
                             $workflowComment.=implode(',', $mdsData['ccm:curriculum']);
                         }
 
-                        $emailBody = '<h3>Es wurde eine neute Datei ("'.[$_FILES['fileToUpload']['name']].'") hochgeladen.</h3>';
-                        $emailBody .= '<p>'.$workflowComment.'</p>';
+                        if (!empty($mdsData['fileupload-link'])){
+                            $emailBody = '<h3>Es wurde eine neuer Link vorgeschlagen.</h3>';
+                            $emailBody .= '<p>Titel: '.$mdsData['cclom:title'][0].'</p>';
+                            $emailBody .= '<p>Link: '.$mdsData['fileupload-link'][0].'</p>';
+
+                        }else if($mdsData['ccm:objecttype'] [0]== 'SOURCE'){
+                            $emailBody = '<h3>Es wurde eine neue Quelle vorgeschlagen ("'.$mdsData['cclom:title'][0].'")</h3>';
+                            $emailBody .= '<p>Quellen-Url: '.$mdsData['ccm:wwwurl'][0].'</p>';
+                        }else if($mdsData['ccm:objecttype'][0] == 'TOOL'){
+                            $emailBody = '<h3>Es wurde eine neues Tool vorgeschlagen ("'.$mdsData['cclom:title'][0].'")</h3>';
+                            $emailBody .= '<p>Tool-Url: '.$mdsData['ccm:wwwurl'][0].'</p>';
+                        }else{
+                            $emailBody = '<h3>Es wurde eine neue Datei hochgeladen ("'.$mdsData['cclom:title'][0].'")</h3>';
+                            $emailBody .= '<p>Dateiname: '.$mdsData['fileupload-filename'][0].'</p>';
+                        }
+
+                        $emailBody .= '<h4>Zusätzliche Informationen:</h4>';
+                        if (!empty($mdsData['ccm:curriculum'])){
+                            $emailBody .= '<p>Sammlung: '.get_mds_values($mdsData['ccm:curriculum']).'</p>';
+                        }
+                        if (!empty($mdsData['ccm:educationallearningresourcetype'])){
+                            $emailBody .= '<p>Materialart: '.get_mds_values($mdsData['ccm:educationallearningresourcetype']).'</p>';
+                        }
+                        if (!empty($mdsData['ccm:toolCategory'])){
+                            $emailBody .= '<p>Tool-Art: '.get_mds_values($mdsData['ccm:toolCategory']).'</p>';
+                        }
+                        if (!empty($mdsData['ccm:custom_license'])){
+                            $emailBody .= '<p>Lizenz: '.get_mds_values($mdsData['ccm:custom_license']).'</p>';
+                        }
+                        if (!empty($mdsData['ccm:author_freetext'])){
+                            $emailBody .= '<p>Autor:in/Ersteller:in: '.get_mds_values($mdsData['ccm:author_freetext']).'</p>';
+                        }
+                        if (!empty($mdsData['cclom:general_description'])){
+                            $emailBody .= '<p>Beschreibung: '.get_mds_values($mdsData['cclom:general_description']).'</p>';
+                        }
+                        if (!empty($mdsData['ccm:educationalcontext'])){
+                            $emailBody .= '<p>Bildunsgstufe: '.get_mds_values($mdsData['ccm:educationalcontext']).'</p>';
+                        }
+                        if (!empty($mdsData['ccm:educationalintendedenduserrole'])){
+                            $emailBody .= '<p>Zielgruppe: '.get_mds_values($mdsData['ccm:educationalintendedenduserrole']).'</p>';
+                        }
+                        if (!empty($mdsData['ccm:conditionsOfAccess'])){
+                            $emailBody .= '<p>Anmeldung: '.get_mds_values($mdsData['ccm:conditionsOfAccess']).'</p>';
+                        }
+                        if (!empty($mdsData['ccm:price'])){
+                            $emailBody .= '<p>Kosten: '.get_mds_values($mdsData['ccm:price']).'</p>';
+                        }
+                        if (!empty($mdsData['cclom:general_keyword'])){
+                            $emailBody .= '<p>Schlagwort: '.get_mds_values($mdsData['cclom:general_keyword']).'</p>';
+                        }
+                        if (!empty($mdsData['virtual:email'])){
+                            $emailBody .= '<p>Vorgeschlagen von: '.get_mds_values($mdsData['virtual:email']).'</p>';
+                        }
+
+                        //$emailBody .= '<pre>'.print_r($mdsData, true).'</pre>';
 
                         $data = [
                             "receiver" => [[
                                 "authorityName" => "GROUP_ORG_WLO-Uploadmanager"
                             ]],
                             "status" => "200_tocheck",
-                            "comment" => $workflowComment
+                            //"comment" => $workflowComment,
+                            "comment" => $emailBody
                         ];
                         $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/workflow';
                         if (callRepoApi($apiUrl, json_encode($data), 'Content-Type: application/json', 'PUT') !== false) {
@@ -224,7 +278,17 @@ if($_GET['type'] == 'tool'){
                             //$to = get_bloginfo('admin_email');
                             $headers[] = 'From: wirlernenonline.de <redaktion@wirlernenonline.de>';
                             $headers[] = 'Content-Type: text/html; charset=UTF-8';
-                            $subject = 'Neuer Vorschlag für das Themenprotal: ' . $pageDiscipline . ' - ' . $pageTitle . ' - ' . $widgetName;
+
+                            $subject = 'Neuer Vorschlag über das Mitmachformular ';
+                            if (!empty($mdsData['fileupload-link'])){
+                                $subject .= '(Link: '.$mdsData['cclom:title'][0] . ')';
+                            }else if($mdsData['ccm:objecttype'][0] == 'SOURCE'){
+                                $subject .= '(Quelle: '.$mdsData['cclom:title'][0] . ')';
+                            }else if($mdsData['ccm:objecttype'][0] == 'TOOL'){
+                                $subject .= '(Tool: '.$mdsData['cclom:title'][0] . ')';
+                            }else{
+                                $subject .= '(Datei: '.$mdsData['cclom:title'][0] . ')';
+                            }
                             $body = $emailBody;
 
                             // send email
@@ -240,6 +304,27 @@ if($_GET['type'] == 'tool'){
                     $formErr = 'Interner Verarbeitungsfehler. Bitte später nochmal versuchen';
                 }
             }
+        }
+
+        function get_mds_values($mds){
+            $values = '';
+            if (is_array($mds)){
+                $numItems = count($mds);
+                $i = 0;
+                foreach( $mds as $value ) {
+                    if (strpos($value, 'w3id.org')){
+                        $value = basename($value);
+                    }
+                    if(++$i === $numItems) {
+                        $values .= $value;
+                    }else{
+                        $values .= $value . ', ';
+                    }
+                }
+            }else{
+                $values = $mds;
+            }
+            return $values;
         }
         ?>
 
