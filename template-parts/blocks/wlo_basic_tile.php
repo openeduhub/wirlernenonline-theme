@@ -14,9 +14,17 @@ if (get_post_type( get_the_ID() ) == 'portal'){
 }
 ?>
 
-<div class="wlo-basic-tile" style="<?php echo $portalMargin . $minHeight; ?>">
-    <InnerBlocks />
-</div>
+<?php if (get_field('fullwidth')){
+    echo '<div class="wlo-basic-tile-fullwidth">';
+} ?>
+    <div class="wlo-basic-tile" style="<?php echo $portalMargin . $minHeight; ?>">
+        <InnerBlocks />
+    </div>
+<?php if (get_field('fullwidth')){
+    echo '</div>';
+} ?>
+
+
 
 <?php if (is_admin()) {
     echo '</div>';

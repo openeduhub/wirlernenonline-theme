@@ -1084,7 +1084,7 @@ $fachportal_bright: $wlo-primary;
 .educational-context-filter, .wlo-portals-filter .wlo-portals-filter-tags {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   margin-top: 1em;
 
   button{
@@ -1178,6 +1178,7 @@ $fachportal_bright: $wlo-primary;
   width: 155px;
   height: 155px;
   background: white;
+  padding: 0 0.5em;
   border: 1px solid #CACACA;
   box-sizing: border-box;
   border-radius: 15px;
@@ -1195,7 +1196,7 @@ $fachportal_bright: $wlo-primary;
 
   .wlo-portals-tile-type{
     font-family: 'Source-Sans-Pro-Regular', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     color: #333333;
     margin: 0.5em auto 0.25em;
@@ -1203,7 +1204,7 @@ $fachportal_bright: $wlo-primary;
 
   .wlo-portals-tile-title{
     font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     color: #333333;
     margin: 0.5em auto 0.25em;

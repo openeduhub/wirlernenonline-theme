@@ -4,7 +4,6 @@
 
 <?php
 $user = wp_get_current_user();
-$mainSubject = get_the_author_meta( 'mainSubject', $user->ID );
 
 if (function_exists('get_repo_ticket')){
     $ticket = get_repo_ticket();
@@ -12,34 +11,7 @@ if (function_exists('get_repo_ticket')){
     $ticket = '';
 }
 
-$apiUrl = 'rest/iam/v1/people/-home-/-me-/memberships?maxItems=100&skipCount=0';
-//$apiUrl = 'rest/iam/v1/people/-home-/'.$username.'/memberships?maxItems=100&skipCount=0';
-$memberships = callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET', $ticket);
 
-$groups = array();
-foreach ($memberships['groups'] as $group){
-    if ($group['properties']['ccm:groupType'][0] == 'EDITORIAL'){
-        $groups[] = $group['properties']['cm:authorityDisplayName'][0];
-    }
-}
-
-if (empty($groups)){
-    $groups[] = 'Keine EDITORIAL Gruppen';
-}
-
-if (isset($_GET["subject"])){
-    $GLOBALS['wlo_redaktion'] = array(
-        'subject' => $_GET["subject"],
-    );
-}else if (!empty($mainSubject)){
-    $GLOBALS['wlo_redaktion'] = array(
-        'subject' => $mainSubject,
-    );
-}else{
-    $GLOBALS['wlo_redaktion'] = array(
-        'subject' => str_replace('WLO-', '', $groups[0]),
-    );
-}
 ?>
 
 <body <?php body_class(); ?>>
@@ -51,22 +23,7 @@ if (isset($_GET["subject"])){
         <div class="editorial-user-box">
             <img class="editorial-user-image" src="<?php echo esc_url( get_avatar_url( $user->ID ) ); ?>">
             <div class="editorial-user-name"><?php echo $user->user_nicename; ?></div>
-            <div class="editorial-user-settings">
-                <label for="subject">Fach:</label>
-                <select name="subject" id="portal" onchange="document.location.href = '?subject=' + this.value">
-                    <?php
-                    foreach ($groups as $subject){
-                        $subject = str_replace('WLO-', '', $subject);
 
-                        if ($subject == $GLOBALS['wlo_redaktion']['subject'] ){
-                            echo '<option selected="selected" value="'.$subject.'">'.$subject.'</option>';
-                        }else{
-                            echo '<option value="'.$subject.'">'.$subject.'</option>';
-                        }
-                    }
-                    ?>
-                </select>
-            </div>
 
         </div>
         <nav>
@@ -98,7 +55,7 @@ if (isset($_GET["subject"])){
                 jQuery(".menu-back-button").click( function (){
                     jQuery(".editorial-menu").animate({ left: '+=300px'  });
                     //jQuery(this).find('img').toggleClass('rotate');
-                    jQuery(this).parent().toggle("slow");
+                    jQuery(this).parent().parent().toggle("slow");
                     //jQuery(this).find('img').css("transform", "rotate(180deg)");
                 });
 
