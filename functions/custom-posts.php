@@ -345,6 +345,7 @@ function wlo_portal_dropdown() {
         '460' => 'Physik ',
         '450' => 'Philosophie ',
         '440' => 'Pädagogik ',
+        '480' => 'Politik',
         '64018' => 'Nachhaltigkeit',
         '20007' => 'Spanisch',
         '20002' => 'Französisch',
@@ -352,7 +353,7 @@ function wlo_portal_dropdown() {
         '20008' => 'Tuerkisch',
         '20001' => 'Englisch',
         '520' => 'Religion',
-        '480' => 'Politik',
+        '700' => 'Wirtschaftskunde',
     ];
 
     echo'<select name="discipline_filter">';

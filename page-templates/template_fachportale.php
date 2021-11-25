@@ -124,18 +124,6 @@ $showSliderDots = 'false';
                 <div class="wlo-portals-filter">
                     <p>Wähle hier aus, welche Fächergruppen Du angezeigt bekommen möchtest.</p>
                     <div class="wlo-portals-filter-tags">
-                        <button onclick="onClickFilterButton(this, 'MINT')">
-                            <div class="wlo-portals-filter-tag">
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                                MINT
-                            </div>
-                        </button>
-                        <button onclick="onClickFilterButton(this, 'Gesellschaftswissenschaften')">
-                            <div class="wlo-portals-filter-tag">
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                                Gesellschaftswissenschaften
-                            </div>
-                        </button>
                         <button onclick="onClickFilterButton(this, 'Deutsch')">
                             <div class="wlo-portals-filter-tag">
                                 <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
@@ -146,6 +134,18 @@ $showSliderDots = 'false';
                             <div class="wlo-portals-filter-tag">
                                 <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
                                 Fremdsprachen
+                            </div>
+                        </button>
+                        <button onclick="onClickFilterButton(this, 'Gesellschaftswissenschaften')">
+                            <div class="wlo-portals-filter-tag">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                                Gesellschaftswissenschaften
+                            </div>
+                        </button>
+                        <button onclick="onClickFilterButton(this, 'MINT')">
+                            <div class="wlo-portals-filter-tag">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                                MINT
                             </div>
                         </button>
                         <button onclick="onClickFilterButton(this, 'Musische-Fächer')">
@@ -163,7 +163,7 @@ $showSliderDots = 'false';
                         <button onclick="onClickFilterButton(this, 'Religion')">
                             <div class="wlo-portals-filter-tag">
                                 <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                                Religion
+                                Religion, Philosophie, Ethik
                             </div>
                         </button>
                         <button onclick="onClickFilterButton(this, 'Sport')">
@@ -181,9 +181,9 @@ $showSliderDots = 'false';
                     while ($portal_query->have_posts()) :
                         $portal_query->the_post(); ?>
 
-                        <a class="wlo-portals-tile <?php echo wloSubjectType(get_the_title())['type']; ?>" href="<?php the_permalink(); ?>" aria-label="Zum-Fachportal: <?php echo get_the_title(); ?>">
+                        <a class="wlo-portals-tile <?php echo wloSubjectType(esc_html( get_the_title() ))['type']; ?>" href="<?php the_permalink(); ?>" aria-label="Zum-Fachportal: <?php echo esc_html( get_the_title() ); ?>">
                             <?php if (has_post_thumbnail()){ ?>
-                                <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="Icon: <?php echo get_the_title(); ?>">
+                                <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="Icon: <?php echo esc_html( get_the_title() ); ?>">
                             <?php } ?>
                             <!--                        <div class="wlo-portals-tile-type">--><?php //echo wloSubjectType(get_the_title())['type']; ?><!--</div>-->
                             <div class="wlo-portals-tile-title"><?php echo get_the_title(); ?></div>

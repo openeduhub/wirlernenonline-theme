@@ -734,7 +734,8 @@ function wloSubjectType($subject){
 
 
         case 'Religion':
-        case 'Philosophie':
+        case 'Philosophie & Ethik':
+        case 'Philosophie &#038; Ethik':
         case 'Ethik':
             return array(
                 'color' => '#7F6FEE',
@@ -776,6 +777,8 @@ function wloSubjectType($subject){
         case 'Zeitgemäßse Bildung':
         case 'Berufsorientierung':
         case 'Lernen lernen':
+        case 'Gewaltprävention':
+        case 'Sozialpädagogik':
         default:
             return array(
                 'color' => '#FFB930',
