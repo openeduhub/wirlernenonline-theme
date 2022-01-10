@@ -5,6 +5,7 @@ function custom_navigation_menus() {
     $locations = array(
         'top' => __( 'Top', 'text_domain' ),
         'footer' => __( 'Footer', 'text_domain' ),
+        'zmf-footer' => __( 'ZMF-Footer', 'text_domain' ),
         'top-call-top-action' => __( 'Top Call To Action', 'text_domain' ),
         'add-content-button' => __( 'Add Content Button', 'text_domain' ),
         'editorial-menu' => __( 'Redaktionsumgebung', 'text_domain' ),

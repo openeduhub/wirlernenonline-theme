@@ -48,7 +48,8 @@ if (!function_exists('helper_useLightColor')) {
     }
 }
 
-$backgroundColor = wloSubjectType($portalTitle)['color'];
+//$backgroundColor = wloSubjectType($portalTitle)['color'];
+$backgroundColor = get_field('background_color', $postID);
 $rgbBackgroundColor = hex2rgb($backgroundColor);
 $fontColor = (!empty($backgroundColor) && helper_useLightColor($backgroundColor)) ? "#313131" : "#ffffff";
 $accordionID = uniqid();
