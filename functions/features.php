@@ -275,6 +275,7 @@ function callWloGraphApi($search_query)
             }
         } catch (Exception $e) {
             echo 'curl error: ' . $e->getMessage();
+            error_log('curl error: ' . $e->getMessage());
             trigger_error($e->getMessage(), E_USER_WARNING);
             return false;
         }
@@ -293,7 +294,7 @@ function callWloRestApi($url, $type='GET', $body=null){
 
     $cacheTime = 60;
     // cache source_table for 24h
-    if ($url == WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/ngsearch/?maxItems=5000&skipCount=0&propertyFilter=-all-'){
+    if ($url == WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/ngsearch/?maxItems=5000&skipCount=25&propertyFilter=-all-'){
         $cacheTime = 86400;
     }
 
