@@ -50,7 +50,21 @@ function check_unique_collection_link($collection_url) {
 
 function add_portal(WP_REST_Request $request) {
 
+    error_log('###ADD-PORTAL####');
+
+
     $collection_id = $request->get_param( 'collectionId' );
+
+    $type = 'wlo';
+
+    //check for zmf
+    $parents_url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $collection_id . '/parents?propertyFilter=-all-&fullPath=false';
+    $parents = callWloRestApi($parents_url)->nodes;
+    $portal = $parents[count($parents)-2];
+    error_log(print_r($portal, true));
+    if ($portal->title === 'Kita digital'){
+        $type = 'zmf';
+    }
 
     $requestDiciplines = explode(",",urldecode($request->get_param( 'discipline' )));
 
@@ -128,15 +142,20 @@ function add_portal(WP_REST_Request $request) {
         }
 
         $slug = '';
-        foreach ($disciplinesMapped as $discipline){
-            $slug .= $discipline.'-';
+        if($type == 'zmf'){
+            $slug = 'kita-' . $topic;
+        }else{
+            foreach ($disciplinesMapped as $discipline){
+                $slug .= $discipline.'-';
+            }
+            $slug .= $topic;
         }
-        $slug .= $topic;
 
         $post_status = 'draft';
         if ($collection_level == 1){
             $post_status = 'publish';
         }
+
 
         $portal_insert = array(
             'post_author' => 'admin',
@@ -201,6 +220,11 @@ function add_portal(WP_REST_Request $request) {
 
             update_field('intendedEndUserRole', array_map("clean_intended_end_user_role", $intended_end_user_roles), $post_id);
 
+            if($type == 'zmf'){
+                //set typ zmf for page
+                update_field('field_617963f992a7b', 2, $post_id);
+            }
+
           /*
           //Copy Template Blog Posts
             $post_args = array(
@@ -259,7 +283,14 @@ function add_portal(WP_REST_Request $request) {
             $slug = get_post_field( 'post_name', $post_id );
 
             http_response_code(200);
-            print(get_site_url().'/portal/'.$slug);
+
+            if($type == 'zmf'){
+                print('https://medien.kita.bayern/portal/'.$slug);
+            }else{
+                print(get_site_url().'/portal/'.$slug);
+            }
+
+
 
             return;
         } else {
