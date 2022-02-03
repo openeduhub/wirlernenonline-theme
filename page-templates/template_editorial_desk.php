@@ -65,7 +65,7 @@ while (have_posts()) : the_post(); ?>
                     <?php if (get_the_ID() == 44703): ?>
                         <div class="editorial-user-settings">
                             <label for="subject">Fach:</label>
-                            <select name="subject" id="portal" onchange="document.location.href = '?subject=' + this.value">
+                            <select name="subject <?php echo $GLOBALS['wlo_redaktion']['subject']; ?>" id="portal" onchange="document.location.href = '?subject=' + this.value">
                                 <?php
                                 foreach ($groups as $subject){
                                     $subject = str_replace('WLO-', '', $subject);

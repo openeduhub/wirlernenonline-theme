@@ -142,7 +142,7 @@ function wlo_login($user1, $username, $password, $already_md5 = false){
 }
 
 function wlo_registerInbox() {
-    error_log('wlo_registerInbox');
+    //error_log('wlo_registerInbox');
 
     $user = wp_get_current_user();
     $user_roles = $user->roles;

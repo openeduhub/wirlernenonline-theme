@@ -9,8 +9,12 @@ if ($GLOBALS['wlo_redaktion']['subject'] == 'DaZ'){
     $GLOBALS['wlo_redaktion']['subject'] = 'Deutsch als Zweitsprache';
 }
 
+if ($GLOBALS['wlo_redaktion']['subject'] == 'Deutsch'){
+    $GLOBALS['wlo_redaktion']['subject'] = 'Deutsch - Musterfachseite'; // nur für dev!
+}
+
 if (is_admin() &&  empty($GLOBALS['wlo_redaktion']['subject'])){
-    $GLOBALS['wlo_redaktion']['subject'] = 'Deutsch';
+    $GLOBALS['wlo_redaktion']['subject'] = 'Deutsch als Zweitsprache';
 }
 
 if (function_exists('get_repo_ticket')){
