@@ -350,23 +350,26 @@ function fachportal_content_block() {
     //$rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
     $rgbBackgroundColor = '255,255,255';
 
-    switch ($contentType['value']){
-        case 0: // lerninhalte
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.8)';
-            break;
-        case 1: // tools
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.6)';
-            break;
-        case 2: // methoden
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.4)';
-            break;
-        case 3: // gut zu wissen
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.2)';
-            break;
-        default:
-            $diagramColor = 'rgb(250, 250, 250)';
+    if(!empty($contentType['value'])){
+        switch ($contentType['value']){
+            case 0: // lerninhalte
+                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.8)';
+                break;
+            case 1: // tools
+                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.6)';
+                break;
+            case 2: // methoden
+                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.4)';
+                break;
+            case 3: // gut zu wissen
+                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.2)';
+                break;
+            default:
+                $diagramColor = 'rgb(250, 250, 250)';
 
+        }
     }
+
 
     $contentArray = array();
     //if (!empty($response->nodes)){
@@ -488,7 +491,7 @@ function fachportal_content_block() {
             <h3>
             <?php echo $headline;
                 if ($collectionLevel >= 1){
-                    echo ' ('.count($contentArray).')';
+                    //echo ' ('.count($contentArray).')';
                 } ?>
             </h3>
             <?php if(!empty($descrText)){?>
@@ -588,7 +591,7 @@ function fachportal_content_block() {
                         <div class="content-title"><?php echo $contentTitle; ?></div>
                         <p class="content-description">Füge Inhalte zu diesem Thema hinzu...</p>
                         <a class="content-button no-content-button" href="<?php echo $addContentUrl; ?>" target="_blank">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus.svg" alt="Icon: Plus"> <?php echo $buttonText; ?>
+                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus_white.svg" alt="Icon: Plus"> <?php echo $buttonText; ?>
                         </a>
                     </div>
                 </div>

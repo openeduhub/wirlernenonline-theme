@@ -255,10 +255,10 @@
 
   .wlo-header{
     color: white;
-    background: $wlo-primary;
-    background: url('../../../src/assets/img/Header_Default.svg');
+    background: $wlo-primary-dark;
+    //background: url('../../../src/assets/img/Header_Default.svg');
     background-position: center;
-    border-top: 46px solid $wlo-primary-dark;
+    border-top: 12px solid $wlo-primary-dark;
 
     .wlo-header-wrapper{
       display: flex;

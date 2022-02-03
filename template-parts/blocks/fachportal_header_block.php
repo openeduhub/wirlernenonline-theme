@@ -20,14 +20,21 @@ $response = callWloRestApi($url);
 
 $url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $collectionID . '/parents?propertyFilter=-all-&fullPath=false';
 $parents = callWloRestApi($url)->nodes;
-$portal = $parents[count($parents)-2];
+$portal = $parents[count($parents)-3];
 $portalTitle = '';
 if (!empty($portal->title)){
     $portalTitle = $portal->title;
 }
+if ($portalTitle == 'Digitalisierung und Medienkompetenz'){
+    $portalTitle = 'Medienkompetenz';
+}
+
+$portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
+
 $portalUrl = '#';
 if (!empty($portal->properties->{'cclom:location'}[0])){
     $portalUrl = $portal->properties->{'cclom:location'}[0];
+    $portalUrl = str_replace('https://wirlernenonline.de/', 'https://medien.kita.bayern/', $portalUrl);
 }
 
 if (empty($response->collection->properties->{'cm:description'}[0])){
@@ -55,7 +62,8 @@ if (!function_exists('helper_useLightColor')) {
     }
 }
 
-$backgroundColor = wloSubjectType($portalTitle)['color'];
+//$backgroundColor = wloSubjectType($portalTitle)['color'];
+$backgroundColor = get_field('background_color', $portalID);
 $rgbBackgroundColor = hex2rgb($backgroundColor);
 $fontColor = (!empty($backgroundColor) && helper_useLightColor($backgroundColor)) ? "#313131" : "#ffffff";
 
@@ -64,7 +72,7 @@ $GLOBALS['wlo_fachportal'] = array(
         'backgroundColor' => $backgroundColor,
         'rgbBackgroundColor' => $rgbBackgroundColor
 );
-
+/*
 // newest contents
 $url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=8&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
 $body = '{
@@ -80,10 +88,18 @@ $body = '{
   ]
 }';
 $newestContent = callWloRestApi($url, 'POST', $body);
+*/
+
+
+//only content from the given collection
+$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
+$newestContent = callWloRestApi($url);
+
+
 
 $contentArray = array();
-if (!empty($newestContent->nodes)){
-    foreach ($newestContent->nodes as $reference) {
+if (!empty($newestContent->references)){
+    foreach ($newestContent->references as $reference) {
         $prop = $reference->properties;
 
         //check if deleted
@@ -194,7 +210,7 @@ if (get_field('slidesToScroll')) {
                                     $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
                                 }
                                 //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
-                                //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);?>
+                                $ccm_location = str_replace('https://wirlernenonline.de/', 'https://medien.kita.bayern/', $collection->properties->{'cclom:location'}[0]);?>
                                 <div class="sub-subject">
                                     <a href="<?php echo $ccm_location; ?>">
                                         <p><?php echo $title; ?></p>
@@ -215,6 +231,9 @@ if (get_field('slidesToScroll')) {
                         <div id="hidden-sub-subjects-container" class="sub-subjects-container">
                             <?php foreach (array_slice($filteredSubCollections, $maxSubCollections) as $collection) {
                                 $ccm_location = $collection->properties->{'cclom:location'}[0];
+
+                                $ccm_location = str_replace('https://wirlernenonline.de/', 'https://medien.kita.bayern/', $collection->properties->{'cclom:location'}[0]);
+
                                 $title = $collection->title;
                                 if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
                                     $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
@@ -237,7 +256,8 @@ if (get_field('slidesToScroll')) {
 
 
         <div class="content-stats">
-            <div class="header" style="color: <?php echo $fontColor ?> !important;">
+            <!--
+            <div class="header" style="color: <?php /*echo $fontColor */?> !important;">
                 Geprüfte Inhalte
             </div>
 
@@ -248,11 +268,12 @@ if (get_field('slidesToScroll')) {
             </div>
 
             <div class="diagram-legend">
-                <div class="diagram-legend-entry Wissen" style="color: <?php echo $fontColor ?> !important;">Gut zu Wissen <div class="diagram-legend-color"></div></div>
-                <div class="diagram-legend-entry Lerninhalte" style="color: <?php echo $fontColor ?> !important;"><div class="diagram-legend-color"></div> Material</div>
-                <div class="diagram-legend-entry Methoden" style="color: <?php echo $fontColor ?> !important;">Unterrichtsplanung <div class="diagram-legend-color"></div></div>
-                <div class="diagram-legend-entry Tools" style="color: <?php echo $fontColor ?> !important;"><div class="diagram-legend-color"></div> Software und Tools</div>
+                <div class="diagram-legend-entry Wissen" style="color: <?php /*echo $fontColor */?> !important;">Gut zu Wissen <div class="diagram-legend-color"></div></div>
+                <div class="diagram-legend-entry Lerninhalte" style="color: <?php /*echo $fontColor */?> !important;"><div class="diagram-legend-color"></div> Material</div>
+                <div class="diagram-legend-entry Methoden" style="color: <?php /*echo $fontColor */?> !important;">Unterrichtsplanung <div class="diagram-legend-color"></div></div>
+                <div class="diagram-legend-entry Tools" style="color: <?php /*echo $fontColor */?> !important;"><div class="diagram-legend-color"></div> Software und Tools</div>
             </div>
+            -->
         </div>
 
 
@@ -268,7 +289,7 @@ if (get_field('slidesToScroll')) {
                 <img class="fachportal-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg"  alt="Die neusten Inhalte ein odder ausklappen">
             </button>
 
-            <div class="content fachportal-accordion-content" id="<?php echo $sliderId; ?>">
+            <div class="content fachportal-accordion-content zmf-accordion-content" id="<?php echo $sliderId; ?>">
                 <?php
                 if (!empty($contentArray)){
                     foreach (array_slice($contentArray, 0, get_field('content_count')) as $content) { ?>
@@ -352,6 +373,7 @@ if (get_field('slidesToScroll')) {
 </div>
 
 <script>
+    /*
     function addData(chart, label, data, color, index) {
         //chart.data.labels.push(label);
         chart.data.labels[index] = label;
@@ -393,6 +415,7 @@ if (get_field('slidesToScroll')) {
             }
         }
     });
+    */
 
     jQuery(function () {
         // Handler for .ready() called. Put the Slick Slider etc. init code here.
@@ -432,10 +455,10 @@ if (get_field('slidesToScroll')) {
             }
         }
 
-        loadSlider();
+        //loadSlider();
 
         jQuery(window).on('resize', function(){
-            jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+            //jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
         });
     });
 
