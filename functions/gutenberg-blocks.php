@@ -219,6 +219,14 @@ function register_acf_block_types() {
         'keywords'			=> [ ],
         'enqueue_assets'    => 'wlo_redaktion_metaqs_assets',
     ]);
+    acf_register_block_type(['name' => 'wlo_redaktion_iframe',
+        'title'				=> __('iFrame mit Ticket'),
+        'description'		=> __('Für die Redaktionsumgebung'),
+        'render_template'	=> 'template-parts/blocks/redaktion/wlo_redaktion_iframe.php',
+        'category'			=> 'wlo',
+        'icon'				=> 'welcome-widgets-menus',
+        'keywords'			=> [ ],
+    ]);
     acf_register_block_type(['name' => 'wlo_testimonials',
         'title'				=> __('WLO Testimonials'),
         'description'		=> __('Für die Startseite'),
