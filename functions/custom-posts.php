@@ -383,6 +383,55 @@ function wlo_portal_discipline_filter($query) {
 }
 add_action('pre_get_posts','wlo_portal_discipline_filter');
 
+/**
+ * Add a select dropdown filter for zmf.
+ */
+function wlo_zmf_dropdown() {
+    $scr = get_current_screen();
+    if ( $scr->base !== 'edit' && $scr->post_type !== 'portal') return;
+
+    $selected = filter_input(INPUT_GET, 'type_filter', FILTER_SANITIZE_STRING );
+    if (empty($selected)){
+        $selected = '2';
+    }
+
+    $choices = [
+        '1' => 'WLO',
+        '2' => 'ZMF',
+    ];
+
+    echo'<select name="type_filter">';
+    echo '<option value="all" '. (( $selected == 'all' ) ? 'selected="selected"' : "") . '>' . 'WLO & ZMF' . '</option>';
+    foreach( $choices as $key => $value ) {
+        echo '<option value="' . $key . '" '. (( $selected == $key ) ? 'selected="selected"' : "") . '>' . $value . '</option>';
+    }
+    echo'</select>';
+}
+
+add_action('restrict_manage_posts', 'wlo_zmf_dropdown');
+
+
+function wlo_portal_zmf_filter($query) {
+    if ( is_admin() && $query->is_main_query() ) {
+        $scr = get_current_screen();
+        if ( $scr->base !== 'edit' && $scr->post_type !== 'portal' ) return;
+
+        $type = '2';
+        if (isset($_GET['type_filter'])){
+            $type = $_GET['type_filter'];
+        }
+
+        if ($type != 'all') {
+            $query->set('meta_query', array( array(
+                'key' => 'type',
+                'value' => $type,
+                'compare' => '=',
+            ) ) );
+        }
+    }
+}
+add_action('pre_get_posts','wlo_portal_zmf_filter');
+
 
 function only_blog_posts( $query ) {
     if ( $query->is_home() && $query->is_main_query() ) {
