@@ -136,6 +136,9 @@ function add_portal(WP_REST_Request $request) {
         if ($template = get_page_by_path('themenportal-vorlage-'. $collection_level, OBJECT, 'portal')){
             $template_id = $template->ID;
         }
+        if($type == 'zmf'){
+            $template_id = '64494';
+        }
 
         if ($template_id){
             $content = get_post_field('post_content', $template_id);
