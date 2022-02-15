@@ -29,13 +29,18 @@ if ($portalTitle == 'Digitalisierung und Medienkompetenz'){
     $portalTitle = 'Medienkompetenz';
 }
 
-$portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
+//$portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
 
 $portalUrl = '#';
 if (!empty($portal->properties->{'cclom:location'}[0])){
     $portalUrl = $portal->properties->{'cclom:location'}[0];
     $portalUrl = str_replace('https://wirlernenonline.de/', 'https://medien.kita.bayern/', $portalUrl);
+    $page = get_page_by_path(basename($portalUrl), OBJECT, 'portal');
+    $portalID =$page->ID;
+}else{
+    $portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
 }
+
 
 if (empty($response->collection->properties->{'cm:description'}[0])){
     $description = '
