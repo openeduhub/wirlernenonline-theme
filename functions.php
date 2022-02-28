@@ -12,6 +12,9 @@ require_once(get_template_directory().'/functions/custom-posts.php');
 // Register custom features
 require_once(get_template_directory().'/functions/features.php');
 
+// Register portal features
+require_once(get_template_directory().'/functions/portal-features.php');
+
 // custom image sizes
 require_once(get_template_directory().'/functions/image-sizes.php');
 

@@ -19,6 +19,7 @@
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="msapplication-config" content="<?php echo get_stylesheet_directory_uri() ?>/dist/assets/img/favicons/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
+    <base href="<?php echo home_url($_SERVER['REQUEST_URI']); ?>" />
 	<script>
 	theme_directory = "<?php echo get_template_directory_uri() ?>";
 	</script>

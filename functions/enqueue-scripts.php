@@ -5,8 +5,11 @@
 function site_scripts() {
     $versionDate = '20200821';
     //JS
+    wp_dequeue_script('slick');
+
     wp_enqueue_script( 'site-js', get_template_directory_uri() . '/dist/assets/js/app.js', array( 'jquery' ), '', true );
-    wp_enqueue_script( 'slick', get_template_directory_uri() . '/dist/assets/js/slick.min.js', array( 'jquery' ), '', true );
+    wp_enqueue_script( 'slick-js', get_template_directory_uri() . '/dist/assets/js/slick.min.js', array( 'jquery' ), '', true );
+
 
     if (is_page_template('archive-edusource.php') || is_page_template('archive-edutool.php') || is_front_page() || true) {
         wp_enqueue_script( 'select2-js', get_template_directory_uri() . '/dist/assets/js/select2.min.js', array( 'jquery' ), '', true );
@@ -28,6 +31,9 @@ function site_scripts() {
     }
 
     // CSS
+    wp_dequeue_style( 'slick' );
+    wp_dequeue_style( 'slick-theme' );
+
     wp_enqueue_style( 'select2-css', get_template_directory_uri() . '/dist/assets/scss/select2.css', array(), $versionDate, 'all' );
     wp_enqueue_style( 'slick-css', get_template_directory_uri() . '/dist/assets/scss/slick.css', array(), $versionDate, 'all' );
     wp_enqueue_style( 'slick-theme-css', get_template_directory_uri() . '/dist/assets/scss/slick-theme.css', array(), $versionDate, 'all' );

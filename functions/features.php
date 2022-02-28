@@ -360,6 +360,39 @@ function getWloVocaps($type){
     return $vocab_json;
 }
 
+function getNewLrtList($id){
+    $transient = 'new_lrt_vocab_'.$id;
+    $vocab_json = null;
+    $new_lrt_list = array();
+    if ( false === ( $value = get_transient( $transient ) ) ) {
+        // this code runs when there is no valid transient set
+        // Get Select-Field Options from Vocab Scheme
+        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/new_lrt/'.$id.'.json');
+        $vocab_json = json_decode($json);
+
+        if (!empty($vocab_json)){
+            $new_lrt_list[] = array(
+                                'id' => $vocab_json->id,
+                                'label' => $vocab_json->prefLabel->de,
+                                );
+
+            if (!empty($vocab_json->narrower)){
+                foreach ($vocab_json->narrower as $item){
+                    $new_lrt_list[] = array(
+                        'id' => $item->id,
+                        'label' => $item->prefLabel->de,
+                    );
+                }
+            }
+        }
+
+        set_transient( $transient, $new_lrt_list, 60*60*12 );
+    } else{
+        $new_lrt_list = get_transient( $transient );
+    }
+    return $new_lrt_list;
+}
+
 function get_educational_filter_values($postID){
 
     $collection_level = map_educational_filter_values('collection_level', $postID);
