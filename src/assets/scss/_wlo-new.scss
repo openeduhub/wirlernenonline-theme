@@ -256,8 +256,9 @@
   .wlo-header{
     color: white;
     background: $wlo-primary-dark;
-    //background: url('../../../src/assets/img/Header_Default.svg');
+    background-image: url('../../../src/assets/img/zmf-background-white.svg');
     background-position: center;
+    background-repeat: repeat-x;
     border-top: 12px solid $wlo-primary-dark;
 
     .wlo-header-wrapper{
@@ -568,7 +569,7 @@
     }
 
     p{
-      font-size: 15px;
+      font-size: 16px;
       color: #313131;
     }
   }

@@ -109,6 +109,7 @@ $fachportal_bright: $wlo-primary;
         position: relative;
 
         .content-source{
+          display: none;
           position: absolute;
           left: 0;
           top: 3px;
@@ -313,6 +314,9 @@ $fachportal_bright: $wlo-primary;
 .fachportal-header-block{
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 49.56vw);
+  background-image: url('../../../src/assets/img/zmf-background-white.svg');
+  background-position: center;
+  background-repeat: repeat-x;
 
   .fachportal-header-bar{
     background: $fachportal_primary;
