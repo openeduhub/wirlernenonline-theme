@@ -15,10 +15,9 @@ $fachportal_bright: $wlo-primary;
 }
 
 .portal-wrapper{
-  display: flex;
-  justify-content: center;
+  max-width: 1200px;
   margin: 0 auto;
-  background: white;
+  background: #f4f4f4;
   padding-bottom: 0.5em;
   transition: 0.3s;
 
@@ -29,8 +28,19 @@ $fachportal_bright: $wlo-primary;
 
   .portal-wrapper-right{
     display: none;
+    position: sticky;
+    top: 170px;
+    bottom: 0;
+    height: 100%;
     max-width: 1200px;
   }
+}
+
+.portal-wrapper-themenseite{
+  display: flex;
+  justify-content: center;
+  max-width: initial;
+  background: white;
 }
 
 .portal-wrapper-header{
@@ -40,13 +50,15 @@ $fachportal_bright: $wlo-primary;
 }
 
 
-.fachportal-content-popup{
-  display: flex;
+
+
+.detail-view-popup{
+  display: none;
   flex-direction: column;
   position: relative;
   width: 500px;
-  margin: 1.5em;
-  margin-top: 48px;
+  height: fit-content;
+  margin: 48px 1.5em 1.5em;
   border-radius: 24px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
   cursor: auto;
@@ -60,8 +72,109 @@ $fachportal_bright: $wlo-primary;
     app-details{
       border-radius: 24px;
     }
+
+    .material-icons{
+      box-sizing: content-box;
+    }
+  }
+}
+
+.no-content-popup{
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 500px;
+  height: fit-content;
+  background: #f4f4f4;
+  margin: 48px 1.5em 1.5em;
+  padding: 0.5em;
+  border-radius: 24px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+  cursor: auto;
+
+  .close-no-content-popup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 1em;
+    right: 0.5em;
+    height: 25px;
+    width: 25px;
+    color: white;
+    background: $wlo-primary-dark;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: 0.3s;
   }
 
+  .close-no-content-popup:hover{
+    background: $wlo-primary;
+  }
+
+  h3{
+    color: $wlo-red;
+    font-size: 24px;
+    align-self: flex-start;
+  }
+
+  img{
+    width: 100%;
+    height: 100%;
+  }
+
+  p{
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 15px;
+    padding: 1em;
+    line-height: 1.5;
+  }
+
+  .content-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 100%;
+    width: 50%;
+    background: #032850;
+    color: white;
+    font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 14px;
+    border-radius: 15px;
+    transition: 0.3s;
+  }
+
+  .content-button:hover{
+    background: $fachportal_bright;
+  }
+
+  .no-content-button{
+    //background: $wlo-neon;
+    //color: $wlo-primary-dark;
+
+    img{
+      margin-right: 0.5em;
+    }
+  }
+
+  .no-content-button:hover{
+    //background: $wlo-neon-dark;
+  }
+}
+
+
+
+
+
+app-report-problem{
+  textarea:focus {
+    border: none;
+  }
+  input:focus-visible {
+    outline: none;
+  }
 }
 
 .fachportal-content-block, .wlo-page .fachportal-content-block{
@@ -357,43 +470,84 @@ $fachportal_bright: $wlo-primary;
 
   .no-widget-content{
     height: auto;
+    button{
+      width: 100%;
+    }
   }
+}
+
+.fachportal-header-bar{
+  position: sticky;
+  top: 0;
+  background: $fachportal_primary;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 49.6vw);
+  z-index: 50;
+
+  .fachportal-header-bar-wrapper{
+    display: flex;
+    flex-wrap: wrap-reverse;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .fachportal-header-bar-tab{
+      display: flex;
+      align-items: center;
+      height: 48px;
+      width: fit-content;
+      border-radius: 18px 18px 0 0;
+
+      a{
+        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 16px;
+        color: white;
+        text-decoration: underline;
+        padding: 8px 16px;
+        transition: 0.3s;
+      }
+
+      a:hover{
+        color: $fachportal_primary;
+      }
+    }
+
+  }
+
+  .portal-breadcrumbs{
+    display: flex;
+    align-items: center;
+    margin-left: 1em;
+
+    .portal-breadcrumbs-list{
+      .portal-breadcrumbs-list-item{
+        color: white;
+        font-size: 14px;
+        a{
+          color: white;
+          font-weight: normal;
+        }
+        .material-icons {
+          font-size: 20px;
+          padding: 0 2px;
+          position: relative;
+          top: 4px;
+        }
+      }
+      .portal-breadcrumbs-list-item:last-child{
+        a{
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
 }
 
 .fachportal-header-block{
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 49.56vw);
 
-  .fachportal-header-bar{
-    background: $fachportal_primary;
 
-    .fachportal-header-bar-wrapper{
-      max-width: 1200px;
-      margin: 0 auto;
-
-      .fachportal-header-bar-tab{
-        display: flex;
-        align-items: center;
-        height: 48px;
-        width: fit-content;
-        border-radius: 18px 18px 0 0;
-
-        a{
-          font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-          font-size: 16px;
-          color: white;
-          text-decoration: underline;
-          padding: 8px 16px;
-          transition: 0.3s;
-        }
-
-        a:hover{
-          color: $fachportal_primary;
-        }
-      }
-
-    }
-  }
 
   .fachportal-header-wrapper{
     display: flex;
@@ -435,24 +589,6 @@ $fachportal_bright: $wlo-primary;
 
       .title::first-letter{
         text-transform: capitalize;
-      }
-
-      .portal-breadcrumbs{
-        margin-bottom: 16px;
-
-        .portal-breadcrumbs-list{
-          .portal-breadcrumbs-list-item{
-            font-size: 14px;
-            a{
-              color: #7A7A7A;
-            }
-          }
-          .portal-breadcrumbs-list-item:last-child{
-            a{
-              color: black;
-            }
-          }
-        }
       }
 
       .header-description{
@@ -621,8 +757,8 @@ $fachportal_bright: $wlo-primary;
 
     .diagram{
       position: relative;
-      width: 80%;
-      border-radius: 50%;
+      width: 100%;
+      margin-left: 1.5em;
 
       .diagram-content{
         display: flex;
@@ -645,13 +781,12 @@ $fachportal_bright: $wlo-primary;
 
     .diagram-legend{
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       margin: 24px 0;
 
       .diagram-legend-entry{
         display: flex;
         align-items: center;
-        width: 50%;
         color: #ffffff;
         font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
         font-size: 13px;
@@ -664,31 +799,15 @@ $fachportal_bright: $wlo-primary;
         margin: 0 4px;
       }
 
-      .Wissen{
-        justify-content: flex-end;
+      .Redaktionell{
         .diagram-legend-color{
-          background: rgba(255, 255, 255, 0.2);
+          background: rgba(255, 255, 255, 0.75);
         }
       }
 
-      .Methoden{
-        justify-content: flex-end;
+      .Maschinell{
         .diagram-legend-color{
           background: rgba(255, 255, 255, 0.4);
-        }
-      }
-
-      .Lerninhalte{
-        justify-content: flex-start;
-        .diagram-legend-color{
-          background: rgba(255, 255, 255, 0.8);
-        }
-      }
-
-      .Tools{
-        justify-content: flex-start;
-        .diagram-legend-color{
-          background: rgba(255, 255, 255, 0.6);
         }
       }
 
@@ -704,64 +823,79 @@ $fachportal_bright: $wlo-primary;
     border-radius: 24px 24px 0px 0px;
   }
 
-  .fachportal-filterbar{
-    width: 100%;
-    position: relative;
-    background: white;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
 
+}
 
-    .fachportal-filterbar-content{
+.fachportal-filterbar{
+  position: sticky;
+  top: 48px;
+  background: white;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 49.6vw);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+  z-index: 50;
+
+  .fachportal-filterbar-content{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    max-width: 1200px;
+    padding: 1em;
+    margin: 0 auto;
+
+    .fachportal-filterbar-dropdowns{
       display: flex;
-      justify-content: space-evenly;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      padding: 1em;
-      margin: 0 auto;
+      justify-content: flex-start;
 
-      button{
-        background: none;
-        border: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      .fachportal-filterbar-tag{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: $wlo-primary-dark;
-        font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
-        font-size: 14px;
-        height: 30px;
+      select{
         width: fit-content;
-        margin: 0.5em 1em 0.5em 0;
-        padding: 8px;
-        background: #F4F4F4;
-        cursor: pointer;
-        border: 2px solid $wlo-primary-dark;
-        border-radius: 50px;
-        transition: 0.3s;
-
-        img{
-          display: none;
-          margin-right: 4px;
-          max-width: 15px;
-        }
+        margin: 0.5em;
       }
+    }
 
-      .fachportal-filterbar-tag:hover{
-        color: white;
-        background: #003B7C;
+    button{
+      background: none;
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .fachportal-filterbar-tag{
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: $wlo-primary-dark;
+      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-size: 14px;
+      height: 30px;
+      width: fit-content;
+      margin: 0.5em 1em 0.5em 0;
+      padding: 8px;
+      background: #F4F4F4;
+      cursor: pointer;
+      border: 2px solid $wlo-primary-dark;
+      border-radius: 50px;
+      transition: 0.3s;
+
+      img{
+        display: none;
+        margin-left: 6px;
+        max-width: 10px;
       }
+    }
 
-      .active-btn{
-        color: white;
-        background: $wlo-primary-dark;
+    .fachportal-filterbar-tag:hover{
+      color: white;
+      background: #003B7C;
+    }
 
-        img{
-          display: block;
-        }
+    .active-btn{
+      display: flex;
+      color: white;
+      background: $wlo-primary-dark;
+
+      img{
+        display: block;
       }
     }
   }
@@ -1386,12 +1520,58 @@ $fachportal_bright: $wlo-primary;
   }
 }
 @media (max-width: 1200px) {
+  .portal-wrapper{
+    .portal-wrapper-right{
+      position: fixed;
+      top: 25px;
+      z-index: 5000;
+    }
+
+    .portal-wrapper-right:before{
+      content: "";
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba(0,0,0,.75);
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+    }
+  }
+
+
   .fachportal-header-block{
     margin: 0;
+  }
+  .no-widget-content{
+
   }
 }
 
 @media (max-width: 900px) {
+  .fachportal-header-bar{
+    top: 0px !important;
+    padding-top: 21px;
+  }
+
+  .fachportal-filterbar{
+    top: 100px !important;
+  }
+
+  .fachportal-filterbar-dropdowns{
+    flex-direction: column;
+    padding-top: 20px;
+
+    select{
+      width: 95% !important;
+    }
+  }
+
+  .portal-wrapper-left{
+    max-width: 100%;
+  }
+
   .fachportal-content-block{
     margin-top: 1.5em;
   }

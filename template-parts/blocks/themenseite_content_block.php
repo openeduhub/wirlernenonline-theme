@@ -157,6 +157,75 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
 
 ?>
 
+<script>
+    function addData(chart, label, data, color, index) {
+        //chart.data.labels.push(label);
+        chart.data.labels[index] = label;
+
+        chart.data.datasets[0].data[index] = data;
+        chart.data.datasets[0].label = 'Redaktionell';
+
+        chart.data.datasets[1].data[index] = 5;
+        chart.data.datasets[1].label = 'Maschienell';
+
+
+        chart.update();
+    }
+
+    const ctx = document.getElementById('contentChart').getContext('2d');
+    let contentChart = new Chart(ctx, {
+        // The type of chart we want to create
+        //type: 'polarArea',
+        type: 'horizontalBar',
+        //type: 'pie',
+        //type: 'doughnut',
+
+        // The data for our dataset
+        data: {
+            datasets: [{
+                label: [],
+                data: [],
+                backgroundColor: "rgba(255,255,255,0.75)",
+            },
+            {
+                label: [],
+                data: [],
+                backgroundColor: "rgba(255,255,255,0.4)",
+            }],
+            labels: [],
+        },
+
+        // Configuration options go here
+        options: {
+            indexAxis: 'y',
+            scales:{
+                xAxes: [{
+                    display: false //this will remove all the x-axis grid lines
+                }],
+                yAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        fontColor: "white",
+                    }
+                }]
+            },
+            legend: {
+                display: false
+            },
+            // Elements options apply to all of the options unless overridden in a dataset
+            // In this case, we are setting the border of each horizontal bar to be 2px wide
+            elements: {
+                bar: {
+                    borderWidth: 2,
+                }
+            },
+            responsive: true,
+        },
+    });
+</script>
+
 <div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
     <div class="header">
         <h3>Medien</h3>
@@ -174,6 +243,10 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
 
     echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
     ?>
+
+    <script>
+        addData(contentChart, 'Medien', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.8)'; ?>', 0);
+    </script>
 
     <div class="fachportal-spacer"></div>
 </div>
@@ -194,6 +267,10 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
     echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
     ?>
 
+    <script>
+        addData(contentChart, 'Unterrichtsplanung', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.4)'; ?>', 1);
+    </script>
+
     <div class="fachportal-spacer"></div>
 </div>
 
@@ -212,6 +289,10 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
 
     echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
     ?>
+
+    <script>
+        addData(contentChart, 'Praxismaterialien', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.4)'; ?>', 2);
+    </script>
 
     <div class="fachportal-spacer"></div>
 </div>
@@ -232,6 +313,10 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
     echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
     ?>
 
+    <script>
+        addData(contentChart, 'Tools', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.8)'; ?>', 3);
+    </script>
+
     <div class="fachportal-spacer"></div>
 </div>
 
@@ -250,6 +335,10 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
 
     echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
     ?>
+
+    <script>
+        addData(contentChart, 'Quellen', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.8)'; ?>', 4);
+    </script>
 
     <div class="fachportal-spacer"></div>
 </div>
@@ -270,6 +359,11 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
 
     echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
     ?>
+
+    <script>
+        addData(contentChart, 'Bildungsangebote', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.8)'; ?>', 5);
+    </script>
+
     <div class="fachportal-spacer"></div>
 </div>
 

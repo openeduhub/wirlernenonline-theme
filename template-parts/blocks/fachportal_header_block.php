@@ -30,18 +30,6 @@ if (!empty($portal->properties->{'cclom:location'}[0])){
     $portalUrl = $portal->properties->{'cclom:location'}[0];
 }
 
-$breadcrumbs = Array();
-if (!empty($parents)){
-    foreach ($parents as $node) {
-        if ($node->title == 'Portale'){
-            $breadcrumbs[] = ['Fachportale', get_page_link(9930)];
-        }else{
-            $breadcrumbs[] = [$node->title, str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $node->properties->{'cclom:location'}[0])];
-        }
-    }
-    $breadcrumbs = array_reverse($breadcrumbs);
-}
-
 if (empty($response->collection->properties->{'cm:description'}[0])){
     $description = '
                     Hier findest du zahlreiches kostenloses Material für '.$portalTitle.'!<br><br>
@@ -127,77 +115,16 @@ if (!empty($newestContent->nodes)){
         );
     } //end foreach
 }
-
-
-// get themenseiten-content
-$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
-$response = callWloRestApi($url);
-$themenseiten_contentArray = array();
-$educationalcontextArray = array();
-$enduserroleArray = array();
-$oerCount = 0;
-if (!empty($response->references)){
-    foreach ($response->references as $reference) {
-
-        $prop = $reference->properties;
-
-        // check if deleted
-        if($reference->originalId == null){
-            //echo 'skipped deleted';
-            continue;
-        }
-
-        $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
-        $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
-        $isOER = false;
-        foreach ($oerLicenses as $license){
-            if( $nodeLicense == $license){
-                $isOER = true;
-                $oerCount++;
-            }
-        }
-
-        $themenseiten_contentArray[] = array(
-            'id' => $reference->ref->id,
-            'image_url' => $reference->preview->url,
-            'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
-            'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
-            //'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-            'description' => $prop->{'cclom:general_description'}[0] ? $prop->{'cclom:general_description'}[0] : $reference->ref->id,
-            'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
-            'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
-            'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
-            'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
-            'enduserrole' => !empty($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'}) ? $prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'} : [],
-            'oer' => $isOER,
-            'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : '',
-            'oeh_lrt' =>  !empty($reference->properties->{'ccm:oeh_lrt'}) ? $reference->properties->{'ccm:oeh_lrt'} : '',
-            'added' => false
-        );
-
-        if (!empty($prop->{'ccm:educationalcontext_DISPLAYNAME'})){
-            foreach ($prop->{'ccm:educationalcontext_DISPLAYNAME'} as $item){
-                if (!array_key_exists($item, $educationalcontextArray)) {
-                    $educationalcontextArray[$item] = 1;
-                }else{
-                    $educationalcontextArray[$item] = $educationalcontextArray[$item]+1;
-                }
-            }
-        }
-        if (!empty($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'})){
-            foreach ($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'} as $item){
-                if (!array_key_exists($item, $enduserroleArray)) {
-                    $enduserroleArray[$item] = 1;
-                }else{
-                    $enduserroleArray[$item] = $enduserroleArray[$item]+1;
-                }
-            }
-        }
-
-    } //end foreach
+$accordionID = uniqid();
+$sliderId = uniqid('slider-');
+$slidesToShow = 4;
+$slidesToScroll = 4;
+if (get_field('slidesToShow')) {
+    $slidesToShow = get_field('slidesToShow');
 }
-
-$GLOBALS['wlo_themenseiten_content'] = $themenseiten_contentArray;
+if (get_field('slidesToScroll')) {
+    $slidesToScroll = get_field('slidesToScroll');
+}
 
 ?>
 
@@ -266,7 +193,7 @@ $GLOBALS['wlo_themenseiten_content'] = $themenseiten_contentArray;
                                 if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
                                     $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
                                 }
-                                $ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
+                                //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
                                 //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);?>
                                 <div class="sub-subject">
                                     <a href="<?php echo $ccm_location; ?>">
@@ -329,110 +256,212 @@ $GLOBALS['wlo_themenseiten_content'] = $themenseiten_contentArray;
         </div>
 
 
+        <div class="header-bottom"></div>
     </div>
+</div>
 
-    <div class="fachportal-filterbar">
+<div class="fachportal-header-block fachportal-new-content">
+    <div class="fachportal-header-wrapper" >
+        <div class="fachportal-new-content-inner" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 0.2);">
+            <button class="fachportal-accordion" id="fachportal-accordion-<?php echo $accordionID; ?>">
+                <h2>Die neusten geprüften Inhalte für dich!</h2>
+                <img class="fachportal-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg"  alt="Die neusten Inhalte ein odder ausklappen">
+            </button>
 
-        <div class="fachportal-filterbar-content">
+            <div class="content fachportal-accordion-content" id="<?php echo $sliderId; ?>">
+                <?php
+                if (!empty($contentArray)){
+                    foreach (array_slice($contentArray, 0, get_field('content_count')) as $content) { ?>
+                        <div class="widget-content <?php if (!empty($content['resourcetype'])){ foreach ($content['resourcetype'] as $type){ echo $type.' '; } } ?>">
 
-            <div class="portal-breadcrumbs">
-                <ul class="portal-breadcrumbs-list">
-                    <?php
-                    foreach ($breadcrumbs as $node) {
-                        echo "<li class='portal-breadcrumbs-list-item'><a href='" . $node[1] . "'>" . $node[0] . "</a><span class='material-icons'>chevron_right</span></li>";
-                    }
-                    ?>
-                </ul>
-            </div>
 
-            <div>
-                <?php foreach ($educationalcontextArray as $key => $value){ ?>
-                    <button onclick="filterContentTiles(this, 'educationalcontext', '<?php echo urlencode($key); ?>')">
-                        <div class="fachportal-filterbar-tag">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                            <?php echo $key.' ('.$value.')'; ?>
+                            <?php if (!empty($content['image_url'])) { ?>
+                                <img class="main-image" src="<?php echo $content['image_url']; ?>" alt="Cover: <?php echo $content['title']; ?>">
+                            <?php } ?>
+                            <div class="content-info">
+                                <div class="content-header">
+                                    <?php if ($content['source']){ ?>
+                                        <p class="content-source"><?php echo $content['source']; ?></p>
+                                    <?php } ?>
+                                    <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_green.svg"  alt="Auszeichnung: geprüfter Inhalt">
+                                    <?php if ($content['oer']){ ?>
+                                        <div class="badge ">OER</div>
+                                    <?php } ?>
+                                </div>
+                                <div class="content-title"><?php echo $content['title']; ?></div>
+                                <p class="content-description"><?php echo $content['description'] ?></p>
+                                <div class="content-meta">
+                                    <?php if (!empty($content['resourcetype'])){
+                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/img_icon.svg"  alt="Materialart">';
+                                        echo '<p>';
+                                        $i = 0;
+                                        foreach ($content['resourcetype'] as $type){
+                                            if(++$i === count($content['resourcetype'])) {
+                                                echo $type;
+                                            }else{
+                                                echo $type.', ';
+                                            }
+                                        }
+                                        echo '</p>';
+                                    } ?>
+                                </div>
+                                <div class="content-meta">
+                                    <?php if (!empty($content['subjects'])){
+                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/subject_icon.svg"  alt="Fächer">';
+                                        echo '<p>';
+                                        $i = 0;
+                                        foreach ($content['subjects'] as $subject) {
+                                            if(++$i === count($content['subjects'])) {
+                                                echo $subject;
+                                            }else{
+                                                echo $subject.', ';
+                                            }
+                                        }
+                                        echo '</p>';
+                                    } ?>
+                                </div>
+                                <div class="content-meta">
+                                    <?php if (!empty($content['educationalcontext'])){
+                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg"  alt="Bildungsebene">';
+                                        echo '<p>';
+                                        $i = 0;
+                                        foreach ($content['educationalcontext'] as $subject) {
+                                            if(++$i === count($content['educationalcontext'])) {
+                                                echo $subject;
+                                            }else{
+                                                echo $subject.', ';
+                                            }
+                                        }
+                                        echo '</p>';
+                                    } ?>
+                                </div>
+
+                                <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
+
+                            </div>
+
+
                         </div>
-                    </button>
-                <?php } ?>
-
-                <?php foreach ($enduserroleArray as $key => $value){ ?>
-                    <button onclick="filterContentTiles(this, 'enduserrole', '<?php echo urlencode($key); ?>')">
-                        <div class="fachportal-filterbar-tag">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                            <?php echo $key.' ('.$value.')'; ?>
-                        </div>
-                    </button>
-                <?php } ?>
-
-
-                <button onclick="filterContentTiles(this, 'oer', 'true')">
-                    <div class="fachportal-filterbar-tag">
-                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
-                        OER (<?php echo $oerCount; ?>)
-                    </div>
-                </button>
+                    <?php }
+                } ?>
             </div>
         </div>
 
+        <div class="header-bottom"></div>
     </div>
-
 </div>
 
-
-
 <script>
+    function addData(chart, label, data, color, index) {
+        //chart.data.labels.push(label);
+        chart.data.labels[index] = label;
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data[index] = data;
+            dataset.backgroundColor[index] = color;
+            dataset.borderWidth[index] = 0;
+        });
+        chart.update();
+    }
 
-filterContentTiles = ( () => {
-    let activeFilters = [];
-    function updateTiles(type) {
-        if (activeFilters.length === 0) {
-            jQuery('.widget-content').show('fast');
-            jQuery('.fachportal-content-block').show('fast');
-        } else {
-            jQuery('.widget-content').hide();
-            jQuery('.fachportal-content-block').show();
-            activeFilters.forEach((filter) => {
-                switch (type) {
-                    case "educationalcontext":
-                        jQuery('[data-educationalcontext~="' + filter + '"]').show('fast');
-                        break;
-                    case "enduserrole":
-                        jQuery('[data-enduserrole~="' + filter + '"]').show('fast');
-                        break;
-                    case "oer":
-                        jQuery('[data-oer="' + filter + '"]').show('fast');
-                        break;
-                }
-            });
+    const ctx = document.getElementById('contentChart').getContext('2d');
+    let contentChart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'polarArea',
+        //type: 'pie',
+        //type: 'doughnut',
+
+        // The data for our dataset
+        data: {
+            datasets: [{
+                data: [],
+                backgroundColor: [],
+                borderAlign:[],
+                borderColor: [],
+                borderWidth: []
+            }],
+            labels: [],
+
+        },
+
+        // Configuration options go here
+        options: {
+            scale: {
+                display: false
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+
+    jQuery(function () {
+        // Handler for .ready() called. Put the Slick Slider etc. init code here.
+        function loadSlider() {
+            if (typeof jQuery().slick === "function") {
+                jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
+                    infinite: false,
+                    slidesToShow: <?php echo $slidesToShow; ?>,
+                    slidesToScroll: <?php echo $slidesToScroll; ?>,
+                    arrows: true,
+                    dots: true,
+                    zIndex: 0,
+                    responsive: [
+                        {
+                            breakpoint: 1230,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3
+                            }
+                        },
+                        {
+                            breakpoint: 950,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 2
+                            }
+                        },
+                        {
+                            breakpoint: 750,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1
+                            }
+                        }
+                    ]
+                });
+            }
+        }
+
+        loadSlider();
+
+        jQuery(window).on('resize', function(){
             jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+        });
+    });
 
-            jQuery('.slick-track').each(function() {
-                if (jQuery(this).find('.widget-content:visible').length == 0){
-                    jQuery(this).closest('.fachportal-content-block').hide();
-                }
-            });
-        }
-    }
-    function setActiveState(button, isActive) {
-        if (isActive){
-            jQuery(button.querySelector('.fachportal-filterbar-tag')).addClass('active-btn');
-        }else {
-            jQuery(button.querySelector('.fachportal-filterbar-tag')).removeClass('active-btn');
-        }
-    }
-    function toggleFilter(button, type, filter) {
-        if (activeFilters.includes(filter)) {
-            activeFilters.splice(activeFilters.indexOf(filter), 1);
-            setActiveState(button, false);
-        } else {
-            activeFilters.push(filter);
-            setActiveState(button, true);
-        }
-        updateTiles(type);
-    }
-    return toggleFilter;
-})()
+    jQuery(window).on('resize', function(){
+        jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+    });
 
+    jQuery('#fachportal-accordion-<?php echo $accordionID; ?>').click(function(){
+        jQuery(this).find("img").toggleClass("fachportal-accordion-icon-active");
+        jQuery('#<?php echo $sliderId; ?>').slideToggle('slow');
+        jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+    });
+
+    jQuery( "#sub-subjects-button" ).click(function() {
+        jQuery('#hidden-sub-subjects-container').slideToggle('medium', function() {
+            if (jQuery(this).is(':visible')){
+                jQuery(this).css('display','flex');
+            }
+        });
+        jQuery('#sub-subjects-button').hide();
+    });
+
+    jQuery( document ).ready(function() {
+        //addData(contentChart, 'Tools', 25, 'rgba(255,255,255,0.8)');
+        //addData(contentChart, 'Gut zu Wissen', 5, 'rgba(255,255,255,0.2)');
+    });
 
 </script>
 

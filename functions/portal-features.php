@@ -17,19 +17,21 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
             if (!empty($contentItem['educationalcontext'])){
                 $data .= 'data-educationalcontext="';
                 foreach ($contentItem['educationalcontext'] as $item) {
-                    $data .= urlencode($item).' ';
+                    $data .= preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($item)).' ';
                 }
                 $data .= '"';
             }
             if (!empty($contentItem['enduserrole'])){
                 $data .= ' data-enduserrole="';
                 foreach ($contentItem['enduserrole'] as $item) {
-                    $data .= urlencode($item).' ';
+                    $data .= preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($item)).' ';
                 }
                 $data .= '"';
             }
             if ($contentItem['oer']){
-                $data .= ' data-oer="true"';
+                $data .= ' data-oer="oer"';
+            }else{
+                $data .= ' data-oer="no-oer"';
             }
 
             $content .= '<div class="widget-content" '.$data.' style="'.$slideCss.'">';
@@ -100,13 +102,13 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
             $content .= '</div>';
         }
     }else{
-        $contentTitle = 'Noch kein Inhalt?';
+        $contentTitle = 'Mitmachen!';
         $buttonText = 'Inhalte vorschlagen';
         $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['$pageTitle'] .'&pageDiscipline=' . $contentInfo['$pageDiscipline'];
 
         $content .= '<div class="widget-content no-widget-content">';
-        $content .= '<button onclick="showContentPopup()">';
-        $content .= '<img class="main-image" src="'.get_template_directory_uri().'/src/assets/img/no-content.png" alt="Cover: Keine Inhalte">';
+        $content .= '<button onclick="showNoContentPopup()">';
+        $content .= '<img class="main-image" src="'.get_template_directory_uri().'/src/assets/img/mitmachen-2.png" alt="Cover: Keine Inhalte">';
         $content .= '<div class="content-info no-content-info">';
         $content .= '<div class="content-title">'.$contentTitle.'</div>';
         $content .= '<p class="content-description">Füge Inhalte zu diesem Thema hinzu...</p>';
