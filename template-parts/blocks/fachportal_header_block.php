@@ -31,6 +31,19 @@ if ($portalTitle == 'Digitalisierung und Medienkompetenz'){
 
 //$portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
 
+$breadcrumbs = Array();
+if (!empty($parents)){
+    $breadcrumbs_parents = array_slice(array_reverse($parents), 3);
+    foreach ($breadcrumbs_parents as $node) {
+        if ($node->title == 'Portale'){
+            $breadcrumbs[] = ['Fachportale', get_page_link(9930)];
+        }else{
+            $breadcrumbs[] = [$node->title, $node->properties->{'cclom:location'}[0]];
+        }
+    }
+    //$breadcrumbs = array_reverse($breadcrumbs);
+}
+
 $portalUrl = '#';
 if (!empty($portal->properties->{'cclom:location'}[0])){
     $portalUrl = $portal->properties->{'cclom:location'}[0];
@@ -118,10 +131,6 @@ $body = '{
 $newestContent = callWloRestApi($url, 'POST', $body);
 
 if (empty($newestContent->nodes)){
-    error_log('content empty...');
-    error_log('$newestContent: '.$collectionID);
-    error_log(print_r($newestContent,true));
-
     $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
     $newestContent = callWloRestApi($url);
     $newestContent->nodes = $newestContent->references;
@@ -185,6 +194,15 @@ if (get_field('slidesToScroll')) {
         <div class="fachportal-header-bar-wrapper">
             <div class="fachportal-header-bar-tab" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 1);">
                 <a style="color: <?php echo $fontColor ?> !important;" href="<?php echo $portalUrl; ?>"><?php echo $portalTitle; ?></a>
+            </div>
+            <div class="portal-breadcrumbs">
+                <ul class="portal-breadcrumbs-list">
+                    <?php
+                    foreach ($breadcrumbs as $node) {
+                        echo "<li class='portal-breadcrumbs-list-item'><a href='" . $node[1] . "'>" . $node[0] . "</a><span class='material-icons'>chevron_right</span></li>";
+                    }
+                    ?>
+                </ul>
             </div>
         </div>
     </div>
@@ -451,7 +469,7 @@ if (get_field('slidesToScroll')) {
             }
         }
     });
-    */
+
 
     jQuery(function () {
         // Handler for .ready() called. Put the Slick Slider etc. init code here.
@@ -498,9 +516,7 @@ if (get_field('slidesToScroll')) {
         });
     });
 
-    jQuery(window).on('resize', function(){
-        jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
-    });
+*/
 
     jQuery('#fachportal-accordion-<?php echo $accordionID; ?>').click(function(){
         jQuery(this).find("img").toggleClass("fachportal-accordion-icon-active");

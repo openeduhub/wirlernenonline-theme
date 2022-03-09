@@ -323,6 +323,10 @@ $fachportal_bright: $wlo-primary;
     .fachportal-header-bar-wrapper{
       max-width: 1200px;
       margin: 0 auto;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap-reverse;
 
       .fachportal-header-bar-tab{
         display: flex;
@@ -342,6 +346,19 @@ $fachportal_bright: $wlo-primary;
 
         a:hover{
           color: $fachportal_primary;
+        }
+      }
+
+      .portal-breadcrumbs{
+        color: white;
+        margin-left: 0.5em;
+
+        a{
+          color: white;
+        }
+
+        .material-icons{
+          color: white;
         }
       }
 
