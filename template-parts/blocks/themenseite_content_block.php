@@ -22,7 +22,6 @@ $url_components = parse_url($collectionUrl);
 parse_str($url_components['query'], $params);
 $collectionID = $params['id'];
 
-$fachportalContentId = uniqid('fachportalContentId-');
 
 $contentCount = get_field('content_count');
 $contentType = get_field('contentType');
@@ -163,15 +162,16 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
         chart.data.labels[index] = label;
 
         chart.data.datasets[0].data[index] = data;
-        chart.data.datasets[0].label = 'Redaktionell';
+        chart.data.datasets[0].label = 'Redaktionell geprüft';
 
         chart.data.datasets[1].data[index] = 5;
-        chart.data.datasets[1].label = 'Maschienell';
+        chart.data.datasets[1].label = 'Maschienell erschlossen';
 
 
         chart.update();
     }
 
+    const cv = document.getElementById('contentChart');
     const ctx = document.getElementById('contentChart').getContext('2d');
     let contentChart = new Chart(ctx, {
         // The type of chart we want to create
@@ -224,9 +224,17 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
             responsive: true,
         },
     });
+
+    cv.onclick = function(evt){
+        var activePoint = contentChart.getElementAtEvent(evt);
+        //console.log('label', contentChart.data.labels[activePoint[0]._index])
+        const label = contentChart.data.labels[activePoint[0]._index];
+        let dims = document.getElementById(label).getBoundingClientRect();
+        window.scrollTo(window.scrollX, dims.top - 175);
+    };
 </script>
 
-<div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
+<div class="fachportal-content-block" id="Medien">
     <div class="header">
         <h3>Medien</h3>
     </div>
@@ -251,7 +259,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
     <div class="fachportal-spacer"></div>
 </div>
 
-<div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
+<div class="fachportal-content-block" id="Unterrichtsplanung">
     <div class="header">
         <h3>Unterrichtsplanung</h3>
     </div>
@@ -274,7 +282,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
     <div class="fachportal-spacer"></div>
 </div>
 
-<div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
+<div class="fachportal-content-block" id="Praxismaterialien">
     <div class="header">
         <h3>Praxismaterialien</h3>
     </div>
@@ -299,7 +307,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
 
 
 
-<div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
+<div class="fachportal-content-block" id="Tools">
     <div class="header">
         <h3>Tools</h3>
     </div>
@@ -322,7 +330,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
 
 
 
-<div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
+<div class="fachportal-content-block" id="Quellen">
     <div class="header">
         <h3>Quellen</h3>
     </div>
@@ -344,7 +352,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
 </div>
 
 
-<div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
+<div class="fachportal-content-block" id="Bildungsangebote">
     <div class="header">
         <h3>Bildungsangebote, Termine, Veranstaltungen</h3>
     </div>
@@ -378,7 +386,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
 
     if (!empty($other_content)){ ?>
 
-        <div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
+        <div class="fachportal-content-block">
             <div class="header">
                 <h3>Weitere Inhalte</h3>
             </div>

@@ -349,7 +349,7 @@ while (have_posts()) : the_post(); ?>
                                 <div class="diagram-legend-color"></div> Redaktionell geprüfte Inhalte
                             </div>
                             <div class="diagram-legend-entry Maschinell" style="color: <?php echo $fontColor ?> !important;">
-                                <div class="diagram-legend-color"></div> Maschinell geprüfte Inhalte in der Suche
+                                <div class="diagram-legend-color"></div> Maschinell erschlossene Inhalte in der Suche
                             </div>
                         </div>
 
