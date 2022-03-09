@@ -37,7 +37,7 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
             $content .= '<div class="widget-content" '.$data.' style="'.$slideCss.'">';
             $content .= '<button onclick="showContentPopup(\''.$contentItem['id'].'\')">';
             if (!empty($contentItem['image_url'])) {
-                $content .= '<img class="main-image" src="'.$contentItem['image_url'].'" alt="Cover: '.$contentItem['title'].'">';
+                $content .= '<img class="main-image" src="'.$contentItem['image_url'].'&crop=true&maxWidth=300&maxHeight=300" alt="Cover: '.$contentItem['title'].'">';
             }
             $content .= '<div class="content-info">';
             $content .= '<div class="content-header">';
