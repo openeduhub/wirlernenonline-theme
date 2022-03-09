@@ -26,7 +26,7 @@ if (!empty($portal->title)){
     $portalTitle = $portal->title;
 }
 if ($portalTitle == 'Digitalisierung und Medienkompetenz'){
-    $portalTitle = 'Medienkompetenz';
+    //$portalTitle = 'Medienkompetenz';
 }
 
 //$portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
@@ -97,14 +97,43 @@ $newestContent = callWloRestApi($url, 'POST', $body);
 
 
 //only content from the given collection
-$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
-$newestContent = callWloRestApi($url);
+//$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
+//$newestContent = callWloRestApi($url);
 
+// newest contents
+$url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
+$body = '{
+  "criterias": [
+    {
+      "property": "collection",
+      "values": [
+        "'.$collectionID.'"
+      ]
+    }
+  ],
+  "facettes": [
+  ]
+}';
 
+$newestContent = callWloRestApi($url, 'POST', $body);
+
+if (empty($newestContent->nodes)){
+    error_log('content empty...');
+    error_log('$newestContent: '.$collectionID);
+    error_log(print_r($newestContent,true));
+
+    $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
+    $newestContent = callWloRestApi($url);
+    $newestContent->nodes = $newestContent->references;
+    unset($newestContent->references);
+}
 
 $contentArray = array();
-if (!empty($newestContent->references)){
-    foreach ($newestContent->references as $reference) {
+//if (!empty($newestContent->references)){
+    //foreach ($newestContent->references as $reference) {
+if (!empty($newestContent->nodes)){
+    foreach ($newestContent->nodes as $reference) {
+
         $prop = $reference->properties;
 
         //check if deleted
@@ -127,9 +156,11 @@ if (!empty($newestContent->references)){
             'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
             'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
             'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-            'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
+            //'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
+            'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
             'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
-            'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
+            //'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
+            'resourcetype' => !empty($prop->{'ccm:oeh_lrt_tmp_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_tmp_DISPLAYNAME'} : [],
             'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
             'oer' => $isOER,
             'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
@@ -153,7 +184,7 @@ if (get_field('slidesToScroll')) {
     <div class="fachportal-header-bar">
         <div class="fachportal-header-bar-wrapper">
             <div class="fachportal-header-bar-tab" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 1);">
-                <a style="color: <?php echo $fontColor ?> !important;" href="<?php echo $portalUrl; ?>">Fachportal <?php echo $portalTitle; ?></a>
+                <a style="color: <?php echo $fontColor ?> !important;" href="<?php echo $portalUrl; ?>"><?php echo $portalTitle; ?></a>
             </div>
         </div>
     </div>
