@@ -276,7 +276,7 @@ if (get_field('slidesToScroll')) {
 
 
                             <?php if (!empty($content['image_url'])) { ?>
-                                <img class="main-image" src="<?php echo $content['image_url']; ?>" alt="Cover: <?php echo $content['title']; ?>">
+                                <img class="main-image" src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $content['title']; ?>">
                             <?php } ?>
                             <div class="content-info">
                                 <div class="content-header">

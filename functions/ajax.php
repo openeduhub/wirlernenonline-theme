@@ -506,7 +506,7 @@ function fachportal_content_block() {
                 foreach (array_slice($contentArray, 0,$contentCount) as $content) { ?>
                     <div class="widget-content" style="<?php if ($slidesToShow == 1){ echo 'margin: 12px 110px; max-width: 350px;'; } ?>">
                         <?php if (!empty($content['image_url'])) { ?>
-                            <img class="main-image" src="<?php echo $content['image_url']; ?>" alt="Cover: <?php echo $content['title']; ?>">
+                            <img class="main-image" src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $content['title']; ?>">
                         <?php } ?>
                         <div class="content-info">
                             <div class="content-header">
