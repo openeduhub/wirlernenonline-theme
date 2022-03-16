@@ -15,6 +15,9 @@ function setWLOInbox(){
     if (function_exists('get_repo_ticket')){
         $ticket = get_repo_ticket();
     }
+    if(!$ticket) {
+        return true;
+    }
     $username = '-me-';
     $apiUrl = 'rest/iam/v1/people/-home-/'.$username.'/preferences';
     $wloUserData = callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET', $ticket);
