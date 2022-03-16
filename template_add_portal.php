@@ -83,7 +83,7 @@ if($_GET['type'] == 'tool'){
 
         if(!defined("WLO_REPO_UPLOAD_LOCATION")){
             $formErr = 'Interner Konfigurationsfehler, WLO_REPO_UPLOAD_LOCATION muss definiert sein';
-        } else if(isset($_POST['mds'])){
+        } else if(isset($_POST['mds'])) {
             $formErr = $formOk = '';
             $success = false;
             $collectionID = $_POST['collectionID'];
@@ -95,17 +95,17 @@ if($_GET['type'] == 'tool'){
             $mdsData = json_decode(stripslashes($_POST["mds"]), true);
             // print_r($mdsData);
             //first api-call to create node
-            if($pageDiscipline){
+            if ($pageDiscipline) {
                 $mdsData["ccm:taxonid"] = ['http://w3id.org/openeduhub/vocabs/discipline/' . $pageDiscipline];
             }
 
-            if(isset($mdsData['fileupload-filedata'])){
+            if (isset($mdsData['fileupload-filedata'])) {
                 $mdsData["cm:name"] = $mdsData['fileupload-filename'];
-            } else if($mdsData['fileupload-link']) {
+            } else if ($mdsData['fileupload-link']) {
                 $mdsData["ccm:wwwurl"] = $mdsData['fileupload-link'];
             }
             // prefix with http if missing
-            if($mdsData["ccm:wwwurl"] && strtolower(substr($mdsData["ccm:wwwurl"][0],0,4)) != 'http'){
+            if ($mdsData["ccm:wwwurl"] && strtolower(substr($mdsData["ccm:wwwurl"][0], 0, 4)) != 'http') {
                 $mdsData["ccm:wwwurl"][0] = 'http://' . $mdsData["ccm:wwwurl"][0];
             }
             $mdsData["ccm:objecttype"] = [$objectType];
@@ -114,13 +114,13 @@ if($_GET['type'] == 'tool'){
             $mdsData["ccm:linktype"] = ['USER_GENERATED'];
 
             // unfold license
-            if(isset($mdsData["ccm:custom_license"])){
+            if (isset($mdsData["ccm:custom_license"])) {
                 preg_match('/.*\/(.*)/', $mdsData["ccm:custom_license"][0], $license);
                 $license = $license[1];
-                if($license == 'CC_BY_40'){
+                if ($license == 'CC_BY_40') {
                     $mdsData['ccm:commonlicense_key'] = ['CC_BY'];
                     $mdsData['ccm:commonlicense_cc_version'] = ['4.0'];
-                } else if ($license == 'CC_BY_SA_40'){
+                } else if ($license == 'CC_BY_SA_40') {
                     $mdsData['ccm:commonlicense_key'] = ['CC_BY_SA'];
                     $mdsData['ccm:commonlicense_cc_version'] = ['4.0'];
                 } else {
@@ -129,12 +129,12 @@ if($_GET['type'] == 'tool'){
             }
             // clean up empty keyword
             $kw = @$mdsData['cclom:general_keyword'];
-            if(!$kw || count($kw) == 0){
+            if (!$kw || count($kw) == 0) {
                 unset($mdsData['cclom:general_keyword']);
             }
-            if(isset($mdsData['virtual:email'])){
-                $mdsData['ccm:metadatacontributer_creator'] = ["BEGIN:VCARD\nVERSION:3.0\nN:Upload;WLO\nFN:WLO Upload\nORG:\nURL:\nTITLE:\nTEL;TYPE=WORK,VOICE:\nADR;TYPE=intl,postal,parcel,work:;;;;;;\nX-ES-LOM-CONTRIBUTE-DATE:\nEMAIL;TYPE=PREF,INTERNET:".$mdsData['virtual:email'][0]."\nEND:VCARD\n"];
-                if(isset($mdsData['virtual:newsletter']) && $mdsData['virtual:newsletter'][0] == 'true'){
+            if (isset($mdsData['virtual:email'])) {
+                $mdsData['ccm:metadatacontributer_creator'] = ["BEGIN:VCARD\nVERSION:3.0\nN:Upload;WLO\nFN:WLO Upload\nORG:\nURL:\nTITLE:\nTEL;TYPE=WORK,VOICE:\nADR;TYPE=intl,postal,parcel,work:;;;;;;\nX-ES-LOM-CONTRIBUTE-DATE:\nEMAIL;TYPE=PREF,INTERNET:" . $mdsData['virtual:email'][0] . "\nEND:VCARD\n"];
+                if (isset($mdsData['virtual:newsletter']) && $mdsData['virtual:newsletter'][0] == 'true') {
                     $data = array(
                         'fields[email]' => $mdsData['virtual:email'][0],
                         'ml-submit' => 1
@@ -154,39 +154,39 @@ if($_GET['type'] == 'tool'){
             }
 
             $location = $mdsData["virtual:publish_location"];
-            if(!$location ||!trim($location[0])){
+            if (!$location || !trim($location[0])) {
                 $location = "Ohne Kategorie";
             } else {
                 preg_match('/.*\/(.*)/', $location[0], $matches);
                 $location = $matches[1];
             }
-            $apiUrl = 'rest/node/v1/nodes/-home-/'.WLO_REPO_UPLOAD_LOCATION.'/children';
+            $apiUrl = 'rest/node/v1/nodes/-home-/' . WLO_REPO_UPLOAD_LOCATION . '/children';
             $nodes = callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET')['nodes'];
             $parent = null;
-            foreach($nodes as $n){
-                if(strpos($n['name'],$location) !== FALSE){
+            foreach ($nodes as $n) {
+                if (strpos($n['name'], $location) !== FALSE) {
                     $parent = $n['ref']['id'];
                     break;
                 }
             }
-            if(!$parent){
-                $formErr = 'Interner Verarbeitungsfehler: Gruppenordner ' . $location. ' nicht gefunden';
-            }else {
-                $apiUrl = 'rest/node/v1/nodes/-home-/'.$parent.'/children?type=ccm:io&renameIfExists=true';
+            if (!$parent) {
+                $formErr = 'Interner Verarbeitungsfehler: Gruppenordner ' . $location . ' nicht gefunden';
+            } else {
+                $apiUrl = 'rest/node/v1/nodes/-home-/' . $parent . '/children?type=ccm:io&renameIfExists=true';
                 $nodeID = callRepoApi($apiUrl, json_encode($mdsData))['node']['ref']['id'];
                 //second api-call for file upload
                 if (!empty($nodeID)) {
                     //echo 'Uploading File...<br>';
                     // fix auto-generated www title, description, etc.
-                    if($mdsData['ccm:wwwurl']) {
+                    if ($mdsData['ccm:wwwurl']) {
                         $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/metadata?versionComment=WLO-Uploadformular';
                         callRepoApi($apiUrl, json_encode($mdsData));
                     }
                     $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/content?versionComment=MAIN_FILE_UPLOAD&mimetype=' . $mdsData['fileupload-filetype'][0];
-                    if($mdsData['fileupload-filedata']) {
+                    if ($mdsData['fileupload-filedata']) {
                         $uploadFile = tempnam(".", "upload_");
-                        $filedata = substr($mdsData['fileupload-filedata'][0], strpos($mdsData['fileupload-filedata'][0],',') + 1);
-                        if(file_put_contents($uploadFile,base64_decode($filedata)) !== false){
+                        $filedata = substr($mdsData['fileupload-filedata'][0], strpos($mdsData['fileupload-filedata'][0], ',') + 1);
+                        if (file_put_contents($uploadFile, base64_decode($filedata)) !== false) {
                             $fields = [
                                 'file' => new \CurlFile($uploadFile, $mdsData['fileupload-filetype'][0], $mdsData['fileupload-filename'][0])
                             ];
@@ -199,82 +199,84 @@ if($_GET['type'] == 'tool'){
                         }
                         @unlink($uploadFile);
                     }
-                    if(!$formErr){
+                    if (!$formErr) {
                         // $apiUrl = 'rest/collection/v1/collections/-home-/'.COLLECTION_ADD_ID.'/references/' . $nodeID;
                         // callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
                         $workflowComment = 'Für folgende Sammlung(en) vorgeschlagen: ';
-                        if(count(@$mdsData['ccm:curriculum'])){
-                            array_walk($mdsData['ccm:curriculum'], function(&$m){
+                        if (count(@$mdsData['ccm:curriculum'])) {
+                            array_walk($mdsData['ccm:curriculum'], function (&$m) {
                                 $m = explode('/', $m);
                                 $m = $m[count($m) - 1];
                             });
-                            $workflowComment.=implode(',', $mdsData['ccm:curriculum']);
-                            foreach($mdsData['ccm:curriculum'] as $node) {
-                                $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode($node) . '/references/' . $nodeID . '?asProposal=true';
-                                callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
+                            $workflowComment .= implode(',', $mdsData['ccm:curriculum']);
+                            foreach ($mdsData['ccm:curriculum'] as $node) {
+                                if(trim($node)) {
+                                    $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode($node) . '/references/' . $nodeID . '?asProposal=true';
+                                    callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
+                                }
                             }
                         }
 
-                        $emailBody = '<h3>Es wurde eine neute Datei ("'.[$_FILES['fileToUpload']['name']].'") hochgeladen.</h3>';
+                        $emailBody = '<h3>Es wurde eine neute Datei ("' . [$_FILES['fileToUpload']['name']] . '") hochgeladen.</h3>';
 
-                        if (!empty($mdsData['fileupload-link'])){
+                        if (!empty($mdsData['fileupload-link'])) {
                             $emailBody = '<h3>Es wurde eine neuer Link vorgeschlagen.</h3>';
-                            $emailBody .= '<p>Titel: '.$mdsData['cclom:title'][0].'</p>';
-                            $emailBody .= '<p>Link: '.$mdsData['fileupload-link'][0].'</p>';
+                            $emailBody .= '<p>Titel: ' . $mdsData['cclom:title'][0] . '</p>';
+                            $emailBody .= '<p>Link: ' . $mdsData['fileupload-link'][0] . '</p>';
 
-                        }else if($mdsData['ccm:objecttype'] [0]== 'SOURCE'){
-                            $emailBody = '<h3>Es wurde eine neue Quelle vorgeschlagen ("'.$mdsData['cclom:title'][0].'")</h3>';
-                            $emailBody .= '<p>Quellen-Url: '.$mdsData['ccm:wwwurl'][0].'</p>';
-                        }else if($mdsData['ccm:objecttype'][0] == 'TOOL'){
-                            $emailBody = '<h3>Es wurde eine neues Tool vorgeschlagen ("'.$mdsData['cclom:title'][0].'")</h3>';
-                            $emailBody .= '<p>Tool-Url: '.$mdsData['ccm:wwwurl'][0].'</p>';
-                        }else{
-                            $emailBody = '<h3>Es wurde eine neue Datei hochgeladen ("'.$mdsData['cclom:title'][0].'")</h3>';
-                            $emailBody .= '<p>Dateiname: '.$mdsData['fileupload-filename'][0].'</p>';
-                        if($mdsData['cm:name']) {
-                            $emailBody = '<h3>Es wurde eine neue Datei ("' . $mdsData["cm:name"][0] . '") hochgeladen.</h3>';
+                        } else if ($mdsData['ccm:objecttype'] [0] == 'SOURCE') {
+                            $emailBody = '<h3>Es wurde eine neue Quelle vorgeschlagen ("' . $mdsData['cclom:title'][0] . '")</h3>';
+                            $emailBody .= '<p>Quellen-Url: ' . $mdsData['ccm:wwwurl'][0] . '</p>';
+                        } else if ($mdsData['ccm:objecttype'][0] == 'TOOL') {
+                            $emailBody = '<h3>Es wurde eine neues Tool vorgeschlagen ("' . $mdsData['cclom:title'][0] . '")</h3>';
+                            $emailBody .= '<p>Tool-Url: ' . $mdsData['ccm:wwwurl'][0] . '</p>';
                         } else {
-                            $emailBody = '<h3>Es wurde ein neuer Link ("' . $mdsData["ccm:wwwurl"][0] . '") vorgeschlagen.</h3>';
-                        }
+                            $emailBody = '<h3>Es wurde eine neue Datei hochgeladen ("' . $mdsData['cclom:title'][0] . '")</h3>';
+                            $emailBody .= '<p>Dateiname: ' . $mdsData['fileupload-filename'][0] . '</p>';
+                            if ($mdsData['cm:name']) {
+                                $emailBody = '<h3>Es wurde eine neue Datei ("' . $mdsData["cm:name"][0] . '") hochgeladen.</h3>';
+                            } else {
+                                $emailBody = '<h3>Es wurde ein neuer Link ("' . $mdsData["ccm:wwwurl"][0] . '") vorgeschlagen.</h3>';
+                            }
 
-                        $emailBody .= '<h4>Zusätzliche Informationen:</h4>';
-                        if (!empty($mdsData['ccm:curriculum'])){
-                            $emailBody .= '<p>Sammlung: '.get_mds_values($mdsData['ccm:curriculum']).'</p>';
+                            $emailBody .= '<h4>Zusätzliche Informationen:</h4>';
+                            if (!empty($mdsData['ccm:curriculum'])) {
+                                $emailBody .= '<p>Sammlung: ' . get_mds_values($mdsData['ccm:curriculum']) . '</p>';
+                            }
+                            if (!empty($mdsData['ccm:educationallearningresourcetype'])) {
+                                $emailBody .= '<p>Materialart: ' . get_mds_values($mdsData['ccm:educationallearningresourcetype']) . '</p>';
+                            }
+                            if (!empty($mdsData['ccm:toolCategory'])) {
+                                $emailBody .= '<p>Tool-Art: ' . get_mds_values($mdsData['ccm:toolCategory']) . '</p>';
+                            }
+                            if (!empty($mdsData['ccm:custom_license'])) {
+                                $emailBody .= '<p>Lizenz: ' . get_mds_values($mdsData['ccm:custom_license']) . '</p>';
+                            }
+                            if (!empty($mdsData['ccm:author_freetext'])) {
+                                $emailBody .= '<p>Autor:in/Ersteller:in: ' . get_mds_values($mdsData['ccm:author_freetext']) . '</p>';
+                            }
+                            if (!empty($mdsData['cclom:general_description'])) {
+                                $emailBody .= '<p>Beschreibung: ' . get_mds_values($mdsData['cclom:general_description']) . '</p>';
+                            }
+                            if (!empty($mdsData['ccm:educationalcontext'])) {
+                                $emailBody .= '<p>Bildunsgstufe: ' . get_mds_values($mdsData['ccm:educationalcontext']) . '</p>';
+                            }
+                            if (!empty($mdsData['ccm:educationalintendedenduserrole'])) {
+                                $emailBody .= '<p>Zielgruppe: ' . get_mds_values($mdsData['ccm:educationalintendedenduserrole']) . '</p>';
+                            }
+                            if (!empty($mdsData['ccm:conditionsOfAccess'])) {
+                                $emailBody .= '<p>Anmeldung: ' . get_mds_values($mdsData['ccm:conditionsOfAccess']) . '</p>';
+                            }
+                            if (!empty($mdsData['ccm:price'])) {
+                                $emailBody .= '<p>Kosten: ' . get_mds_values($mdsData['ccm:price']) . '</p>';
+                            }
+                            if (!empty($mdsData['cclom:general_keyword'])) {
+                                $emailBody .= '<p>Schlagwort: ' . get_mds_values($mdsData['cclom:general_keyword']) . '</p>';
+                            }
+                            if (!empty($mdsData['virtual:email'])) {
+                                $emailBody .= '<p>Vorgeschlagen von: ' . get_mds_values($mdsData['virtual:email']) . '</p>';
+                            }
                         }
-                        if (!empty($mdsData['ccm:educationallearningresourcetype'])){
-                            $emailBody .= '<p>Materialart: '.get_mds_values($mdsData['ccm:educationallearningresourcetype']).'</p>';
-                        }
-                        if (!empty($mdsData['ccm:toolCategory'])){
-                            $emailBody .= '<p>Tool-Art: '.get_mds_values($mdsData['ccm:toolCategory']).'</p>';
-                        }
-                        if (!empty($mdsData['ccm:custom_license'])){
-                            $emailBody .= '<p>Lizenz: '.get_mds_values($mdsData['ccm:custom_license']).'</p>';
-                        }
-                        if (!empty($mdsData['ccm:author_freetext'])){
-                            $emailBody .= '<p>Autor:in/Ersteller:in: '.get_mds_values($mdsData['ccm:author_freetext']).'</p>';
-                        }
-                        if (!empty($mdsData['cclom:general_description'])){
-                            $emailBody .= '<p>Beschreibung: '.get_mds_values($mdsData['cclom:general_description']).'</p>';
-                        }
-                        if (!empty($mdsData['ccm:educationalcontext'])){
-                            $emailBody .= '<p>Bildunsgstufe: '.get_mds_values($mdsData['ccm:educationalcontext']).'</p>';
-                        }
-                        if (!empty($mdsData['ccm:educationalintendedenduserrole'])){
-                            $emailBody .= '<p>Zielgruppe: '.get_mds_values($mdsData['ccm:educationalintendedenduserrole']).'</p>';
-                        }
-                        if (!empty($mdsData['ccm:conditionsOfAccess'])){
-                            $emailBody .= '<p>Anmeldung: '.get_mds_values($mdsData['ccm:conditionsOfAccess']).'</p>';
-                        }
-                        if (!empty($mdsData['ccm:price'])){
-                            $emailBody .= '<p>Kosten: '.get_mds_values($mdsData['ccm:price']).'</p>';
-                        }
-                        if (!empty($mdsData['cclom:general_keyword'])){
-                            $emailBody .= '<p>Schlagwort: '.get_mds_values($mdsData['cclom:general_keyword']).'</p>';
-                        }
-                        if (!empty($mdsData['virtual:email'])){
-                            $emailBody .= '<p>Vorgeschlagen von: '.get_mds_values($mdsData['virtual:email']).'</p>';
-                        }
-
                         //$emailBody .= '<pre>'.print_r($mdsData, true).'</pre>';
 
                         $data = [
@@ -287,7 +289,7 @@ if($_GET['type'] == 'tool'){
                         ];
                         $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/workflow';
                         if (callRepoApi($apiUrl, json_encode($data), 'Content-Type: application/json', 'PUT') !== false) {
-                            //echo '<div>Workflow added<br>'.$workflowComment.'</div>';
+                            // echo '<div>Workflow added<br>'.$workflowComment.'</div>';
                             $success = true;
                             // email data
                             $to = get_bloginfo('admin_email') . ', redaktion@wirlernenonline.de';
@@ -296,18 +298,18 @@ if($_GET['type'] == 'tool'){
                             $headers[] = 'Content-Type: text/html; charset=UTF-8';
 
                             $subject = 'Neuer Vorschlag über das Mitmachformular ';
-                            if (!empty($mdsData['fileupload-link'])){
-                                $subject .= '(Link: '.$mdsData['cclom:title'][0] . ')';
-                            }else if($mdsData['ccm:objecttype'][0] == 'SOURCE'){
-                                $subject .= '(Quelle: '.$mdsData['cclom:title'][0] . ')';
-                            }else if($mdsData['ccm:objecttype'][0] == 'TOOL'){
-                                $subject .= '(Tool: '.$mdsData['cclom:title'][0] . ')';
-                            }else{
-                                $subject .= '(Datei: '.$mdsData['cclom:title'][0] . ')';
+                            if (!empty($mdsData['fileupload-link'])) {
+                                $subject .= '(Link: ' . $mdsData['cclom:title'][0] . ')';
+                            } else if ($mdsData['ccm:objecttype'][0] == 'SOURCE') {
+                                $subject .= '(Quelle: ' . $mdsData['cclom:title'][0] . ')';
+                            } else if ($mdsData['ccm:objecttype'][0] == 'TOOL') {
+                                $subject .= '(Tool: ' . $mdsData['cclom:title'][0] . ')';
+                            } else {
+                                $subject .= '(Datei: ' . $mdsData['cclom:title'][0] . ')';
                             }
                             $body = $emailBody;
 
-                            if(strpos(WLO_REPO, 'redaktion-staging') === false) {
+                            if (strpos(WLO_REPO, 'redaktion-staging') === false) {
                                 // send email
                                 wp_mail($to, $subject, $body, $headers);
                                 $formOk = 'Vielen Dank für deinen Vorschlag!<br>Er wird jetzt von unserem Redaktionteam geprüft.';
@@ -320,12 +322,12 @@ if($_GET['type'] == 'tool'){
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     $formErr = 'Interner Verarbeitungsfehler. Bitte später nochmal versuchen';
                 }
             }
         }
+
 
         function get_mds_values($mds){
             $values = '';
