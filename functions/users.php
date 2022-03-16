@@ -31,7 +31,7 @@ function wlo_after_email_confirmation( $user_id = null ) {
         error_log('WLO-Mail created');
     }
 
-    if (wloInbox() ) {
+    if (setWLOInbox() ) {
         error_log('Inbox created');
     }
 }
@@ -47,34 +47,6 @@ function createWloMail($user_id){
     }
     return false;
 }
-
-function wloInbox(){
-    $ticket = '';
-    if (function_exists('get_repo_ticket')){
-        $ticket = get_repo_ticket();
-    }
-
-    $username = '-me-';
-    $apiUrl = 'rest/iam/v1/people/-home-/'.$username.'/preferences';
-    $wloUserData = callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET', $ticket);
-    $preferences = json_decode($wloUserData['preferences']);
-    $inboxName = '4aa774e8-ba1b-43c2-9f60-780ef2882758';
-
-    if (empty($preferences->defaultInboxFolder) || $preferences->defaultInboxFolder !== $inboxName){
-        error_log('defaultInboxFolder: empty');
-
-        $body = '{"defaultInboxFolder":"'.$inboxName.'"}';
-        if(callRepoApi($apiUrl, $body, 'Content-Type: application/json', 'PUT', $ticket)){
-            error_log('added inbox');
-        }else{
-            error_log('error: adding inbox');
-            return false;
-        }
-    }
-
-    return true;
-}
-
 
 add_action( 'user_register', 'wlo_register_ldap', 10, 1 );
 function wlo_register_ldap( $user_id ) {
@@ -140,20 +112,6 @@ function wlo_login($user1, $username, $password, $already_md5 = false){
 
     return $user;
 }
-
-function wlo_registerInbox() {
-    //error_log('wlo_registerInbox');
-
-    $user = wp_get_current_user();
-    $user_roles = $user->roles;
-    //error_log(print_r($user_roles, true));
-    if ( in_array( 'uploadtahon_user', $user_roles, true ) ) {
-        error_log('user has role uploadathon');
-        wloInbox();
-    }
-
-}
-add_action( 'set_current_user', 'wlo_registerInbox', 10, 2 );
 
 add_action( 'edit_user_profile_update', 'wlo_update_user', 10, 1 );
 function wlo_update_user( $user_id ) {
