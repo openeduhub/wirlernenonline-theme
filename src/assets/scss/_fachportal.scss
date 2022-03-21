@@ -313,31 +313,6 @@ app-report-problem{
           box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
         }
       }
-      /*
-            .content-title{
-              font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-              font-size: 18px;
-              color: black;
-              display: -webkit-box;
-              -webkit-line-clamp: 2;
-              -webkit-box-orient: vertical;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              margin-bottom: 4px;
-            }
-
-            .content-description{
-              font-size: 14px;
-              color: #333333;
-              line-height: 150%;
-              display: -webkit-box;
-              -webkit-line-clamp: 2;
-              -webkit-box-orient: vertical;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              margin-bottom: 4px;
-            }
-            */
 
       .content-title {
         font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
@@ -486,6 +461,7 @@ app-report-problem{
 
   .fachportal-header-bar-wrapper{
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap-reverse;
     max-width: 1200px;
     margin: 0 auto;
@@ -541,6 +517,26 @@ app-report-problem{
     }
   }
 
+  .wlo-tile-team{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p{
+      color: white;
+      margin: 0;
+      margin-right: 0.5em;
+    }
+
+    img{
+      height: 48px;
+      width: 48px;
+      object-fit: cover;
+      margin: 0.5em;
+      border-radius: 50%;
+    }
+  }
+
 }
 
 .fachportal-header-block{
@@ -577,6 +573,11 @@ app-report-problem{
       flex-direction: column;
       margin: 32px 0;
       padding: 0 64px;
+
+      .portal-page{
+        font-size: 15px;
+        text-decoration: none;
+      }
 
       .title{
         font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
@@ -1553,6 +1554,11 @@ app-report-problem{
   .fachportal-header-bar{
     top: 0px !important;
     padding-top: 21px;
+
+    .fachportal-header-bar-wrapper{
+      justify-content: space-evenly;
+      padding: 16px 0;
+    }
   }
 
   .fachportal-filterbar{

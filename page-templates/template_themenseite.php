@@ -34,6 +34,8 @@ if (!empty($portal->properties->{'cclom:location'}[0])){
 }
 $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
+$author_ids = (!empty(get_field('authors', $postID))) ? get_field('authors', $postID) : [];
+
 $breadcrumbs = Array();
 if (!empty($parents)){
     foreach ($parents as $node) {
@@ -215,10 +217,8 @@ while (have_posts()) : the_post(); ?>
 
         <div class="fachportal-header-bar" <?php if (is_admin_bar_showing()){echo 'style="top:32px"';} ?>>
             <div class="fachportal-header-bar-wrapper">
-                <div class="fachportal-header-bar-tab" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 1);">
-                    <a style="color: <?php echo $fontColor ?> !important;" href="<?php echo $portalUrl; ?>">Fachportal <?php echo $portalTitle; ?></a>
-                </div>
                 <div class="portal-breadcrumbs">
+
                     <ul class="portal-breadcrumbs-list">
                         <?php
                         foreach ($breadcrumbs as $node) {
@@ -227,6 +227,14 @@ while (have_posts()) : the_post(); ?>
                         ?>
                     </ul>
                 </div>
+
+                <div class="wlo-tile-team">
+                    <p>Redaktion <?php echo $portalTitle; ?>:</p>
+                    <?php foreach ($author_ids as $author_id) {
+                        echo $author_id['user_avatar'];
+                    } ?>
+                </div>
+
             </div>
         </div>
 
@@ -238,6 +246,8 @@ while (have_posts()) : the_post(); ?>
                     <div class="description">
 
                         <div class="description-content">
+                            <a class="portal-page" href="<?php echo $portalUrl; ?>">Themenseite im Fachportal <?php echo $portalTitle; ?>:</a>
+
                             <h1 class="title"><?php echo get_the_title($postID); ?></h1>
                             <div class="header-description"><?php echo $description; ?></div>
                         </div>
