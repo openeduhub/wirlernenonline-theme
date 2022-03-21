@@ -36,5 +36,9 @@ require_once(get_template_directory().'/functions/rest-api.php');
 // Register ajax functions
 require_once(get_template_directory().'/functions/ajax.php');
 
+
+// Handle User inbox for edu-sharing
+require_once(get_template_directory().'/functions/users-inbox.php');
+
 // Handle User Regristration / LDAP
 //require_once(get_template_directory().'/functions/users.php');
