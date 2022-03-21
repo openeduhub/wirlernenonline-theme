@@ -186,3 +186,14 @@ function wloFilterSwimlane($contentArray, $vocabs){
     }
     return array("filtered_content"=>$filtered_content, "contentArray"=>$contentArray);
 }
+
+function wloSearchContentSum($values, $vocabs){
+    $sum = 0;
+    foreach ($values as $value) {
+        if (!empty(array_search($value->value, array_column($vocabs, 'id'))) ){
+            $sum = $sum + $value->count;
+        }
+
+    }
+    return $sum;
+}

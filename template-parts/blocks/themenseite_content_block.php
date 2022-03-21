@@ -153,20 +153,48 @@ if (!empty($response->references)){
 
 $contentArray = $GLOBALS['wlo_themenseiten_content'];
 
+// newest contents
+$url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
+$url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/facets';
+//$pageTitle = 'Grammatik';
+$body = '{
+          "facets": [
+            "ccm:oeh_lrt"
+          ],
+          "facetMinCount": 5,
+          "facetLimit": 10,
+          "criteria": [
+            {
+              "property": "ngsearchword",
+              "values": [
+                "'.$pageTitle.'"
+              ]
+            }]
+        }';
+
+$searchContent = callWloRestApi($url, 'POST', $body);
+$searchVocabs = array();
+if (!empty($searchContent->facets[0]->values)){
+    $searchVocabs = $searchContent->facets[0]->values;
+}
+
 
 ?>
 
 <script>
-    function addData(chart, label, data, color, index) {
+    function addData(chart, label, data_r, data_m, index) {
         //chart.data.labels.push(label);
+        if (data_r >= 1 || data_m >= 1){
+
+        }
+
         chart.data.labels[index] = label;
 
-        chart.data.datasets[0].data[index] = data;
+        chart.data.datasets[0].data[index] = data_r;
         chart.data.datasets[0].label = 'Redaktionell geprüft';
 
-        chart.data.datasets[1].data[index] = 5;
+        chart.data.datasets[1].data[index] = data_m;
         chart.data.datasets[1].label = 'Maschienell erschlossen';
-
 
         chart.update();
     }
@@ -200,6 +228,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
             indexAxis: 'y',
             scales:{
                 xAxes: [{
+                    type: 'logarithmic',
                     display: false //this will remove all the x-axis grid lines
                 }],
                 yAxes: [{
@@ -253,7 +282,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
     ?>
 
     <script>
-        addData(contentChart, 'Medien', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.8)'; ?>', 0);
+        addData(contentChart, 'Medien', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $media_vocab); ?>', 0);
     </script>
 
     <div class="fachportal-spacer"></div>
@@ -276,7 +305,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
     ?>
 
     <script>
-        addData(contentChart, 'Unterrichtsplanung', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.4)'; ?>', 1);
+        addData(contentChart, 'Unterrichtsplanung', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $lesson_planning_complete); ?>', 1);
     </script>
 
     <div class="fachportal-spacer"></div>
@@ -299,7 +328,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
     ?>
 
     <script>
-        addData(contentChart, 'Praxismaterialien', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.4)'; ?>', 2);
+        addData(contentChart, 'Praxismaterialien', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $practice_materials_complete); ?>', 2);
     </script>
 
     <div class="fachportal-spacer"></div>
@@ -322,7 +351,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
     ?>
 
     <script>
-        addData(contentChart, 'Tools', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.8)'; ?>', 3);
+        addData(contentChart, 'Tools', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $tool_vocab); ?>', 3);
     </script>
 
     <div class="fachportal-spacer"></div>
@@ -345,7 +374,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
     ?>
 
     <script>
-        addData(contentChart, 'Quellen', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.8)'; ?>', 4);
+        addData(contentChart, 'Quellen', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $source_vocab); ?>', 4);
     </script>
 
     <div class="fachportal-spacer"></div>
@@ -369,7 +398,7 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
     ?>
 
     <script>
-        addData(contentChart, 'Bildungsangebote', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo 'rgba('.$rgbBackgroundColor.', 0.8)'; ?>', 5);
+        addData(contentChart, 'Bildungsangebote', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $event_complete); ?>', 5);
     </script>
 
     <div class="fachportal-spacer"></div>
