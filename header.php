@@ -8,7 +8,7 @@
     <div class="top-bar" id="main-menu" data-animate="fade-in fade-out">
         <div class="zmf-logo">
             <a href="<?php echo get_home_url(); ?>">
-                <img class="logo" src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/img/Logo_LearningHUB.svg" alt="Link zur Startseite">
+                <img class="logo" src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/img/kita-hub-logo-medien.svg" alt="Link zur Startseite">
             </a>
         </div>
     </div>
