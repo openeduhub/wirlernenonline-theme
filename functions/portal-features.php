@@ -108,7 +108,7 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
 
         $content .= '<div class="widget-content no-widget-content">';
         $content .= '<button onclick="showNoContentPopup()">';
-        $content .= '<img class="main-image" src="'.get_template_directory_uri().'/src/assets/img/mitmachen-2.png" alt="Cover: Keine Inhalte">';
+        $content .= '<img class="main-image" src="'.get_template_directory_uri().'/src/assets/img/mitmachen-3.png" alt="Cover: Keine Inhalte">';
         $content .= '<div class="content-info no-content-info">';
         $content .= '<div class="content-title">'.$contentTitle.'</div>';
         $content .= '<p class="content-description">Füge Inhalte zu diesem Thema hinzu...</p>';

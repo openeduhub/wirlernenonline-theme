@@ -432,6 +432,14 @@ app-report-problem{
 
     .no-content-info{
       height: 150px;
+      text-align: left;
+
+      .content-title{
+        font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 20px;
+        color: $wlo-red;
+        height: 24px;
+      }
     }
 
 
