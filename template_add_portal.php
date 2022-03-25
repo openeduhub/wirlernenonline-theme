@@ -285,7 +285,7 @@ if($_GET['type'] == 'tool'){
                             ]],
                             "status" => "200_tocheck",
                             //"comment" => $workflowComment,
-                            "comment" => $emailBody
+                            "comment" => strip_tags($emailBody)
                         ];
                         $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/workflow';
                         if (callRepoApi($apiUrl, json_encode($data), 'Content-Type: application/json', 'PUT') !== false) {
@@ -364,7 +364,7 @@ if($_GET['type'] == 'tool'){
                 style="opacity:0"
                 src="https://redaktion-staging.openeduhub.net/edu-sharing/components/embed/mds?set=mds_oeh&group=<?php echo $mdsGroup;?>&data=<?php
                 echo urlencode(json_encode([
-                    "ccm:curriculum" => (isset($collectionID) ? ['http://w3id.org/openeduhub/vocabs/oeh-topics/' . $collectionID] : []),
+                    "ccm:curriculum" => (isset($collectionID) ? ['http://w3id.org/openeduhub/vocabs/oehTopics/' . $collectionID] : []),
                     "ccm:oeh_widgets" => (isset($widgetId) ? [$widgetId] : []),
                 ]));
                 ?>
