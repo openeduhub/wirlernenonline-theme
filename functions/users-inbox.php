@@ -12,17 +12,19 @@ function setWLOInbox(){
     ];
 
     $ticket = '';
-    if (function_exists('get_repo_ticket')){
+    if (function_exists('get_repo_ticket') && is_user_logged_in()){
         $ticket = get_repo_ticket();
     }
     if(!$ticket) {
         return true;
     }
+
     $username = '-me-';
     $apiUrl = 'rest/iam/v1/people/-home-/'.$username.'/preferences';
     $wloUserData = callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET', $ticket);
     $preferences = json_decode($wloUserData['preferences']);
     $user = wp_get_current_user();
+
     if (empty($preferences->defaultInboxFolder) || $user->user_login == 'admin'){
         $inboxId = $MAPPINGS[null];
         error_log('default inbox: ' . $inboxId);
