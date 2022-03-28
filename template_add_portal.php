@@ -69,6 +69,9 @@ if($_GET['type'] == 'tool'){
         if (isset($_GET['pageDiscipline'])) {
             $pageDiscipline = $_GET['pageDiscipline'];
         }
+        if (isset($_GET['lrtID'])) {
+            $lrtID = explode(',', $_GET['lrtID']);
+        }
 
         $objectType = 'MATERIAL';
         $mdsGroup = 'wlo_upload_content';
@@ -362,10 +365,10 @@ if($_GET['type'] == 'tool'){
 
         <iframe id="mds-frame" class="wlo-form-iframe"
                 style="opacity:0"
-                src="https://redaktion-staging.openeduhub.net/edu-sharing/components/embed/mds?set=mds_oeh&group=<?php echo $mdsGroup;?>&data=<?php
+                src="https://redaktion.openeduhub.net/edu-sharing/components/embed/mds?set=mds_oeh&group=<?php echo $mdsGroup;?>&data=<?php
                 echo urlencode(json_encode([
                     "ccm:curriculum" => (isset($collectionID) ? ['http://w3id.org/openeduhub/vocabs/oehTopics/' . $collectionID] : []),
-                    "ccm:oeh_widgets" => (isset($widgetId) ? [$widgetId] : []),
+                    "ccm:oeh_lrt" => (isset($lrtID) ? $lrtID : []),
                 ]));
                 ?>
 	" frameborder=0></iframe>
@@ -373,6 +376,7 @@ if($_GET['type'] == 'tool'){
             <input type="hidden" id="i" name="collectionID" value="<?php echo @$collectionID; ?>">
             <input type="hidden" id="widgetName" name="widgetName" value="<?php echo @$widgetName; ?>">
             <input type="hidden" id="pageDiscipline" name="pageDiscipline" value="<?php echo @$pageDiscipline; ?>">
+            <input type="hidden" id="lrtID" name="lrtID" value="<?php echo @implode(',',$lrtID); ?>">
             <input type="hidden" id="pageTitle" name="pageTitle" value="<?php echo @$pageTitle; ?>">
             <input type="hidden" id="formMds" name="mds">
         </form>
