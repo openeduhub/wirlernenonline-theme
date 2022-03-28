@@ -1,6 +1,6 @@
 <?php
 
-function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScroll = 4, $contentInfo){
+function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScroll = 4, $contentInfo, $lrtID = ''){
     $sliderId = uniqid('slider-');
     $showSliderDots = 'true';
     if (count($contentArray) <= 4 && $slidesToShow >= 3){
@@ -104,7 +104,7 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
     }else{
         $contentTitle = 'Mitmachen!';
         $buttonText = 'Inhalte vorschlagen';
-        $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['pageTitle'] .'&pageDiscipline=' . $contentInfo['pageDiscipline'];
+        $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['pageTitle'] .'&pageDiscipline=' . $contentInfo['pageDiscipline'].'&lrtID='.$lrtID;
 
         $content .= '<div class="widget-content no-widget-content">';
         $content .= '<button onclick="showNoContentPopup()">';

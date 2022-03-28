@@ -72,7 +72,8 @@ $addContentPageID = 9933; //pre
 //$addContentPageID = 9081; //local
 
 $pageTitle = get_the_title($postID);
-$pageDiscipline = get_field('discipline', $postID)[0]['label'];
+//$pageDiscipline = get_field('discipline', $postID)[0]['label'];
+$pageDiscipline = get_field('discipline', $postID)[0]['value'];
 
 //only content from the given collection
 //$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
@@ -256,7 +257,9 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $swimlane_content = wloFilterSwimlane($contentArray, $media_vocab);
     $contentArray = $swimlane_content['contentArray'];
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
+    $lrtID = '';
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
     ?>
 
     <script>
@@ -279,7 +282,9 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $swimlane_content = wloFilterSwimlane($contentArray, $lesson_planning_complete);
     $contentArray = $swimlane_content['contentArray'];
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
+    $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/7381f17f-50a6-4ce1-b3a0-9d85a482eec0,http://w3id.org/openeduhub/vocabs/new_lrt/0a79a1d0-583b-47ce-86a7-517ab352d796';
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID);
     ?>
 
     <script>
@@ -302,7 +307,9 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $swimlane_content = wloFilterSwimlane($contentArray, $practice_materials_complete);
     $contentArray = $swimlane_content['contentArray'];
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
+    $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/cd625d33-5d7b-4a86-a54a-9a897ded729f,http://w3id.org/openeduhub/vocabs/new_lrt/588efe4f-976f-48eb-84aa-8bcb45679f85';
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
     ?>
 
     <script>
@@ -325,7 +332,9 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $swimlane_content = wloFilterSwimlane($contentArray, $tool_vocab);
     $contentArray = $swimlane_content['contentArray'];
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
+    $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/cefccf75-cba3-427d-9a0f-35b4fedcbba1';
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
     ?>
 
     <script>
@@ -348,7 +357,9 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $swimlane_content = wloFilterSwimlane($contentArray, $source_vocab);
     $contentArray = $swimlane_content['contentArray'];
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
+    $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/3869b453-d3c1-4b34-8f25-9127e9d68766';
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
     ?>
 
     <script>
@@ -372,7 +383,9 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $swimlane_content = wloFilterSwimlane($contentArray, $event_complete);
     $contentArray = $swimlane_content['contentArray'];
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo );
+    $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/03ab835b-c39c-48d1-b5af-7611de2f6464,http://w3id.org/openeduhub/vocabs/new_lrt/955590ae-5f06-4513-98e9-91dfa8d5a05e';
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
     ?>
 
     <script>
