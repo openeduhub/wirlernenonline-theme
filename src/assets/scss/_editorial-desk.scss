@@ -343,15 +343,31 @@
 
         .wlo-new-content-dropdown{
           left: 0;
-          width: 350px;
-          border-radius: 2px;
+          width: fit-content;
+          padding-right: 0.5em;
+          border-radius: 0 0 15px 15px;
 
           a{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
             color: #333;
+            font-size: 16px;
+            font-family: 'Montserrat-Medium';
+            font-weight: 400;
+
+            img{
+              margin-right: 0.5em;
+            }
           }
 
           a:hover{
             background: $wlo-editorial-light;
+          }
+
+          hr{
+            width: 100% !important;
+            margin: 0.5em auto;
           }
         }
       }

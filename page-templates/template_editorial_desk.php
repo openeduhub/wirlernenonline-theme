@@ -99,11 +99,16 @@ while (have_posts()) : the_post(); ?>
                         </div>
                     </button>
                     <div class="wlo-new-content-dropdown">
-                        <a href="<?php echo WLO_REPO.'components/upload?ticket='.$ticket; ?>" target="_blank">Dateiupload</a>
-                        <a href="<?php echo WLO_REPO.'components/search?connector=H5P&ticket='.$ticket; ?>" target="_blank">H5P erstellen</a>
-                        <a href="<?php echo WLO_REPO.'components/search?connector=ONLY_OFFICE&ticket='.$ticket; ?>" target="_blank">OnlyOffice erstellen</a>
-                        <a href="<?php echo get_home_url().'/wp-admin/post-new.php?post_type=page'; ?>" target="_blank">Neue Wordpress-Seite erstellen</a>
-                        <a href="<?php echo get_home_url().'/wp-admin/post-new.php'; ?>" target="_blank">Neuen Wordpress-Blogbeitrag erstellen</a>
+                        <a href="<?php echo WLO_REPO.'components/upload?ticket='.$ticket; ?>" target="_blank">
+                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/upload.svg"> Neues Material
+                        </a>
+                        <hr>
+                        <a href="<?php echo WLO_REPO.'components/search?connector=H5P&ticket='.$ticket; ?>" target="_blank">
+                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/edit.svg"> H5P
+                        </a>
+                        <a href="<?php echo WLO_REPO.'components/search?connector=ONLY_OFFICE&ticket='.$ticket; ?>" target="_blank">
+                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/edit.svg"> OnlyOffice
+                        </a>
                         <!--        <a href="--><?php //echo WLO_REPO.'components/workspace?connector=MOODLE&ticket='.$ticket; ?><!--" target="_blank">Moodle erstellen</a>-->
                     </div>
                 </div>

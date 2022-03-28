@@ -187,7 +187,7 @@ if (get_field('slidesToScroll')) {
                         </div>
                         <div class="sub-subjects-container">
                             <?php foreach (array_slice($filteredSubCollections, 0, $maxSubCollections) as $collection) {
-                                $ccm_location = $collection->properties->{'cclom:location'}[0];
+                                $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
 
                                 $title = $collection->title;
                                 if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
@@ -214,7 +214,7 @@ if (get_field('slidesToScroll')) {
                         </div>
                         <div id="hidden-sub-subjects-container" class="sub-subjects-container">
                             <?php foreach (array_slice($filteredSubCollections, $maxSubCollections) as $collection) {
-                                $ccm_location = $collection->properties->{'cclom:location'}[0];
+                                $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
                                 $title = $collection->title;
                                 if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
                                     $title = $collection->properties->{'ccm:collectionshorttitle'}[0];

@@ -42,7 +42,7 @@ if (!empty($parents)){
         if ($node->title == 'Portale'){
             $breadcrumbs[] = ['Fachportale', get_page_link(9930)];
         }else{
-            $breadcrumbs[] = [$node->title, str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $node->properties->{'cclom:location'}[0])];
+            $breadcrumbs[] = [$node->title, wlo_convert_dev_url($node->properties->{'cclom:location'}[0])];
         }
     }
     $breadcrumbs = array_reverse($breadcrumbs);
@@ -209,20 +209,46 @@ if (!empty($response->references)){
 
 $GLOBALS['wlo_themenseiten_content'] = $themenseiten_contentArray;
 
+// content for diagram
+$url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/facets';
+//$url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/';
+//$pageTitle = 'Grammatik';
+$body = '{
+          "facets": [
+            "ccm:oeh_lrt"
+          ],
+          "facetMinCount": 5,
+          "facetLimit": 10,
+          "criteria": [
+            {
+              "property": "ngsearchword",
+              "values": [
+                "'.get_the_title($postID).'"
+              ]
+            }]
+        }';
+
+$searchContent = callWloRestApi($url, 'POST', $body);
+//var_dump($searchContent);
+$searchVocabs = array();
+if (!empty($searchContent->facets[0]->values)){
+    $searchVocabs = $searchContent->facets[0]->values;
+}
+$GLOBALS['wlo_themenseiten_searchVocabs'] = $searchVocabs;
 
 
 while (have_posts()) : the_post(); ?>
 
     <div class="portal">
 
-        <div class="fachportal-header-bar" <?php if (is_admin_bar_showing()){echo 'style="top:32px"';} ?>>
+        <div class="fachportal-header-bar" <?php if (is_admin_bar_showing()){echo 'style="top:23px"';} ?>>
             <div class="fachportal-header-bar-wrapper">
                 <div class="portal-breadcrumbs">
 
                     <ul class="portal-breadcrumbs-list">
                         <?php
                         foreach ($breadcrumbs as $node) {
-                            echo "<li class='portal-breadcrumbs-list-item'><a href='" . $node[1] . "'>" . $node[0] . "</a><span class='material-icons'>chevron_right</span></li>";
+                            echo "<li class='portal-breadcrumbs-list-item'><a href='" . wlo_convert_dev_url($node[1]) . "'>" . $node[0] . "</a><span class='material-icons'>chevron_right</span></li>";
                         }
                         ?>
                     </ul>
@@ -233,6 +259,7 @@ while (have_posts()) : the_post(); ?>
                     <?php foreach ($author_ids as $author_id) {
                         echo $author_id['user_avatar'];
                     } ?>
+                    <img class="wlo-team-bookmark" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Bookmark.svg">
                 </div>
 
             </div>
@@ -241,12 +268,12 @@ while (have_posts()) : the_post(); ?>
         <div class="portal-wrapper-header">
             <div class="fachportal-header-block" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 1);">
 
-                <div class="fachportal-header-wrapper">
+                <div class="fachportal-header-wrapper themenseite-header-wrapper">
 
                     <div class="description">
 
                         <div class="description-content">
-                            <a class="portal-page" href="<?php echo $portalUrl; ?>">Themenseite im Fachportal <?php echo $portalTitle; ?>:</a>
+                            <a class="portal-page" href="<?php echo wlo_convert_dev_url($portalUrl); ?>">Themenseite im Fachportal <?php echo $portalTitle; ?>:</a>
 
                             <h1 class="title"><?php echo get_the_title($postID); ?></h1>
                             <div class="header-description"><?php echo $description; ?></div>
@@ -300,7 +327,8 @@ while (have_posts()) : the_post(); ?>
                                             if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
                                                 $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
                                             }
-                                            $ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
+                                            $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
+                                            //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
                                             //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);?>
                                             <div class="sub-subject">
                                                 <a href="<?php echo $ccm_location; ?>">
@@ -321,7 +349,7 @@ while (have_posts()) : the_post(); ?>
                                     </div>
                                     <div id="hidden-sub-subjects-container" class="sub-subjects-container">
                                         <?php foreach (array_slice($filteredSubCollections, $maxSubCollections) as $collection) {
-                                            $ccm_location = $collection->properties->{'cclom:location'}[0];
+                                            $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
                                             $title = $collection->title;
                                             if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
                                                 $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
@@ -361,6 +389,33 @@ while (have_posts()) : the_post(); ?>
                             <div class="diagram-legend-entry Maschinell" style="color: <?php echo $fontColor ?> !important;">
                                 <div class="diagram-legend-color"></div> Maschinell erschlossene Inhalte in der Suche
                             </div>
+
+                            <?php
+                                $searchVocabsSum = 0;
+                                foreach ($searchVocabs as $value) {
+                                    $searchVocabsSum = $searchVocabsSum + $value->count;
+                                }
+                                ?>
+
+                                <?php if ($searchVocabsSum == 1){ ?>
+                                    <a class="diagram-legend-entry" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
+                                        <div class="diagram-legend-color search-link">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter">
+                                        </div>
+                                        1 weiteres Ergebnis in unserer Suchmaschine
+                                    </a>
+                                <?php }else if ($searchVocabsSum > 1){ ?>
+                                    <a class="diagram-legend-entry" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
+                                        <div class="diagram-legend-color search-link">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot-white.svg" alt="Icon: Roboter">
+                                        </div>
+                                        <?php echo $searchVocabsSum; ?> weitere Ergebnisse in unserer Suchmaschine
+                                    </a>
+                                <?php }else{ ?>
+
+                                <?php }?>
+
+
                         </div>
 
 
@@ -612,6 +667,15 @@ while (have_posts()) : the_post(); ?>
         jQuery(".close-no-content-popup").click(function(){
             jQuery(".portal-wrapper-right").hide('slow');
             jQuery(".no-content-popup").hide('slow');
+        });
+
+        jQuery( "#sub-subjects-button" ).click(function() {
+            jQuery('#hidden-sub-subjects-container').slideToggle('medium', function() {
+                if (jQuery(this).is(':visible')){
+                    jQuery(this).css('display','flex');
+                }
+            });
+            jQuery('#sub-subjects-button').hide();
         });
     </script>
 

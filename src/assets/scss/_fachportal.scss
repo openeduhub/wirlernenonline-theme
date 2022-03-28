@@ -461,16 +461,17 @@ app-report-problem{
 
 .fachportal-header-bar{
   position: sticky;
-  top: 0;
+  top: -10px;
   background: $fachportal_primary;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 49.6vw);
-  z-index: 50;
+  border-top: 8px solid white;
+  z-index: 55;
 
   .fachportal-header-bar-wrapper{
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap-reverse;
+    flex-wrap: wrap;
     max-width: 1200px;
     margin: 0 auto;
 
@@ -529,6 +530,8 @@ app-report-problem{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    padding-right: 50px;
 
     p{
       color: white;
@@ -542,6 +545,16 @@ app-report-problem{
       object-fit: cover;
       margin: 0.5em;
       border-radius: 50%;
+    }
+
+    .wlo-team-bookmark{
+      border-radius: 0;
+      height: 60px;
+      width: auto;
+      position: absolute;
+      top: -13px;
+      right: 0;
+      z-index: 5000;
     }
   }
 
@@ -564,6 +577,11 @@ app-report-problem{
     transition: 0.3s;
   }
 
+  .themenseite-header-wrapper{
+    padding: 24px 0;
+    padding-bottom: 0;
+  }
+
   h3{
     font-size: 24px;
   }
@@ -571,7 +589,7 @@ app-report-problem{
   .description{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 70%;
     background: #ffffff;
     border-radius: 24px 24px 0px 0px;
@@ -593,7 +611,7 @@ app-report-problem{
         font-weight: normal;
         line-height: 1.3;
         color: #313131;
-        margin-bottom: 0;
+        margin-bottom: 0.5em;
       }
 
       .title::first-letter{
@@ -652,6 +670,7 @@ app-report-problem{
   .collections{
     padding: 0 0.5em;
     padding-left: 64px;
+    padding-bottom: 1em;
     margin-bottom: 0.5em;
 
     .sub-subjects-header{
@@ -748,7 +767,7 @@ app-report-problem{
     width: 30%;
 
     .header{
-      text-align: center;
+      text-align: left;
       width: 100%;
       font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
       font-style: normal;
@@ -761,7 +780,7 @@ app-report-problem{
       text-overflow: ellipsis;
       padding: 8px;
       margin: 0;
-
+      margin-left: 1.5em;
     }
 
     .diagram{
@@ -792,13 +811,15 @@ app-report-problem{
       display: flex;
       flex-direction: column;
       margin: 24px 0;
+      margin-left: 1em;
 
       .diagram-legend-entry{
         display: flex;
         align-items: center;
         color: #ffffff;
         font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
-        font-size: 13px;
+        font-size: 12px;
+        line-height: 1.2;
         padding: 4px;
       }
 
@@ -806,6 +827,17 @@ app-report-problem{
         width: 19px;
         height: 19px;
         margin: 0 4px;
+      }
+
+      .search-link{
+        display: flex;
+        background: none;
+        border-radius: 3px;
+        transition: 0.3s;
+
+        a:hover{
+          color: $wlo-primary;
+        }
       }
 
       .Redaktionell{
@@ -1313,6 +1345,8 @@ app-report-problem{
         margin: 0.5em;
         border-radius: 50%;
       }
+
+
     }
 
     .wlo-tile-button{
@@ -1566,6 +1600,10 @@ app-report-problem{
     .fachportal-header-bar-wrapper{
       justify-content: space-evenly;
       padding: 16px 0;
+
+      .wlo-tile-team{
+        display: none;
+      }
     }
   }
 

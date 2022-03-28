@@ -79,11 +79,12 @@ $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 //$response = callWloRestApi($url);
 
 $contentInfo = array(
-        "addcontentPageID" => $addContentPageID,
+        "addContentPageID" => $addContentPageID,
         "pageTitle" => $pageTitle,
         "pageDiscipline" => $pageDiscipline,
         "collectionID" => $collectionID,
 );
+
 
 
 //$rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
@@ -152,31 +153,8 @@ if (!empty($response->references)){
 */
 
 $contentArray = $GLOBALS['wlo_themenseiten_content'];
+$searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
-// newest contents
-$url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
-$url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/facets';
-//$pageTitle = 'Grammatik';
-$body = '{
-          "facets": [
-            "ccm:oeh_lrt"
-          ],
-          "facetMinCount": 5,
-          "facetLimit": 10,
-          "criteria": [
-            {
-              "property": "ngsearchword",
-              "values": [
-                "'.$pageTitle.'"
-              ]
-            }]
-        }';
-
-$searchContent = callWloRestApi($url, 'POST', $body);
-$searchVocabs = array();
-if (!empty($searchContent->facets[0]->values)){
-    $searchVocabs = $searchContent->facets[0]->values;
-}
 
 
 ?>

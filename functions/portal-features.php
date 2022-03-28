@@ -104,7 +104,7 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
     }else{
         $contentTitle = 'Mitmachen!';
         $buttonText = 'Inhalte vorschlagen';
-        $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['$pageTitle'] .'&pageDiscipline=' . $contentInfo['$pageDiscipline'];
+        $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['pageTitle'] .'&pageDiscipline=' . $contentInfo['pageDiscipline'];
 
         $content .= '<div class="widget-content no-widget-content">';
         $content .= '<button onclick="showNoContentPopup()">';

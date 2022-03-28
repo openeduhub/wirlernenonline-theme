@@ -52,22 +52,17 @@ $addContentPageID = 9933; //pre
     <div class="fachportal-footer-search">
 
         <?php
-        $search_query = '{
-                      search(searchString: "' . esc_html( get_the_title($postID) ) . '") {
-                        total {
-                          relation
-                          value
-                        }
-                      }
-                    }';
-        $response = callWloGraphApi($search_query);
-        $widget_search_result = $response->data->search->total->value;
+        $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
+        $searchVocabsSum = 0;
+        foreach ($searchVocabs as $value) {
+            $searchVocabsSum = $searchVocabsSum + $value->count;
+        }
         ?>
 
-        <?php if ($widget_search_result == 1){ ?>
+        <?php if ($searchVocabsSum == 1){ ?>
             <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter"> 1 weiteres (ungeprüftes) Ergebnis in unserer Suchmaschine</p>
-        <?php }else if ($widget_search_result > 1){ ?>
-            <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter"> <?php echo $response->data->search->total->value; ?> weitere (ungeprüfte) Ergebnisse in unserer Suchmaschine</p>
+        <?php }else if ($searchVocabsSum > 1){ ?>
+            <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter"> <?php echo $searchVocabsSum; ?> weitere (ungeprüfte) Ergebnisse in unserer Suchmaschine</p>
         <?php }else{ ?>
             <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter"> Leider keine Ergebnisse in unserer Suchmaschine</p>
         <?php }?>

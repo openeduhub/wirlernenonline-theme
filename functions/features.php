@@ -911,3 +911,10 @@ function wlo_update_profile_fields( $user_id ) {
     }
 }
 
+function wlo_convert_dev_url($url){
+    if (get_site_url() != 'https://wirlernenonline.de'){
+        return str_replace('https://wirlernenonline.de', get_site_url(), $url);
+    }
+    return $url;
+}
+

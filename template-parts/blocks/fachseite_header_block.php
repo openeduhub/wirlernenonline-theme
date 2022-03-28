@@ -132,9 +132,9 @@ $GLOBALS['wlo_fachportal'] = array(
                         <div class="sub-subjects">
                             <div class="sub-subjects-container">
                                 <?php foreach ($subCollections->collections as $collection) {
-                                    $ccm_location = $collection->properties->{'cclom:location'}[0];
+                                    $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
 
-                                    $ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
+                                    //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
                                     //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
 
                                     // Filter hidden collections
