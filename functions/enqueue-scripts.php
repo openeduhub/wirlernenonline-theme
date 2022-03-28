@@ -25,7 +25,7 @@ function site_scripts() {
     }
 
     // source_table
-    if ( is_page('4225' ) ) {
+    if ( is_page('4225' ) ||  is_page('67870' )) {
         wp_enqueue_script( 'chart-js', get_template_directory_uri() . '/src/assets/js/datatables/datatables.min.js', array( 'jquery' ), '', false );
         wp_enqueue_style( 'chart-css', get_template_directory_uri() . '/src/assets/js/datatables/datatables.min.css', array(), $versionDate, 'all' );
     }
