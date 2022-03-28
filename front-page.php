@@ -163,7 +163,8 @@ $subjects = callWloGraphApi($data)->data->facet->buckets;
 
                         <div class="maintenance-tile">
                             <h2>Wartungsarbeiten!</h2>
-                            <p>Achtung: An unseren Fachportalen und Themenseiten werden Wartungsarbeiten durchgeführt.</p>
+                            <p>Wir führen derzeit Wartungsarbeiten an unseren Fachportalen und Themenseiten durch.
+                                <br>In Kürze sind sie wieder für dich da!</p>
                         </div>
 <!--
                         <div class="wlo-portals-slider-tile">

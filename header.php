@@ -37,7 +37,8 @@
         <div class="maintenance-popup">
             <button class="maintenance-popup-close" onclick="jQuery('.maintenance-popup').hide('fast')">X</button>
             <h2>Wartungsarbeiten!</h2>
-            <p>Achtung: An unseren Fachportalen und Themenseiten werden Wartungsarbeiten durchgeführt.</p>
+            <p>Wir führen derzeit Wartungsarbeiten an unseren Fachportalen und Themenseiten durch.
+                <br>In Kürze sind sie wieder für dich da!</p>
         </div>
     <?php }
     ?>
