@@ -4,11 +4,11 @@ function setWLOInbox(){
     // will be read in the order as defined
     // the first matching group the person is member of will map to the folder!
     $MAPPINGS = [
-        'GROUP_c50f20c4-1541-103b-8884-2b6a146a3545' => null, // zmf -> do nothing
-        'GROUP_7ea16e92-eadc-103a-81f6-9d9aea029be1' => 'TODO: ffec681b-0552-4ef2-b117-f9b0859b8460', // Schule im Aufbruch
-        'GROUP_cf7c3cf8-41c5-103b-88aa-2b6a146a3545' => 'TODO: ffec681b-0552-4ef2-b117-f9b0859b8460', // rpi virtuell
-        'GROUP_513e4a78-4a56-103a-84e4-2b017690ecd2' => 'TODO: baabf19f-e350-4a89-ada2-80ac0e135753', // WLO-Redaktion
-        null => 'TODO: bf0f0b6c-30da-4610-aab0-a6f4fb29c492', // others or unknown
+        'GROUP_c50f20c4-1541-103b-8884-2b6a146a3545' => '790e22a2-f5cb-4561-ac2e-e40f8adf73f4', // zmf -> do nothing
+        'GROUP_7ea16e92-eadc-103a-81f6-9d9aea029be1' => '80151374-f53a-49f2-8516-0a6ae41d7a05', // Schule im Aufbruch
+        'GROUP_cf7c3cf8-41c5-103b-88aa-2b6a146a3545' => '627d249d-61e4-4860-b739-bb3c8b21946e', // rpi virtuell
+        'GROUP_513e4a78-4a56-103a-84e4-2b017690ecd2' => 'f036ab86-7089-4130-8d4e-c89d5bb169f0', // WLO-Redaktion
+        null => '3f8cb71e-f508-434c-99f9-098bd7164305', // others or unknown
     ];
 
     $ticket = '';
