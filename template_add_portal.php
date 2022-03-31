@@ -37,7 +37,7 @@ if($_GET['type'] == 'tool'){
 <div class="wlo-page">
 
     <div class="wlo-header">
-        <div class="wlo-header-wrapper">
+        <div class="wlo-header-wrapper wlo-form">
             <div class="wlo-header-content">
                 <h1><?php echo $title; ?></h1>
                 <?php the_excerpt(); ?>
@@ -46,7 +46,7 @@ if($_GET['type'] == 'tool'){
         </div>
     </div>
 
-    <div class="wlo-wrapper">
+    <div class="wlo-wrapper wlo-form-wrapper">
 
         <?php
 
