@@ -133,6 +133,8 @@
     }
   }
 
+
+
   .wp-block-image {
     margin-bottom: 0.5em;
   }
@@ -307,6 +309,8 @@
         height: 100px;
       }
     }
+
+
 
   }
 
@@ -576,6 +580,7 @@
   .wp-block-buttons{
     text-align: right;
   }
+
 
   .bewerbung-button a{
     font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
@@ -1352,7 +1357,7 @@
       font-size: 22px;
     }
 
-    .wlo-header .wlo-header-wrapper{
+    .wlo-header{
 
       h1{
         font-size: 22px;
@@ -1362,6 +1367,40 @@
         width: 90%;
         margin: 0 auto;
         margin-top: 3.5em;
+      }
+
+      .wlo-form{
+        padding-bottom: 0;
+        margin-top: 0.5em;
+
+        .wlo-header-content{
+          width: auto;
+          margin: 0.5em;
+          margin-bottom: 0;
+          background: #f1f1f1;
+
+          h1{
+            font-size: 24px;
+          }
+        }
+
+        .wlo-header-bottom{
+          background: white;
+        }
+      }
+    }
+
+
+
+    .wlo-form-wrapper{
+      padding: 0 0.5em 0.5em !important;
+      background: white;
+
+      .wlo-form-iframe{
+        border: none;
+        border-radius: 0;
+        margin-bottom: 2em;
+        box-shadow: none;
       }
     }
 

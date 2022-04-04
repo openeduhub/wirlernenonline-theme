@@ -16,8 +16,9 @@ if (function_exists('get_repo_ticket')){
 
 $user = wp_get_current_user();
 
+$metaQS_pageID = '67870';
 
-if(get_the_ID() == 44703){
+if(get_the_ID() == $metaQS_pageID){
     $mainSubject = get_the_author_meta( 'mainSubject', $user->ID );
     $apiUrl = 'rest/iam/v1/people/-home-/-me-/memberships?maxItems=100&skipCount=0';
     //$apiUrl = 'rest/iam/v1/people/-home-/'.$username.'/memberships?maxItems=100&skipCount=0';
@@ -25,7 +26,8 @@ if(get_the_ID() == 44703){
 
     $groups = array();
     foreach ($memberships['groups'] as $group){
-        if ($group['properties']['ccm:groupType'][0] == 'EDITORIAL'){
+        if ($group['properties']['ccm:groupType'][0] == 'EDITORIAL' &&
+            $group['properties']['cm:authorityName'][0] != 'GROUP_513e4a78-4a56-103a-84e4-2b017690ecd2') {
             $groups[] = $group['properties']['cm:authorityDisplayName'][0];
         }
     }
@@ -62,7 +64,7 @@ while (have_posts()) : the_post(); ?>
                 </h1>
 
                 <div class="wlo-editorial-user-wrapper">
-                    <?php if (get_the_ID() == 44703): ?>
+                    <?php if (get_the_ID() == $metaQS_pageID): ?>
                         <div class="editorial-user-settings">
                             <label for="subject">Fach:</label>
                             <select name="subject <?php echo $GLOBALS['wlo_redaktion']['subject']; ?>" id="portal" onchange="document.location.href = '?subject=' + this.value">

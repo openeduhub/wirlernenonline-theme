@@ -41,12 +41,14 @@ function createWloMail($user_id){
     if ( !empty(um_user('user_mail_15')) ){
         $mailData = json_decode(file_get_contents('http://appserver8.metaventis.com/mailapi/api.php?wlomail='.um_user('user_mail_15').'&action=create&maildest='.um_user('user_email')));
         if ($mailData->created == 'true'){
+            update_user_meta( $user_id, 'wloEmail',  um_user('user_mail_15').'@wirlernenonline.de' );
             return true;
         }
         error_log($mailData->message);
     }
     return false;
 }
+
 
 add_action( 'user_register', 'wlo_register_ldap', 10, 1 );
 function wlo_register_ldap( $user_id ) {

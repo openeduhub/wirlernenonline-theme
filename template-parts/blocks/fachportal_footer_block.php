@@ -52,17 +52,13 @@ $addContentPageID = 9933; //pre
     <div class="fachportal-footer-search">
 
         <?php
-        $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
-        $searchVocabsSum = 0;
-        foreach ($searchVocabs as $value) {
-            $searchVocabsSum = $searchVocabsSum + $value->count;
-        }
+        $searchTotal = $GLOBALS['wlo_themenseiten_searchTotal'];
         ?>
 
-        <?php if ($searchVocabsSum == 1){ ?>
+        <?php if ($searchTotal == 1){ ?>
             <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter"> 1 weiteres (ungeprüftes) Ergebnis in unserer Suchmaschine</p>
-        <?php }else if ($searchVocabsSum > 1){ ?>
-            <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter"> <?php echo $searchVocabsSum; ?> weitere (ungeprüfte) Ergebnisse in unserer Suchmaschine</p>
+        <?php }else if ($searchTotal > 1){ ?>
+            <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter"> <?php echo $searchTotal; ?> weitere (ungeprüfte) Ergebnisse in unserer Suchmaschine</p>
         <?php }else{ ?>
             <p><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter"> Leider keine Ergebnisse in unserer Suchmaschine</p>
         <?php }?>
