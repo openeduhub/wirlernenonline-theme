@@ -38,7 +38,7 @@ if (!empty($parents)){
         if ($node->title == 'Portale'){
             $breadcrumbs[] = ['Fachportale', get_page_link(9930)];
         }else{
-            $breadcrumbs[] = [$node->title, $node->properties->{'cclom:location'}[0]];
+            $breadcrumbs[] = [$node->title, str_replace('https://wirlernenonline.de/', 'https://medien.kita.bayern/', $node->properties->{'cclom:location'}[0])];
         }
     }
     //$breadcrumbs = array_reverse($breadcrumbs);
@@ -171,7 +171,8 @@ if (!empty($newestContent->nodes)){
             'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
             //'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
             'resourcetype' => !empty($prop->{'ccm:oeh_lrt_aggregated_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_aggregated_DISPLAYNAME'} : [],
-            'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
+            //'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
+            'educationalcontext' => !empty($prop->{'cm:author'}) ? $prop->{'cm:author'} : [],
             'oer' => $isOER,
             'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
         );
@@ -227,17 +228,6 @@ if (get_field('slidesToScroll')) {
                     // Filter hidden collections
                     if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated' ) {
                         continue;
-                    }
-
-                    // Filter educationalContexts
-                    if (!empty($educationalContexts)) {
-                        if (empty($collection->properties->{'ccm:educationalcontext'})){ // skip empty?
-                            //continue;
-                        }else{
-                            if (!checkPropertyMatch($collection->properties->{'ccm:educationalcontext'}, $educationalContexts, true)) {
-                                continue;
-                            }
-                        }
                     }
 
                     $filteredSubCollections[] = $collection;
@@ -398,7 +388,7 @@ if (get_field('slidesToScroll')) {
                                 </div>
                                 <div class="content-meta">
                                     <?php if (!empty($content['educationalcontext'])){
-                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg"  alt="Bildungsebene">';
+                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg"  alt="Autoren">';
                                         echo '<p>';
                                         $i = 0;
                                         foreach ($content['educationalcontext'] as $subject) {
