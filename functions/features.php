@@ -899,6 +899,22 @@ function wlo_show_extra_profile_fields( $user ) {
     <?php
 }
 
+function new_contactmethods( $contactmethods ) {
+    $contactmethods['wloEmail'] = 'WLO E-Mail';
+    unset($contactmethods['facebook']);
+    unset($contactmethods['instagram']);
+    unset($contactmethods['linkedin']);
+    unset($contactmethods['myspace']);
+    unset($contactmethods['pinterest']);
+    unset($contactmethods['soundcloud']);
+    unset($contactmethods['tumblr']);
+    unset($contactmethods['twitter']);
+    unset($contactmethods['youtube']);
+    unset($contactmethods['wikipedia']);
+    return $contactmethods;
+}
+add_filter('user_contactmethods','new_contactmethods',10,1);
+
 add_action( 'personal_options_update', 'wlo_update_profile_fields' );
 add_action( 'edit_user_profile_update', 'wlo_update_profile_fields' );
 function wlo_update_profile_fields( $user_id ) {
