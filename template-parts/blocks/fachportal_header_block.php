@@ -114,9 +114,9 @@ $newestContent = callWloRestApi($url, 'POST', $body);
 //$newestContent = callWloRestApi($url);
 
 // newest contents
-$url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
+$url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
 $body = '{
-  "criterias": [
+  "criteria": [
     {
       "property": "collection",
       "values": [
@@ -124,7 +124,7 @@ $body = '{
       ]
     }
   ],
-  "facettes": [
+  "facets": [
   ]
 }';
 
@@ -162,14 +162,15 @@ if (!empty($newestContent->nodes)){
         $contentArray[] = array(
             'id' => $reference->ref->id,
             'image_url' => $reference->preview->url,
-            'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+            //'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+            'content_url' => $reference->content->url,
             'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
             'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
             //'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
             'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
             'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
             //'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
-            'resourcetype' => !empty($prop->{'ccm:oeh_lrt_tmp_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_tmp_DISPLAYNAME'} : [],
+            'resourcetype' => !empty($prop->{'ccm:oeh_lrt_aggregated_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_aggregated_DISPLAYNAME'} : [],
             'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
             'oer' => $isOER,
             'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
