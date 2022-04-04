@@ -73,14 +73,14 @@ if($_GET['type'] == 'tool'){
             $lrtID = explode(',', $_GET['lrtID']);
         }
 
-        $objectType = 'MATERIAL';
+        // $objectType = 'MATERIAL';
         $mdsGroup = 'wlo_upload_content';
         if($_GET['type'] == 'source'){
-            $objectType = 'SOURCE';
+            //$objectType = 'SOURCE';
             $mdsGroup = 'wlo_upload_source';
         }
         if($_GET['type'] == 'tool'){
-            $objectType = 'TOOL';
+            // $objectType = 'TOOL';
             $mdsGroup = 'wlo_upload_tool';
         }
 
@@ -111,7 +111,7 @@ if($_GET['type'] == 'tool'){
             if ($mdsData["ccm:wwwurl"] && strtolower(substr($mdsData["ccm:wwwurl"][0], 0, 4)) != 'http') {
                 $mdsData["ccm:wwwurl"][0] = 'http://' . $mdsData["ccm:wwwurl"][0];
             }
-            $mdsData["ccm:objecttype"] = [$objectType];
+            // $mdsData["ccm:objecttype"] = [$objectType];
             $mdsData["ccm:editorial_checklist"] = ['0'];
             // to generate thumbs
             $mdsData["ccm:linktype"] = ['USER_GENERATED'];
