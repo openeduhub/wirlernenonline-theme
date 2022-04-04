@@ -33,7 +33,7 @@
 	</header>
 
     <?php
-    if ( get_post_type( get_the_ID() ) == 'portal' ) { ?>
+    if ( get_post_type( get_the_ID() ) == 'portal' && false ) { ?>
         <div class="maintenance-popup">
             <button class="maintenance-popup-close" onclick="jQuery('.maintenance-popup').hide('fast')">X</button>
             <h2>Wartungsarbeiten!</h2>

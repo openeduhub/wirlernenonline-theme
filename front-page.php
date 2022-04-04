@@ -135,8 +135,7 @@ $subjects = callWloGraphApi($data)->data->facet->buckets;
                 <div class="wlo-accordion-content" id="wlo-accordion-content-<?php echo $accordionID; ?>">
 
 
-<!--                    <div class="wlo-portals-accordion-slider" id="--><?php //echo $sliderId; ?><!--" style="opacity: 0;">-->
-                    <div class="wlo-portals-accordion-slider">
+                    <div class="wlo-portals-accordion-slider" id="<?php echo $sliderId; ?>" style="opacity: 0;">
 
                         <!--
                         <?php
@@ -161,49 +160,49 @@ $subjects = callWloGraphApi($data)->data->facet->buckets;
                         */?>
                         -->
 
-                        <div class="maintenance-tile">
+                        <!--<div class="maintenance-tile">
                             <h2>Wartungsarbeiten!</h2>
                             <p>Wir führen derzeit Wartungsarbeiten an unseren Fachportalen und Themenseiten durch.
                                 <br>In Kürze sind sie wieder für dich da!</p>
-                        </div>
-<!--
+                        </div>-->
+
                         <div class="wlo-portals-slider-tile">
-                            <a class="wlo-portals-tile" href="<?php /*echo get_page_link(6506); */?>" aria-label="Zum-Fachportal: Physik">
-                                <img src="<?php /*echo get_template_directory_uri(); */?>/src/assets/img/Fach-Icons/icon_physik.svg" alt="">
+                            <a class="wlo-portals-tile" href="<?php echo get_page_link(6506); ?>" aria-label="Zum-Fachportal: Physik">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Fach-Icons/icon_physik.svg" alt="">
                                 <div class="wlo-portals-tile-title">Physik</div>
                             </a>
                         </div>
                         <div class="wlo-portals-slider-tile">
-                            <a class="wlo-portals-tile" href="<?php /*echo get_page_link(6526); */?>" aria-label="Zum-Fachportal: Deutsch">
-                                <img src="<?php /*echo get_template_directory_uri(); */?>/src/assets/img/Fach-Icons/icon_deutsch.svg" alt="">
+                            <a class="wlo-portals-tile" href="<?php echo get_page_link(6526); ?>" aria-label="Zum-Fachportal: Deutsch">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Fach-Icons/icon_deutsch.svg" alt="">
                                 <div class="wlo-portals-tile-title">Deutsch</div>
                             </a>
                         </div>
                         <div class="wlo-portals-slider-tile">
-                            <a class="wlo-portals-tile" href="<?php /*echo get_page_link(6463); */?>" aria-label="Zum-Fachportal: Medienbildung">
-                                <img src="<?php /*echo get_template_directory_uri(); */?>/src/assets/img/Fach-Icons/icon_medienbildung.svg" alt="">
+                            <a class="wlo-portals-tile" href="<?php echo get_page_link(6463); ?>" aria-label="Zum-Fachportal: Medienbildung">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Fach-Icons/icon_medienbildung.svg" alt="">
                                 <div class="wlo-portals-tile-title">Medienbildung</div>
                             </a>
                         </div>
                         <div class="wlo-portals-slider-tile">
-                            <a class="wlo-portals-tile" href="<?php /*echo get_page_link(21348); */?>" aria-label="Zum-Fachportal: Religion">
-                                <img src="<?php /*echo get_template_directory_uri(); */?>/src/assets/img/Fach-Icons/icon_religion.svg" alt="">
+                            <a class="wlo-portals-tile" href="<?php echo get_page_link(21348); ?>" aria-label="Zum-Fachportal: Religion">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Fach-Icons/icon_religion.svg" alt="">
                                 <div class="wlo-portals-tile-title">Religion</div>
                             </a>
                         </div>
                         <div class="wlo-portals-slider-tile">
-                            <a class="wlo-portals-tile" href="<?php /*echo get_page_link(20324); */?>" aria-label="Zum-Fachportal: Sport">
-                                <img src="<?php /*echo get_template_directory_uri(); */?>/src/assets/img/Fach-Icons/icon_sport.svg" alt="">
+                            <a class="wlo-portals-tile" href="<?php echo get_page_link(20324); ?>" aria-label="Zum-Fachportal: Sport">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Fach-Icons/icon_sport.svg" alt="">
                                 <div class="wlo-portals-tile-title">Sport</div>
                             </a>
                         </div>
                         <div class="wlo-portals-slider-tile">
-                            <a class="wlo-portals-tile" href="<?php /*echo get_page_link(9930); */?>" aria-label="Zu den Fachportalen">
-                                <img src="<?php /*echo get_template_directory_uri(); */?>/src/assets/img/Fach-Icons/icon_portals.svg" alt="">
+                            <a class="wlo-portals-tile" href="<?php echo get_page_link(9930); ?>" aria-label="Zu den Fachportalen">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Fach-Icons/icon_portals.svg" alt="">
                                 <div class="wlo-portals-tile-title">Alle 28 Fachportale</div>
                             </a>
                         </div>
--->
+
                     </div>
 
                 </div>
