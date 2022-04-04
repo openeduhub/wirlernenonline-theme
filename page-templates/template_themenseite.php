@@ -34,7 +34,21 @@ if (!empty($portal->properties->{'cclom:location'}[0])){
 }
 $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
-$author_ids = (!empty(get_field('authors', $postID))) ? get_field('authors', $postID) : [];
+//$author_ids = (!empty(get_field('authors', $postID))) ? get_field('authors', $postID) : [];
+
+if (empty(get_field('authors', $postID))){
+    $portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
+    switch ($portalID){
+        case 62890:
+            $portalID = 54293; // Musik
+            break;
+    }
+    //error_log('###### Portal: '.$portalTitle.' - ID: '.$portalID);
+    $authors = get_field('authors', $portalID);
+    update_field( 'authors', $authors, $postID );
+}
+
+$author_ids = get_field('authors', $postID);
 
 $breadcrumbs = Array();
 if (!empty($parents)){
@@ -42,7 +56,11 @@ if (!empty($parents)){
         if ($node->title == 'Portale'){
             $breadcrumbs[] = ['Fachportale', get_page_link(9930)];
         }else{
-            $breadcrumbs[] = [$node->title, wlo_convert_dev_url($node->properties->{'cclom:location'}[0])];
+            $title = $node->title;
+            if (!empty($node->properties->{'ccm:collectionshorttitle'}[0])){
+                $title = $node->properties->{'ccm:collectionshorttitle'}[0];
+            }
+            $breadcrumbs[] = [$title, wlo_convert_dev_url($node->properties->{'cclom:location'}[0])];
         }
     }
     $breadcrumbs = array_reverse($breadcrumbs);
@@ -87,9 +105,9 @@ $GLOBALS['wlo_fachportal'] = array(
 );
 
 // newest contents
-$url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=8&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
+$url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=8&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
 $body = '{
-  "criterias": [
+  "criteria": [
     {
       "property": "collection",
       "values": [
@@ -97,7 +115,7 @@ $body = '{
       ]
     }
   ],
-  "facettes": [
+  "facets": [
   ]
 }';
 $newestContent = callWloRestApi($url, 'POST', $body);
@@ -209,16 +227,18 @@ if (!empty($response->references)){
 
 $GLOBALS['wlo_themenseiten_content'] = $themenseiten_contentArray;
 
+$noOerCount = count($themenseiten_contentArray) - $oerCount;
+
 // content for diagram
 $url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/facets';
-//$url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/';
+$url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/?maxItems=0';
 //$pageTitle = 'Grammatik';
 $body = '{
           "facets": [
             "ccm:oeh_lrt"
           ],
-          "facetMinCount": 5,
-          "facetLimit": 10,
+          "facetMinCount": 1,
+          "facetLimit": 50,
           "criteria": [
             {
               "property": "ngsearchword",
@@ -229,13 +249,19 @@ $body = '{
         }';
 
 $searchContent = callWloRestApi($url, 'POST', $body);
-//var_dump($searchContent);
+$searchTotal = $searchContent->pagination->total;
 $searchVocabs = array();
 if (!empty($searchContent->facets[0]->values)){
     $searchVocabs = $searchContent->facets[0]->values;
 }
 $GLOBALS['wlo_themenseiten_searchVocabs'] = $searchVocabs;
+$GLOBALS['wlo_themenseiten_searchTotal'] = $searchTotal;
 
+
+$accordionID = uniqid();
+$sliderId = uniqid('slider-');
+$slidesToShow = 4;
+$slidesToScroll = 4;
 
 while (have_posts()) : the_post(); ?>
 
@@ -390,26 +416,20 @@ while (have_posts()) : the_post(); ?>
                                 <div class="diagram-legend-color"></div> Maschinell erschlossene Inhalte in der Suche
                             </div>
 
-                            <?php
-                                $searchVocabsSum = 0;
-                                foreach ($searchVocabs as $value) {
-                                    $searchVocabsSum = $searchVocabsSum + $value->count;
-                                }
-                                ?>
 
-                                <?php if ($searchVocabsSum == 1){ ?>
+                                <?php if ($searchTotal == 1){ ?>
                                     <a class="diagram-legend-entry" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
                                         <div class="diagram-legend-color search-link">
                                             <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter">
                                         </div>
                                         1 weiteres Ergebnis in unserer Suchmaschine
                                     </a>
-                                <?php }else if ($searchVocabsSum > 1){ ?>
+                                <?php }else if ($searchTotal > 1){ ?>
                                     <a class="diagram-legend-entry" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
                                         <div class="diagram-legend-color search-link">
                                             <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot-white.svg" alt="Icon: Roboter">
                                         </div>
-                                        <?php echo $searchVocabsSum; ?> weitere Ergebnisse in unserer Suchmaschine
+                                        <?php echo $searchTotal; ?> weitere Ergebnisse in unserer Suchmaschine
                                     </a>
                                 <?php }else{ ?>
 
@@ -437,7 +457,7 @@ while (have_posts()) : the_post(); ?>
 
                     <div class="fachportal-filterbar-dropdowns">
                         <select name="educationalcontext" id="educationalcontext" onchange="filterContentTiles(this, 'educationalcontext', this.value)">
-                            <option value="" selected disabled hidden>Bildungsstufe</option>
+                            <option value="label" selected disabled hidden>Bildungsstufe</option>
                             <?php foreach ($educationalcontextArray as $key => $value){ ?>
                                 <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
                                     <?php echo $key.' ('.$value.')'; ?>
@@ -446,7 +466,7 @@ while (have_posts()) : the_post(); ?>
                         </select>
 
                         <select name="enduserrole" id="enduserrole" onchange="filterContentTiles(this, 'enduserrole', this.value)">
-                            <option value="" selected disabled hidden>Zielgruppe</option>
+                            <option value="label" selected disabled hidden>Zielgruppe</option>
                             <?php foreach ($enduserroleArray as $key => $value){ ?>
                                 <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
                                     <?php echo $key.' ('.$value.')'; ?>
@@ -455,12 +475,12 @@ while (have_posts()) : the_post(); ?>
                         </select>
 
                         <select name="oer" id="oer" onchange="filterContentTiles(this, 'oer', this.value)">
-                            <option value="" selected disabled hidden>OER</option>
+                            <option value="label" selected disabled hidden>OER</option>
                             <option value="oer">
                                 OER (<?php echo $oerCount; ?>)
                             </option>
                             <option value="no-oer">
-                                Kein OER
+                                Kein OER (<?php echo $noOerCount; ?>)
                             </option>
                         </select>
                     </div>
@@ -499,7 +519,7 @@ while (have_posts()) : the_post(); ?>
 
                     <button id="filter-tag-no-oer" onclick="filterContentTiles(this, 'oer', 'no-oer')">
                         <div class="fachportal-filterbar-tag">
-                            OER
+                            Kein OER
                             <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg"  alt="">
                         </div>
                     </button>
@@ -513,18 +533,19 @@ while (have_posts()) : the_post(); ?>
                 <div class="fachportal-header-accordion">
 
                     <div class="wlo-accordion-wrapper" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 0.2);">
-                        <button class="wlo-accordion" id="wlo-accordion-<?php echo $accordionID; ?>">
+                        <button class="wlo-accordion" id="fachportal-accordion-<?php echo $accordionID; ?>">
                             <h2>Die neusten geprüften Inhalte für dich!</h2>
                             <img class="wlo-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg"  alt="Inhalte ein odder ausklappen">
                         </button>
 
-                        <div class="wlo-accordion-content" id="wlo-accordion-content-<?php echo $sliderId; ?>">
+                        <div class="wlo-accordion-content" id="<?php echo $sliderId; ?>">
 
                             <?php
                             if (!empty($contentArray)){
                                 foreach (array_slice($contentArray, 0, get_field('content_count')) as $content) { ?>
                                     <div class="widget-content <?php if (!empty($content['resourcetype'])){ foreach ($content['resourcetype'] as $type){ echo $type.' '; } } ?>">
 
+                                        <button onclick="showContentPopup('<?php echo $content['id']; ?>')">
 
                                         <?php if (!empty($content['image_url'])) { ?>
                                             <img class="main-image" src="<?php echo $content['image_url']; ?>" alt="Cover: <?php echo $content['title']; ?>">
@@ -615,7 +636,7 @@ while (have_posts()) : the_post(); ?>
                     <oeh-details-embedded></oeh-details-embedded>
                     <script>
                         document.getElementsByTagName('oeh-details-embedded')[0].addEventListener('closed', () => {
-                            console.log('received closed event');
+                            //console.log('received closed event');
                             jQuery(".portal-wrapper-right").hide('slow');
                             jQuery(".detail-view-popup").hide('slow');
                         });
@@ -677,6 +698,62 @@ while (have_posts()) : the_post(); ?>
             });
             jQuery('#sub-subjects-button').hide();
         });
+
+        jQuery(function () {
+            // Handler for .ready() called. Put the Slick Slider etc. init code here.
+            function loadSlider() {
+                if (typeof jQuery().slick === "function") {
+                    console.log('Load-Slider...');
+                    jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
+                        infinite: false,
+                        slidesToShow: <?php echo $slidesToShow; ?>,
+                        slidesToScroll: <?php echo $slidesToScroll; ?>,
+                        arrows: true,
+                        dots: true,
+                        zIndex: 0,
+                        responsive: [
+                            {
+                                breakpoint: 1230,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 3
+                                }
+                            },
+                            {
+                                breakpoint: 950,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 750,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                        ]
+                    });
+                }
+            }
+
+            loadSlider();
+
+            jQuery(window).on('resize', function(){
+                jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+            });
+        });
+
+        jQuery(window).on('resize', function(){
+            jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+        });
+
+        jQuery('#fachportal-accordion-<?php echo $accordionID; ?>').click(function(){
+            jQuery(this).find("img").toggleClass("fachportal-accordion-icon-active");
+            jQuery('#<?php echo $sliderId; ?>').slideToggle('slow');
+            jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+        });
     </script>
 
     <script>
@@ -691,6 +768,10 @@ while (have_posts()) : the_post(); ?>
                     jQuery('.widget-content').hide();
                     jQuery('.fachportal-content-block').show();
                     activeFilters.forEach((filter) => {
+                        jQuery('[data-educationalcontext~="' + filter + '"]').show('fast');
+                        jQuery('[data-enduserrole~="' + filter + '"]').show('fast');
+                        jQuery('[data-oer="' + filter + '"]').show('fast');
+                        /*
                         switch (type) {
                             case "educationalcontext":
                                 jQuery('[data-educationalcontext~="' + filter + '"]').show('fast');
@@ -702,6 +783,7 @@ while (have_posts()) : the_post(); ?>
                                 jQuery('[data-oer="' + filter + '"]').show('fast');
                                 break;
                         }
+                        */
                     });
 
                     jQuery('.slick-track').each(function() {
@@ -713,16 +795,16 @@ while (have_posts()) : the_post(); ?>
             }
             function setActiveState(filter, isActive) {
                 if (isActive){
-                    console.log('activate-button:'+filter);
                     let button = jQuery('#filter-tag-'+filter);
-                    console.log(button);
                     jQuery('#filter-tag-'+filter).find('.fachportal-filterbar-tag').addClass('active-btn');
                 }else {
                     jQuery('#filter-tag-'+filter).find('.fachportal-filterbar-tag').removeClass('active-btn');
                 }
+                jQuery('.fachportal-filterbar-dropdowns select').each(function() {
+                    jQuery( this ).val("label"); // reset select
+                });
             }
             function toggleFilter(button, type, filter) {
-                console.log('toggleFilter');
                 if (activeFilters.includes(filter)) {
                     activeFilters.splice(activeFilters.indexOf(filter), 1);
                     setActiveState(filter, false);

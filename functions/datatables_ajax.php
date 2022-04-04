@@ -16,8 +16,9 @@ echo getTableData($maxItems, $skipCount);
 die();
 
 function getTableData($maxItems, $skipCount){
-    $url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/ngsearch/?maxItems='.$maxItems.'&skipCount='.$skipCount.'&propertyFilter=-all-';
-    $search_criterias = '{"criterias":[{"property":"ccm:objecttype","values":["SOURCE"]}],"facettes":[]}';
+    $url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/ngsearch/?maxItems='.$maxItems.'&skipCount='.$skipCount.'&propertyFilter=-all-';
+    //$search_criterias = '{"criteria":[{"property":"ccm:objecttype","values":["SOURCE"]}],"facets":[]}';
+    $search_criterias = '{"criteria":[{"property":"ccm:oeh_lrt_aggregated","values":["http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/2e678af3-1026-4171-b88e-3b3a915d1673"]}],"facets":[]}';
     $response = callWloRestApi($url, 'POST', $search_criterias);
 
     $tableData = array('data');
@@ -35,7 +36,27 @@ function getTableData($maxItems, $skipCount){
     }
     }
     }';
-        $sources = callWloGraphApi($data)->data->facet->buckets;
+        //$sources = callWloGraphApi($data)->data->facet->buckets;
+
+        $url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/facets';
+        $body = '{
+          "facets": [
+            "ccm:replicationsource"
+          ],
+          "facetMinCount": 5,
+          "facetLimit": 100000,
+          "criteria": [
+            {
+              "property": "ngsearchword",
+              "values": [
+                "*"
+              ]
+            }]
+        }';
+
+        $sources = callWloRestApi($url, 'POST', $body);
+
+        var_dump($sources->facets[0]->values);
 
         foreach($response->nodes as $reference) {
             $prop = $reference->properties;
@@ -46,12 +67,12 @@ function getTableData($maxItems, $skipCount){
 
             // Erfasste Inhalte
             $sourceCount = 0;
-            if (!empty($sources)){
+            if (!empty($sources->facets[0]->values)){
 
-                foreach ($sources as $source){
+                foreach ($sources->facets[0]->values as $source){
                     //if (strtolower($source->key) == strtolower($prop->{'cclom:title'}[0])){
-                    if ($source->key == $prop->{'ccm:general_identifier'}[0]){
-                        $sourceCount = $source->doc_count;
+                    if ($source->value == $prop->{'ccm:general_identifier'}[0]){
+                        $sourceCount = $source->count;
                     }
                 }
             }
