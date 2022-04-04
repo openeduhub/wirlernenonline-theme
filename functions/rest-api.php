@@ -187,6 +187,9 @@ function add_portal(WP_REST_Request $request) {
         $post_id = wp_insert_post($portal_insert, true);
 
         if (!empty($post_id) && is_numeric($post_id)) {
+
+            update_post_meta($post_id, '_wp_page_template', 'page-templates/template_themenseite.php');
+
             update_field('collection_url', $collection_url, $post_id);
             update_field('collection_level', $collection_level, $post_id);
             update_field('topic', $topic, $post_id);
