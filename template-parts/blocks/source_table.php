@@ -34,7 +34,7 @@
             $tableHeaderOffset = 32;
         }
         ?>
-        jQuery(document).ready(function () {
+        jQuery(document).ready( async function () {
             let table = jQuery('#wlo_source_table').DataTable({
                 ajax: "<?php echo get_template_directory_uri(); ?>/functions/datatables_ajax.php",
                 columns: [
@@ -56,15 +56,24 @@
                 }
             });
 
-            jQuery.ajax({
-                method: "POST",
-                url: "<?php echo get_template_directory_uri(); ?>/functions/datatables_ajax.php",
-                data: { maxItems: 5000, skipCount: "25" }
-            })
-                .done(function( msg ) {
-                    //alert(JSON.stringify(JSON.parse(msg).data));
-                    table.rows.add( JSON.parse(msg).data ) .draw();
+            let completed = 25;
+            let total = 100;
+            const url = "<?php echo get_template_directory_uri(); ?>/functions/datatables_ajax.php";
+
+            while (completed < total){
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        maxItems: 500,
+                        skipCount: completed
+                    })
                 });
+                const msg = await response.json();
+
+                total = msg.total;
+                completed += 500;
+                table.rows.add( msg.data ).draw();
+            }
 
         });
     </script>

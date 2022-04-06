@@ -25,26 +25,13 @@ function getTableData($maxItems, $skipCount){
 
     if($response) {
 
-        $data = '{
-    facet(
-    facet: source
-    skipOutputMapping: true
-    ) {
-    buckets {
-    key
-    doc_count
-    }
-    }
-    }';
-        //$sources = callWloGraphApi($data)->data->facet->buckets;
-
         $url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/facets';
         $body = '{
           "facets": [
             "ccm:replicationsource"
           ],
-          "facetMinCount": 5,
-          "facetLimit": 100000,
+          "facetMinCount": 1,
+          "facetLimit": 10000,
           "criteria": [
             {
               "property": "ngsearchword",
@@ -56,7 +43,7 @@ function getTableData($maxItems, $skipCount){
 
         $sources = callWloRestApi($url, 'POST', $body);
 
-        var_dump($sources->facets[0]->values);
+        $tableData['total'] = $response->pagination->total;
 
         foreach($response->nodes as $reference) {
             $prop = $reference->properties;
@@ -68,9 +55,7 @@ function getTableData($maxItems, $skipCount){
             // Erfasste Inhalte
             $sourceCount = 0;
             if (!empty($sources->facets[0]->values)){
-
                 foreach ($sources->facets[0]->values as $source){
-                    //if (strtolower($source->key) == strtolower($prop->{'cclom:title'}[0])){
                     if ($source->value == $prop->{'ccm:general_identifier'}[0]){
                         $sourceCount = $source->count;
                     }
@@ -209,6 +194,7 @@ function getTableData($maxItems, $skipCount){
             $row['check'] = $check;
 
             $tableData['data'][] = $row;
+
         }
 
     }
