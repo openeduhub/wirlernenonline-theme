@@ -10,7 +10,19 @@ if ($GLOBALS['wlo_redaktion']['subject'] == 'DaZ'){
 }
 
 if ($GLOBALS['wlo_redaktion']['subject'] == 'Deutsch'){
-    $GLOBALS['wlo_redaktion']['subject'] = 'Deutsch - Musterfachseite'; // nur für dev!
+    //$GLOBALS['wlo_redaktion']['subject'] = 'Deutsch - Musterfachseite'; // nur für dev!
+}
+
+switch ($GLOBALS['wlo_redaktion']['subject']) {
+    case 'DaZ':
+        $GLOBALS['wlo_redaktion']['subject'] = 'Deutsch als Zweitsprache';
+        break;
+    case 'Deutsch':
+        //$GLOBALS['wlo_redaktion']['subject'] = 'Deutsch - Musterfachseite'; // nur für dev!
+        break;
+    case 'Berufsorientierung':
+        $GLOBALS['wlo_redaktion']['subject'] = 'Zukunfts- und Berufsorientierung';
+        break;
 }
 
 if (is_admin() &&  empty($GLOBALS['wlo_redaktion']['subject'])){
@@ -44,6 +56,10 @@ $collectionUrl = get_field('collection_url', $poratlID);
 $pattern = '/http.*\?id=(.*)(&|$)/';
 preg_match_all($pattern, $collectionUrl, $matches);
 $collectionID = $matches[1][0];
+
+if ($GLOBALS['wlo_redaktion']['subject'] == 'OER'){
+    $collectionID = 'a87c092d-e3b5-43ef-81db-757ab1967646';
+}
 
 $metaQsMode = get_field('mode')['value'];
 $metaQsHeight = get_field('height');
