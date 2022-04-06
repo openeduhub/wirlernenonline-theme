@@ -457,7 +457,8 @@ while (have_posts()) : the_post(); ?>
 
                     <div class="fachportal-filterbar-dropdowns">
                         <select name="educationalcontext" id="educationalcontext" onchange="filterContentTiles(this, 'educationalcontext', this.value)">
-                            <option value="label" selected disabled hidden>Bildungsstufe</option>
+                            <option value="label" selected disabled>Bildungsstufe</option>
+                            <option disabled>──────────</option>
                             <?php foreach ($educationalcontextArray as $key => $value){ ?>
                                 <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
                                     <?php echo $key.' ('.$value.')'; ?>
@@ -466,7 +467,8 @@ while (have_posts()) : the_post(); ?>
                         </select>
 
                         <select name="enduserrole" id="enduserrole" onchange="filterContentTiles(this, 'enduserrole', this.value)">
-                            <option value="label" selected disabled hidden>Zielgruppe</option>
+                            <option value="label" selected disabled>Zielgruppe</option>
+                            <option disabled>──────────</option>
                             <?php foreach ($enduserroleArray as $key => $value){ ?>
                                 <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
                                     <?php echo $key.' ('.$value.')'; ?>
@@ -475,7 +477,8 @@ while (have_posts()) : the_post(); ?>
                         </select>
 
                         <select name="oer" id="oer" onchange="filterContentTiles(this, 'oer', this.value)">
-                            <option value="label" selected disabled hidden>OER</option>
+                            <option value="label" selected disabled>OER</option>
+                            <option disabled>──────────</option>
                             <option value="oer">
                                 OER (<?php echo $oerCount; ?>)
                             </option>
