@@ -877,3 +877,30 @@ function wlo_update_profile_fields( $user_id ) {
     }
 }
 
+function wlo_parseVcard($parse){
+    $lastName = '';
+    $firstName = '';
+    $email = '';
+    $data=explode("\n",trim($parse));
+    foreach($data as $d){
+        $data=explode(":",$d);
+        $data[1]=trim($data[1]);
+        if($data[0]=="N"){
+            $lastName=$data[1];
+            if($lastName[0]==';'){
+                $lastName=substr($lastName,1);
+            }
+        }
+        if($data[0]=="FN"){
+            $firstName=$data[1];
+        }
+        if(strstr($data[0],"EMAIL")){
+            $email=$data[1];
+        }
+    }
+
+    return $firstName;
+    return $firstName . ' ' . $lastName;
+}
+
+

@@ -179,7 +179,7 @@ if (!empty($newestContent->nodes)){
             //'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
             'resourcetype' => !empty($prop->{'ccm:oeh_lrt_aggregated_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_aggregated_DISPLAYNAME'} : [],
             //'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
-            'educationalcontext' => !empty($prop->{'cm:author'}) ? $prop->{'cm:author'} : [],
+            'author' => !empty($prop->{'ccm:lifecyclecontributer_author'}) ? $prop->{'ccm:lifecyclecontributer_author'} : [],
             'oer' => $isOER,
             'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
         );
@@ -394,15 +394,15 @@ if (get_field('slidesToScroll')) {
                                     } ?>
                                 </div>
                                 <div class="content-meta">
-                                    <?php if (!empty($content['educationalcontext'])){
+                                    <?php if (!empty($content['author'])){
                                         echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg"  alt="Autoren">';
                                         echo '<p>';
                                         $i = 0;
-                                        foreach ($content['educationalcontext'] as $subject) {
-                                            if(++$i === count($content['educationalcontext'])) {
-                                                echo $subject;
+                                        foreach ($content['author'] as $vcard) {
+                                            if(++$i === count($content['author'])) {
+                                                echo wlo_parseVcard($vcard);
                                             }else{
-                                                echo $subject.', ';
+                                                echo  wlo_parseVcard($vcard).', ';
                                             }
                                         }
                                         echo '</p>';
