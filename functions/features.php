@@ -942,7 +942,7 @@ function wlo_getPortalIDbyName($name){
             $name = 'Deutsch als Zweitsprache';
             break;
         case 'Deutsch':
-            $name = 'Deutsch - Musterfachseite'; // nur für dev!
+            //$name = 'Deutsch - Musterfachseite'; // nur für dev!
             break;
         case 'Berufsorientierung':
             $name = 'Zukunfts- und Berufsorientierung';

@@ -47,7 +47,7 @@ if(get_the_ID() == $metaQS_pageID){
         $GLOBALS['wlo_redaktion'] = array(
             'subject' => $_GET["subject"],
         );
-    }else if (!empty($mainSubject)){
+    }else if (!empty($mainSubject) && $mainSubject != 'Allgemein'){
         $GLOBALS['wlo_redaktion'] = array(
             'subject' => $mainSubject,
         );
