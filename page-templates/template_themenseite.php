@@ -130,6 +130,13 @@ if (!empty($newestContent->nodes)){
             continue;
         }
 
+        $title = $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0];
+        foreach ($contentArray as $content) {
+            if ($content['title'] == $title) {
+                continue 2;
+            }
+        }
+
         $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
         $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
         $isOER = false;
@@ -143,7 +150,7 @@ if (!empty($newestContent->nodes)){
             'id' => $reference->ref->id,
             'image_url' => $reference->preview->url,
             'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
-            'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
+            'title' => $title,
             'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
             'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
             'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
