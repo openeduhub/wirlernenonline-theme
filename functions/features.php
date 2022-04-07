@@ -935,3 +935,41 @@ function wlo_convert_dev_url($url){
     return $url;
 }
 
+function wlo_getPortalIDbyName($name){
+
+    switch ($name) {
+        case 'DaZ':
+            $name = 'Deutsch als Zweitsprache';
+            break;
+        case 'Deutsch':
+            $name = 'Deutsch - Musterfachseite'; // nur für dev!
+            break;
+        case 'Berufsorientierung':
+            $name = 'Zukunfts- und Berufsorientierung';
+            break;
+        case 'OER':
+            return 'a87c092d-e3b5-43ef-81db-757ab1967646';
+    }
+
+    $query_args = array(
+        'posts_per_page' => 1,
+        'post_type' => 'portal',
+        'post_status' => 'publish',
+        'title' => $name,
+        'fields' => 'ids',
+        'meta_query' => array(
+            array(
+                'key' => 'collection_level',
+                'value' => 0
+            )
+        )
+    );
+    $query_result = new WP_Query($query_args);
+
+    $portalID = $query_result->posts[0];
+    $collectionUrl = get_field('collection_url', $portalID);
+    $url_components = parse_url($collectionUrl);
+    parse_str($url_components['query'], $params);
+    return $params['id']; // collectionID
+}
+

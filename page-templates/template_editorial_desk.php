@@ -16,7 +16,10 @@ if (function_exists('get_repo_ticket')){
 
 $user = wp_get_current_user();
 
-$metaQS_pageID = '67870';
+$metaQS_pageID = '67870';  //live
+if (get_site_url() != 'https://wirlernenonline.de'){
+    $metaQS_pageID = '44703';  //dev
+}
 
 if(get_the_ID() == $metaQS_pageID){
     $mainSubject = get_the_author_meta( 'mainSubject', $user->ID );
@@ -28,7 +31,11 @@ if(get_the_ID() == $metaQS_pageID){
     foreach ($memberships['groups'] as $group){
         if ($group['properties']['ccm:groupType'][0] == 'EDITORIAL' &&
             $group['properties']['cm:authorityName'][0] != 'GROUP_513e4a78-4a56-103a-84e4-2b017690ecd2') {
-            $groups[] = $group['properties']['cm:authorityDisplayName'][0];
+                $name = str_replace('WLO-', '', $group['properties']['cm:authorityDisplayName'][0]);
+                $groups[] = array(
+                                'id' => wlo_getPortalIDbyName($name),
+                                'name' => $name
+                            );
         }
     }
 
@@ -46,7 +53,7 @@ if(get_the_ID() == $metaQS_pageID){
         );
     }else{
         $GLOBALS['wlo_redaktion'] = array(
-            'subject' => str_replace('WLO-', '', $groups[0]),
+            'subject' => $groups[0]['name'],
         );
     }
 }
@@ -67,19 +74,31 @@ while (have_posts()) : the_post(); ?>
                     <?php if (get_the_ID() == $metaQS_pageID): ?>
                         <div class="editorial-user-settings">
                             <label for="subject">Fach:</label>
-                            <select name="subject <?php echo $GLOBALS['wlo_redaktion']['subject']; ?>" id="portal" onchange="document.location.href = '?subject=' + this.value">
+                            <select name="subject <?php echo $GLOBALS['wlo_redaktion']['subject']; ?>" id="portal" onchange="metaQS_setCollectionID(this.value, jQuery(this).find('option:selected').attr('name'))">
                                 <?php
                                 foreach ($groups as $subject){
-                                    $subject = str_replace('WLO-', '', $subject);
+                                    $subjectName = $subject['name'];
 
-                                    if ($subject == $GLOBALS['wlo_redaktion']['subject'] ){
-                                        echo '<option selected="selected" value="'.$subject.'">'.$subject.'</option>';
+                                    if ($subjectName == $GLOBALS['wlo_redaktion']['subject'] ){
+                                        echo '<option selected="selected" value="'.$subject['id'].'" name="'.$subjectName.'">'.$subjectName.'</option>';
                                     }else{
-                                        echo '<option value="'.$subject.'">'.$subject.'</option>';
+                                        echo '<option value="'.$subject['id'].'" name="'.$subjectName.'">'.$subjectName.'</option>';
                                     }
                                 }
                                 ?>
                             </select>
+
+                            <script>
+                                function metaQS_setCollectionID(id, name){
+                                    jQuery("app-meta-widget").each(function() {
+                                        jQuery( this ).attr("collectionid", id);
+                                    });
+
+                                    jQuery(".metaqs-badge").each(function() {
+                                        jQuery( this ).html(name);
+                                    });
+                                }
+                            </script>
                         </div>
                     <?php endif; ?>
                     <div class="wlo-editorial-user">

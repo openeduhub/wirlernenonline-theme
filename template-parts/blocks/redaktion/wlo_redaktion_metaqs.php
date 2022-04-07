@@ -5,13 +5,6 @@
 
 <?php
 
-if ($GLOBALS['wlo_redaktion']['subject'] == 'DaZ'){
-    $GLOBALS['wlo_redaktion']['subject'] = 'Deutsch als Zweitsprache';
-}
-
-if ($GLOBALS['wlo_redaktion']['subject'] == 'Deutsch'){
-    //$GLOBALS['wlo_redaktion']['subject'] = 'Deutsch - Musterfachseite'; // nur für dev!
-}
 
 switch ($GLOBALS['wlo_redaktion']['subject']) {
     case 'DaZ':
@@ -35,31 +28,7 @@ if (function_exists('get_repo_ticket')){
     $ticket = '';
 }
 
-$query_args = array(
-    'posts_per_page' => 10,
-    'post_type' => 'portal',
-    'post_status' => 'publish',
-    'title' => $GLOBALS['wlo_redaktion']['subject'],
-    //'title' => 'deutsch',
-    'fields' => 'ids',
-    'meta_query' => array(
-        array(
-            'key' => 'collection_level',
-            'value' => 0
-        )
-    )
-);
-
-$query_result = new WP_Query($query_args);
-$poratlID = $query_result->posts[0];
-$collectionUrl = get_field('collection_url', $poratlID);
-$pattern = '/http.*\?id=(.*)(&|$)/';
-preg_match_all($pattern, $collectionUrl, $matches);
-$collectionID = $matches[1][0];
-
-if ($GLOBALS['wlo_redaktion']['subject'] == 'OER'){
-    $collectionID = 'a87c092d-e3b5-43ef-81db-757ab1967646';
-}
+$collectionID = wlo_getPortalIDbyName($GLOBALS['wlo_redaktion']['subject']);
 
 $metaQsMode = get_field('mode')['value'];
 $metaQsHeight = get_field('height');
@@ -72,6 +41,7 @@ $ng_dir =  get_template_directory_uri() . '/src/assets/js/angular/';
 ?>
 
 <div class="wlo-redaktion-metaqs">
+    <div class="metaqs-badge"><?php echo $GLOBALS['wlo_redaktion']['subject']; ?></div>
     <app-meta-widget collectionid="<?php echo $collectionID; ?>" ticket="<?php echo $ticket; ?>" mode="<?php echo $metaQsMode; ?>" style="display:flex; height: <?php echo $metaQsHeight; ?>px"></app-meta-widget>
 </div>
 
