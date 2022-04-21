@@ -881,6 +881,7 @@ function wlo_parseVcard($parse){
     $lastName = '';
     $firstName = '';
     $email = '';
+    $org = '';
     $data=explode("\n",trim($parse));
     foreach($data as $d){
         $data=explode(":",$d);
@@ -894,13 +895,24 @@ function wlo_parseVcard($parse){
         if($data[0]=="FN"){
             $firstName=$data[1];
         }
+        if($data[0]=="ORG"){
+            $org=$data[1];
+            if (count($data) > 2){
+                foreach (array_slice($data, 2) as $value){
+                    $org .= ':'.$value;
+                }
+            }
+        }
         if(strstr($data[0],"EMAIL")){
             $email=$data[1];
         }
     }
 
+    if (!empty($org)){
+        return $org . ' ' . $firstName;
+    }
+
     return $firstName;
-    return $firstName . ' ' . $lastName;
 }
 
 
