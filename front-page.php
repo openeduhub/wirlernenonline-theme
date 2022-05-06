@@ -3,9 +3,6 @@ get_header();
 ?>
 <?php
 
-error_log('HTTP_HOST');
-error_log(print_r(get_site_url(),true));
-
 $accordionID = uniqid();
 
 $current_query_args = array(
@@ -24,18 +21,31 @@ $slidesToShow = 6;
 $slidesToScroll = 6;
 $showSliderDots = 'false';
 
-//$subjects = getWloVocaps('discipline')->hasTopConcept;
-// get the school subjects via graphQL
-$data = '{
-  facet(size: 100, language: de, facet: discipline) {
-    buckets {
-      key
-      doc_count
-    }
-  }
-}';
-$subjects = callWloGraphApi($data)->data->facet->buckets;
 
+// subjects for dropdown
+$url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/';
+$body = '{
+          "facets": [
+            "ccm:taxonid"
+          ],
+          "facetMinCount": 1,
+          "facetLimit": 10000,
+          "criteria": [
+            {
+              "property": "ccm:taxonid",
+              "values": [
+                "*"
+              ]
+            }]
+        }';
+
+$subjects = callWloRestApi($url, 'POST', $body)->facets[0]->values;
+
+$subjects_vocab = getWloVocaps('discipline')->hasTopConcept;
+$subjects_mapped = array();
+foreach ($subjects_vocab as $subject){
+    $subjects_mapped[$subject->id] = $subject->prefLabel->de;
+}
 
 ?>
     <div class="wlo-page">
@@ -59,8 +69,8 @@ $subjects = callWloGraphApi($data)->data->facet->buckets;
                                 <div class="dropdown__list-container">
                                     <div class="dropdown__list">
                                         <?php foreach (array_slice($subjects, 0, 8) as $subject){ ?>
-                                            <span class="dropdown__list-item" tabindex="0" id="<?php echo $subject->key; ?>">
-                                                <?php echo $subject->key; ?>
+                                            <span class="dropdown__list-item" tabindex="0" id="<?php echo $subject->value; ?>">
+                                                <?php echo $subjects_mapped[$subject->value]; ?>
                                             </span>
                                         <?php } ?>
                                     </div>
@@ -74,8 +84,8 @@ $subjects = callWloGraphApi($data)->data->facet->buckets;
 
                                     <div class="dropdown__list" id="hidden-subjects">
                                         <?php foreach (array_slice($subjects, 8) as $subject){ ?>
-                                            <span class="dropdown__list-item" tabindex="0" id="<?php echo $subject->key; ?>">
-                                                <?php echo $subject->key; ?>
+                                            <span class="dropdown__list-item" tabindex="0" id="<?php echo $subjects_mapped[$subject->value]; ?>">
+                                                <?php echo $subjects_mapped[$subject->value]; ?>
                                             </span>
                                         <?php } ?>
                                     </div>
@@ -283,7 +293,7 @@ $subjects = callWloGraphApi($data)->data->facet->buckets;
             event.preventDefault();
 
             const data = new FormData(event.target);
-            let subject = jQuery('#subject__dropdown__selected span').html();
+            let subject = jQuery('#subject__dropdown__selected span').attr('data-subject');
             let educationalContext = jQuery('#educontext__dropdown__selected span').html();
 
             if (subject === 'Fach'){
@@ -407,6 +417,7 @@ $subjects = callWloGraphApi($data)->data->facet->buckets;
             let selectedTextToAppend = document.createTextNode(e.target.innerText);
             e.target.closest('.dropdown').querySelector('.dropdown__selected span').innerHTML = null;
             e.target.closest('.dropdown').querySelector('.dropdown__selected span').appendChild(selectedTextToAppend);
+            e.target.closest('.dropdown').querySelector('.dropdown__selected span').setAttribute("data-subject", e.target.id);
         }
 
         function closeList() {
