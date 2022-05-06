@@ -18,7 +18,7 @@ class editorial_walker_nav_menu extends Walker_Nav_Menu {
 
     function start_lvl(&$output, $depth = 0, $args = array()) {
         $output .= '<ul class="sub-menu">';
-        $parent = $depth>0 ? 'zurück' : '<h2><img src="'.get_template_directory_uri().'/src/assets/img/redaktions-tools.svg" alt=""> Redaktions-Tools</h2>';
+        $parent = $depth>0 ? 'zurück' : '<h2><img src="'.get_template_directory_uri().'/src/assets/img/redaktions-tools.svg" alt=""> Redaktionsumgebung</h2>';
         $output .= '<div class="menu-back"><button class="menu-back-button"><img src="'.get_template_directory_uri().'/src/assets/img/arrow_down_white.svg" alt=""> </button>'.$parent.'</div>';
     }
 

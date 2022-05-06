@@ -947,6 +947,9 @@ function wlo_getPortalIDbyName($name){
         case 'Berufsorientierung':
             $name = 'Zukunfts- und Berufsorientierung';
             break;
+        case 'Philosophie':
+            $name = 'Philosophie & Ethik';
+            break;
         case 'OER':
             return 'a87c092d-e3b5-43ef-81db-757ab1967646';
     }
