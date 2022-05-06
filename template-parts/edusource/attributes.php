@@ -61,7 +61,7 @@
         Sprache: <?php
         $lang = get_field( 'lang' );
         ?>
-        <?php echo esc_html($lang['label']); ?>
+        <?php echo isset($lang['label']) ? esc_html($lang['label']) : ''; ?>
     </li>
 <?php endif; ?>
 <?php if( get_field( 'anbieter' ) ) : ?>
