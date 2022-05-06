@@ -22,10 +22,13 @@ $response = callWloRestApi($url);
 
 
 $url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $collectionID . '/parents?propertyFilter=-all-&fullPath=false';
-$parents = callWloRestApi($url)->nodes;
-$portal = $parents[count($parents)-2];
+$parents = callWloRestApi($url);
+if (isset($parents->nodes)){
+    $parents = $parents->nodes;
+    $portal = $parents[count($parents)-2];
+}
 $portalTitle = '';
-if (!empty($portal->title)){
+if (isset($portal->title)){
     $portalTitle = $portal->title;
 }
 $portalUrl = '#';
@@ -34,33 +37,36 @@ if (!empty($portal->properties->{'cclom:location'}[0])){
 }
 $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
-//$author_ids = (!empty(get_field('authors', $postID))) ? get_field('authors', $postID) : [];
-
-if (empty(get_field('authors', $postID))){
-    $portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
-    switch ($portalID){
-        case 62890:
-            $portalID = 54293; // Musik
-            break;
-    }
-    //error_log('###### Portal: '.$portalTitle.' - ID: '.$portalID);
-    $authors = get_field('authors', $portalID);
-    update_field( 'authors', $authors, $postID );
+$portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
+switch ($portalID){
+    case 62890:
+        $portalID = 54293; // Musik
+        break;
+    case 21284:
+        $portalID = 47664; // Wirtschaft
+        break;
 }
+$authors = get_field('authors', $portalID);
+update_field( 'authors', $authors, $postID );
 
 $author_ids = get_field('authors', $postID);
+if (empty($author_ids)){
+    $author_ids = array();
+}
 
 $breadcrumbs = Array();
 if (!empty($parents)){
     foreach ($parents as $node) {
-        if ($node->title == 'Portale'){
-            $breadcrumbs[] = ['Fachportale', get_page_link(9930)];
-        }else{
-            $title = $node->title;
-            if (!empty($node->properties->{'ccm:collectionshorttitle'}[0])){
-                $title = $node->properties->{'ccm:collectionshorttitle'}[0];
+        if (is_object($node)){
+            if ($node->title == 'Portale'){
+                $breadcrumbs[] = ['Fachportale', get_page_link(9930)];
+            }else{
+                $title = $node->title;
+                if (!empty($node->properties->{'ccm:collectionshorttitle'}[0])){
+                    $title = $node->properties->{'ccm:collectionshorttitle'}[0];
+                }
+                $breadcrumbs[] = [$title, wlo_convert_dev_url($node->properties->{'cclom:location'}[0])];
             }
-            $breadcrumbs[] = [$title, wlo_convert_dev_url($node->properties->{'cclom:location'}[0])];
         }
     }
     $breadcrumbs = array_reverse($breadcrumbs);
@@ -147,9 +153,10 @@ if (!empty($newestContent->nodes)){
         }
 
         $contentArray[] = array(
+            //'id' => $prop->{'ccm:original'}[0] ? $prop->{'ccm:original'}[0] : $reference->ref->id,
             'id' => $reference->ref->id,
             'image_url' => $reference->preview->url,
-            'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+            'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
             'title' => $title,
             'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
             'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
@@ -192,9 +199,10 @@ if (!empty($response->references)){
         }
 
         $themenseiten_contentArray[] = array(
+            //'id' => $prop->{'ccm:original'}[0] ? $prop->{'ccm:original'}[0] : $reference->ref->id,
             'id' => $reference->ref->id,
             'image_url' => $reference->preview->url,
-            'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+            'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
             'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
             //'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
             'description' => $prop->{'cclom:general_description'}[0] ? $prop->{'cclom:general_description'}[0] : $reference->ref->id,
@@ -553,7 +561,7 @@ while (have_posts()) : the_post(); ?>
                             <?php
                             if (!empty($contentArray)){
                                 foreach (array_slice($contentArray, 0, get_field('content_count')) as $content) { ?>
-                                    <div class="widget-content <?php if (!empty($content['resourcetype'])){ foreach ($content['resourcetype'] as $type){ echo $type.' '; } } ?>">
+                                    <div class="widget-content<?php if (!empty($content['resourcetype'])){ foreach ($content['resourcetype'] as $type){ echo $type.' '; } } ?>">
 
                                         <button onclick="showContentPopup('<?php echo $content['id']; ?>')">
 

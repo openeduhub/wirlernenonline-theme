@@ -25,14 +25,18 @@ $collectionID = $params['id'];
 
 $contentCount = get_field('content_count');
 $contentType = get_field('contentType');
-$blockIcon = get_field('blockIcon')['url'];
+if (isset(get_field('blockIcon')['url'])){
+    $blockIcon = get_field('blockIcon')['url'];
+}
 $softmatch = get_field('softmatch');
 $sorting = get_field('sorting');
 $descrText = base64_encode(get_field('descrText'));
 
 $headline = '';
 if ($collectionLevel >= 1){
-    $headline = get_field('contentType')['label'];
+    if (isset(get_field('contentType')['label'])){
+        $headline = get_field('contentType')['label'];
+    }
 }
 if(!empty(get_field('headline'))){
     $headline = get_field('headline');
@@ -90,24 +94,24 @@ $contentInfo = array(
 
 //$rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
 $rgbBackgroundColor = '255,255,255';
-
-switch ($contentType['value']){
-    case 0: // lerninhalte
-        $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.8)';
-        break;
-    case 1: // tools
-        $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.6)';
-        break;
-    case 2: // methoden
-        $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.4)';
-        break;
-    case 3: // gut zu wissen
-        $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.2)';
-        break;
-    default:
-        $diagramColor = 'rgb(250, 250, 250)';
-
+$diagramColor = 'rgb(250, 250, 250)';
+if (!empty($contentType['value'])){
+    switch ($contentType['value']){
+        case 0: // lerninhalte
+            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.8)';
+            break;
+        case 1: // tools
+            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.6)';
+            break;
+        case 2: // methoden
+            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.4)';
+            break;
+        case 3: // gut zu wissen
+            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.2)';
+            break;
+    }
 }
+
 
 /*
 $contentArray = array();

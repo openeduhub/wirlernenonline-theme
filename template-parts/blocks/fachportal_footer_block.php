@@ -16,27 +16,7 @@ $collectionID = $params['id'];
 $pageTitle = get_the_title($postID);
 $pageDiscipline = get_the_title($postID);
 
-// update the authors from the main page
-$portalID = array(
-    '120'       => 6526,    // deutsch
-    '28002'     => 6512,    // deutsch als zweitsprache
-    '100'       => 6521,    // chemie
-    '460'       => 6506,    // physik
-    '320'       => 16743,   // informatik
-    '060'       => 6515,    // kunst
-    '380'       => 6955,    // mathe
-    '900'       => 6463,     // medienbildung
-    '12002'     => 20473,     // darstellendes spiel
-    '080'       => 20627,     // biologie
-    '64018'     => 21313,     // nachhaltigkeit
-    '20007'     => 20503,     // spanisch
-    '20008'     => 21153,     // türkisch
-    '20001'     => 20931,     // englisch
-    '520'       => 21348,     // religion
-    '480'       => 20266     // politik
-);
-$authors = get_field('authors', $portalID[ $educational_filter_values['disciplines'][0] ]);
-update_field( 'authors', $authors, $postID );
+$authors = get_field('authors', $postID);
 
 $showAuthors = get_field('showAuthors');
 $author_ids = (!empty(get_field('authors', $postID))) ? get_field('authors', $postID) : [];

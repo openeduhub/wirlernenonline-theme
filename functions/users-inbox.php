@@ -25,9 +25,10 @@ function setWLOInbox(){
     $preferences = json_decode($wloUserData['preferences']);
     $user = wp_get_current_user();
 
-    if (empty($preferences->defaultInboxFolder) || $user->user_login == 'admin'){
+    //if (empty($preferences->defaultInboxFolder) || $user->user_login == 'admin'){
+    if (empty($preferences->defaultInboxFolder)){
         $inboxId = $MAPPINGS[null];
-        error_log('default inbox: ' . $inboxId);
+        //error_log('default inbox: ' . $inboxId);
         try {
             $apiUrl = 'rest/iam/v1/people/-home-/-me-/memberships?maxItems=100&skipCount=0';
             foreach($MAPPINGS as $groupName => $folder) {
@@ -36,9 +37,9 @@ function setWLOInbox(){
                 }
                 foreach (callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET', $ticket)["groups"] as $group) {
                     if($groupName == $group["authorityName"]) {
-                        error_log('user is in group ' . $group["profile"]["displayName"] . ' -> set home folder to ' . $folder);
+                        //error_log('user is in group ' . $group["profile"]["displayName"] . ' -> set home folder to ' . $folder);
                         if($folder == null) {
-                            error_log('No home folder should be set for this group, finishing');
+                            //error_log('No home folder should be set for this group, finishing');
                             return true;
                         }
                         $inboxId = $folder;
@@ -54,10 +55,10 @@ function setWLOInbox(){
             $preferences = new stdClass();
         }
         $preferences->defaultInboxFolder = $inboxId;
-        error_log(json_encode($preferences));
+        //error_log(json_encode($preferences));
         $apiUrl = 'rest/iam/v1/people/-home-/'.$username.'/preferences';
         if(callRepoApi($apiUrl, json_encode($preferences), 'Content-Type: application/json', 'PUT', $ticket)){
-            error_log('added inbox');
+            //error_log('added inbox');
         }else{
             error_log('error: adding inbox');
             return false;
@@ -68,7 +69,7 @@ function setWLOInbox(){
 }
 
 function wlo_registerInbox() {
-    error_log('wlo_registerInbox 2.0');
+    //error_log('wlo_registerInbox 2.0');
 
     /*
     $user = wp_get_current_user();

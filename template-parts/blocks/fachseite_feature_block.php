@@ -16,42 +16,47 @@ if (get_field('headline')) {
     $headline = get_field('headline');
 }
 
-$rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
+$rgbBackgroundColor = '255,255,255';
+if(!empty($GLOBALS['wlo_fachportal']['rgbBackgroundColor'])){
+    $rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
+}
 
 $nodeID = basename(get_field('nodeID'));
 
-$url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $nodeID . '/metadata?propertyFilter=-all-';
-//$url = 'https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/f4e6d2f7-57f3-443c-9a0b-2ead1e41a363/metadata?propertyFilter=-all-';
-$node = callWloRestApi($url)->node;
+if(!empty($nodeID)){
+    $url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $nodeID . '/metadata?propertyFilter=-all-';
+    //$url = 'https://redaktion.openeduhub.net/edu-sharing/rest/node/v1/nodes/-home-/f4e6d2f7-57f3-443c-9a0b-2ead1e41a363/metadata?propertyFilter=-all-';
+    $node = callWloRestApi($url)->node;
 
-//var_dump($node);
+    //var_dump($node);
 
-$prop = $node->properties;
+    $prop = $node->properties;
 
-$oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
-$nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
-$isOER = false;
-foreach ($oerLicenses as $license){
-    if( $nodeLicense == $license){
-        $isOER = true;
+    $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
+    $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
+    $isOER = false;
+    foreach ($oerLicenses as $license){
+        if( $nodeLicense == $license){
+            $isOER = true;
+        }
     }
+
+    $nodeContent = array(
+        'id' => $node->ref->id,
+        'image_url' => $node->preview->url,
+        'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $node->content->url,
+        'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
+        'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
+        'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
+        'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
+        'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
+        'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
+        'oer' => $isOER,
+        'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
+    );
+
+    //var_dump($nodeContent);
 }
-
-$nodeContent = array(
-    'id' => $node->ref->id,
-    'image_url' => $node->preview->url,
-    'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $node->content->url,
-    'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
-    'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-    'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
-    'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
-    'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
-    'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
-    'oer' => $isOER,
-    'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
-);
-
-//var_dump($nodeContent);
 
 ?>
 

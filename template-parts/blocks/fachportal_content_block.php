@@ -26,14 +26,19 @@ $fachportalContentId = uniqid('fachportalContentId-');
 
 $contentCount = get_field('content_count');
 $contentType = get_field('contentType');
-$blockIcon = get_field('blockIcon')['url'];
+$blockIcon = '';
+if (isset(get_field('blockIcon')['url'])){
+    $blockIcon = get_field('blockIcon')['url'];
+}
 $softmatch = get_field('softmatch');
 $sorting = get_field('sorting');
 $descrText = base64_encode(get_field('descrText'));
 
 $headline = '';
 if ($collectionLevel >= 1){
-    $headline = get_field('contentType')['label'];
+    if (isset(get_field('contentType')['label'])){
+        $headline = get_field('contentType')['label'];
+    }
 }
 if(!empty(get_field('headline'))){
     $headline = get_field('headline');

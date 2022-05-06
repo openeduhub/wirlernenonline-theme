@@ -6,11 +6,13 @@ get_header();
 global $post;
 
 $title = get_the_title();
-if($_GET['type'] == 'source'){
-    $title = 'Quellen vorschlagen';
-}
-if($_GET['type'] == 'tool'){
-    $title = 'Tools vorschlagen';
+if (isset($_GET['type'])) {
+    if($_GET['type'] == 'source'){
+        $title = 'Quellen vorschlagen';
+    }
+    if($_GET['type'] == 'tool'){
+        $title = 'Tools vorschlagen';
+    }
 }
 
 ?>
@@ -56,32 +58,38 @@ if($_GET['type'] == 'tool'){
         } else {
             $collectionID = null;
         }
+        $widgetName = '';
         if (isset($_GET['headline'])) {
             $widgetName = $_GET['headline'];
         }
+        $widgetId = '';
         if (isset($_GET['oehWidgets'])) {
             $widgetId = map_vocab_oeh_widgets_value_only($_GET['oehWidgets']);
         }
+        $pageTitle = '';
         if (isset($_GET['pageTitle'])) {
             $pageTitle = $_GET['pageTitle'];
-        } else {
         }
+        $pageDiscipline = '';
         if (isset($_GET['pageDiscipline'])) {
             $pageDiscipline = $_GET['pageDiscipline'];
         }
+        $lrtID = array();
         if (isset($_GET['lrtID'])) {
             $lrtID = explode(',', $_GET['lrtID']);
         }
 
         // $objectType = 'MATERIAL';
         $mdsGroup = 'wlo_upload_content';
-        if($_GET['type'] == 'source'){
-            //$objectType = 'SOURCE';
-            $mdsGroup = 'wlo_upload_source';
-        }
-        if($_GET['type'] == 'tool'){
-            // $objectType = 'TOOL';
-            $mdsGroup = 'wlo_upload_tool';
+        if (isset($_GET['type'])) {
+            if($_GET['type'] == 'source'){
+                //$objectType = 'SOURCE';
+                $mdsGroup = 'wlo_upload_source';
+            }
+            if($_GET['type'] == 'tool'){
+                // $objectType = 'TOOL';
+                $mdsGroup = 'wlo_upload_tool';
+            }
         }
 
         if(!defined("WLO_REPO_UPLOAD_LOCATION")){
@@ -372,7 +380,7 @@ if($_GET['type'] == 'tool'){
                 ]));
                 ?>
 	" frameborder=0></iframe>
-        <form action="<?php echo get_page_link($post->ID); ?>?type=<?php echo $_GET["type"];?>"  method=post enctype="multipart/form-data" id="formAdd">
+        <form action="<?php echo get_page_link($post->ID); ?>?type=<?php echo isset($_GET['type']) ? $_GET["type"] : '';?>"  method=post enctype="multipart/form-data" id="formAdd">
             <input type="hidden" id="i" name="collectionID" value="<?php echo @$collectionID; ?>">
             <input type="hidden" id="widgetName" name="widgetName" value="<?php echo @$widgetName; ?>">
             <input type="hidden" id="pageDiscipline" name="pageDiscipline" value="<?php echo @$pageDiscipline; ?>">

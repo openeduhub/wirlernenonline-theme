@@ -349,23 +349,23 @@ function fachportal_content_block() {
 
     //$rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
     $rgbBackgroundColor = '255,255,255';
+    $diagramColor = 'rgb(250, 250, 250)';
 
-    switch ($contentType['value']){
-        case 0: // lerninhalte
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.8)';
-            break;
-        case 1: // tools
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.6)';
-            break;
-        case 2: // methoden
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.4)';
-            break;
-        case 3: // gut zu wissen
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.2)';
-            break;
-        default:
-            $diagramColor = 'rgb(250, 250, 250)';
-
+    if (!empty($contentType['value'])){
+        switch ($contentType['value']){
+            case 0: // lerninhalte
+                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.8)';
+                break;
+            case 1: // tools
+                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.6)';
+                break;
+            case 2: // methoden
+                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.4)';
+                break;
+            case 3: // gut zu wissen
+                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.2)';
+                break;
+        }
     }
 
     $contentArray = array();
@@ -386,7 +386,7 @@ function fachportal_content_block() {
             if (!empty($disciplines)) {
                 if (empty($prop->{'ccm:taxonid'}) && $softmatch !== '1'){ // skip empty?
                     continue;
-                }else{
+                }else if (!empty($prop->{'ccm:taxonid'})){
                     if (!checkPropertyMatch($prop->{'ccm:taxonid'}, $disciplines, true)) {
                         //echo 'skipped $disciplines';
                         continue;
@@ -459,10 +459,10 @@ function fachportal_content_block() {
             $contentArray[] = array(
                 'id' => $reference->ref->id,
                 'image_url' => $reference->preview->url,
-                'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
-                'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
+                'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+                'title' => !empty($prop->{'cclom:title'}[0]) ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
                 //'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-                'description' => $prop->{'cclom:general_description'}[0] ? $prop->{'cclom:general_description'}[0] : $reference->ref->id,
+                'description' => !empty($prop->{'cclom:general_description'}[0]) ? $prop->{'cclom:general_description'}[0] : $reference->ref->id,
                 'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
                 'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
                 'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
@@ -643,7 +643,7 @@ function fachportal_content_block() {
 
         jQuery( document ).ready(function() {
 
-            <?php if($collectionLevel >= 1){ ?>
+            <?php if($collectionLevel >= 1 && !empty($contentType['label'])){ ?>
                 jQuery('#<?php echo str_replace(' ', '-', $contentType['label']); ?>-count').html('<?php echo count($contentArray); ?>');
                 let currentCount = parseInt(jQuery('.diagram-count-total').first().text());
                 jQuery( '<div class="diagram-count-total">' + (currentCount + <?php echo count($contentArray); ?>) + '</div>' ).replaceAll( ".diagram-count-total" );

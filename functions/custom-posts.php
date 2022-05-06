@@ -370,7 +370,9 @@ add_action('restrict_manage_posts', 'wlo_portal_dropdown');
 function wlo_portal_discipline_filter($query) {
     if ( is_admin() && $query->is_main_query() ) {
         $scr = get_current_screen();
-        if ( $scr->base !== 'edit' && $scr->post_type !== 'portal' ) return;
+        if (!empty($scr)){
+            if ( $scr->base !== 'edit' && $scr->post_type !== 'portal' ) return;
+        }
 
         if (isset($_GET['discipline_filter']) && $_GET['discipline_filter'] != 'all') {
             $query->set('meta_query', array( array(
