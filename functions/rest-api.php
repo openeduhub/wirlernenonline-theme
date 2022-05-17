@@ -168,7 +168,7 @@ function add_portal(WP_REST_Request $request) {
             //'post_name' => sanitize_title_with_dashes($topic.'-'.$node->properties->{'ccm:taxonid_DISPLAYNAME'}[0], '', 'save'),
             'post_name' => sanitize_title_with_dashes($slug, '', 'save'),
             'post_excerpt' => '',
-            'post_status' => 'draft',
+            'post_status' => 'publish',
             'post_type' => 'portal',
             'comment_status' => '',
             'ping_status' => '',
