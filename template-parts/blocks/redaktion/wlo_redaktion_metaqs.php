@@ -30,6 +30,8 @@ if (function_exists('get_repo_ticket')){
 
 $collectionID = wlo_getPortalIDbyName($GLOBALS['wlo_redaktion']['subject']);
 
+$wloMetaQsId = uniqid('wlo-metaqs-');
+
 $metaQsMode = get_field('mode')['value'];
 $metaQsHeight = get_field('height');
 if (empty($metaQsHeight)){
@@ -40,16 +42,28 @@ $ng_dir =  get_template_directory_uri() . '/src/assets/js/angular/';
 
 ?>
 
-<div class="wlo-redaktion-metaqs">
-    <div class="metaqs-badge"><?php echo $GLOBALS['wlo_redaktion']['subject']; ?></div>
-    <app-meta-widget collectionid="<?php echo $collectionID; ?>" ticket="<?php echo $ticket; ?>" mode="<?php echo $metaQsMode; ?>" style="display:flex; height: <?php echo $metaQsHeight; ?>px"></app-meta-widget>
+<div class="wlo-redaktion-metaqs" id="<?php echo $wloMetaQsId; ?>">
+    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
 </div>
 
+<script type="text/javascript" >
+    jQuery(document).ready(function($) {
 
-<?php if (is_admin()) { ?>
-    <link rel="stylesheet" href="<?php echo $ng_dir; ?>styles.metaqs.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="<?php echo $ng_dir; ?>styles.metaqs.css"></noscript>
-    <script src="<?php echo $ng_dir; ?>runtime.metaqs.js" defer></script>
-    <script src="<?php echo $ng_dir; ?>polyfills.metaqs.js" defer></script>
-    <script src="<?php echo $ng_dir; ?>main.metaqs.js" defer></script>
-    <?php echo '</div>';
-} ?>
+        var data = {
+            'action': 'wlo_metaQs',
+            'subject': '<?php echo $GLOBALS['wlo_redaktion']['subject']; ?>',
+            'metaQsMode': '<?php echo $metaQsMode; ?>',
+            'metaQsHeight': '<?php echo $metaQsHeight; ?>',
+            'collectionID': '<?php echo $collectionID; ?>',
+            'ticket': '<?php echo $ticket; ?>',
+            'ng_dir': '<?php echo $ng_dir; ?>',
+            'admin': '<?php echo is_admin(); ?>',
+        };
+
+        jQuery.post(ajaxurl, data, function(response) {
+            jQuery('#<?php echo $wloMetaQsId; ?>').html(response);
+        });
+
+    });
+
+</script>
