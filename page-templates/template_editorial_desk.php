@@ -29,18 +29,23 @@ if(get_the_ID() == $metaQS_pageID){
 
     $groups = array();
     foreach ($memberships['groups'] as $group){
-        if ($group['properties']['ccm:groupType'][0] == 'EDITORIAL' &&
-            $group['properties']['cm:authorityName'][0] != 'GROUP_513e4a78-4a56-103a-84e4-2b017690ecd2') {
+        if (isset($group['properties']['ccm:groupType'][0])){
+            if ($group['properties']['ccm:groupType'][0] == 'EDITORIAL' &&
+                $group['properties']['cm:authorityName'][0] != 'GROUP_513e4a78-4a56-103a-84e4-2b017690ecd2') {
                 $name = str_replace('WLO-', '', $group['properties']['cm:authorityDisplayName'][0]);
                 $groups[] = array(
-                                'id' => wlo_getPortalIDbyName($name),
-                                'name' => $name
-                            );
+                    'id' => wlo_getPortalIDbyName($name),
+                    'name' => $name
+                );
+            }
         }
     }
 
     if (empty($groups)){
-        $groups[] = 'Keine EDITORIAL Gruppen';
+        $groups[] = array(
+            'id' => '0',
+            'name' => 'Keine EDITORIAL Gruppen'
+        );;
     }
 
     if (isset($_GET["subject"])){
@@ -76,15 +81,15 @@ while (have_posts()) : the_post(); ?>
                             <label for="subject">Fach:</label>
                             <select name="subject <?php echo $GLOBALS['wlo_redaktion']['subject']; ?>" id="portal" onchange="metaQS_setCollectionID(this.value, jQuery(this).find('option:selected').attr('name'))">
                                 <?php
-                                foreach ($groups as $subject){
-                                    $subjectName = $subject['name'];
+                                    foreach ($groups as $subject){
+                                        $subjectName = $subject['name'];
 
-                                    if ($subjectName == $GLOBALS['wlo_redaktion']['subject'] ){
-                                        echo '<option selected="selected" value="'.$subject['id'].'" name="'.$subjectName.'">'.$subjectName.'</option>';
-                                    }else{
-                                        echo '<option value="'.$subject['id'].'" name="'.$subjectName.'">'.$subjectName.'</option>';
+                                        if ($subjectName == $GLOBALS['wlo_redaktion']['subject'] ){
+                                            echo '<option selected="selected" value="'.$subject['id'].'" name="'.$subjectName.'">'.$subjectName.'</option>';
+                                        }else{
+                                            echo '<option value="'.$subject['id'].'" name="'.$subjectName.'">'.$subjectName.'</option>';
+                                        }
                                     }
-                                }
                                 ?>
                             </select>
 
