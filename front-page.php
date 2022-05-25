@@ -106,16 +106,16 @@ foreach ($subjects_vocab as $subject){
 
                                 <div class="dropdown__list-container">
                                     <div class="dropdown__list">
-                                        <span class="dropdown__list-item" tabindex="0" id="Primarstufe">
+                                        <span class="dropdown__list-item" tabindex="0" id="http://w3id.org/openeduhub/vocabs/educationalContext/grundschule">
                                             Primarstufe
                                         </span>
-                                        <span class="dropdown__list-item" tabindex="0" id="Sek-1">
+                                        <span class="dropdown__list-item" tabindex="0" id="http://w3id.org/openeduhub/vocabs/educationalContext/sekundarstufe_1">
                                             Sekundarstufe I
                                         </span>
-                                        <span class="dropdown__list-item" tabindex="0" id="Sek-2">
+                                        <span class="dropdown__list-item" tabindex="0" id="http://w3id.org/openeduhub/vocabs/educationalContext/sekundarstufe_2">
                                             Sekundarstufe II
                                         </span>
-                                        <span class="dropdown__list-item" tabindex="0" id="Berufliche-Bildung">
+                                        <span class="dropdown__list-item" tabindex="0" id="http://w3id.org/openeduhub/vocabs/educationalContext/berufliche_bildung">
                                             Berufliche Bildung
                                         </span>
                                     </div>
@@ -294,7 +294,7 @@ foreach ($subjects_vocab as $subject){
 
             const data = new FormData(event.target);
             let subject = jQuery('#subject__dropdown__selected span').attr('data-subject');
-            let educationalContext = jQuery('#educontext__dropdown__selected span').html();
+            let educationalContext = jQuery('#educontext__dropdown__selected span').attr('data-subject');
 
             if (subject === 'Fach'){
                 subject = null;
