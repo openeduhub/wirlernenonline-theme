@@ -16,7 +16,7 @@ if (function_exists('get_repo_ticket')){
 
 <body <?php body_class(); ?>>
 
-    <div class="editorial-sidebar hide-sidebar">
+    <div class="editorial-sidebar hide-wlo-sidebar">
         <div class="editorial-sidebar-close">
             <img src="<?php echo get_template_directory_uri(); ?>'/src/assets/img/close.svg'">
         </div>
@@ -60,12 +60,12 @@ if (function_exists('get_repo_ticket')){
                 });
 
                 jQuery(".editorial-sidebar-close").click( function (){
-                    jQuery(this).parent().toggleClass('hide-sidebar');
+                    jQuery(this).parent().toggleClass('hide-wlo-sidebar');
                     jQuery('#editorial-sidebar-blur').fadeToggle('fast');
                 });
 
                 jQuery("#editorial-sidebar-blur").click( function (){
-                    jQuery('.editorial-sidebar').toggleClass('hide-sidebar');
+                    jQuery('.editorial-sidebar').toggleClass('hide-wlo-sidebar');
                     jQuery('#editorial-sidebar-blur').fadeToggle('fast');
                 });
 

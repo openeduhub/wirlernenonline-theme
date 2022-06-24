@@ -26,7 +26,7 @@ function setWLOInbox(){
     $user = wp_get_current_user();
 
     //if (empty($preferences->defaultInboxFolder) || $user->user_login == 'admin'){
-    if (empty($preferences->defaultInboxFolder)){
+    if (empty($preferences->defaultInboxFolder) || true ){
         $inboxId = $MAPPINGS[null];
         //error_log('default inbox: ' . $inboxId);
         try {

@@ -39,7 +39,13 @@ $body = '{
             }]
         }';
 
-$subjects = callWloRestApi($url, 'POST', $body)->facets[0]->values;
+$subjects = callWloRestApi($url, 'POST', $body);
+if (!empty($subjects->facets[0])){
+    $subjects = $subjects->facets[0]->values;
+}else{
+    error_log('could not load subjects. '.print_r($subjects, true));
+    $subjects = array();
+}
 
 $subjects_vocab = getWloVocaps('discipline')->hasTopConcept;
 $subjects_mapped = array();

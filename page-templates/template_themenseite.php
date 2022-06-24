@@ -45,6 +45,12 @@ switch ($portalID){
     case 21284:
         $portalID = 47664; // Wirtschaft
         break;
+    case 21281:
+        $portalID = 6509; // Geschichte
+        break;
+    case 21276:
+        $portalID = 21348; // Religion
+        break;
 }
 $authors = get_field('authors', $portalID);
 update_field( 'authors', $authors, $postID );
@@ -295,7 +301,7 @@ while (have_posts()) : the_post(); ?>
                     </ul>
                 </div>
 
-                <div class="wlo-tile-team">
+                <div class="wlo-tile-team <?php echo $portalID; ?>">
                     <p>Redaktion <?php echo $portalTitle; ?>:</p>
                     <?php foreach ($author_ids as $author_id) {
                         echo $author_id['user_avatar'];
@@ -786,10 +792,10 @@ while (have_posts()) : the_post(); ?>
                     jQuery('.widget-content').hide();
                     jQuery('.fachportal-content-block').show();
                     activeFilters.forEach((filter) => {
-                        jQuery('[data-educationalcontext~="' + filter + '"]').show('fast');
-                        jQuery('[data-enduserrole~="' + filter + '"]').show('fast');
-                        jQuery('[data-oer="' + filter + '"]').show('fast');
-                        /*
+                        //jQuery('[data-educationalcontext~="' + filter + '"]').show('fast');
+                        //jQuery('[data-enduserrole~="' + filter + '"]').show('fast');
+                        //jQuery('[data-oer="' + filter + '"]').show('fast');
+
                         switch (type) {
                             case "educationalcontext":
                                 jQuery('[data-educationalcontext~="' + filter + '"]').show('fast');
@@ -801,7 +807,7 @@ while (have_posts()) : the_post(); ?>
                                 jQuery('[data-oer="' + filter + '"]').show('fast');
                                 break;
                         }
-                        */
+
                     });
 
                     jQuery('.slick-track').each(function() {

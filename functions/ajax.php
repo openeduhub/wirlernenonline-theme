@@ -664,19 +664,23 @@ add_action( 'wp_ajax_nopriv_wlo_metaQs', 'wlo_metaQs' );
 function wlo_metaQs() {
     global $wpdb;
 
-    $subject = $_POST['subject'];
-    $collectionID = $_POST['collectionID'];
     $metaQsMode = $_POST['metaQsMode'];
     $metaQsHeight = $_POST['metaQsHeight'];
     $ticket = base64_decode($_POST['ticket']);
     $ng_dir = $_POST['ng_dir'];
     $admin = $_POST['admin'];
+    $widegtID = uniqid();
+    $badgeID = uniqid();
 
     ?>
 
-    <div class="metaqs-badge"><?php echo $subject; ?></div>
-    <app-meta-widget collectionid="<?php echo $collectionID; ?>" ticket="<?php echo $ticket; ?>" mode="<?php echo $metaQsMode; ?>" style="display:flex; height: <?php echo $metaQsHeight; ?>px"></app-meta-widget>
+    <div class="metaqs-badge" id="<?php echo $badgeID; ?>"></div>
+    <app-meta-widget id="<?php echo $widegtID; ?>" collectionid="" ticket="<?php echo $ticket; ?>" mode="<?php echo $metaQsMode; ?>" style="display:flex; height: <?php echo $metaQsHeight; ?>px"></app-meta-widget>
 
+    <script>
+        jQuery('#<?php echo $widegtID; ?>').attr("collectionid", jQuery('#portal option:selected').val());
+        jQuery('#<?php echo $badgeID; ?>').html(jQuery('#portal').find('option:selected').attr('name'));
+    </script>
 
     <?php if ($admin) { ?>
         <link rel="stylesheet" href="<?php echo $ng_dir; ?>styles.metaqs.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="<?php echo $ng_dir; ?>styles.metaqs.css"></noscript>

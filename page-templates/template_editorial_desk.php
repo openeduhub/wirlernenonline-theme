@@ -32,6 +32,7 @@ if(get_the_ID() == $metaQS_pageID){
         if (isset($group['properties']['ccm:groupType'][0])){
             if ($group['properties']['ccm:groupType'][0] == 'EDITORIAL' &&
                 $group['properties']['cm:authorityName'][0] != 'GROUP_513e4a78-4a56-103a-84e4-2b017690ecd2') {
+
                 $name = str_replace('WLO-', '', $group['properties']['cm:authorityDisplayName'][0]);
                 $groups[] = array(
                     'id' => wlo_getPortalIDbyName($name),
@@ -147,7 +148,7 @@ while (have_posts()) : the_post(); ?>
                 jQuery(document).ready(function(){
 
                     jQuery(".wlo-editorial-page-title").click( function (){
-                        jQuery(".editorial-sidebar").toggleClass('hide-sidebar');
+                        jQuery(".editorial-sidebar").toggleClass('hide-wlo-sidebar');
                         jQuery('#editorial-sidebar-blur').fadeToggle('fast');
                     });
 

@@ -60,7 +60,7 @@
 //  55. Top Bar
 //  56. Xy Grid
 
-@import 'util/util';
+//@import 'util/util';
 
 // 1. Global
 // ---------
@@ -100,7 +100,7 @@ $global-color-pick-contrast-tolerance: 0;
 $print-transparent-backgrounds: true;
 $print-hrefs: true;
 
-@include add-foundation-colors;
+@import 'custom-colors';
 
 // 2. Breakpoints
 // --------------

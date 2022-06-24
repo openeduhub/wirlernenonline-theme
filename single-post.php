@@ -14,8 +14,13 @@ get_header();
     <div class="wlo-wrapper">
         <div class="wlo-single-blog">
             <?php
-            while ( have_posts() ) : the_post();?>
+            while ( have_posts() ) : the_post();
+                //Montag, 01.01.2022 – 10:25 Uhr
+                $post_date = get_the_date( 'l, d.m.Y - H:i' );
+            ?>
+
                 <div class="wlo-single-blog-content">
+                    <div class="wlo-single-blog-date"><?php echo $post_date; ?> Uhr</div>
                     <h1><?php the_title(); ?></h1>
                     <?php the_content(); ?>
                 </div>

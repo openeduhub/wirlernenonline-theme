@@ -16,6 +16,7 @@
   .wlo-button-right{
     margin: 0;
     margin-bottom: 0.5em;
+    margin-right: 0.5em !important;
     float: right;
   }
 
@@ -879,6 +880,11 @@
   .wlo-single-blog-content{
     width: 70%;
     padding-right: 3em;
+
+    .wlo-single-blog-date{
+      font-size: 15px;
+      margin-bottom: 0.75em;
+    }
 
     h1{
       font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
