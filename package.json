@@ -6,7 +6,7 @@
     "list.js": "^1.5.0",
     "motion-ui": "^2.0.3",
     "select2": "^4.0.13",
-    "swiper": "^5.3.7",
+    "swiper": "^6.5.1",
     "what-input": "^5.2.7"
   },
   "name": "foundation-sites-template",
