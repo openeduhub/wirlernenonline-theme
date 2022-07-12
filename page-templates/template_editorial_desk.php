@@ -192,8 +192,9 @@ while (have_posts()) : the_post(); ?>
                 }
 
                 const form = document.querySelector('#wlo-frontpage-search-form');
-                form.addEventListener('submit', handleSubmit);
-
+                if(form){
+                    form.addEventListener('submit', handleSubmit);
+                }
 
                 function toggleHiddenSubjects(){
                     if (window.innerWidth <= 900){
