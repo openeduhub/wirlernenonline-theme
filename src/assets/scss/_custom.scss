@@ -1,9 +1,10 @@
-/* Globals */
-*:focus {
-   outline: 1px dotted $anchor-color;
-}
 
 @import "custom-colors-variables";
+
+/* Globals */
+*:focus {
+   outline: 1px dotted $wlo-primary;
+}
 
 /* Layout */
 .main-content {
@@ -26,7 +27,7 @@ html {
 .site-header {
   z-index: 999;
   min-height: $mobile-header-height;
-  background-color: $white;
+  background-color: white;
   //border-bottom: 1px solid $light-gray;
   position: fixed;
   top: 0;
@@ -35,7 +36,7 @@ html {
   transition: $global-transition;
   @include breakpoint(small only) {
     .top-bar {
-      background-color: $light-gray;
+      background-color: #ECECEC;
       padding-bottom: $space-medium;
       .menu {
         margin-bottom: $space-medium;
@@ -44,7 +45,7 @@ html {
   }
   @include breakpoint(medium only) {
     .top-bar {
-      background-color: $light-gray;
+      background-color: #ECECEC;
       padding-bottom: $space-medium;
       .menu {
         margin-bottom: $space-medium;
@@ -94,7 +95,7 @@ html {
   font-size: 20px;
 }
 .is-dropdown-submenu {
-  background-color: $white !important;
+  background-color: white !important;
   border-radius: 24px;
   border: none;
   text-align: left;
@@ -298,10 +299,10 @@ html {
     li {
       padding-bottom: $space-medium;
       padding-top: $space-medium;
-      border-bottom: 1px solid $light-gray;
+      border-bottom: 1px solid #ECECEC;
     }
     li:first-child {
-      border-top: 1px solid $light-gray;
+      border-top: 1px solid #ECECEC;
     }
   }
 
@@ -348,11 +349,11 @@ html {
   box-shadow: $input-shadow;
   width: 100% !important;
   .select2-selection__choice {
-    background-color: $primary-color;
-    color: $white;
-    border-color: $white;
+    background-color: $wlo-primary;
+    color: white;
+    border-color: white;
     .select2-selection__choice__remove {
-      color: $white;
+      color: white;
     }
   }
 }
@@ -401,7 +402,7 @@ html {
   .rectangle-front {
     height: 200px;
     width: 300px;
-    background-color: $white;
+    background-color: white;
     position: absolute;
     transform: rotate(-5deg);
     z-index: 1;
@@ -463,7 +464,7 @@ html {
     height: 60px;
     color: $white;
     border-radius: 50%;
-    background-color: darken($primary-color, 10);
+    background-color: darken($wlo-primary, 10);
     border: 2px solid white;
     display: flex;
     justify-content: center;
@@ -474,7 +475,7 @@ html {
     list-style-type: none;
     border-radius: 5px;
     padding: 5px 0;
-    background-color: lighten($black, 10);
+    background-color: lighten(black, 10);
     margin: 60px 0px;
 
     li {
@@ -488,7 +489,7 @@ html {
         padding: 10px 20px;
       }
       a:hover {
-        background-color: lighten($black, 15);
+        background-color: lighten(black, 15);
       }
     }
   }

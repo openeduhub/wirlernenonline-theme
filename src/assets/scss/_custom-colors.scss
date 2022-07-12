@@ -1,12 +1,14 @@
+@import "custom-colors-variables";
+
 $colors: (
-  'primary-color': $primary-color,
-  'secondary-color': $secondary-color,
-  'success-color': $success-color,
-  'warning-color': $warning-color,
-  'alert-color': $alert-color,
-  'light-gray': $light-gray,
-  'medium-gray': $medium-gray,
-  'dark-gray': $dark-gray,
+  'primary-color': $wlo-primary,
+  'secondary-color': $wlo-primary-dark,
+  'success-color': $wlo-neon,
+  'warning-color': $wlo-red,
+  'alert-color': $wlo-red,
+  'light-gray': #ECECEC,
+  'medium-gray': #aaa,
+  'dark-gray': #222,
 );
 
 @each $color, $hex in $colors {

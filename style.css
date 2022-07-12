@@ -239,7 +239,7 @@ form .wpcf7-validation-errors{
     border-radius: 5px;
 }
 
-.updated{
+.wlo-updated{
     display: flex;
     flex-direction: column;
     align-items: center;
