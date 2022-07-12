@@ -1,25 +1,45 @@
-<svg width="1920" height="359" viewBox="0 0 1920 359" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0)">
-<rect width="1920" height="359" fill="white"/>
-<rect width="1920" height="359" fill="#003B7C"/>
-<path d="M1043 31.7825L1043 -80L988 -80L988 31.7825L1015.44 59.6154L1043 31.7825Z" fill="#EC4A70"/>
-<path d="M1765.05 148L1765.27 148L1989 148L1989 36L1765.27 36L1765.05 36C1734.08 36 1709 61.1152 1709 92.1132C1709 122.885 1734.08 148 1765.05 148Z" fill="#7F6FEE"/>
-<rect x="1874" y="-4" width="47" height="202" fill="#EC4A70"/>
-<path d="M1434 270.924L1434 358L1521 358L1521 270.924L1477.5 228L1434 270.924Z" fill="#FFB930"/>
-<path d="M73.8328 269L185.615 269L185.615 214L73.8328 214L45.9998 241.444L73.8328 269Z" fill="#3DA6EE"/>
-<path d="M1277 133.822V133.935V245H1332V133.935V133.822C1332 118.453 1319.67 106 1304.44 106C1289.33 106 1277 118.453 1277 133.822Z" fill="#3DA6EE"/>
-<path d="M667 13L667 237L754 237L754 13L710.588 57.8L667 13Z" fill="#7F6FEE"/>
-<path d="M1523 138L1523 0L1432 -3.97774e-06L1432 138L1477.5 92.4348L1523 138Z" fill="#EF809A"/>
-<path d="M399.977 13H399.864H288V69H399.864H399.977C415.458 69 428 56.4424 428 40.9434C428 25.5576 415.458 13 399.977 13Z" fill="#B4DA1C"/>
-<rect x="247" width="82" height="102" fill="#E73445"/>
-<rect x="186" y="214" width="76" height="145" fill="#FFB930"/>
-<rect x="635" y="213" width="235" height="80" fill="#EF809A"/>
-<rect x="1194" y="276" width="31" height="138" transform="rotate(-90 1194 276)" fill="#106029"/>
-<rect opacity="0.4" width="1920" height="359" fill="#003B7C"/>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1920 359" style="enable-background:new 0 0 1920 359;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_2_);}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:#0A2844;}
+	.st3{fill:#EC4A70;}
+	.st4{fill:#7F6FEE;}
+	.st5{fill:#FFB930;}
+	.st6{fill:#3DA6EE;}
+	.st7{fill:#EF809A;}
+	.st8{fill:#B4DA1C;}
+	.st9{fill:#E73445;}
+	.st10{fill:#106029;}
+	.st11{display:none;opacity:0.4;fill:#0A2844;enable-background:new    ;}
+</style>
+<g>
+	<defs>
+		<rect id="SVGID_1_" y="0" width="1920" height="359"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<g class="st0">
+		<rect y="0" class="st1" width="1920" height="359"/>
+		<rect y="0" class="st2" width="1920" height="359"/>
+		<path class="st3" d="M1043,31.8V-80h-55V31.8l27.4,27.8L1043,31.8z"/>
+		<path class="st4" d="M1765.1,148h0.2H1989V36h-223.7h-0.2c-31,0-56.1,25.1-56.1,56.1C1709,122.9,1734.1,148,1765.1,148z"/>
+		<rect x="1874" y="-4" class="st3" width="47" height="202"/>
+		<path class="st5" d="M1434,270.9V358h87v-87.1l-43.5-42.9L1434,270.9z"/>
+		<path class="st6" d="M73.8,269h111.8v-55H73.8L46,241.4L73.8,269z"/>
+		<path class="st6" d="M1277,133.8v0.1V245h55V133.9v-0.1c0-15.4-12.3-27.8-27.6-27.8C1289.3,106,1277,118.5,1277,133.8z"/>
+		<path class="st4" d="M667,13v224h87V13l-43.4,44.8L667,13z"/>
+		<path class="st7" d="M1523,138V0l-91,0v138l45.5-45.6L1523,138z"/>
+		<path class="st8" d="M400,13h-0.1H288v56h111.9h0.1c15.5,0,28-12.6,28-28.1C428,25.6,415.5,13,400,13z"/>
+		<rect x="247" y="0" class="st9" width="82" height="102"/>
+		<rect x="186" y="214" class="st5" width="76" height="145"/>
+		<rect x="635" y="213" class="st7" width="235" height="80"/>
+		<rect x="1194" y="245" class="st10" width="138" height="31"/>
+		<rect y="0" class="st11" width="1920" height="359"/>
+	</g>
 </g>
-<defs>
-<clipPath id="clip0">
-<rect width="1920" height="359" fill="white"/>
-</clipPath>
-</defs>
 </svg>

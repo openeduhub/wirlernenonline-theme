@@ -258,10 +258,11 @@
 
   .wlo-header{
     color: white;
-    background: $wlo-primary;
-    background: url('../../../src/assets/img/Header_Default.svg');
+    background: $wlo-primary-dark;
+    background-image: url('../../../src/assets/img/zmf-background-white.svg');
     background-position: center;
-    border-top: 46px solid $wlo-primary-dark;
+    background-repeat: repeat-x;
+    border-top: 12px solid $wlo-primary-dark;
 
     .wlo-header-wrapper{
       display: flex;
@@ -280,6 +281,7 @@
         line-height: 150%;
         color: #313131;
         margin-top: 1em;
+        margin-bottom: 1em;
       }
 
       p{
@@ -573,7 +575,7 @@
     }
 
     p{
-      font-size: 15px;
+      font-size: 16px;
       color: #313131;
     }
   }
