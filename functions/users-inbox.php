@@ -24,8 +24,10 @@ function setWLOInbox(){
     $wloUserData = callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET', $ticket);
     $preferences = json_decode($wloUserData['preferences']);
     $user = wp_get_current_user();
-
-    if (empty($preferences->defaultInboxFolder) || $user->user_login == 'admin'){
+    
+    //if (empty($preferences->defaultInboxFolder) || $user->user_login == 'admin'){
+    // changed 2022-07-21: we always reset the inbox folder after login
+    if (empty($preferences->defaultInboxFolder) || true){
         $inboxId = $MAPPINGS[null];
         error_log('default inbox: ' . $inboxId);
         try {
