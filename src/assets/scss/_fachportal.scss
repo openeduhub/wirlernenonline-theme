@@ -1172,6 +1172,8 @@ $fachportal_bright: $wlo-primary;
   font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
   font-size: 22px;
   text-align: center;
+  width: 95%;
+  margin: 0 auto;
 }
 
 .wlo-portals-filter{
@@ -1206,7 +1208,7 @@ $fachportal_bright: $wlo-primary;
   height: 155px;
   background: white;
   padding: 0 0.5em;
-  border: 1px solid #CACACA;
+  border: 3px solid rgba(69,128,47, 1);
   box-sizing: border-box;
   border-radius: 15px;
   overflow: hidden;
@@ -1234,7 +1236,7 @@ $fachportal_bright: $wlo-primary;
     font-size: 14px;
     text-align: center;
     color: #333333;
-    margin: 0.5em auto 0.25em;
+    margin: 0.5em 0 0.25em;
   }
 }
 

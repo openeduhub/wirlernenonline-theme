@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Fachportale (Ãœbersicht)
+Template Name: Fachportale (Übersicht)
 Template Post Type: page
  */
 
@@ -29,7 +29,8 @@ get_header();
 
 
         <div class="wlo-wrapper zmf-wrapper">
-            <h3 class="wlo-portals-title">Bildungs- und Erziehungsbereiche</h3>
+            <h3 class="wlo-portals-title">Klicke auf die Kacheln!</br>
+                Thematisch sortiert nach Bildungs- und Erziehungsbereichen findest du hier Anleitungen, Expertisen und Praxisideen:</h3>
 
             <?php
             $portal_query_args = array(
