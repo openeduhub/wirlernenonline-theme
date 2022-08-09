@@ -17,6 +17,11 @@ $response = callWloRestApi($url);
 
 $portalTitle = get_the_title($postID);
 
+$author_ids = get_field('authors', $postID);
+if (empty($author_ids)){
+    $author_ids = array();
+}
+
 $educationalContexts = $educational_filter_values["educationalContexts"];
 
 if (empty(get_field('description'))){
@@ -64,6 +69,16 @@ $GLOBALS['wlo_fachportal'] = array(
     <div class="fachportal-header-bar">
         <div class="fachportal-header-bar-wrapper">
             <div class="fachportal-header-bar-tab" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 1);"></div>
+
+
+            <div class="wlo-tile-team">
+                <p>Redaktion <?php echo $portalTitle; ?>:</p>
+                <?php foreach ($author_ids as $author_id) {
+                    echo $author_id['user_avatar'];
+                } ?>
+                <img class="wlo-team-bookmark" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Bookmark.svg">
+            </div>
+
         </div>
     </div>
     <div class="fachportal-header-wrapper">
