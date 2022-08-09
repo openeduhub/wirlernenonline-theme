@@ -23,7 +23,7 @@ function um_custom_validate_wlo_email( $key, $array, $args ) {
 
 }
 
-add_action( 'um_after_email_confirmation', 'wlo_after_email_confirmation', 10, 1 );
+//add_action( 'um_after_email_confirmation', 'wlo_after_email_confirmation', 10, 1 );
 function wlo_after_email_confirmation( $user_id = null ) {
     //error_log('wlo_after_email_confirmation');
 
