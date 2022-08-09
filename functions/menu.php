@@ -74,6 +74,35 @@ class insertcart_walker extends Walker_Nav_Menu
         $output .= "\n$indent<ul class=\"vertical menu\" data-submenu>\n";
     }
 }
+
+// %%%%%%%%%% Custom Walker for foundation 6 menu %%%%%%%%%%
+class cta_walker extends Walker_Nav_Menu
+{
+    /*
+     * Add vertical menu class and submenu data attribute to sub menus
+     */
+
+    function start_lvl( &$output, $depth = 0, $args = array() ) {
+        $output .= '<ul class="cta-dropdown-content">';
+    }
+
+    function start_el(&$output, $item, $depth=0, $args=[], $id=0) {
+
+        $has_children = array_search ( 'menu-item-has-children' , $item->classes );
+        if ($has_children != false) {
+            $output .= "<li class='" .  implode(" ", $item->classes) . "'>";
+
+            $output .= '<a href="' . $item->url . '" target="'.$item->target.'"><span>' . apply_filters( 'the_title', $item->title, $item->ID ).'</span></a>';
+        }else{
+            $output .= "<li class='" .  implode(" ", $item->classes) . "'>";
+
+            $output .= '<a href="' . $item->url . '" target="'.$item->target.'"><span>' . apply_filters( 'the_title', $item->title, $item->ID ).'</span></a>';
+        }
+
+
+
+    }
+}
 //Optional fallback
 function f6_topbar_menu_fallback($args)
 {

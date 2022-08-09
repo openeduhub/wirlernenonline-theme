@@ -69,26 +69,7 @@ html {
   }
 }
 /* Navigation */
-.top-call-to-action-menu {
-  li {
-    a {
-      display: flex;
-      align-items: center;
-      background-color: $wlo-neon;
-      color: $wlo-primary-dark;
-      height: 30px;
-      font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-      font-size: 16px !important;
-      border-radius: 60px;
-      transition: 0.3s;
-    }
 
-    a:hover{
-      color: $wlo-primary;
-      background: $wlo-neon-dark;
-    }
-  }
-}
 .menu li a{
   font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-size: 20px;

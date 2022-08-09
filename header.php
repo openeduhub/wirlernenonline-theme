@@ -24,7 +24,7 @@
 							<?php wp_nav_menu( array( 'theme_location' => 'top', 'container' => false, 'depth' => 0, 'items_wrap' => '<ul class="vertical large-horizontal menu top-menu" data-responsive-menu="drilldown large-dropdown">%3$s</ul>', 'walker' => new insertcart_walker( array( 'in_top_bar' => true, 'item_type' => 'li', 'menu_type' => 'main-menu' ) ), ) ); ?>
 						</div>
 						<div class="cell small-12 large-auto">
-							<?php wp_nav_menu( array( 'theme_location' => 'top-call-top-action', 'container' => false, 'depth' => 0, 'items_wrap' => '<ul class="menu top-call-to-action-menu align-right">%3$s</ul>', 'walker' => new insertcart_walker( array( 'in_top_bar' => true, 'item_type' => 'li', 'menu_type' => 'main-menu' ) ), ) ); ?>
+							<?php wp_nav_menu( array( 'theme_location' => 'top-call-top-action', 'container' => false, 'depth' => 0, 'items_wrap' => '<ul class="menu top-call-to-action-menu align-right">%3$s</ul>', 'walker' => new cta_walker( array( 'in_top_bar' => true, 'item_type' => 'li', 'menu_type' => 'main-menu' ) ), ) ); ?>
 						</div>
 					</div>
 				</div>
