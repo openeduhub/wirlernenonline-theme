@@ -92,6 +92,7 @@ while (have_posts()) : the_post(); ?>
                                         }
                                     }
                                 ?>
+<!--                                <option value="5e40e372-735c-4b17-bbf7-e827a5702b57" name="Alle">Alle</option>-->
                             </select>
 
                             <script>
