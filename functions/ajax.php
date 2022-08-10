@@ -459,10 +459,13 @@ function fachportal_content_block() {
                 }
             }
 
+            $content_url = $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url;
+            $content_url = str_replace('https://redaktion.openeduhub.net/edu-sharing/', 'https://materialkiste.kita.bayern/edu-sharing/', $content_url);
+
             $contentArray[] = array(
                 'id' => $reference->ref->id,
                 'image_url' => $reference->preview->url,
-                'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+                'content_url' => $content_url,
                 'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
                 //'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
                 'description' => $prop->{'cclom:general_description'}[0] ? $prop->{'cclom:general_description'}[0] : $reference->ref->id,
@@ -568,7 +571,7 @@ function fachportal_content_block() {
                                     echo '</p>';
                                 } ?>
                             </div>
-                            <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
+                            <a class="content-button medien-kiste" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
                         </div>
                     </div>
                 <?php }

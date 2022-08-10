@@ -166,11 +166,14 @@ if (!empty($newestContent->nodes)){
             }
         }
 
+        $content_url = $reference->content->url;
+        $content_url = str_replace('https://redaktion.openeduhub.net/edu-sharing/', 'https://materialkiste.kita.bayern/edu-sharing/', $content_url);
+
         $contentArray[] = array(
             'id' => $reference->ref->id,
             'image_url' => $reference->preview->url,
             //'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
-            'content_url' => $reference->content->url,
+            'content_url' => $content_url,
             'title' => $title,
             'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
             //'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
