@@ -4,7 +4,6 @@ require_once(get_template_directory().'/functions/ldap.php');
 
 add_action('um_submit_form_errors_hook_','um_custom_validate_username', 999, 1);
 function um_custom_validate_username( $args ) {
-
     $ldapData = json_decode(file_get_contents('https://login.oer-contentbuffet.info/api.php?id='.$args['user_login']));
 
     if ( isset( $args['user_login'] ) && $ldapData->exists ) {
@@ -14,16 +13,17 @@ function um_custom_validate_username( $args ) {
 
 add_action( 'um_custom_field_validation_wlo_email', 'um_custom_validate_wlo_email', 30, 3 );
 function um_custom_validate_wlo_email( $key, $array, $args ) {
+    if ( isset( $args[$key] ) ){
+        $mailcow =  callMailcowAPI('v1/get/alias/all');
+        $email = $args[$key].'@wirlernenonline.de';
 
-    $mailData = json_decode(file_get_contents('http://appserver8.metaventis.com/mailapi/api.php?name='.$args[$key].'&action=search'));
-
-    if (isset( $args[$key] ) && ($mailData->check == 'false') ){
-        UM()->form()->add_error( $key, __( 'Diese E-Mail ist leider schon vergeben. '.$mailData->name.' ist noch frei!', 'ultimate-member' ) );
+        if (strpos($mailcow, '"address": "'.$email.'"') ){
+            UM()->form()->add_error( $key, __( 'Diese E-Mail ist leider schon vergeben. Bitte such dir eine andere aus.', 'ultimate-member' ) );
+        }
     }
-
 }
 
-//add_action( 'um_after_email_confirmation', 'wlo_after_email_confirmation', 10, 1 );
+add_action( 'um_after_email_confirmation', 'wlo_after_email_confirmation', 10, 1 );
 function wlo_after_email_confirmation( $user_id = null ) {
     //error_log('wlo_after_email_confirmation');
 
@@ -39,12 +39,23 @@ function wlo_after_email_confirmation( $user_id = null ) {
 function createWloMail($user_id){
     um_fetch_user( $user_id );
     if ( !empty(um_user('user_mail_15')) ){
-        $mailData = json_decode(file_get_contents('http://appserver8.metaventis.com/mailapi/api.php?wlomail='.um_user('user_mail_15').'&action=create&maildest='.um_user('user_email')));
-        if ($mailData->created == 'true'){
+
+        $data = '{
+              "address": "'.um_user('user_mail_15').'@wirlernenonline.de",
+              "goto": "'.um_user('user_email').'",
+              "active": "1"
+            }';
+
+        $mailcow = json_decode(callMailcowAPI('v1/add/alias', 'POST', $data));
+
+        if ($mailcow[0]->type == 'success'){
             update_user_meta( $user_id, 'wloEmail',  um_user('user_mail_15').'@wirlernenonline.de' );
             return true;
         }
-        error_log($mailData->message);
+        else{
+            error_log($mailcow[0]->msg[0]);
+        }
+
     }
     return false;
 }

@@ -417,6 +417,19 @@
   display: block;
 }
 
+#ap-search-form {
+  .ap-btn-submit, .ap-search-btn{
+    background: #F4F4F4;
+    margin-top: 0;
+  }
+
+}
+
+
+#anspress *:before{
+  margin-top: 3px;
+}
+
 .wlo-content-block{
   margin-bottom: 1em;
 

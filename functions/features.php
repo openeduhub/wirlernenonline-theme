@@ -654,6 +654,35 @@ function callRepoApi($restUrl, $data=null, $contentType = 'Content-Type: applica
     return json_decode($result, true);
 }
 
+function callMailcowAPI($endpoint, $mode='GET', $data=NULL){
+    $ch = curl_init();
+
+    $url = MAILCOW_URL . $endpoint;
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+    if ($mode == 'POST'){
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+    }
+
+    if (!empty($data)){
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    }
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        "Content-Type: application/json",
+        "X-API-Key: " . MAILCOW_APIKEY
+    ));
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    //var_dump($response);
+    return $response;
+}
+
 
 if( ! function_exists( 'post_meta_request_params' ) ) :
     function post_meta_request_params( $args, $request )

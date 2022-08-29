@@ -1,22 +1,43 @@
 <?php /* Template Name: ernst-test */
 
-$all_users = get_users();
+//$all_users = get_users();
 echo '<ol>';
-foreach ($all_users as $user) {
-    $mailData = json_decode(file_get_contents('http://appserver8.metaventis.com/mailapi/api.php?action=getWloMail&mail='.esc_html($user->user_email)));
+
+//$mailcow = callMailcowAPI('v1/get/mailbox/ernst%40wirlernenonline.de');
+$mailcow =  callMailcowAPI('v1/get/alias/all');
+
+$email = 'wlo-test-3@wirlernenonline.de';
+
+if (strpos($mailcow, '"address": "'.$email.'"') ){
+    echo 'mail da!';
+}else{
+    echo 'ok :)';
+    $data = '{
+              "address": "'.$email.'",
+              "goto": "test@ernsthaftes.de",
+              "active": "1"
+            }';
+
+    $mailcow2 = json_decode(callMailcowAPI('v1/add/alias', 'POST', $data));
+
+    if ($mailcow2[0]->type == 'success'){
+        echo 'yay: ';
+        echo $mailcow2[0]->msg[0];
+    }
+    else{
+        echo 'nope: ';
+        echo $mailcow2[0]->msg[0];
+    }
+    var_dump($mailcow2);
+}
+
+//var_dump($mailcow);
+
+foreach ($mailcow as $mail) {
 
     ?>
     <li>
-        <span><?php echo esc_html($user->user_email) . ' : ' . esc_html($user->wloEmail); ?></span><br>
-        <?php foreach ($mailData as $mail){
-            if ( empty($user->wloEmail && !empty($mailData[0]))  ) {
-                echo 'update...<br>';
-                update_user_meta( $user->id, 'wloEmail',  $mailData[0] );
-            }
-            ?>
-            <span>Wlo-mail: <?php echo $mailData[0]; ?></span><br>
-        <?php } ?>
-        <span>-------------</span>
+        <?php //print_r($mail->address); ?>
     </li>
 <?php }
 echo '</ol>';
