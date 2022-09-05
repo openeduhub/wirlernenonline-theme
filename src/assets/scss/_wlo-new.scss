@@ -1,6 +1,75 @@
 @import "custom-colors-variables";
 @import 'custom-fonts';
 
+
+#zmf-search {
+  //width: 50%;
+  min-width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2em;
+  background: white;
+  border-radius: 35px;
+
+
+  input, select {
+    height: 43px;
+    background: none;
+    border: none;
+    font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 16px;
+  }
+
+  input[type=search] {
+    font-family: 'Source-Sans-Pro-Regular', sans-serif;
+    font-size: 16px;
+    color: $wlo-primary-dark;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    margin-left: 0.5em;
+    transition: 0.3s;
+  }
+
+  input[type=search]::placeholder {
+    opacity: 0.66;
+  }
+
+  input[type=submit] {
+    color: white;
+    background: $wlo-primary-dark;
+    padding: 0 1em;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: 0.3s;
+  }
+
+  input[type=submit]:hover {
+    background: $wlo-primary;
+  }
+
+
+  .wlo-zmf-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #D9E2EB;
+    border-radius: 25px;
+    height: auto;
+    width: 100%;
+    padding: 6px;
+
+    img {
+      max-width: 22px;
+      margin-left: 0.5em;
+    }
+  }
+}
+
+
 .wlo-page{
   .wp-block-columns{
     margin: 0;
@@ -308,6 +377,7 @@
       .wlo-header-filler{
         height: 100px;
       }
+
     }
 
   }

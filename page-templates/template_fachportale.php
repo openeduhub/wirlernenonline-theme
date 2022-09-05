@@ -16,10 +16,13 @@ get_header();
                 <div class="wlo-header-content">
                     <h1><?php the_title(); ?></h1>
                     <?php the_excerpt(); ?>
+
                 </div>
                 <!--                <div class="wlo-header-bottom"></div> -->
 
             </div>
+
+
 
 
         </div>
@@ -63,7 +66,8 @@ get_header();
                     while ($portal_query->have_posts()) :
                         $portal_query->the_post(); ?>
 
-                        <a class="wlo-portals-tile <?php echo wloSubjectType(esc_html( get_the_title() ))['type']; ?>" href="<?php the_permalink(); ?>" aria-label="Zum-Fachportal: <?php echo esc_html( get_the_title() ); ?>">
+                        <a class="wlo-portals-tile <?php echo wloSubjectType(esc_html( get_the_title() ))['type']; ?>" href="<?php the_permalink(); ?>" aria-label="Zum-Fachportal: <?php echo esc_html( get_the_title() ); ?>"
+                        style="border: 3px solid <?php echo get_field('background_color'); ?>">
                             <?php if (has_post_thumbnail()){ ?>
                                 <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="Icon: <?php echo esc_html( get_the_title() ); ?>">
                             <?php } ?>
