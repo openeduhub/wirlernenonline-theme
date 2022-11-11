@@ -19,8 +19,6 @@ if (empty($metaQsHeight)){
     $metaQsHeight = 400;
 }
 
-$ng_dir =  get_template_directory_uri() . '/src/assets/js/angular/';
-
 ?>
 
 <div class="wlo-redaktion-metaqs" id="<?php echo $wloMetaQsId; ?>">
@@ -29,13 +27,13 @@ $ng_dir =  get_template_directory_uri() . '/src/assets/js/angular/';
 
 <script type="text/javascript" >
     jQuery(document).ready(function($) {
+        window.METAQS_API_URL = '<?php echo WLO_METAQS_URL; ?>';
 
         var data = {
             'action': 'wlo_metaQs',
             'metaQsMode': '<?php echo $metaQsMode; ?>',
             'metaQsHeight': '<?php echo $metaQsHeight; ?>',
             'ticket': '<?php echo base64_encode($ticket); ?>',
-            'ng_dir': '<?php echo $ng_dir; ?>',
             'admin': '<?php echo is_admin(); ?>',
         };
 

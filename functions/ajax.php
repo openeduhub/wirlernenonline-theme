@@ -667,7 +667,6 @@ function wlo_metaQs() {
     $metaQsMode = $_POST['metaQsMode'];
     $metaQsHeight = $_POST['metaQsHeight'];
     $ticket = base64_decode($_POST['ticket']);
-    $ng_dir = $_POST['ng_dir'];
     $admin = $_POST['admin'];
     $widegtID = uniqid();
     $badgeID = uniqid();
@@ -683,10 +682,11 @@ function wlo_metaQs() {
     </script>
 
     <?php if ($admin) { ?>
-        <link rel="stylesheet" href="<?php echo $ng_dir; ?>styles.metaqs.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="<?php echo $ng_dir; ?>styles.metaqs.css"></noscript>
-        <script src="<?php echo $ng_dir; ?>runtime.metaqs.js" defer></script>
-        <script src="<?php echo $ng_dir; ?>polyfills.metaqs.js" defer></script>
-        <script src="<?php echo $ng_dir; ?>main.metaqs.js" defer></script>
+        <link rel="stylesheet" href="<?php echo WLO_METAQS_NG_URL; ?>/styles.css" media="print" onload="this.media='all'">
+        <noscript><link rel="stylesheet" href="<?php echo WLO_METAQS_NG_URL; ?>styles.css"></noscript>
+        <script src="<?php echo WLO_METAQS_NG_URL; ?>/runtime.js" defer></script>
+        <script src="<?php echo WLO_METAQS_NG_URL; ?>/polyfills.js" defer></script>
+        <script src="<?php echo WLO_METAQS_NG_URL; ?>/main.js" defer></script>
         <?php echo '</div>';
     } ?>
 

@@ -11,6 +11,11 @@ define("WLO_REPO_LOGIN", ""); // add login
 define("WLO_REPO_PW", ""); // add password
 define("WLO_REPO_UPLOAD_LOCATION", "0fa24aa1-709e-4e86-8ac0-a5bbc093e6cb");
 
+// WLO-METAQS
+define("WLO_METAQS_URL","https://metaqs....net");
+define("WLO_METAQS_NG_URL","https://metaqs-ng.....net");
+
+
 // LDAP
 define("LDAP_SERVER","10.88.88.1");
 define("LDAP_USERNAME","cn=admin,dc=oer-contentbuffet,dc=info");
