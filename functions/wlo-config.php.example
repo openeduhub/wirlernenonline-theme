@@ -14,6 +14,7 @@ define("WLO_REPO_UPLOAD_LOCATION", "0fa24aa1-709e-4e86-8ac0-a5bbc093e6cb");
 // WLO-METAQS
 define("WLO_METAQS_URL","https://metaqs....net");
 define("WLO_METAQS_NG_URL","https://metaqs-ng.....net");
+define("WLO_METAQS_EDUSHARING_URL","https://repository.....net");
 
 
 // LDAP

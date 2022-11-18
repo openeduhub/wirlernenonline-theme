@@ -28,6 +28,7 @@ if (empty($metaQsHeight)){
 <script type="text/javascript" >
     jQuery(document).ready(function($) {
         window.METAQS_API_URL = '<?php echo WLO_METAQS_URL; ?>';
+        window.METAQS_EDUSHARING_URL = '<?php echo WLO_METAQS_EDUSHARING_URL; ?>';
 
         var data = {
             'action': 'wlo_metaQs',
