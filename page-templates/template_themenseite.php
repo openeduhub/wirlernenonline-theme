@@ -65,7 +65,7 @@ if (!empty($parents)){
     foreach ($parents as $node) {
         if (is_object($node)){
             if ($node->title == 'Portale'){
-                $breadcrumbs[] = ['Fachportale', get_page_link(9930)];
+                $breadcrumbs[] = ['Fachportale', get_page_link(55115)];
             }else{
                 $title = $node->title;
                 if (!empty($node->properties->{'ccm:collectionshorttitle'}[0])){

@@ -68,7 +68,14 @@ $GLOBALS['wlo_fachportal'] = array(
 <div class="fachportal-header-block" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 1);">
     <div class="fachportal-header-bar">
         <div class="fachportal-header-bar-wrapper">
-            <div class="fachportal-header-bar-tab" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 1);"></div>
+
+            <div class="portal-breadcrumbs">
+
+                <ul class="portal-breadcrumbs-list">
+                    <li class='portal-breadcrumbs-list-item'><a href='<?php echo get_page_link(55115); ?>'>Fachportale</a><span class='material-icons'>chevron_right</span></li>
+                    <li class='portal-breadcrumbs-list-item'><a href='<?php echo get_page_link(); ?>'><?php echo $portalTitle; ?></a><span class='material-icons'>chevron_right</span></li>
+                </ul>
+            </div>
 
 
             <div class="wlo-tile-team">

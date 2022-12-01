@@ -283,7 +283,7 @@ app-report-problem{
     position: relative;
     min-width: 245px;
     height: 425px;
-    margin: 20px 12px;
+    margin: 20px 11px;
     background: white;
     border: 1px solid #E0E0E0;
     border-radius: 15px;
@@ -1286,21 +1286,7 @@ app-report-problem{
       font-size: 14px;
       color: #313131;
       line-height: 150%;
-      position: relative;
-      overflow: hidden;
-      height: 9em;
       margin-bottom: 1em;
-    }
-
-    .content-description::after {
-      content: "";
-      text-align: right;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 30%;
-      height: 1.2em;
-      background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
     }
 
     .content-meta{

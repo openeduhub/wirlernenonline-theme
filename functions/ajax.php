@@ -287,7 +287,7 @@ function fachportal_content_block() {
 
     $postID = $_POST['postID'];
     $collectionID = $_POST['collectionID'];
-    $headline = $_POST['headline'];
+    $headline = base64_decode($_POST['headline']);
     $descrText = base64_decode($_POST['descrText']);
     $collectionLevel = $_POST['collectionLevel'];
     $blockIcon = $_POST['blockIcon'];

@@ -41,7 +41,7 @@ if ($collectionLevel >= 1){
     }
 }
 if(!empty(get_field('headline'))){
-    $headline = get_field('headline');
+    $headline = base64_encode(get_field('headline'));
 }
 
 $slidesToShow = 4;
