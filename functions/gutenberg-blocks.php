@@ -266,10 +266,10 @@ if (function_exists('acf_register_block_type')) {
 
 function wlo_redaktion_metaqs_assets() {
     if (!is_admin()){
-        wp_enqueue_script( 'runtime-metaqs-js', get_template_directory_uri() . '/src/assets/js/angular/runtime.metaqs.js', array( 'jquery' ), '', true );
-        wp_enqueue_script( 'polyfills-metaqs-js', get_template_directory_uri() . '/src/assets/js/angular/polyfills.metaqs.js', array( 'jquery' ), '', true );
-        wp_enqueue_script( 'main-metaqs-js', get_template_directory_uri() . '/src/assets/js/angular/main.metaqs.js', array( 'jquery' ), '', true );
-        wp_enqueue_style( 'styles-metaqs-css', get_template_directory_uri() . '/src/assets/js/angular/styles.metaqs.css', array(), '', 'all' );
+        wp_enqueue_script( 'runtime-metaqs-js', WLO_METAQS_NG_URL . '/runtime.js', array( 'jquery' ), '', true );
+        wp_enqueue_script( 'polyfills-metaqs-js', WLO_METAQS_NG_URL . '/polyfills.js', array( 'jquery' ), '', true );
+        wp_enqueue_script( 'main-metaqs-js', WLO_METAQS_NG_URL . '/main.js', array( 'jquery' ), '', true );
+        wp_enqueue_style( 'styles-metaqs-css', WLO_METAQS_NG_URL . '/styles.css', array(), '', 'all' );
     }
 
 }
