@@ -65,6 +65,7 @@ function register_acf_block_types() {
         'category'			=> 'themenportal',
         'icon'				=> 'format-image',
         'keywords'			=> [ ],
+        'enqueue_assets'    => 'fachportal_header_block_assets',
     ]);
     acf_register_block_type(['name' => 'fachportal_footer_block',
         'title'				=> __('Themenseite: Footer'),
@@ -255,6 +256,10 @@ function wlo_redaktion_metaqs_assets() {
         wp_enqueue_style( 'styles-metaqs-css', get_template_directory_uri() . '/src/assets/js/angular/styles.metaqs.css', array(), '', 'all' );
     }
 
+}
+
+function fachportal_header_block_assets() {
+    wp_enqueue_script( 'freezframe-js', get_template_directory_uri() . '/src/assets/js/freezeframe.min.js', array( 'jquery' ), '', true );
 }
 
 function register_edusharing_blocks(){

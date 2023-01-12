@@ -352,7 +352,7 @@ if (get_field('slidesToScroll')) {
 
 
                             <?php if (!empty($content['image_url'])) { ?>
-                                <img class="main-image" src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $content['title']; ?>">
+                                <img class="main-image freezeframe" src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $content['title']; ?>">
                             <?php } ?>
                             <div class="content-info">
                                 <div class="content-header">
@@ -537,6 +537,10 @@ if (get_field('slidesToScroll')) {
     jQuery( document ).ready(function() {
         //addData(contentChart, 'Tools', 25, 'rgba(255,255,255,0.8)');
         //addData(contentChart, 'Gut zu Wissen', 5, 'rgba(255,255,255,0.2)');
+        new Freezeframe({
+            overlay: true,
+            warnings: false
+        });
     });
 
 </script>
