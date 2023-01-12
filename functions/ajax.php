@@ -574,7 +574,7 @@ function fachportal_content_block() {
                 $buttonText = 'Inhalte vorschlagen';
                 //$addContentUrl = get_page_link($addContentPageID) . '?type=material&collectionID=' . $collectionID;
                 $addContentUrl = get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&headline=' . $pageTitle .'&pageDiscipline=' . $pageDiscipline;
-                if ($contentType['value'] == 1){
+                if (!empty($contentType['value']) && $contentType['value'] == 1){
                     $contentTitle = 'Noch kein Tool?';
                     $buttonText = 'Tool vorschlagen';
                     //$addContentUrl = get_page_link($addContentPageID) . '?type=tool&collectionID=' . $collectionID;

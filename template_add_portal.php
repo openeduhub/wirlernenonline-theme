@@ -320,7 +320,7 @@ if (isset($_GET['type'])) {
                             }
                             $body = $emailBody;
 
-                            if (strpos(WLO_REPO, 'redaktion-staging') === false) {
+                            if (strpos(WLO_REPO, 'repository.staging') === false) {
                                 // send email
                                 wp_mail($to, $subject, $body, $headers);
                                 $formOk = 'Vielen Dank für deinen Vorschlag!<br>Er wird jetzt von unserem Redaktionteam geprüft.';
@@ -373,7 +373,7 @@ if (isset($_GET['type'])) {
 
         <iframe id="mds-frame" class="wlo-form-iframe"
                 style="opacity:0"
-                src="https://redaktion.openeduhub.net/edu-sharing/components/embed/mds?set=mds_oeh&group=<?php echo $mdsGroup;?>&data=<?php
+                src="<?php echo WLO_REPO; ?>components/embed/mds?set=mds_oeh&group=<?php echo $mdsGroup;?>&data=<?php
                 echo urlencode(json_encode([
                     "ccm:curriculum" => (isset($collectionID) ? ['http://w3id.org/openeduhub/vocabs/oehTopics/' . $collectionID] : []),
                     "ccm:oeh_lrt" => (isset($lrtID) ? $lrtID : []),
