@@ -654,7 +654,7 @@ while (have_posts()) : the_post(); ?>
                 <div class="detail-view-popup">
                     <script>
                         window.__env = {
-                            EDU_SHARING_API_URL: '<?php echo WLO_REPO; ?>/rest',
+                            EDU_SHARING_API_URL: '<?php echo WLO_REPO; ?>rest',
                         };
                     </script>
                     <oeh-details-embedded></oeh-details-embedded>
