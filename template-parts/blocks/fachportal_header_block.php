@@ -172,6 +172,7 @@ if (!empty($newestContent->nodes)){
         $contentArray[] = array(
             'id' => $reference->ref->id,
             'image_url' => $reference->preview->url,
+            'mimetype' => $reference->mimetype,
             //'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
             'content_url' => $content_url,
             'title' => $title,
@@ -352,7 +353,8 @@ if (get_field('slidesToScroll')) {
 
 
                             <?php if (!empty($content['image_url'])) { ?>
-                                <img class="main-image freezeframe" src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $content['title']; ?>">
+
+                                <img class="main-image <?php if($content['mimetype'] == 'video/mp4') {echo 'freezeframe';}?>" src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $content['title']; ?>">
                             <?php } ?>
                             <div class="content-info">
                                 <div class="content-header">
