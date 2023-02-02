@@ -128,12 +128,11 @@ if (isset($_GET['type'])) {
             if (isset($mdsData["ccm:custom_license"])) {
                 preg_match('/.*\/(.*)/', $mdsData["ccm:custom_license"][0], $license);
                 $license = $license[1];
-                if ($license == 'CC_BY_40') {
-                    $mdsData['ccm:commonlicense_key'] = ['CC_BY'];
+                if(substr($license, -3) == '_40') {
+                    $mdsData['ccm:commonlicense_key'] = [substr($license, 0, -3)];
                     $mdsData['ccm:commonlicense_cc_version'] = ['4.0'];
-                } else if ($license == 'CC_BY_SA_40') {
-                    $mdsData['ccm:commonlicense_key'] = ['CC_BY_SA'];
-                    $mdsData['ccm:commonlicense_cc_version'] = ['4.0'];
+                } else if($license == 'OTHER') {
+                    // do nothing
                 } else {
                     $mdsData['ccm:commonlicense_key'] = [$license];
                 }
