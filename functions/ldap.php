@@ -97,7 +97,11 @@ class Wlo_ldap{
     }
     function getUser($email){
         $sr=ldap_search($this->ds,LDAP_MAIN_ORG, "(uid=".ldap_escape($email).")");
-        $data=ldap_get_entries($this->ds,$sr)[0];
+        $ldap_entries=ldap_get_entries($this->ds,$sr);
+        if (empty($ldap_entries)){
+            return false;
+        }
+        $data=$ldap_entries[0];
         $details=explode("=",$data["description"][0]);
         for($i=0;$i<count($details);$i+=2){
             $data[$details[$i]]=$details[$i+1];

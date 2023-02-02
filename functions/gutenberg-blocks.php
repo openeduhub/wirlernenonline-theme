@@ -49,6 +49,7 @@ function register_acf_block_types() {
         'category'			=> 'themenportal',
         'icon'				=> 'format-image',
         'keywords'			=> [ ],
+        'enqueue_assets'    => 'wlo_themenseite_detail_view_assets',
     ]);
     acf_register_block_type(['name' => 'themenseite_content_block',
         'title'				=> __('Themenseite: Inhaltsblock'),

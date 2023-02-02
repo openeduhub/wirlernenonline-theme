@@ -11,10 +11,17 @@ get_header();?>
         the_content();
     endwhile;
 
+    if (function_exists('get_repo_ticket')){
+        $ticket = get_repo_ticket();
+    }else{
+        $ticket = '';
+    }
+
 
     if (is_user_logged_in()) { ?>
         <div class="wp-block-buttons aligncenter wlo-redaktion-btn">
             <div class="wp-block-button"><a class="wp-block-button__link has-text-color has-very-light-gray-color has-background has-very-dark-gray-background-color" href="https://wirlernenonline.de/intranet-aktuelles-lernen/">Zur Redaktionsumgebung</a></div>
+            <div class="wp-block-button"><a class="wp-block-button__link has-text-color has-very-light-gray-color has-background has-very-dark-gray-background-color" href="https://redaktion.openeduhub.net/edu-sharing/components/collections?ticket=<?php echo $ticket; ?>">Zum edu-sharing</a></div>
         </div>
     <?php };
     ?>
