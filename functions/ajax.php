@@ -699,3 +699,107 @@ function wlo_metaQs() {
     <?php
     wp_die();
 }
+
+add_action( 'wp_ajax_emptySwimlaneContent', 'emptySwimlaneContent' );
+add_action( 'wp_ajax_nopriv_emptySwimlaneContent', 'emptySwimlaneContent' );
+function emptySwimlaneContent() {
+    global $wpdb;
+
+    $collectionID = $_POST['collectionID'];
+    $lrtID = $_POST['lrtID'];
+
+    // get sub-collections
+
+        $url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
+        $body = '{
+              "criteria": [
+                {
+                  "property": "collection",
+                  "values": [
+                    "'.$collectionID.'"
+                  ]
+                }
+              ],
+              "facets": [
+              ]
+            }';
+
+        $subCollectionContent = callWloRestApi($url, 'POST', $body);
+
+        $contentArray = array();
+        if (!empty($subCollectionContent->nodes)){
+            foreach ($subCollectionContent->nodes as $reference) {
+
+                $prop = $reference->properties;
+
+                //check if deleted
+                if($reference->originalId == null){
+                    continue;
+                }
+
+                $title = $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0];
+                foreach ($contentArray as $newContent) {
+                    if ($newContent['title'] == $title) {
+                        continue 2;
+                    }
+                }
+
+                $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
+                $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
+                $isOER = false;
+                foreach ($oerLicenses as $license){
+                    if( $nodeLicense == $license){
+                        $isOER = true;
+                    }
+                }
+
+                $content_url = $reference->content->url;
+                $content_url = str_replace('https://redaktion.openeduhub.net/edu-sharing/', 'https://materialkiste.kita.bayern/edu-sharing/', $content_url);
+
+                $contentArray[] = array(
+                    'id' => $reference->ref->id,
+                    'image_url' => $reference->preview->url,
+                    'mimetype' => $reference->mimetype,
+                    //'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+                    'content_url' => $content_url,
+                    'title' => $title,
+                    'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
+                    //'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
+                    'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
+                    'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
+                    //'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
+                    'resourcetype' => !empty($prop->{'ccm:oeh_lrt_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_DISPLAYNAME'} : [],
+                    //'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
+                    'author' => !empty($prop->{'ccm:lifecyclecontributer_author'}) ? $prop->{'ccm:lifecyclecontributer_author'} : [],
+                    'oer' => $isOER,
+                    'oeh_lrt' =>  !empty($reference->properties->{'ccm:oeh_lrt'}) ? $reference->properties->{'ccm:oeh_lrt'} : '',
+                    'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
+                );
+            } //end foreach
+        }
+
+        $vocab = array();
+        $vocabIDs = explode(',', $lrtID);
+        foreach ($vocabIDs as $id){
+            $new_vocab = getNewLrtList(basename($id));
+            $vocab = array_merge($vocab, $new_vocab);
+        }
+
+        $swimlane_content = wloFilterSwimlane($contentArray, $vocab);
+
+        if (!empty($swimlane_content['filtered_content'])){
+            $content = '<div class="subcollections-alert">';
+            $content .= '<p>Auf dieser ebene gibt es keine Inhalte<br>Aber auf den Unterebenen...</p>';
+            $content .= '<button onclick="toggleSubcollections(this)">Inhalte einblenden</button>';
+            $content .= '</div>';
+        }
+
+
+        $content .= '<div class="content-from-subcollections">';
+        $content .= wloAddSwimlaneTile($swimlane_content['filtered_content']);
+        $content .= '</div>';
+
+        echo $content;
+
+    wp_die();
+}

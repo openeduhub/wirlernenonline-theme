@@ -26,7 +26,7 @@ if (empty($author_ids)){
 
 $educationalContexts = $educational_filter_values["educationalContexts"];
 
-if (empty(get_field('description'))){
+if (empty(get_field('description_header', $postID))){
     $description = '
                     Herzlich willkommen auf der Fachseite für '.$portalTitle.'! <br>
                     <br>
@@ -40,7 +40,7 @@ if (empty(get_field('description'))){
                     hochladen und der Community zur Verfügung stellen.
     ';
 }else{
-    $description = get_field('description');
+    $description = get_field('description_header', $postID);
 }
 
 if (!function_exists('helper_useLightColor')) {

@@ -488,7 +488,7 @@ app-report-problem{
     }
 
     .no-content-info{
-      height: 150px;
+      //height: 150px;
       text-align: left;
 
       .content-title{
@@ -499,8 +499,6 @@ app-report-problem{
       }
     }
 
-
-
   }
 
   .widget-content:hover{
@@ -509,11 +507,67 @@ app-report-problem{
   }
 
   .no-widget-content{
-    height: auto;
     button{
       width: 100%;
     }
   }
+
+
+
+  .no-swimlane-content{
+    display: flex;
+    position: relative;
+
+    .content-from-subcollections{
+      display: flex;
+      width: 100%;
+      opacity: 0.1;
+      filter: blur(2px);
+      transition: 0.3s;
+
+      .empty-swimlane{
+
+      }
+    }
+
+    .show-subcollections{
+      opacity: 1;
+      filter: none;
+    }
+
+    .subcollections-alert{
+      position: absolute;
+      top: 125px;
+      right: 320px;
+      padding: 2em;
+      z-index: 5;
+
+      p{
+        color: $wlo-primary-dark;
+        font-size: 18px;
+      }
+
+      button{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+        width: 100%;
+        background: $wlo-primary-dark;
+        color: white;
+        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 14px;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover{
+        background: $wlo-primary;
+      }
+    }
+  }
+
 }
 
 .portal .portal-wrapper-left .widget-content .content-info{

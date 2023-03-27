@@ -261,7 +261,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $swimlane_content = wloFilterSwimlane($contentArray, $media_vocab);
     $contentArray = $swimlane_content['contentArray'];
 
-    $lrtID = '';
+    $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/a6d1ac52-c557-4151-bc6f-0d99b0b96fb9, http://w3id.org/openeduhub/vocabs/new_lrt/7a6e9608-2554-4981-95dc-47ab9ba924de, http://w3id.org/openeduhub/vocabs/new_lrt/ec2682af-08a9-4ab1-a324-9dca5151e99f, http://w3id.org/openeduhub/vocabs/new_lrt/4665caac-99d7-4da3-b9fb-498d8ece034f';
 
     echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
     ?>
@@ -419,8 +419,13 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         </div>
     <?php } ?>
 
+    <script>
+        function toggleSubcollections(button){
+            jQuery(button).closest(".no-swimlane-content").find(".content-from-subcollections").addClass("show-subcollections");
+            jQuery(button).closest(".subcollections-alert").hide("fast");
 
-
+        }
+    </script>
 
 
 

@@ -8,9 +8,11 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
     }
 
     $content = '';
-    $content .= '<div class="content" id="'.$sliderId.'">';
+
 
     if (!empty($contentArray)){
+        $content .= '<div class="content" id="'.$sliderId.'">';
+
         foreach ($contentArray as $contentItem) {
             $slideCss = $slidesToShow == 1 ? 'margin: 12px 110px; max-width: 350px;' : '';
             $data = '';
@@ -102,6 +104,8 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
             $content .= '</div>';
         }
     }else{
+        $content .= '<div class="no-swimlane-content">';
+
         $contentTitle = 'Mitmachen!';
         $buttonText = 'Inhalte vorschlagen';
         $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['pageTitle'] .'&pageDiscipline=' . $contentInfo['pageDiscipline'].'&lrtID='.$lrtID;
@@ -118,11 +122,34 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
         $content .= '</div>';
         $content .= '</button>';
         $content .= '</div>';
+
+        $emptySwimlaneId = uniqid('emptySwimlaneId-');
+
+        $content .= '<div class="fachportal-content-block" id="'.$emptySwimlaneId.'">';
+        $content .= '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+        $content .= '</div>';
+
+        $content .= '<script type="text/javascript">
+                        jQuery(document).ready(function($) {
+                            var data = {
+                                "action": "emptySwimlaneContent",
+                                "collectionID": "'.$contentInfo['collectionID'].'",
+                                "lrtID": "'.$lrtID.'",
+                            };
+                            jQuery.post(ajaxurl, data, function(response) {
+                                jQuery("#'.$emptySwimlaneId.'").html(response);
+                            });
+                        });
+                    </script>';
+
+
+
+
+
     }
     $content .= '</div>';
 
-    $content .= '<script type="text/javascript">        
-
+    $content .= '<script type="text/javascript">  
         jQuery(function () {
             // Handler for .ready() called. Put the Slick Slider etc. init code here.
             function loadWLOSlider() {
@@ -196,4 +223,101 @@ function wloSearchContentSum($values, $vocabs){
 
     }
     return $sum;
+}
+
+function wloAddSwimlaneTile($contentArray, $slidesToShow=3){
+    $content = '';
+    if (!empty($contentArray)){
+        foreach (array_slice($contentArray, 0, 3) as $contentItem) {
+            $slideCss = $slidesToShow == 1 ? 'margin: 12px 110px; max-width: 350px;' : '';
+            $data = '';
+            if (!empty($contentItem['educationalcontext'])){
+                $data .= 'data-educationalcontext="';
+                foreach ($contentItem['educationalcontext'] as $item) {
+                    $data .= preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($item)).' ';
+                }
+                $data .= '"';
+            }
+            if (!empty($contentItem['enduserrole'])){
+                $data .= ' data-enduserrole="';
+                foreach ($contentItem['enduserrole'] as $item) {
+                    $data .= preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($item)).' ';
+                }
+                $data .= '"';
+            }
+            if ($contentItem['oer']){
+                $data .= ' data-oer="oer"';
+            }else{
+                $data .= ' data-oer="no-oer"';
+            }
+
+            $content .= '<div class="widget-content" '.$data.' style="'.$slideCss.'">';
+            $content .= '<button onclick="showContentPopup(\''.$contentItem['id'].'\')">';
+            if (!empty($contentItem['image_url'])) {
+                $content .= '<img class="main-image" src="'.$contentItem['image_url'].'&crop=true&maxWidth=300&maxHeight=300" alt="Cover: '.$contentItem['title'].'">';
+            }
+            $content .= '<div class="content-info">';
+            $content .= '<div class="content-header">';
+            if ($contentItem['source'] && false){
+                $content .= '<p class="content-source">'.$contentItem['source'].'</p>';
+            }
+            $content .= '<img class="badge" src="'.get_template_directory_uri().'/src/assets/img/badge_green.svg"  alt="Auszeichnung: geprüfter Inhalt">';
+            if ($contentItem['oer']){
+                $content .= '<div class="badge ">OER</div>';
+            }
+            $content .= '</div>';
+            $content .= '<div class="content-title">'.$contentItem['title'].'</div>';
+            $content .= '<p class="content-description">'.$contentItem['description'].'</p>';
+            $content .= '<div class="content-meta">';
+            if (!empty($contentItem['resourcetype'])){
+                $content .= '<img src="'. get_template_directory_uri() .'/src/assets/img/img_icon.svg" alt="Materialart">';
+                $content .= '<p>';
+                $i = 0;
+                foreach ($contentItem['resourcetype'] as $type){
+                    if(++$i === count($contentItem['resourcetype'])) {
+                        $content .= $type;
+                    }else{
+                        $content .= $type.', ';
+                    }
+                }
+                $content .= '</p>';
+            }
+            $content .= '</div>';
+            $content .= '<div class="content-meta">';
+            if (!empty($contentItem['subjects'])){
+                $content .= '<img src="'. get_template_directory_uri() .'/src/assets/img/subject_icon.svg" alt="Fächer">';
+                $content .= '<p>';
+                $i = 0;
+                foreach ($contentItem['subjects'] as $subject) {
+                    if(++$i === count($contentItem['subjects'])) {
+                        $content .= $subject;
+                    }else{
+                        $content .= $subject.', ';
+                    }
+                }
+                $content .= '</p>';
+            }
+            $content .= '</div>';
+            $content .= '<div class="content-meta">';
+            if (!empty($contentItem['educationalcontext'])){
+                $content .= '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg" alt="Bildungsebene">';
+                $content .= '<p>';
+                $i = 0;
+                foreach ($contentItem['educationalcontext'] as $subject) {
+                    if(++$i === count($contentItem['educationalcontext'])) {
+                        $content .= $subject;
+                    }else{
+                        $content .= $subject.', ';
+                    }
+                }
+                $content .= '</p>';
+            }
+            $content .= '</div>';
+            $content .= '<a class="content-button" href="'.$contentItem['content_url'].'" target="_blank" aria-label="Zum-Inhalt: '.$contentItem['title'].'">Zum Inhalt</a>';
+            $content .= '</div>';
+            $content .= '</button>';
+            $content .= '</div>';
+        }
+    }
+    return $content;
 }
