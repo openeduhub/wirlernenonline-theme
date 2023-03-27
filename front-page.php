@@ -104,7 +104,7 @@ if ( get_field('maintenance') ) { ?>
 
                                     <div class="dropdown__list" id="hidden-subjects">
                                         <?php foreach (array_slice($subjects, 8) as $subject){ ?>
-                                            <span class="dropdown__list-item" tabindex="0" id="<?php echo $subjects_mapped[$subject->value]; ?>">
+                                            <span class="dropdown__list-item" tabindex="0" id="<?php echo $subject->value; ?>">
                                                 <?php echo $subjects_mapped[$subject->value]; ?>
                                             </span>
                                         <?php } ?>
