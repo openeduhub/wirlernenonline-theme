@@ -706,7 +706,9 @@ function emptySwimlaneContent() {
     global $wpdb;
 
     $collectionID = $_POST['collectionID'];
+    $pageTitle = $_POST['pageTitle'];
     $lrtID = $_POST['lrtID'];
+    $searchLrtID = json_decode(html_entity_decode($_POST['searchLrtID']));
 
     // get sub-collections
 
@@ -789,15 +791,32 @@ function emptySwimlaneContent() {
 
         if (!empty($swimlane_content['filtered_content'])){
             $content = '<div class="subcollections-alert">';
-            $content .= '<p>Auf dieser ebene gibt es keine Inhalte<br>Aber auf den Unterebenen...</p>';
+            $content .= '<p>Auf dieser Ebene gibt es keine Inhalte<br>Aber auf den Unterebenen...</p>';
             $content .= '<button onclick="toggleSubcollections(this)">Inhalte einblenden</button>';
             $content .= '</div>';
+
+            $content .= '<div class="content-from-subcollections">';
+            $content .= wloAddSwimlaneTile($swimlane_content['filtered_content']);
+            $content .= '</div>';
+        }else{
+
+            $searchUrl = 'https://suche.wirlernenonline.de/de/search?q='.$pageTitle.'&filters={"oehLrtAggregated":[';
+            $numItems = count($searchLrtID);
+            $i = 0;
+            foreach ($searchLrtID as $id){
+                if(++$i === $numItems) {
+                    $searchUrl .= '"'.$id.'"';
+                }else{
+                    $searchUrl .= '"'.$id.'",';
+                }
+            }
+            $searchUrl .= ']}&pageIndex=0';
+
+            $content = '<div class="subcollections-alert">';
+            $content .= '<p>Hier gibt es noch keine redaktionell geprüften Inhalte.<br>In der Suche findest du maschinell gesammelte Inhalte.</p>';
+            $content .= "<a href='".($searchUrl)."' target='_blank'>Suche öffnen</a>";
+            $content .= '</div>';
         }
-
-
-        $content .= '<div class="content-from-subcollections">';
-        $content .= wloAddSwimlaneTile($swimlane_content['filtered_content']);
-        $content .= '</div>';
 
         echo $content;
 

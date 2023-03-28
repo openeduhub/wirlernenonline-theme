@@ -1,6 +1,6 @@
 <?php
 
-function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScroll = 4, $contentInfo, $lrtID = ''){
+function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScroll = 4, $contentInfo, $lrtID = '', $searchLrtID=''){
     $sliderId = uniqid('slider-');
     $showSliderDots = 'true';
     if (count($contentArray) <= 4 && $slidesToShow >= 3){
@@ -134,7 +134,9 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
                             var data = {
                                 "action": "emptySwimlaneContent",
                                 "collectionID": "'.$contentInfo['collectionID'].'",
+                                "pageTitle": "'.$contentInfo['pageTitle'].'",
                                 "lrtID": "'.$lrtID.'",
+                                "searchLrtID": "'.htmlentities(json_encode($searchLrtID)).'",
                             };
                             jQuery.post(ajaxurl, data, function(response) {
                                 jQuery("#'.$emptySwimlaneId.'").html(response);

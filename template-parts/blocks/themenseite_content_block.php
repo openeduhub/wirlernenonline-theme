@@ -263,7 +263,14 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
     $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/a6d1ac52-c557-4151-bc6f-0d99b0b96fb9, http://w3id.org/openeduhub/vocabs/new_lrt/7a6e9608-2554-4981-95dc-47ab9ba924de, http://w3id.org/openeduhub/vocabs/new_lrt/ec2682af-08a9-4ab1-a324-9dca5151e99f, http://w3id.org/openeduhub/vocabs/new_lrt/4665caac-99d7-4da3-b9fb-498d8ece034f';
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
+    $searchLrtID = array(
+            'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/b8fb5fb2-d8bf-4bbe-ab68-358b65a26bed',
+            'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/38774279-af36-4ec2-8e70-811d5a51a6a1',
+            'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/39197d6f-dfb1-4e82-92e5-79f906e9d2a9',
+            'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/05aa0f49-7e1b-498b-a7d5-c5fc8e73b2e2',
+    );
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID );
     ?>
 
     <script>
@@ -288,7 +295,12 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
     $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/7381f17f-50a6-4ce1-b3a0-9d85a482eec0,http://w3id.org/openeduhub/vocabs/new_lrt/0a79a1d0-583b-47ce-86a7-517ab352d796';
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID);
+    $searchLrtID = array(
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/101c0c66-5202-4eba-9ebf-79f4903752b9',
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/8526273b-2b21-46f2-ac8d-bbf362c8a690',
+    );
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -313,7 +325,11 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
     $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/cd625d33-5d7b-4a86-a54a-9a897ded729f,http://w3id.org/openeduhub/vocabs/new_lrt/588efe4f-976f-48eb-84aa-8bcb45679f85';
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
+    $searchLrtID = array(
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/02bfd0fe-96ab-4dd6-a306-ec362ec25ea0',
+    );
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID );
     ?>
 
     <script>
@@ -338,7 +354,11 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
     $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/cefccf75-cba3-427d-9a0f-35b4fedcbba1';
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
+    $searchLrtID = array(
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/37a3ad9c-727f-4b74-bbab-27d59015c695',
+    );
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID );
     ?>
 
     <script>
@@ -363,7 +383,11 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
     $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/3869b453-d3c1-4b34-8f25-9127e9d68766';
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
+    $searchLrtID = array(
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/2e678af3-1026-4171-b88e-3b3a915d1673',
+    );
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID );
     ?>
 
     <script>
@@ -389,7 +413,12 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
     $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/03ab835b-c39c-48d1-b5af-7611de2f6464,http://w3id.org/openeduhub/vocabs/new_lrt/955590ae-5f06-4513-98e9-91dfa8d5a05e';
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID );
+    $searchLrtID = array(
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/37a3ad9c-727f-4b74-bbab-27d59015c695',
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/b06c5816-60c7-4f1b-bcd7-95d70aaa4740',
+    );
+
+    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID );
     ?>
 
     <script>
