@@ -24,7 +24,7 @@ if (get_field('bottomColor')) {
     $bottomColor = 'background: '.get_field('bottomColor').';';
 }
 
-if ( is_page_template( 'template_jobs.php' ) || is_page_template('dist/template_jobs.php') ) {
+if ( is_page_template( 'template_jobs.php' ) ) {
     $accordionStyle .= 'width: calc(100% + 4em); margin: 0 -2em;';
 }
 ?>

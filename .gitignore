@@ -1,6 +1,6 @@
-dist/
 node_modules/
-.idea/workspace.xml
 .idea/
-prepros.config
+.sass-cache/
+dist/assets/scss/wlo.css
+dist/assets/scss/wlo.css.map
 wlo-config.php

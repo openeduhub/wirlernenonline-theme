@@ -1,0 +1,361 @@
+/* %%%%%%%%%%
+Theme Name:     Wir Lernen Online
+Theme URI:      http://wirlernenonline.de/
+Author:         Bananenbiegerei
+Author URI:     http://bananenbiegerei.de
+Version:        1.0
+%%%%%%%%%% */
+
+.gutenberg-layout-container a {
+    font-weight: 600;
+}
+
+.blog-post a{
+    font-weight: normal;
+}
+
+.admin-bar .site-header {
+    top: 32px;
+}
+
+.home-hero{
+    margin-top: 60px;
+}
+
+.home-hero__filter{
+    margin-top: 40px;
+}
+
+/* Style the tab */
+.home-hero__tab {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #00356f;
+    color: #fff;
+}
+
+/* Style the buttons that are used to open the tab content */
+.home-hero__tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0;
+    padding: 24px 18px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.home-hero__tab button:hover {
+    background-color: #001f41;
+}
+
+/* Create an active/current tablink class */
+.home-hero__tab button.active {
+    color: #00356f;
+    background-color: #fff;
+}
+
+#home-hero__close{
+    display: none;
+    position: absolute;
+    right: 24px;
+    padding: 6px 12px;
+    font-size: 34px;
+    font-weight: 900;
+}
+
+/* Style the tab content */
+.home-hero__filter .tabcontent {
+    display: none;
+    justify-content: center;
+    padding: 40px 12px;
+    color: #313131;
+    background-color: #fff;
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.4);
+    animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+.home-hero__filter .tabcontent button, .tabcontent .subjectButton{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    color: #313131;
+    cursor: pointer;
+    margin: 12px;
+    padding: 6px 12px;;
+    border-radius: 24px;
+    transition: 0.3s;
+}
+
+.home-hero__filter .tabcontent button:hover, .tabcontent .subjectButton:hover{
+    color: #00356f;
+    background: #f1f1f1;
+}
+
+@media screen and (max-width: 500px) {
+    .home-hero__filter .tabcontent button, .tabcontent .subjectButton{
+        justify-content: normal;
+    }
+    .home-hero__filter .tabcontent button, .tabcontent .subjectButton{
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
+}
+
+.home-hero__filter .filter_tag{
+    margin-left: 12px;
+    padding: 6px 12px;
+    font-size: 0.7em;
+    color: #313131;
+    background: #f1f1f1;
+    border-radius: 24px;
+}
+
+.home-hero__filter .tabcontent .extraButton{
+    justify-self: end;
+    color: #fff;
+    background: #003E82;
+}
+
+.home-hero__filter .subjects{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.home-hero__filter .filter_button_row:first-child{
+    border: none;
+}
+
+.home-hero__filter .filter_button_row{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    padding: 8px 40px;
+    border-left: 1px solid #f1f1f1;
+    text-align: left;
+}
+
+.home-hero__filter .subject_grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    column-gap: 2.5rem;
+    row-gap: 0;
+    max-width: 70%;
+    margin: 0 auto;
+}
+
+.home-hero__filter .extraSubjects{
+    margin: 1em auto 0;
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.full-width {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(calc(50% - 50vw) + 0.4rem);
+}
+
+.clickable{
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.clickable:hover{
+    color: #888;
+}
+
+.backlink input[type="button"] {
+    background: none;
+    box-shadow: none;
+    border: none;
+    color: #003E82;
+    cursor: pointer;
+}
+
+.select2-container.-acf .select2-selection--multiple .select2-selection__choice {
+    background: #003E82;
+}
+
+.tabbed_list {
+    margin-left: 2rem !important;
+}
+
+ol li{
+    margin-bottom: 0.5rem;
+}
+
+.latest-header{
+    display: flex;
+}
+
+.latest-header img{
+    height: 50px;
+    margin-right: 12px;
+    align-self: center;
+}
+
+.latest-header h1{
+    margin: 0;
+}
+
+.wpcf7-submit, .wloButton{
+    background-color: #003E82;
+    color: #fefefe;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 1rem 0;
+    padding: 0.85em 1em;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 0.9rem;
+    -webkit-appearance: none;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+}
+
+.wpcf7-submit:hover{
+    background-color: #00356f;
+    color: #fefefe;
+}
+
+form .wpcf7-validation-errors{
+    background: lightcoral;
+    color: #f1f1f1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+}
+
+.updated{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #E3F702;
+    color: #313131;
+    font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    text-align: center;
+    padding: 20px 8px 1px;
+    border-radius: 5px;
+}
+
+.sourceLogosBlock{
+    align-items: center;
+    margin: 2em auto;
+}
+
+.wloBlockWrapper{
+    margin: 0 auto;
+}
+
+.presseBlock{
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));    */
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    grid-gap: 1rem;
+}
+
+.presseCell{
+    padding: 1rem;
+}
+
+.presseCell h2{
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.presseCell img{
+    border: 1px solid lightgrey;
+}
+
+.wlo_file_upload{
+    display: flex;
+    width: 100%;
+}
+
+#uploadwlo{
+    margin-right: 1rem;
+    margin-top: 1rem;
+}
+
+.upload-metadata{
+    height: 60rem;
+    width: 100%;
+}
+
+.wlo_ux_gallery {
+
+}
+
+.wlo_ux_gallery_content{
+    display: flex;
+    justify-content: center;
+}
+
+.wlo_ux_gallery .slick-next:before,
+.wlo_ux_gallery .slick-prev:before {
+    color: #002145;
+}
+
+.newsletter-data{
+    font-size: 0.7rem;
+}
+
+.newsletter-data a{
+    font-weight: bold;
+}
+
+
+@media screen and (max-width: 1024px) {
+    h1, .h1 {
+        font-size: 1.5rem;
+    }
+    #main-menu{
+        box-shadow: 0 8px 12px -2px rgba(0,0,0,0.4);
+    }
+    .main-content{
+    }
+    .page-title {
+        margin-bottom: 30px;
+    }
+    .home-hero__filter .tabcontent {
+        flex-direction: column;
+    }
+    #home-hero__close{
+        right: 0;
+    }
+    .home-hero__filter .subject_grid{
+        max-width: 100%;
+    }
+    .radius{
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+    .card{
+        align-items: center;
+    }
+    .is-stacked-on-mobile{
+        margin-top: 1.5rem;
+    }
+    .is-stacked-on-mobile .wp-block-media-text__content{
+        padding: 0;
+    }
+    .wp-block-cover-image .wp-block-cover__inner-container, .wp-block-cover .wp-block-cover__inner-container{
+        width: 100%;
+    }
+    .site-footer .grid-x{
+        justify-content: center;
+    }
+}
+
