@@ -17,16 +17,19 @@ $url_components = parse_url($collectionUrl);
 parse_str($url_components['query'], $params);
 $collectionID = $params['id'];
 
+# Get collection from edu-sharing. Used to display description.
 $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID;
 $response = callWloRestApi($url);
 
-
+# Get parents of collection from edu-sharing. Used for breadcrumbs.
 $url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $collectionID . '/parents?propertyFilter=-all-&fullPath=false';
 $parents = callWloRestApi($url);
 if (isset($parents->nodes)){
     $parents = $parents->nodes;
+    # Root subject portal
     $portal = $parents[count($parents)-2];
 }
+
 $portalTitle = '';
 if (isset($portal->title)){
     $portalTitle = $portal->title;
@@ -52,6 +55,7 @@ switch ($portalID){
         $portalID = 21348; // Religion
         break;
 }
+// Get authors field from root subject page
 $authors = get_field('authors', $portalID);
 update_field( 'authors', $authors, $postID );
 
@@ -60,6 +64,7 @@ if (empty($author_ids)){
     $author_ids = array();
 }
 
+// Collect breadcrumbs data
 $breadcrumbs = Array();
 if (!empty($parents)){
     foreach ($parents as $node) {
@@ -78,6 +83,7 @@ if (!empty($parents)){
     $breadcrumbs = array_reverse($breadcrumbs);
 }
 
+// Use collection description from edu-sharing; default to standard text if no description available
 if (empty($response->collection->properties->{'cm:description'}[0])){
     $description = '
                     Hier findest du zahlreiches kostenloses Material für '.$portalTitle.'!<br><br>
@@ -91,10 +97,12 @@ if (empty($response->collection->properties->{'cm:description'}[0])){
     $description = $response->collection->properties->{'cm:description'}[0];
 }
 
+// Construct URL for "Inhalte vorschlagen". URL is extended to reflect swimlane.
 $addContentUrl = get_page_link(9933) . '?collectionID=' . $collectionID . '&headline=' . get_the_title($postID) .'&pageDiscipline=' . $pageDiscipline;
 
 
 if (!function_exists('helper_useLightColor')) {
+    // Fix contrast issues depending on background color.
     function helper_useLightColor($bgColor){
         $color = ($bgColor[0] === '#') ? substr($bgColor, 1, 7) : $bgColor;
         $r = intval(substr($color, 0, 2), 16); // hexToR
@@ -110,6 +118,7 @@ $backgroundColor = wloSubjectType($portalTitle)['color'];
 $rgbBackgroundColor = hex2rgb($backgroundColor);
 $fontColor = (!empty($backgroundColor) && helper_useLightColor($backgroundColor)) ? "#313131" : "#ffffff";
 
+// Provide global context for other files used for swimlanes.
 $GLOBALS['wlo_fachportal'] = array(
     'title' => $portalTitle,
     'backgroundColor' => $backgroundColor,
