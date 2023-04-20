@@ -1,45 +1,23 @@
 {
-  "dependencies": {
-    "babel-register": "^6.26.0",
-    "foundation-sites": "^6.6.3",
-    "jquery": "^3.5.0",
-    "list.js": "^1.5.0",
-    "motion-ui": "^2.0.3",
-    "select2": "^4.0.13",
-    "swiper": "^5.3.7",
-    "what-input": "^5.2.7"
-  },
-  "name": "foundation-sites-template",
-  "author": "ZURB <foundation@zurb.com>",
+  "name": "wir-lernen-online",
   "version": "1.0.0",
-  "optionalDependencies": {},
-  "license": "MIT",
-  "description": "Basic template for a new Foundation for Sites project.",
+  "description": "**Please open all issues with this template on the main [Foundation for Sites](https://github.com/zurb/foundation-sites/issues) repo.**",
+  "main": "index.js",
   "scripts": {
-    "start": "gulp",
-    "build": "gulp build"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1",
-    "babel": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-babel": "^8.0.0",
-    "gulp-load-plugins": "^1.1.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-postcss": "^8.0.0",
-    "gulp-sass": "^4.0.1"
-  },
-  "private": true,
-  "main": "gulpfile.babel.js",
-  "bugs": {
-    "url": "https://github.com/zurb/foundation-sites/issues",
-    "email": "foundation@zurb.com"
+    "start": "sass --watch src/assets/scss/wlo.scss dist/assets/scss/wlo.css",
+    "build": "sass src/assets/scss/wlo.scss dist/assets/scss/wlo.css"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zurb/foundation-sites-template.git"
+    "url": "git+https://github.com/openeduhub/wirlernenonline-theme.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/openeduhub/wirlernenonline-theme/issues"
+  },
+  "homepage": "https://github.com/openeduhub/wirlernenonline-theme#readme",
+  "dependencies": {
+    "sass": "^1.62.0"
   }
 }
