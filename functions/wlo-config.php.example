@@ -14,7 +14,7 @@ define("WLO_REPO_UPLOAD_LOCATION", "0fa24aa1-709e-4e86-8ac0-a5bbc093e6cb");
 // WLO-METAQS
 define("WLO_METAQS_URL","https://metaqs....net");
 define("WLO_METAQS_NG_URL","https://metaqs-ng.....net");
-define("WLO_METAQS_EDUSHARING_URL","https://repository.....net");
+define("WLO_METAQS_EDUSHARING_URL","https://repository.....net/edu-sharing/");
 
 
 // LDAP
@@ -28,3 +28,7 @@ define("LDAP_MAIN_ORG_GROUPS","ou=groups,dc=oer-contentbuffet,dc=info");
 define("KEYCLOAK_USER", "admin");
 define("KEYCLOAK_PW", ""); // add password
 define("KEYCLOAK_URL", "https://login.oer-contentbuffet.info/auth/realms/master/");
+
+// MAILCOW
+define("MAILCOW_URL", "https://mail.metaventis.de/api/");
+define("MAILCOW_APIKEY", "XXXXXX-XXXXXX-XXXXXX-XXXXXX-XXXXXX");
