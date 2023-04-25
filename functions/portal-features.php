@@ -1,6 +1,6 @@
 <?php
 
-function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScroll = 4, $contentInfo, $lrtID = '', $searchLrtID = '')
+function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScroll = 4, $contentInfo, $lrtID = '', $searchLrtID = '', $type = 'material')
 {
     $sliderId = uniqid('slider-');
     $showSliderDots = 'true';
@@ -108,8 +108,18 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
         $content .= '<div class="no-swimlane-content">';
 
         $contentTitle = 'Mitmachen!';
-        $buttonText = 'Inhalte vorschlagen';
-        $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['pageTitle'] . '&pageDiscipline=' . $contentInfo['pageDiscipline'] . '&lrtID=' . $lrtID;
+        switch ($type) {
+            case 'material':
+                $buttonText = 'Inhalte vorschlagen';
+                break;
+            case 'tool':
+                $buttonText = 'Tool vorschlagen';
+                break;
+            case 'source':
+                $buttonText = 'Quelle vorschlagen';
+                break;
+        }
+        $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['pageTitle'] . '&pageDiscipline=' . $contentInfo['pageDiscipline'] . '&lrtID=' . $lrtID . '&type=' . $type;
 
         $content .= '<div class="widget-content no-widget-content">';
         $content .= '<button onclick="showNoContentPopup()">';

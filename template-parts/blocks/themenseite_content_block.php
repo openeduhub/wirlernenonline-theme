@@ -359,7 +359,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/37a3ad9c-727f-4b74-bbab-27d59015c695',
     );
 
-    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
+    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID, 'tool');
     ?>
 
     <script>
@@ -388,7 +388,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/2e678af3-1026-4171-b88e-3b3a915d1673',
     );
 
-    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
+    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID, 'source');
     ?>
 
     <script>
