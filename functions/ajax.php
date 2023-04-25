@@ -797,7 +797,7 @@ function collection_content_browser()
 
             if (!empty($swimlane_content['filtered_content'])) {
                 $content = '<div class="subcollections-alert subcollections-alert-overlay">';
-                $content .= '<p>Auf dieser Ebene gibt es keine Inhalte<br>Aber auf den Unterebenen...</p>';
+                $content .= '<p>Auf dieser Ebene gibt es keine Inhalte.<br>Aber auf den Unterebenen...</p>';
                 $content .= '<button onclick="toggleSubcollections(this)">Inhalte einblenden</button>';
                 $content .= '</div>';
 

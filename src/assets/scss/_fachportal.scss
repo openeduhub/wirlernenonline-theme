@@ -547,15 +547,18 @@ app-report-problem {
     }
 
     .subcollections-alert {
+      padding: 2em;
+
       &.subcollections-alert-overlay {
         position: absolute;
         z-index: 5;
       }
-      padding: 2em;
 
       p {
         color: $wlo-primary-dark;
         font-size: 18px;
+        text-align: center;
+        font-weight: 600;
       }
 
       button,
