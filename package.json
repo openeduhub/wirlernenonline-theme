@@ -6,7 +6,7 @@
   "scripts": {
     "start": "sass --watch src/assets/scss/wlo.scss dist/assets/scss/wlo.css",
     "build": "sass src/assets/scss/wlo.scss dist/assets/scss/wlo.css",
-    "deploy-staging": "rsync -ave ssh --exclude=wlo-config.php ./ cloud@141.5.100.13:/var/www/prod.210317/wp-content/themes/wir-lernen-online/"
+    "deploy-staging": "rsync -ave ssh --delete --exclude=wlo-config.php ./ cloud@141.5.100.13:/var/www/prod.210317/wp-content/themes/wir-lernen-online/"
   },
   "repository": {
     "type": "git",
