@@ -1,16 +1,18 @@
 <?php
 
 add_action('wp_head', 'wlo_ajaxurl');
-function wlo_ajaxurl() {
+function wlo_ajaxurl()
+{
     echo '<script type="text/javascript">
            var ajaxurl = "' . admin_url('admin-ajax.php') . '";
          </script>';
 }
 
 
-add_action( 'wp_ajax_wlo_submenu', 'wlo_submenu' );
-add_action( 'wp_ajax_nopriv_wlo_submenu', 'wlo_submenu' );
-function wlo_submenu() {
+add_action('wp_ajax_wlo_submenu', 'wlo_submenu');
+add_action('wp_ajax_nopriv_wlo_submenu', 'wlo_submenu');
+function wlo_submenu()
+{
     global $wpdb; // this is how you get access to the database
 
     $nodeId =  $_POST['nodeID'];
@@ -52,24 +54,23 @@ function wlo_submenu() {
                 }
 
                 $title = $collection->title;
-                if (!empty($prop->{'ccm:collectionshorttitle'}[0])){
+                if (!empty($prop->{'ccm:collectionshorttitle'}[0])) {
                     $title = $prop->{'ccm:collectionshorttitle'}[0];
                 }
-                $submenu .= '<a href="'.$ccm_location.'">';
-                $submenu .= '<h6>'.$title.'</h6>';
+                $submenu .= '<a href="' . $ccm_location . '">';
+                $submenu .= '<h6>' . $title . '</h6>';
                 $submenu .= '</a>';
-
-                }
             }
-
+        }
     }
     echo $submenu;
     wp_die(); // this is required to terminate immediately and return a proper response
 }
 
-add_action( 'wp_ajax_collection_content_browser', 'collection_content_browser' );
-add_action( 'wp_ajax_nopriv_collection_content_browser', 'collection_content_browser' );
-function collection_content_browser() {
+add_action('wp_ajax_collection_content_browser', 'collection_content_browser');
+add_action('wp_ajax_nopriv_collection_content_browser', 'collection_content_browser');
+function collection_content_browser()
+{
     global $wpdb; // this is how you get access to the database
 
     $postID =  $_POST['postID'];
@@ -134,7 +135,7 @@ function collection_content_browser() {
         $prop = $reference->properties;
 
         // check if deleted
-        if($reference->originalId == null){
+        if ($reference->originalId == null) {
             continue;
         }
 
@@ -163,14 +164,14 @@ function collection_content_browser() {
         }
 
         // Filter LearningResourceType
-        if (!empty($prop->{'ccm:educationallearningresourcetype'})){
+        if (!empty($prop->{'ccm:educationallearningresourcetype'})) {
             if (wlo_edu_filter($prop->{'ccm:educationallearningresourcetype'}, $learningResourceTypes, "map_vocab_learning_resource_types_value_only")) {
                 continue;
             }
         }
 
         // Filter Widgets
-        if (!empty($prop->{'ccm:oeh_widgets'})){
+        if (!empty($prop->{'ccm:oeh_widgets'})) {
             if (wlo_edu_filter($prop->{'ccm:oeh_widgets'}, $oehWidgets, "map_vocab_oeh_widgets_value_only")) {
                 continue;
             }
@@ -188,149 +189,150 @@ function collection_content_browser() {
     } //end foreach
 
 
-    if (!empty($maxResults)){
-        $contentArray = array_slice($contentArray, 0, $maxResults );
+    if (!empty($maxResults)) {
+        $contentArray = array_slice($contentArray, 0, $maxResults);
     }
-    if (!empty($contentArray)){ ?>
+    if (!empty($contentArray)) { ?>
         <div class="portal-collection-content-browser">
             <?php if ($layout == 'list') { ?>
                 <div class="portal_content_list">
-            <?php }else if ($layout == 'grid') { ?>
-                <div class="portal_content_grid <?php echo ($horizontal_scroll == true) ? 'x-scroll' : '' ?>">
-            <?php }else if ($layout == 'slider') {
-                $sliderId = uniqid('slider-'); ?>
-                <div class="portal_content_slider" id="<?php echo $sliderId; ?>">
-            <?php }
+                <?php } else if ($layout == 'grid') { ?>
+                    <div class="portal_content_grid <?php echo ($horizontal_scroll == true) ? 'x-scroll' : '' ?>">
+                    <?php } else if ($layout == 'slider') {
+                    $sliderId = uniqid('slider-'); ?>
+                        <div class="portal_content_slider" id="<?php echo $sliderId; ?>">
+                        <?php }
 
-                foreach ($contentArray as $content) { ?>
+                    foreach ($contentArray as $content) { ?>
 
-                    <div class="portal_content_branch">
-                        <div class="media-type"><?php echo $content['mediatype'] ?></div>
-                        <?php if (!empty($content['image_url'])) { ?>
-                            <img src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=400&maxHeight=400" alt="<?php echo $content['title']; ?>">
+                            <div class="portal_content_branch">
+                                <div class="media-type"><?php echo $content['mediatype'] ?></div>
+                                <?php if (!empty($content['image_url'])) { ?>
+                                    <img src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=400&maxHeight=400" alt="<?php echo $content['title']; ?>">
+                                <?php } ?>
+                                <div class="portal_content_info">
+                                    <div class="portal_search_text">
+                                        <a href="<?php echo $content['content_url']; ?>" target="_blank">
+                                            <h6><?php echo $content['title']; ?></h6>
+                                        </a>
+                                        <h6 class="media-type"><?php echo $content['mediatype'] ?></h6>
+                                        <p><?php echo $content['description'] ?></p>
+                                    </div>
+                                    <div class="portal_search_button">
+                                        <a class="button primary small" href="<?php echo $content['content_url']; ?>" target="_blank">
+                                            <?php echo $content['mediatype']; ?> öffnen
+                                            <span class="hidden_context">für <?php echo $content['title']; ?></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         <?php } ?>
-                        <div class="portal_content_info">
-                            <div class="portal_search_text">
-                                <a href="<?php echo $content['content_url']; ?>" target="_blank">
-                                    <h6><?php echo $content['title']; ?></h6></a>
-                                <h6 class="media-type"><?php echo $content['mediatype'] ?></h6>
-                                <p><?php echo $content['description'] ?></p>
-                            </div>
-                            <div class="portal_search_button">
-                                <a class="button primary small" href="<?php echo $content['content_url']; ?>" target="_blank">
-                                    <?php echo $content['mediatype']; ?> öffnen
-                                    <span class="hidden_context">für <?php echo $content['title']; ?></span>
-                                </a>
-                            </div>
+
                         </div>
                     </div>
 
-
-                <?php } ?>
-
-                    </div>
-                </div>
-
-                <script type="text/javascript">
-                    jQuery(function () {
-                        // Handler for .ready() called. Put the Slick Slider etc. init code here.
-                        function loadSearchSlider() {
-                            if (typeof jQuery().slick === "function") {
-                                jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
-                                    infinite: false,
-                                    slidesToShow: <?php echo $slidesToShow; ?>,
-                                    slidesToScroll: <?php echo $slidesToScroll; ?>,
-                                    arrows: true,
-                                    dots: true,
-                                    zIndex: 0,
-                                    responsive: [
-                                        {
-                                            breakpoint: 950,
-                                            settings: {
-                                                slidesToShow: 2,
-                                                slidesToScroll: 2
+                    <script type="text/javascript">
+                        jQuery(function() {
+                            // Handler for .ready() called. Put the Slick Slider etc. init code here.
+                            function loadSearchSlider() {
+                                if (typeof jQuery().slick === "function") {
+                                    jQuery('#<?php echo $sliderId ?>').not('.slick-initialized').slick({
+                                        infinite: false,
+                                        slidesToShow: <?php echo $slidesToShow; ?>,
+                                        slidesToScroll: <?php echo $slidesToScroll; ?>,
+                                        arrows: true,
+                                        dots: true,
+                                        zIndex: 0,
+                                        responsive: [{
+                                                breakpoint: 950,
+                                                settings: {
+                                                    slidesToShow: 2,
+                                                    slidesToScroll: 2
+                                                }
+                                            },
+                                            {
+                                                breakpoint: 750,
+                                                settings: {
+                                                    slidesToShow: 1,
+                                                    slidesToScroll: 1
+                                                }
                                             }
-                                        },
-                                        {
-                                            breakpoint: 750,
-                                            settings: {
-                                                slidesToShow: 1,
-                                                slidesToScroll: 1
-                                            }
-                                        }
-                                    ]
-                                });
+                                        ]
+                                    });
+                                }
                             }
-                        }
 
-                        loadSearchSlider();
+                            loadSearchSlider();
 
-                        jQuery(window).on('resize', function(){
-                            jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+                            jQuery(window).on('resize', function() {
+                                jQuery('#<?php echo $sliderId ?>').slick('refresh');
+                            });
                         });
-                    });
-                </script>
+                    </script>
 
 
                 <?php }
 
 
 
-    wp_die(); // this is required to terminate immediately and return a proper response
-}
+            wp_die(); // this is required to terminate immediately and return a proper response
+        }
 
 
-add_action( 'wp_ajax_fachportal_content_block', 'fachportal_content_block' );
-add_action( 'wp_ajax_nopriv_fachportal_content_block', 'fachportal_content_block' );
-function fachportal_content_block() {
-    global $wpdb; // this is how you get access to the database
+        add_action('wp_ajax_fachportal_content_block', 'fachportal_content_block');
+        add_action('wp_ajax_nopriv_fachportal_content_block', 'fachportal_content_block');
+        function fachportal_content_block()
+        {
+            global $wpdb; // this is how you get access to the database
 
-    $postID = $_POST['postID'];
-    $collectionID = $_POST['collectionID'];
-    $headline = base64_decode($_POST['headline']);
-    $descrText = base64_decode($_POST['descrText']);
-    $collectionLevel = $_POST['collectionLevel'];
-    $blockIcon = $_POST['blockIcon'];
-    $softmatch = $_POST['softmatch'];
-    $sorting = $_POST['sorting'];
-    $slidesToShow = $_POST['slidesToShow'];
-    $slidesToScroll = $_POST['slidesToScroll'];
-    $contentCount = $_POST['contentCount'];
-    $contentType = json_decode(html_entity_decode($_POST['contentType']), true);
-    $educational_filter_json = $_POST['educational_filter_values'];
+            $postID = $_POST['postID'];
+            $collectionID = $_POST['collectionID'];
+            $headline = base64_decode($_POST['headline']);
+            $descrText = base64_decode($_POST['descrText']);
+            $collectionLevel = $_POST['collectionLevel'];
+            $blockIcon = $_POST['blockIcon'];
+            $softmatch = $_POST['softmatch'];
+            $sorting = $_POST['sorting'];
+            $slidesToShow = $_POST['slidesToShow'];
+            $slidesToScroll = $_POST['slidesToScroll'];
+            $contentCount = $_POST['contentCount'];
+            $contentType = json_decode(html_entity_decode($_POST['contentType']), true);
+            $educational_filter_json = $_POST['educational_filter_values'];
 
-    $educational_filter_values = json_decode(html_entity_decode($educational_filter_json), true);
+            $educational_filter_values = json_decode(html_entity_decode($educational_filter_json), true);
 
-    $disciplines = $educational_filter_values["disciplines"];
-    $educationalContexts = $educational_filter_values["educationalContexts"];
-    $intendedEndUserRoles = $educational_filter_values["intendedEndUserRoles"];
-    $oer = $educational_filter_values["oer"];
-    $objectTypes = $educational_filter_values["objectTypes"];
-    $learningResourceTypes = $educational_filter_values["learningResourceTypes"];
-    $generalKeywords = $educational_filter_values["generalKeyword"];
-    $oehWidgets = $educational_filter_values["oehWidgets"];
+            $disciplines = $educational_filter_values["disciplines"];
+            $educationalContexts = $educational_filter_values["educationalContexts"];
+            $intendedEndUserRoles = $educational_filter_values["intendedEndUserRoles"];
+            $oer = $educational_filter_values["oer"];
+            $objectTypes = $educational_filter_values["objectTypes"];
+            $learningResourceTypes = $educational_filter_values["learningResourceTypes"];
+            $generalKeywords = $educational_filter_values["generalKeyword"];
+            $oehWidgets = $educational_filter_values["oehWidgets"];
 
-    if ($collectionLevel >= 1){  // activate softmatch for 'themenseiten'
-        $softmatch = '1';
-    }
+            if ($collectionLevel >= 1) {  // activate softmatch for 'themenseiten'
+                $softmatch = '1';
+            }
 
-    if (empty($contentCount)){
-        $contentCount = 500;
-    }
+            if (empty($contentCount)) {
+                $contentCount = 500;
+            }
 
-    //$addContentPageID = 9614; //dev
-    $addContentPageID = 9933; //pre
-    //$addContentPageID = 9081; //local
+            //$addContentPageID = 9614; //dev
+            $addContentPageID = 9933; //pre
+            //$addContentPageID = 9081; //local
 
-    $pageTitle = get_the_title($postID);
-    $pageDiscipline = get_field('discipline', $postID)[0]['label'];
+            $pageTitle = get_the_title($postID);
+            $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
-    //only content from the given collection
-    $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
-    $response = callWloRestApi($url);
+            //only content from the given collection
+            $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
+            $response = callWloRestApi($url);
 
-    //also content from the sub-collections
-    /*
+            //also content from the sub-collections
+            /*
     $url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=5000&skipCount=0&propertyFilter=-all-';
     $body = '{
       "criterias": [
@@ -347,372 +349,375 @@ function fachportal_content_block() {
     $response = callWloRestApi($url, 'POST', $body);
     */
 
-    //$rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
-    $rgbBackgroundColor = '255,255,255';
-    $diagramColor = 'rgb(250, 250, 250)';
+            //$rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
+            $rgbBackgroundColor = '255,255,255';
+            $diagramColor = 'rgb(250, 250, 250)';
 
-    if (!empty($contentType['value'])){
-        switch ($contentType['value']){
-            case 0: // lerninhalte
-                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.8)';
-                break;
-            case 1: // tools
-                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.6)';
-                break;
-            case 2: // methoden
-                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.4)';
-                break;
-            case 3: // gut zu wissen
-                $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.2)';
-                break;
-        }
-    }
-
-    $contentArray = array();
-    //if (!empty($response->nodes)){
-    //    foreach ($response->nodes as $reference) {
-    if (!empty($response->references)){
-        foreach ($response->references as $reference) {
-
-            $prop = $reference->properties;
-
-            // check if deleted
-            if($reference->originalId == null){
-                //echo 'skipped deleted';
-                continue;
+            if (!empty($contentType['value'])) {
+                switch ($contentType['value']) {
+                    case 0: // lerninhalte
+                        $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.8)';
+                        break;
+                    case 1: // tools
+                        $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.6)';
+                        break;
+                    case 2: // methoden
+                        $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.4)';
+                        break;
+                    case 3: // gut zu wissen
+                        $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.2)';
+                        break;
+                }
             }
 
-            // Filter disciplines
-            if (!empty($disciplines)) {
-                if (empty($prop->{'ccm:taxonid'}) && $softmatch !== '1'){ // skip empty?
-                    continue;
-                }else if (!empty($prop->{'ccm:taxonid'})){
-                    if (!checkPropertyMatch($prop->{'ccm:taxonid'}, $disciplines, true)) {
-                        //echo 'skipped $disciplines';
+            $contentArray = array();
+            //if (!empty($response->nodes)){
+            //    foreach ($response->nodes as $reference) {
+            if (!empty($response->references)) {
+                foreach ($response->references as $reference) {
+
+                    $prop = $reference->properties;
+
+                    // check if deleted
+                    if ($reference->originalId == null) {
+                        //echo 'skipped deleted';
                         continue;
                     }
-                }
-            }
 
-            // Filter educationalContexts
-            if (!empty($educationalContexts)) {
-                if (empty($prop->{'ccm:educationalcontext'}) && $softmatch !== '1'){ // skip empty?
-                    continue;
-                }else{
-                    if (!checkPropertyMatch($prop->{'ccm:educationalcontext'}, $educationalContexts, true)) {
-                        //echo 'skipped $educationalContexts';
-                        continue;
-                    }
-                }
-            }
-
-            // Filter intendedEndUserRoles
-            if (!empty($intendedEndUserRoles)) {
-                if (empty($prop->{'ccm:educationalintendedenduserrole'}) && $softmatch !== '1'){ // skip empty?
-                    continue;
-                }else{
-                    if (!checkPropertyMatch($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, true)) {
-                        //echo 'skipped $intendedEndUserRoles';
-                        continue;
-                    }
-                }
-            }
-
-            // Filter ObjectType
-            if (!empty($prop->{'ccm:objectType'})) {
-                $propObjectType = $prop->{'ccm:objectType'};
-                if ($propObjectType && !empty($propObjectType) && !empty($objectTypes) && !in_array($propObjectType, $objectTypes)) {
-                    //echo 'skipped $propObjectType';
-                    continue;
-                }
-            }
-
-            // Filter LearningResourceType
-            if (!empty($prop->{'ccm:educationallearningresourcetype'})){
-                if (wlo_edu_filter($prop->{'ccm:educationallearningresourcetype'}, $learningResourceTypes, "map_vocab_learning_resource_types_value_only")) {
-                    //echo 'skipped LearningResourceType';
-                    continue;
-                }
-            }
-
-            // Filter oehWidgets
-            if (!empty($oehWidgets)){
-                if (!empty($prop->{'ccm:oeh_widgets'})){
-                    $propOehWidgets = $prop->{'ccm:oeh_widgets'};
-                    $oehWidgetsVocab = array_map("map_vocab_oeh_widgets_value_only", $oehWidgets);
-                    if (empty( array_intersect($propOehWidgets, $oehWidgetsVocab) ) ) {
-                        //echo 'skipped oehWidgets';
-                        continue;
-                    }
-                }
-            }
-
-            $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
-            $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
-            $isOER = false;
-            foreach ($oerLicenses as $license){
-                if( $nodeLicense == $license){
-                    $isOER = true;
-                }
-            }
-
-            $contentArray[] = array(
-                'id' => $reference->ref->id,
-                'image_url' => $reference->preview->url,
-                'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
-                'title' => !empty($prop->{'cclom:title'}[0]) ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
-                //'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-                'description' => !empty($prop->{'cclom:general_description'}[0]) ? $prop->{'cclom:general_description'}[0] : $reference->ref->id,
-                'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
-                'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
-                'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
-                'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
-                'oer' => $isOER,
-                'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
-            );
-
-        } //end foreach
-    }
-
-    $sliderId = uniqid('slider-');
-    $showSliderDots = 'true';
-    if (count($contentArray) <= 4 && $slidesToShow >= 3){
-        $showSliderDots = 'false';
-    }
-    ?>
-
-        <div class="header">
-            <?php if(!empty($blockIcon)){?>
-                <img class="header-icon" src="<?php echo $blockIcon ?>" alt=""/>
-            <?php }?>
-            <h3>
-            <?php echo $headline;
-                if ($collectionLevel >= 1){
-                    echo ' ('.count($contentArray).')';
-                } ?>
-            </h3>
-            <?php if(!empty($descrText)){?>
-                <p><?php echo $descrText ?></p>
-            <?php }?>
-        </div>
-
-        <div class="content" id="<?php echo $sliderId; ?>">
-            <?php
-            if (!empty($contentArray)){
-                if ($sorting == '2'){
-                    error_log('shuffeld content: '.$headline);
-                    shuffle($contentArray);
-                }
-                foreach (array_slice($contentArray, 0,$contentCount) as $content) { ?>
-                    <div class="widget-content" style="<?php if ($slidesToShow == 1){ echo 'margin: 12px 110px; max-width: 350px;'; } ?>">
-
-                        <button onclick="showContentPopup('<?php echo $content['id']; ?>')">
-
-                            <?php if (!empty($content['image_url'])) { ?>
-                                <img class="main-image" src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $content['title']; ?>">
-                            <?php } ?>
-                            <div class="content-info">
-                                <div class="content-header">
-                                    <?php if ($content['source'] && false){ ?>
-                                        <p class="content-source"><?php echo $content['source']; ?></p>
-                                    <?php } ?>
-                                    <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_green.svg"  alt="Auszeichnung: geprüfter Inhalt">
-                                    <?php if ($content['oer']){ ?>
-                                        <div class="badge ">OER</div>
-                                    <?php } ?>
-                                </div>
-                                <div class="content-title"><?php echo $content['title']; ?></div>
-                                <p class="content-description"><?php echo $content['description'] ?></p>
-                                <div class="content-meta">
-                                    <?php if (!empty($content['resourcetype'])){
-                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/img_icon.svg" alt="Materialart">';
-                                        echo '<p>';
-                                        $i = 0;
-                                        foreach ($content['resourcetype'] as $type){
-                                            if(++$i === count($content['resourcetype'])) {
-                                                echo $type;
-                                            }else{
-                                                echo $type.', ';
-                                            }
-                                        }
-                                        echo '</p>';
-                                    } ?>
-                                </div>
-                                <div class="content-meta">
-                                    <?php if (!empty($content['subjects'])){
-                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/subject_icon.svg" alt="Fächer">';
-                                        echo '<p>';
-                                        $i = 0;
-                                        foreach ($content['subjects'] as $subject) {
-                                            if(++$i === count($content['subjects'])) {
-                                                echo $subject;
-                                            }else{
-                                                echo $subject.', ';
-                                            }
-                                        }
-                                        echo '</p>';
-                                    } ?>
-                                </div>
-                                <div class="content-meta">
-                                    <?php if (!empty($content['educationalcontext'])){
-                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg" alt="Bildungsebene">';
-                                        echo '<p>';
-                                        $i = 0;
-                                        foreach ($content['educationalcontext'] as $subject) {
-                                            if(++$i === count($content['educationalcontext'])) {
-                                                echo $subject;
-                                            }else{
-                                                echo $subject.', ';
-                                            }
-                                        }
-                                        echo '</p>';
-                                    } ?>
-                                </div>
-                                <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
-                            </div>
-
-                        </button>
-
-                    </div>
-                <?php }
-            }else{
-                $contentTitle = 'Noch kein Inhalt?';
-                $buttonText = 'Inhalte vorschlagen';
-                //$addContentUrl = get_page_link($addContentPageID) . '?type=material&collectionID=' . $collectionID;
-                $addContentUrl = get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&headline=' . $pageTitle .'&pageDiscipline=' . $pageDiscipline;
-                if (!empty($contentType['value']) && $contentType['value'] == 1){
-                    $contentTitle = 'Noch kein Tool?';
-                    $buttonText = 'Tool vorschlagen';
-                    //$addContentUrl = get_page_link($addContentPageID) . '?type=tool&collectionID=' . $collectionID;
-                    $addContentUrl = get_page_link(2701) . '?type=tool&collectionID=' . $collectionID;
-                }
-
-                ?>
-                <div class="widget-content no-widget-content">
-                    <img class="main-image" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/no-content.png" alt="Cover: Keine Inhalte">
-                    <div class="content-info no-content-info">
-                        <div class="content-title"><?php echo $contentTitle; ?></div>
-                        <p class="content-description">Füge Inhalte zu diesem Thema hinzu...</p>
-                        <a class="content-button no-content-button" href="<?php echo $addContentUrl; ?>" target="_blank">
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus.svg" alt="Icon: Plus"> <?php echo $buttonText; ?>
-                        </a>
-                    </div>
-                </div>
-            <?php } ?>
-        </div>
-
-    <script type="text/javascript">
-        jQuery(function () {
-            // Handler for .ready() called. Put the Slick Slider etc. init code here.
-            function loadWLOSlider() {
-                if (typeof jQuery().slick === "function") {
-                    jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
-                        infinite: false,
-                        slidesToShow: <?php echo $slidesToShow; ?>,
-                        slidesToScroll: <?php echo $slidesToScroll; ?>,
-                        arrows: true,
-                        dots:  <?php echo $showSliderDots; ?>,
-                        zIndex: 0,
-                        responsive: [
-                            {
-                                breakpoint: 1230,
-                                settings: {
-                                    slidesToShow: <?php echo min($slidesToShow, 3); ?>,
-                                    slidesToScroll: <?php echo min($slidesToScroll, 3); ?>
-                                }
-                            },
-                            {
-                                breakpoint: 950,
-                                settings: {
-                                    slidesToShow: <?php echo min($slidesToShow, 2); ?>,
-                                    slidesToScroll: <?php echo min($slidesToScroll, 2); ?>,
-                                }
-                            },
-                            {
-                                breakpoint: 750,
-                                settings: {
-                                    slidesToShow: <?php echo min($slidesToShow, 1); ?>,
-                                    slidesToScroll: <?php echo min($slidesToScroll, 1); ?>,
-                                }
+                    // Filter disciplines
+                    if (!empty($disciplines)) {
+                        if (empty($prop->{'ccm:taxonid'}) && $softmatch !== '1') { // skip empty?
+                            continue;
+                        } else if (!empty($prop->{'ccm:taxonid'})) {
+                            if (!checkPropertyMatch($prop->{'ccm:taxonid'}, $disciplines, true)) {
+                                //echo 'skipped $disciplines';
+                                continue;
                             }
-                        ]
-                    });
-                }
+                        }
+                    }
+
+                    // Filter educationalContexts
+                    if (!empty($educationalContexts)) {
+                        if (empty($prop->{'ccm:educationalcontext'}) && $softmatch !== '1') { // skip empty?
+                            continue;
+                        } else {
+                            if (!checkPropertyMatch($prop->{'ccm:educationalcontext'}, $educationalContexts, true)) {
+                                //echo 'skipped $educationalContexts';
+                                continue;
+                            }
+                        }
+                    }
+
+                    // Filter intendedEndUserRoles
+                    if (!empty($intendedEndUserRoles)) {
+                        if (empty($prop->{'ccm:educationalintendedenduserrole'}) && $softmatch !== '1') { // skip empty?
+                            continue;
+                        } else {
+                            if (!checkPropertyMatch($prop->{'ccm:educationalintendedenduserrole'}, $intendedEndUserRoles, true)) {
+                                //echo 'skipped $intendedEndUserRoles';
+                                continue;
+                            }
+                        }
+                    }
+
+                    // Filter ObjectType
+                    if (!empty($prop->{'ccm:objectType'})) {
+                        $propObjectType = $prop->{'ccm:objectType'};
+                        if ($propObjectType && !empty($propObjectType) && !empty($objectTypes) && !in_array($propObjectType, $objectTypes)) {
+                            //echo 'skipped $propObjectType';
+                            continue;
+                        }
+                    }
+
+                    // Filter LearningResourceType
+                    if (!empty($prop->{'ccm:educationallearningresourcetype'})) {
+                        if (wlo_edu_filter($prop->{'ccm:educationallearningresourcetype'}, $learningResourceTypes, "map_vocab_learning_resource_types_value_only")) {
+                            //echo 'skipped LearningResourceType';
+                            continue;
+                        }
+                    }
+
+                    // Filter oehWidgets
+                    if (!empty($oehWidgets)) {
+                        if (!empty($prop->{'ccm:oeh_widgets'})) {
+                            $propOehWidgets = $prop->{'ccm:oeh_widgets'};
+                            $oehWidgetsVocab = array_map("map_vocab_oeh_widgets_value_only", $oehWidgets);
+                            if (empty(array_intersect($propOehWidgets, $oehWidgetsVocab))) {
+                                //echo 'skipped oehWidgets';
+                                continue;
+                            }
+                        }
+                    }
+
+                    $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
+                    $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
+                    $isOER = false;
+                    foreach ($oerLicenses as $license) {
+                        if ($nodeLicense == $license) {
+                            $isOER = true;
+                        }
+                    }
+
+                    $contentArray[] = array(
+                        'id' => $reference->ref->id,
+                        'image_url' => $reference->preview->url,
+                        'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+                        'title' => !empty($prop->{'cclom:title'}[0]) ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
+                        //'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
+                        'description' => !empty($prop->{'cclom:general_description'}[0]) ? $prop->{'cclom:general_description'}[0] : $reference->ref->id,
+                        'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
+                        'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
+                        'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
+                        'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
+                        'oer' => $isOER,
+                        'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
+                    );
+                } //end foreach
             }
 
-            loadWLOSlider();
+            $sliderId = uniqid('slider-');
+            $showSliderDots = 'true';
+            if (count($contentArray) <= 4 && $slidesToShow >= 3) {
+                $showSliderDots = 'false';
+            }
+                ?>
 
-            jQuery(window).on('resize', function(){
-                jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
-            });
-        });
+                <div class="header">
+                    <?php if (!empty($blockIcon)) { ?>
+                        <img class="header-icon" src="<?php echo $blockIcon ?>" alt="" />
+                    <?php } ?>
+                    <h3>
+                        <?php echo $headline;
+                        if ($collectionLevel >= 1) {
+                            echo ' (' . count($contentArray) . ')';
+                        } ?>
+                    </h3>
+                    <?php if (!empty($descrText)) { ?>
+                        <p><?php echo $descrText ?></p>
+                    <?php } ?>
+                </div>
 
-        jQuery( document ).ready(function() {
+                <div class="content" id="<?php echo $sliderId; ?>">
+                    <?php
+                    if (!empty($contentArray)) {
+                        if ($sorting == '2') {
+                            error_log('shuffeld content: ' . $headline);
+                            shuffle($contentArray);
+                        }
+                        foreach (array_slice($contentArray, 0, $contentCount) as $content) { ?>
+                            <div class="widget-content" style="<?php if ($slidesToShow == 1) {
+                                                                    echo 'margin: 12px 110px; max-width: 350px;';
+                                                                } ?>">
 
-            <?php if($collectionLevel >= 1 && !empty($contentType['label'])){ ?>
-                jQuery('#<?php echo str_replace(' ', '-', $contentType['label']); ?>-count').html('<?php echo count($contentArray); ?>');
-                let currentCount = parseInt(jQuery('.diagram-count-total').first().text());
-                jQuery( '<div class="diagram-count-total">' + (currentCount + <?php echo count($contentArray); ?>) + '</div>' ).replaceAll( ".diagram-count-total" );
+                                <button onclick="showContentPopup('<?php echo $content['id']; ?>')">
 
-                addData(contentChart, '<?php echo $contentType['label']; ?>', <?php echo count($contentArray); ?>, '<?php echo $diagramColor; ?>', <?php echo $contentType['value']; ?>);
-            <?php } ?>
+                                    <?php if (!empty($content['image_url'])) { ?>
+                                        <img class="main-image" src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $content['title']; ?>">
+                                    <?php } ?>
+                                    <div class="content-info">
+                                        <div class="content-header">
+                                            <?php if ($content['source'] && false) { ?>
+                                                <p class="content-source"><?php echo $content['source']; ?></p>
+                                            <?php } ?>
+                                            <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_green.svg" alt="Auszeichnung: geprüfter Inhalt">
+                                            <?php if ($content['oer']) { ?>
+                                                <div class="badge ">OER</div>
+                                            <?php } ?>
+                                        </div>
+                                        <div class="content-title"><?php echo $content['title']; ?></div>
+                                        <p class="content-description"><?php echo $content['description'] ?></p>
+                                        <div class="content-meta">
+                                            <?php if (!empty($content['resourcetype'])) {
+                                                echo '<img src="' . get_template_directory_uri() . '/src/assets/img/img_icon.svg" alt="Materialart">';
+                                                echo '<p>';
+                                                $i = 0;
+                                                foreach ($content['resourcetype'] as $type) {
+                                                    if (++$i === count($content['resourcetype'])) {
+                                                        echo $type;
+                                                    } else {
+                                                        echo $type . ', ';
+                                                    }
+                                                }
+                                                echo '</p>';
+                                            } ?>
+                                        </div>
+                                        <div class="content-meta">
+                                            <?php if (!empty($content['subjects'])) {
+                                                echo '<img src="' . get_template_directory_uri() . '/src/assets/img/subject_icon.svg" alt="Fächer">';
+                                                echo '<p>';
+                                                $i = 0;
+                                                foreach ($content['subjects'] as $subject) {
+                                                    if (++$i === count($content['subjects'])) {
+                                                        echo $subject;
+                                                    } else {
+                                                        echo $subject . ', ';
+                                                    }
+                                                }
+                                                echo '</p>';
+                                            } ?>
+                                        </div>
+                                        <div class="content-meta">
+                                            <?php if (!empty($content['educationalcontext'])) {
+                                                echo '<img src="' . get_template_directory_uri() . '/src/assets/img/class_icon.svg" alt="Bildungsebene">';
+                                                echo '<p>';
+                                                $i = 0;
+                                                foreach ($content['educationalcontext'] as $subject) {
+                                                    if (++$i === count($content['educationalcontext'])) {
+                                                        echo $subject;
+                                                    } else {
+                                                        echo $subject . ', ';
+                                                    }
+                                                }
+                                                echo '</p>';
+                                            } ?>
+                                        </div>
+                                        <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
+                                    </div>
 
-        });
+                                </button>
 
-    </script>
+                            </div>
+                        <?php }
+                    } else {
+                        $contentTitle = 'Noch kein Inhalt?';
+                        $buttonText = 'Inhalte vorschlagen';
+                        //$addContentUrl = get_page_link($addContentPageID) . '?type=material&collectionID=' . $collectionID;
+                        $addContentUrl = get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&headline=' . $pageTitle . '&pageDiscipline=' . $pageDiscipline;
+                        if (!empty($contentType['value']) && $contentType['value'] == 1) {
+                            $contentTitle = 'Noch kein Tool?';
+                            $buttonText = 'Tool vorschlagen';
+                            //$addContentUrl = get_page_link($addContentPageID) . '?type=tool&collectionID=' . $collectionID;
+                            $addContentUrl = get_page_link(2701) . '?type=tool&collectionID=' . $collectionID;
+                        }
 
-<?php
-    wp_die(); // this is required to terminate immediately and return a proper response
-}
+                        ?>
+                        <div class="widget-content no-widget-content">
+                            <img class="main-image" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/no-content.png" alt="Cover: Keine Inhalte">
+                            <div class="content-info no-content-info">
+                                <div class="content-title"><?php echo $contentTitle; ?></div>
+                                <p class="content-description">Füge Inhalte zu diesem Thema hinzu...</p>
+                                <a class="content-button no-content-button" href="<?php echo $addContentUrl; ?>" target="_blank">
+                                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus.svg" alt="Icon: Plus"> <?php echo $buttonText; ?>
+                                </a>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
 
-add_action( 'wp_ajax_wlo_metaQs', 'wlo_metaQs' );
-add_action( 'wp_ajax_nopriv_wlo_metaQs', 'wlo_metaQs' );
-function wlo_metaQs() {
-    global $wpdb;
+                <script type="text/javascript">
+                    jQuery(function() {
+                        // Handler for .ready() called. Put the Slick Slider etc. init code here.
+                        function loadWLOSlider() {
+                            if (typeof jQuery().slick === "function") {
+                                jQuery('#<?php echo $sliderId ?>').not('.slick-initialized').slick({
+                                    infinite: false,
+                                    slidesToShow: <?php echo $slidesToShow; ?>,
+                                    slidesToScroll: <?php echo $slidesToScroll; ?>,
+                                    arrows: true,
+                                    dots: <?php echo $showSliderDots; ?>,
+                                    zIndex: 0,
+                                    responsive: [{
+                                            breakpoint: 1230,
+                                            settings: {
+                                                slidesToShow: <?php echo min($slidesToShow, 3); ?>,
+                                                slidesToScroll: <?php echo min($slidesToScroll, 3); ?>
+                                            }
+                                        },
+                                        {
+                                            breakpoint: 950,
+                                            settings: {
+                                                slidesToShow: <?php echo min($slidesToShow, 2); ?>,
+                                                slidesToScroll: <?php echo min($slidesToScroll, 2); ?>,
+                                            }
+                                        },
+                                        {
+                                            breakpoint: 750,
+                                            settings: {
+                                                slidesToShow: <?php echo min($slidesToShow, 1); ?>,
+                                                slidesToScroll: <?php echo min($slidesToScroll, 1); ?>,
+                                            }
+                                        }
+                                    ]
+                                });
+                            }
+                        }
 
-    $metaQsMode = $_POST['metaQsMode'];
-    $metaQsHeight = $_POST['metaQsHeight'];
-    $ticket = base64_decode($_POST['ticket']);
-    $admin = $_POST['admin'];
-    $widegtID = uniqid();
-    $badgeID = uniqid();
+                        loadWLOSlider();
 
-    ?>
+                        jQuery(window).on('resize', function() {
+                            jQuery('#<?php echo $sliderId ?>').slick('refresh');
+                        });
+                    });
 
-    <div class="metaqs-badge" id="<?php echo $badgeID; ?>"></div>
-    <app-meta-widget id="<?php echo $widegtID; ?>" collectionid="" ticket="<?php echo $ticket; ?>" mode="<?php echo $metaQsMode; ?>" style="display:flex; height: <?php echo $metaQsHeight; ?>px"></app-meta-widget>
+                    jQuery(document).ready(function() {
 
-    <script>
-        jQuery('#<?php echo $widegtID; ?>').attr("collectionid", jQuery('#portal option:selected').val());
-        jQuery('#<?php echo $badgeID; ?>').html(jQuery('#portal').find('option:selected').attr('name'));
-    </script>
+                        <?php if ($collectionLevel >= 1 && !empty($contentType['label'])) { ?>
+                            jQuery('#<?php echo str_replace(' ', '-', $contentType['label']); ?>-count').html('<?php echo count($contentArray); ?>');
+                            let currentCount = parseInt(jQuery('.diagram-count-total').first().text());
+                            jQuery('<div class="diagram-count-total">' + (currentCount + <?php echo count($contentArray); ?>) + '</div>').replaceAll(".diagram-count-total");
 
-    <?php if ($admin) { ?>
-        <link rel="stylesheet" href="<?php echo WLO_METAQS_NG_URL; ?>/styles.css" media="print" onload="this.media='all'">
-        <noscript><link rel="stylesheet" href="<?php echo WLO_METAQS_NG_URL; ?>styles.css"></noscript>
-        <script src="<?php echo WLO_METAQS_NG_URL; ?>/runtime.js" defer></script>
-        <script src="<?php echo WLO_METAQS_NG_URL; ?>/polyfills.js" defer></script>
-        <script src="<?php echo WLO_METAQS_NG_URL; ?>/main.js" defer></script>
-        <?php echo '</div>';
-    } ?>
+                            addData(contentChart, '<?php echo $contentType['label']; ?>', <?php echo count($contentArray); ?>, '<?php echo $diagramColor; ?>', <?php echo $contentType['value']; ?>);
+                        <?php } ?>
 
-    <?php
-    wp_die();
-}
+                    });
+                </script>
 
-add_action( 'wp_ajax_emptySwimlaneContent', 'emptySwimlaneContent' );
-add_action( 'wp_ajax_nopriv_emptySwimlaneContent', 'emptySwimlaneContent' );
-function emptySwimlaneContent() {
-    global $wpdb;
+            <?php
+            wp_die(); // this is required to terminate immediately and return a proper response
+        }
 
-    $collectionID = $_POST['collectionID'];
-    $pageTitle = $_POST['pageTitle'];
-    $lrtID = $_POST['lrtID'];
-    $searchLrtID = json_decode(html_entity_decode($_POST['searchLrtID']));
+        add_action('wp_ajax_wlo_metaQs', 'wlo_metaQs');
+        add_action('wp_ajax_nopriv_wlo_metaQs', 'wlo_metaQs');
+        function wlo_metaQs()
+        {
+            global $wpdb;
 
-    // Get sub collections
-    $url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
-    $body = '{
+            $metaQsMode = $_POST['metaQsMode'];
+            $metaQsHeight = $_POST['metaQsHeight'];
+            $ticket = base64_decode($_POST['ticket']);
+            $admin = $_POST['admin'];
+            $widegtID = uniqid();
+            $badgeID = uniqid();
+
+            ?>
+
+                <div class="metaqs-badge" id="<?php echo $badgeID; ?>"></div>
+                <app-meta-widget id="<?php echo $widegtID; ?>" collectionid="" ticket="<?php echo $ticket; ?>" mode="<?php echo $metaQsMode; ?>" style="display:flex; height: <?php echo $metaQsHeight; ?>px"></app-meta-widget>
+
+                <script>
+                    jQuery('#<?php echo $widegtID; ?>').attr("collectionid", jQuery('#portal option:selected').val());
+                    jQuery('#<?php echo $badgeID; ?>').html(jQuery('#portal').find('option:selected').attr('name'));
+                </script>
+
+                <?php if ($admin) { ?>
+                    <link rel="stylesheet" href="<?php echo WLO_METAQS_NG_URL; ?>/styles.css" media="print" onload="this.media='all'">
+                    <noscript>
+                        <link rel="stylesheet" href="<?php echo WLO_METAQS_NG_URL; ?>styles.css">
+                    </noscript>
+                    <script src="<?php echo WLO_METAQS_NG_URL; ?>/runtime.js" defer></script>
+                    <script src="<?php echo WLO_METAQS_NG_URL; ?>/polyfills.js" defer></script>
+                    <script src="<?php echo WLO_METAQS_NG_URL; ?>/main.js" defer></script>
+                <?php echo '</div>';
+                } ?>
+
+            <?php
+            wp_die();
+        }
+
+        add_action('wp_ajax_emptySwimlaneContent', 'emptySwimlaneContent');
+        add_action('wp_ajax_nopriv_emptySwimlaneContent', 'emptySwimlaneContent');
+        function emptySwimlaneContent()
+        {
+            global $wpdb;
+
+            $collectionID = $_POST['collectionID'];
+            $pageTitle = $_POST['pageTitle'];
+            $lrtID = $_POST['lrtID'];
+            $searchLrtID = json_decode(html_entity_decode($_POST['searchLrtID']));
+
+            // Get sub collections
+            $url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
+            $body = '{
         "criteria": [
         {
             "property": "collection",
@@ -724,101 +729,101 @@ function emptySwimlaneContent() {
         "facets": [
         ]
     }';
-    $subCollectionContent = callWloRestApi($url, 'POST', $body);
+            $subCollectionContent = callWloRestApi($url, 'POST', $body);
 
-    // Populate $contentArray with filtered and slightly processed nodes from sub collections
-    $contentArray = array();
-    if (!empty($subCollectionContent->nodes)) {
-        foreach ($subCollectionContent->nodes as $reference) {
-            $prop = $reference->properties;
+            // Populate $contentArray with filtered and slightly processed nodes from sub collections
+            $contentArray = array();
+            if (!empty($subCollectionContent->nodes)) {
+                foreach ($subCollectionContent->nodes as $reference) {
+                    $prop = $reference->properties;
 
-            // Check if deleted
-            if ($reference->originalId == null) {
-                continue;
+                    // Check if deleted
+                    if ($reference->originalId == null) {
+                        continue;
+                    }
+
+                    $title = $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0];
+                    // Filter nodes with equal title
+                    foreach ($contentArray as $newContent) {
+                        if ($newContent['title'] == $title) {
+                            continue 2;
+                        }
+                    }
+
+                    // Check if OER
+                    $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
+                    $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
+                    $isOER = false;
+                    foreach ($oerLicenses as $license) {
+                        if ($nodeLicense == $license) {
+                            $isOER = true;
+                        }
+                    }
+
+                    $content_url = $reference->content->url;
+                    $content_url = str_replace('https://redaktion.openeduhub.net/edu-sharing/', 'https://materialkiste.kita.bayern/edu-sharing/', $content_url);
+
+                    // Push to $contentArray
+                    $contentArray[] = array(
+                        'id' => $reference->ref->id,
+                        'image_url' => $reference->preview->url,
+                        'mimetype' => $reference->mimetype,
+                        //'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+                        'content_url' => $content_url,
+                        'title' => $title,
+                        'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
+                        //'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
+                        'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
+                        'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
+                        //'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
+                        'resourcetype' => !empty($prop->{'ccm:oeh_lrt_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_DISPLAYNAME'} : [],
+                        //'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
+                        'author' => !empty($prop->{'ccm:lifecyclecontributer_author'}) ? $prop->{'ccm:lifecyclecontributer_author'} : [],
+                        'oer' => $isOER,
+                        'oeh_lrt' =>  !empty($reference->properties->{'ccm:oeh_lrt'}) ? $reference->properties->{'ccm:oeh_lrt'} : '',
+                        'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
+                    );
+                } //end foreach
             }
 
-            $title = $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0];
-            // Filter nodes with equal title
-            foreach ($contentArray as $newContent) {
-                if ($newContent['title'] == $title) {
-                    continue 2;
-                }
+            $vocab = array();
+            $vocabIDs = explode(',', $lrtID);
+            foreach ($vocabIDs as $id) {
+                $new_vocab = getNewLrtList(basename($id));
+                $vocab = array_merge($vocab, $new_vocab);
             }
 
-            // Check if OER
-            $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
-            $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
-            $isOER = false;
-            foreach ($oerLicenses as $license) {
-                if ($nodeLicense == $license) {
-                    $isOER = true;
-                }
-            }
+            $swimlane_content = wloFilterSwimlane($contentArray, $vocab);
 
-            $content_url = $reference->content->url;
-            $content_url = str_replace('https://redaktion.openeduhub.net/edu-sharing/', 'https://materialkiste.kita.bayern/edu-sharing/', $content_url);
+            if (!empty($swimlane_content['filtered_content'])) {
+                $content = '<div class="subcollections-alert subcollections-alert-overlay">';
+                $content .= '<p>Auf dieser Ebene gibt es keine Inhalte<br>Aber auf den Unterebenen...</p>';
+                $content .= '<button onclick="toggleSubcollections(this)">Inhalte einblenden</button>';
+                $content .= '</div>';
 
-            // Push to $contentArray
-            $contentArray[] = array(
-                'id' => $reference->ref->id,
-                'image_url' => $reference->preview->url,
-                'mimetype' => $reference->mimetype,
-                //'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
-                'content_url' => $content_url,
-                'title' => $title,
-                'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-                //'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
-                'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
-                'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
-                //'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
-                'resourcetype' => !empty($prop->{'ccm:oeh_lrt_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_DISPLAYNAME'} : [],
-                //'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
-                'author' => !empty($prop->{'ccm:lifecyclecontributer_author'}) ? $prop->{'ccm:lifecyclecontributer_author'} : [],
-                'oer' => $isOER,
-                'oeh_lrt' =>  !empty($reference->properties->{'ccm:oeh_lrt'}) ? $reference->properties->{'ccm:oeh_lrt'} : '',
-                'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
-            );
-        } //end foreach
-    }
-
-    $vocab = array();
-    $vocabIDs = explode(',', $lrtID);
-    foreach ($vocabIDs as $id) {
-        $new_vocab = getNewLrtList(basename($id));
-        $vocab = array_merge($vocab, $new_vocab);
-    }
-
-    $swimlane_content = wloFilterSwimlane($contentArray, $vocab);
-
-    if (!empty($swimlane_content['filtered_content'])) {
-        $content = '<div class="subcollections-alert subcollections-alert-overlay">';
-        $content .= '<p>Auf dieser Ebene gibt es keine Inhalte<br>Aber auf den Unterebenen...</p>';
-        $content .= '<button onclick="toggleSubcollections(this)">Inhalte einblenden</button>';
-        $content .= '</div>';
-
-        $content .= '<div class="content-from-subcollections">';
-        $content .= wloAddSwimlaneTile($swimlane_content['filtered_content']);
-        $content .= '</div>';
-    } else {
-        $searchUrl = 'https://suche.wirlernenonline.de/de/search?q=' . $pageTitle . '&filters={"oehLrtAggregated":[';
-        $numItems = count($searchLrtID);
-        $i = 0;
-        foreach ($searchLrtID as $id) {
-            if (++$i === $numItems) {
-                $searchUrl .= '"' . $id . '"';
+                $content .= '<div class="content-from-subcollections">';
+                $content .= wloAddSwimlaneTile($swimlane_content['filtered_content']);
+                $content .= '</div>';
             } else {
-                $searchUrl .= '"' . $id . '",';
+                $searchUrl = 'https://suche.wirlernenonline.de/de/search?q=' . $pageTitle . '&filters={"oehLrtAggregated":[';
+                $numItems = count($searchLrtID);
+                $i = 0;
+                foreach ($searchLrtID as $id) {
+                    if (++$i === $numItems) {
+                        $searchUrl .= '"' . $id . '"';
+                    } else {
+                        $searchUrl .= '"' . $id . '",';
+                    }
+                }
+                $searchUrl .= ']}&pageIndex=0';
+
+                $content = '<div class="subcollections-alert">';
+                $content .= '<p>Hier gibt es noch keine redaktionell geprüften Inhalte.<br>In der Suche findest du maschinell gesammelte Inhalte.</p>';
+                $content .= "<a href='" . ($searchUrl) . "' target='_blank'>Suche öffnen</a>";
+                $content .= '</div>';
             }
+
+            echo $content;
+
+            wp_die();
         }
-        $searchUrl .= ']}&pageIndex=0';
-
-        $content = '<div class="subcollections-alert">';
-        $content .= '<p>Hier gibt es noch keine redaktionell geprüften Inhalte.<br>In der Suche findest du maschinell gesammelte Inhalte.</p>';
-        $content .= "<a href='" . ($searchUrl) . "' target='_blank'>Suche öffnen</a>";
-        $content .= '</div>';
-    }
-
-    echo $content;
-
-    wp_die();
-}

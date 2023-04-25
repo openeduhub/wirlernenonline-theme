@@ -4,7 +4,7 @@
 } ?>
 <?php
 
-require_once(get_template_directory().'/functions/wlo-config.php');
+require_once(get_template_directory() . '/functions/wlo-config.php');
 
 $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
 $educational_filter_values = get_educational_filter_values($postID);
@@ -25,7 +25,7 @@ $collectionID = $params['id'];
 
 $contentCount = get_field('content_count');
 $contentType = get_field('contentType');
-if (isset(get_field('blockIcon')['url'])){
+if (isset(get_field('blockIcon')['url'])) {
     $blockIcon = get_field('blockIcon')['url'];
 }
 $softmatch = get_field('softmatch');
@@ -33,12 +33,12 @@ $sorting = get_field('sorting');
 $descrText = base64_encode(get_field('descrText'));
 
 $headline = '';
-if ($collectionLevel >= 1){
-    if (isset(get_field('contentType')['label'])){
+if ($collectionLevel >= 1) {
+    if (isset(get_field('contentType')['label'])) {
         $headline = get_field('contentType')['label'];
     }
 }
-if(!empty(get_field('headline'))){
+if (!empty(get_field('headline'))) {
     $headline = get_field('headline');
 }
 
@@ -63,11 +63,11 @@ $learningResourceTypes = $educational_filter_values["learningResourceTypes"];
 $generalKeywords = $educational_filter_values["generalKeyword"];
 $oehWidgets = $educational_filter_values["oehWidgets"];
 
-if ($collectionLevel >= 1){  // activate softmatch for 'themenseiten'
+if ($collectionLevel >= 1) {  // activate softmatch for 'themenseiten'
     $softmatch = '1';
 }
 
-if (empty($contentCount)){
+if (empty($contentCount)) {
     $contentCount = 500;
 }
 
@@ -84,10 +84,10 @@ $pageDiscipline = get_field('discipline', $postID)[0]['value'];
 //$response = callWloRestApi($url);
 
 $contentInfo = array(
-        "addContentPageID" => $addContentPageID,
-        "pageTitle" => $pageTitle,
-        "pageDiscipline" => $pageDiscipline,
-        "collectionID" => $collectionID,
+    "addContentPageID" => $addContentPageID,
+    "pageTitle" => $pageTitle,
+    "pageDiscipline" => $pageDiscipline,
+    "collectionID" => $collectionID,
 );
 
 
@@ -95,19 +95,19 @@ $contentInfo = array(
 //$rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
 $rgbBackgroundColor = '255,255,255';
 $diagramColor = 'rgb(250, 250, 250)';
-if (!empty($contentType['value'])){
-    switch ($contentType['value']){
+if (!empty($contentType['value'])) {
+    switch ($contentType['value']) {
         case 0: // lerninhalte
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.8)';
+            $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.8)';
             break;
         case 1: // tools
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.6)';
+            $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.6)';
             break;
         case 2: // methoden
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.4)';
+            $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.4)';
             break;
         case 3: // gut zu wissen
-            $diagramColor = 'rgba('.$rgbBackgroundColor.', 0.2)';
+            $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.2)';
             break;
     }
 }
@@ -167,7 +167,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 <script>
     function addData(chart, label, data_r, data_m, index) {
         //chart.data.labels.push(label);
-        if (data_r >= 1 || data_m >= 1){
+        if (data_r >= 1 || data_m >= 1) {
 
         }
 
@@ -194,22 +194,23 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         // The data for our dataset
         data: {
             datasets: [{
-                label: [],
-                data: [],
-                backgroundColor: "rgba(255,255,255,0.75)",
-            },
-            {
-                label: [],
-                data: [],
-                backgroundColor: "rgba(255,255,255,0.4)",
-            }],
+                    label: [],
+                    data: [],
+                    backgroundColor: "rgba(255,255,255,0.75)",
+                },
+                {
+                    label: [],
+                    data: [],
+                    backgroundColor: "rgba(255,255,255,0.4)",
+                }
+            ],
             labels: [],
         },
 
         // Configuration options go here
         options: {
             indexAxis: 'y',
-            scales:{
+            scales: {
                 xAxes: [{
                     type: 'logarithmic',
                     display: false //this will remove all the x-axis grid lines
@@ -237,7 +238,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         },
     });
 
-    cv.onclick = function(evt){
+    cv.onclick = function(evt) {
         var activePoint = contentChart.getElementAtEvent(evt);
         //console.log('label', contentChart.data.labels[activePoint[0]._index])
         const label = contentChart.data.labels[activePoint[0]._index];
@@ -264,13 +265,13 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $lrtID = 'http://w3id.org/openeduhub/vocabs/new_lrt/a6d1ac52-c557-4151-bc6f-0d99b0b96fb9, http://w3id.org/openeduhub/vocabs/new_lrt/7a6e9608-2554-4981-95dc-47ab9ba924de, http://w3id.org/openeduhub/vocabs/new_lrt/ec2682af-08a9-4ab1-a324-9dca5151e99f, http://w3id.org/openeduhub/vocabs/new_lrt/4665caac-99d7-4da3-b9fb-498d8ece034f';
 
     $searchLrtID = array(
-            'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/b8fb5fb2-d8bf-4bbe-ab68-358b65a26bed',
-            'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/38774279-af36-4ec2-8e70-811d5a51a6a1',
-            'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/39197d6f-dfb1-4e82-92e5-79f906e9d2a9',
-            'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/05aa0f49-7e1b-498b-a7d5-c5fc8e73b2e2',
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/b8fb5fb2-d8bf-4bbe-ab68-358b65a26bed',
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/38774279-af36-4ec2-8e70-811d5a51a6a1',
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/39197d6f-dfb1-4e82-92e5-79f906e9d2a9',
+        'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/05aa0f49-7e1b-498b-a7d5-c5fc8e73b2e2',
     );
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID );
+    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -300,7 +301,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/8526273b-2b21-46f2-ac8d-bbf362c8a690',
     );
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
+    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -329,7 +330,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/02bfd0fe-96ab-4dd6-a306-ec362ec25ea0',
     );
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID );
+    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -358,7 +359,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/37a3ad9c-727f-4b74-bbab-27d59015c695',
     );
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID );
+    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -387,7 +388,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/2e678af3-1026-4171-b88e-3b3a915d1673',
     );
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID );
+    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -418,7 +419,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/b06c5816-60c7-4f1b-bcd7-95d70aaa4740',
     );
 
-    echo wlo_add_swimlane_content( $swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID );
+    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -429,32 +430,32 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 </div>
 
 
-    <?php
-    $other_content = array();
-    foreach ($contentArray as $content) {
-        if(!$content['added']){
-            $other_content[] = $content;
-        }
+<?php
+$other_content = array();
+foreach ($contentArray as $content) {
+    if (!$content['added']) {
+        $other_content[] = $content;
     }
+}
 
-    if (!empty($other_content)){ ?>
+if (!empty($other_content)) { ?>
 
-        <div class="fachportal-content-block">
-            <div class="header">
-                <h3>Weitere Inhalte</h3>
-            </div>
-
-            <?php echo wlo_add_swimlane_content( $other_content, $slidesToShow, $slidesToScroll, $contentInfo ); ?>
+    <div class="fachportal-content-block">
+        <div class="header">
+            <h3>Weitere Inhalte</h3>
         </div>
-    <?php } ?>
 
-    <script>
-        function toggleSubcollections(button){
-            jQuery(button).closest(".no-swimlane-content").find(".content-from-subcollections").addClass("show-subcollections");
-            jQuery(button).closest(".subcollections-alert").hide("fast");
+        <?php echo wlo_add_swimlane_content($other_content, $slidesToShow, $slidesToScroll, $contentInfo); ?>
+    </div>
+<?php } ?>
 
-        }
-    </script>
+<script>
+    function toggleSubcollections(button) {
+        jQuery(button).closest(".no-swimlane-content").find(".content-from-subcollections").addClass("show-subcollections");
+        jQuery(button).closest(".subcollections-alert").hide("fast");
+
+    }
+</script>
 
 
 
