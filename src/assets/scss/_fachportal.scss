@@ -73,6 +73,7 @@ $fachportal_bright: $wlo-primary;
 
   .portal-wrapper-left {
     width: 1200px;
+    max-width: 100%;
     background: #f4f4f4;
   }
 
@@ -504,14 +505,36 @@ app-report-problem {
 
   .no-swimlane-content {
     display: flex;
+    justify-content: center;
     position: relative;
+
+    .fachportal-content-block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @media screen and (max-width: 749.99px) {
+        display: none;
+      }
+    }
 
     .content-from-subcollections {
       display: flex;
       width: 100%;
       opacity: 0.1;
       filter: blur(2px);
+      pointer-events: none;
       transition: 0.3s;
+
+      @media screen and (max-width: 1229.99px) {
+        .widget-content:nth-child(3) {
+          display: none;
+        }
+      }
+      @media screen and (max-width: 949.99px) {
+        .widget-content:nth-child(2) {
+          display: none;
+        }
+      }
 
       .empty-swimlane {
       }
@@ -520,14 +543,15 @@ app-report-problem {
     .show-subcollections {
       opacity: 1;
       filter: none;
+      pointer-events: unset;
     }
 
     .subcollections-alert {
-      position: absolute;
-      top: 125px;
-      right: 320px;
+      &.subcollections-alert-overlay {
+        position: absolute;
+        z-index: 5;
+      }
       padding: 2em;
-      z-index: 5;
 
       p {
         color: $wlo-primary-dark;
@@ -1714,14 +1738,6 @@ app-report-problem {
     select {
       width: 95% !important;
     }
-  }
-
-  .portal-wrapper-left {
-    max-width: 100%;
-  }
-
-  .fachportal-content-block {
-    margin-top: 1.5em;
   }
 
   .wp-block-column:not(:first-child) {

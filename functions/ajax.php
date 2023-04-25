@@ -791,7 +791,7 @@ function emptySwimlaneContent() {
     $swimlane_content = wloFilterSwimlane($contentArray, $vocab);
 
     if (!empty($swimlane_content['filtered_content'])) {
-        $content = '<div class="subcollections-alert">';
+        $content = '<div class="subcollections-alert subcollections-alert-overlay">';
         $content .= '<p>Auf dieser Ebene gibt es keine Inhalte<br>Aber auf den Unterebenen...</p>';
         $content .= '<button onclick="toggleSubcollections(this)">Inhalte einblenden</button>';
         $content .= '</div>';
