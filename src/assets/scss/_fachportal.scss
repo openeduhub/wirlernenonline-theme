@@ -621,15 +621,16 @@ app-report-problem {
 
 .fachportal-header-bar {
   position: sticky;
-  top: -10px;
+  top: -8px;
   background: $fachportal_primary;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 49.6vw);
+  // Make room for the verified-flag. Compensate with negative `top` value.
   border-top: 8px solid white;
   z-index: 55;
 
   .fachportal-header-bar-wrapper {
     display: flex;
+    // Position verified-flag relative to wrapper, so it won't be affected by inner paddings.
+    position: relative;
     justify-content: space-between;
     flex-wrap: wrap;
     max-width: 1200px;
@@ -691,7 +692,6 @@ app-report-problem {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
     padding-right: 50px;
 
     p {
@@ -713,7 +713,7 @@ app-report-problem {
       height: 60px;
       width: auto;
       position: absolute;
-      top: -13px;
+      top: -14px;
       right: 0;
       z-index: 5000;
     }
@@ -742,10 +742,6 @@ app-report-problem {
 
   h3 {
     font-size: 24px;
-  }
-
-  .wlo-tile-team .wlo-team-bookmark {
-    top: -16px;
   }
 
   .description {
@@ -1771,21 +1767,25 @@ app-report-problem {
 
 @media (max-width: 900px) {
   .fachportal-header-bar {
-    top: 0px !important;
-    padding-top: 21px;
-
     .fachportal-header-bar-wrapper {
-      justify-content: space-evenly;
-      padding: 16px 0;
+      padding: 16px 2%;
 
-      .wlo-tile-team {
+      .portal-breadcrumbs {
+        margin-right: 45px; // Make room for verified flag
+      }
+
+      .wlo-tile-team > *:not(.wlo-team-bookmark) {
         display: none;
       }
     }
   }
 
   .fachportal-filterbar {
-    top: 100px !important;
+    // This makes room the breadcrumbs bar to wrap to a second line, but when it wraps further, it
+    // will cover filters.
+    //
+    // TODO: consider making the filter bar non-sticky on small screens.
+    top: 65px !important;
   }
 
   .fachportal-filterbar-dropdowns {

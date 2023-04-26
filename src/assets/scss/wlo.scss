@@ -819,3 +819,10 @@ table.dataTable tfoot td {
     color: black;
   }
 }
+
+@media screen and (max-width: 39.99em) {
+  .main-content {
+    // Adjust to smaller menu bar.
+    margin-top: 91.4px;
+  }
+}
