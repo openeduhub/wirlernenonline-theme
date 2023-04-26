@@ -59,11 +59,11 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
                 $content .= '<img src="' . get_template_directory_uri() . '/src/assets/img/img_icon.svg" alt="Materialart">';
                 $content .= '<p>';
                 $i = 0;
-                foreach ($contentItem['resourcetype'] as $type) {
+                foreach ($contentItem['resourcetype'] as $resourceType) {
                     if (++$i === count($contentItem['resourcetype'])) {
-                        $content .= $type;
+                        $content .= $resourceType;
                     } else {
-                        $content .= $type . ', ';
+                        $content .= $resourceType . ', ';
                     }
                 }
                 $content .= '</p>';
@@ -104,35 +104,11 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
             $content .= '</button>';
             $content .= '</div>';
         }
+        $content .= getAddNewContentTile($contentInfo, $lrtID,  $type);
     } else {
         $content .= '<div class="no-swimlane-content">';
 
-        $contentTitle = 'Mitmachen!';
-        switch ($type) {
-            case 'material':
-                $buttonText = 'Inhalte vorschlagen';
-                break;
-            case 'tool':
-                $buttonText = 'Tool vorschlagen';
-                break;
-            case 'source':
-                $buttonText = 'Quelle vorschlagen';
-                break;
-        }
-        $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['pageTitle'] . '&pageDiscipline=' . $contentInfo['pageDiscipline'] . '&lrtID=' . $lrtID . '&type=' . $type;
-
-        $content .= '<div class="widget-content no-widget-content">';
-        $content .= '<button onclick="showNoContentPopup()">';
-        $content .= '<img class="main-image" src="' . get_template_directory_uri() . '/src/assets/img/mitmachen-3.png" alt="Cover: Keine Inhalte">';
-        $content .= '<div class="content-info no-content-info">';
-        $content .= '<div class="content-title">' . $contentTitle . '</div>';
-        $content .= '<p class="content-description">Füge Inhalte zu diesem Thema hinzu...</p>';
-        $content .= '<a class="content-button no-content-button" href="' . $addContentUrl . '" target="_blank">';
-        $content .= '<img src="' . get_template_directory_uri() . '/src/assets/img/plus.svg" alt="Icon: Plus"> ' . $buttonText;
-        $content .= '</a>';
-        $content .= '</div>';
-        $content .= '</button>';
-        $content .= '</div>';
+        $content .= getAddNewContentTile($contentInfo, $lrtID,  $type);
 
         $emptySwimlaneId = uniqid('emptySwimlaneId-');
 
@@ -204,6 +180,42 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
         });
     </script>';
 
+    return $content;
+}
+
+
+/**
+ * Creates HTML code for a tile that allows the user to propose new content for the place specified
+ * by the function's arguments.
+ */
+function getAddNewContentTile($contentInfo, $lrtID,  $type)
+{
+    $contentTitle = 'Mitmachen!';
+    switch ($type) {
+        case 'material':
+            $buttonText = 'Inhalte vorschlagen';
+            break;
+        case 'tool':
+            $buttonText = 'Tool vorschlagen';
+            break;
+        case 'source':
+            $buttonText = 'Quelle vorschlagen';
+            break;
+    }
+
+    $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['pageTitle'] . '&pageDiscipline=' . $contentInfo['pageDiscipline'] . '&lrtID=' . $lrtID . '&type=' . $type;
+    $content = '<div class="widget-content no-widget-content">';
+    $content .= '<button onclick="showNoContentPopup()">';
+    $content .= '<img class="main-image" src="' . get_template_directory_uri() . '/src/assets/img/mitmachen-3.png" alt="Cover: Keine Inhalte">';
+    $content .= '<div class="content-info no-content-info">';
+    $content .= '<div class="content-title">' . $contentTitle . '</div>';
+    $content .= '<p class="content-description">Füge Inhalte zu diesem Thema hinzu...</p>';
+    $content .= '<a class="content-button no-content-button" href="' . $addContentUrl . '" target="_blank">';
+    $content .= '<img src="' . get_template_directory_uri() . '/src/assets/img/plus.svg" alt="Icon: Plus"> ' . $buttonText;
+    $content .= '</a>';
+    $content .= '</div>';
+    $content .= '</button>';
+    $content .= '</div>';
     return $content;
 }
 
