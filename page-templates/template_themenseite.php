@@ -24,24 +24,24 @@ $response = callWloRestApi($url);
 # Get parents of collection from edu-sharing. Used for breadcrumbs.
 $url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $collectionID . '/parents?propertyFilter=-all-&fullPath=false';
 $parents = callWloRestApi($url);
-if (isset($parents->nodes)){
+if (isset($parents->nodes)) {
     $parents = $parents->nodes;
     # Root subject portal
-    $portal = $parents[count($parents)-2];
+    $portal = $parents[count($parents) - 2];
 }
 
 $portalTitle = '';
-if (isset($portal->title)){
+if (isset($portal->title)) {
     $portalTitle = $portal->title;
 }
 $portalUrl = '#';
-if (!empty($portal->properties->{'cclom:location'}[0])){
+if (!empty($portal->properties->{'cclom:location'}[0])) {
     $portalUrl = $portal->properties->{'cclom:location'}[0];
 }
 $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
 $portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
-switch ($portalID){
+switch ($portalID) {
     case 62890:
         $portalID = 54293; // Musik
         break;
@@ -57,23 +57,23 @@ switch ($portalID){
 }
 // Get authors field from root subject page
 $authors = get_field('authors', $portalID);
-update_field( 'authors', $authors, $postID );
+update_field('authors', $authors, $postID);
 
 $author_ids = get_field('authors', $postID);
-if (empty($author_ids)){
+if (empty($author_ids)) {
     $author_ids = array();
 }
 
 // Collect breadcrumbs data
-$breadcrumbs = Array();
-if (!empty($parents)){
+$breadcrumbs = array();
+if (!empty($parents)) {
     foreach ($parents as $node) {
-        if (is_object($node)){
-            if ($node->title == 'Portale'){
+        if (is_object($node)) {
+            if ($node->title == 'Portale') {
                 $breadcrumbs[] = ['Fachportale', get_page_link(55115)];
-            }else{
+            } else {
                 $title = $node->title;
-                if (!empty($node->properties->{'ccm:collectionshorttitle'}[0])){
+                if (!empty($node->properties->{'ccm:collectionshorttitle'}[0])) {
                     $title = $node->properties->{'ccm:collectionshorttitle'}[0];
                 }
                 $breadcrumbs[] = [$title, wlo_convert_dev_url($node->properties->{'cclom:location'}[0])];
@@ -84,26 +84,27 @@ if (!empty($parents)){
 }
 
 // Use collection description from edu-sharing; default to standard text if no description available
-if (empty($response->collection->properties->{'cm:description'}[0])){
+if (empty($response->collection->properties->{'cm:description'}[0])) {
     $description = '
-                    Hier findest du zahlreiches kostenloses Material für '.$portalTitle.'!<br><br>
+                    Hier findest du zahlreiches kostenloses Material für ' . $portalTitle . '!<br><br>
                     Neben sorgfältig ausgewählten Inhalten für jede Art von Unterricht findest du auch kurzweilige 
-                    Inhalte für '.$portalTitle.' zum eigenständigen Lernen.<br><br>
+                    Inhalte für ' . $portalTitle . ' zum eigenständigen Lernen.<br><br>
                     Du kennst tolle Inhalte? Dann bringe dich und dein Wissen ein! Hilf mit, die besten Inhalte zu sammeln 
                     und zu teilen, empfehle dein persönliches Fach-Highlight oder 
-                    <a href="'.get_page_link(97).'">mach mit</a> in unserer Fachredaktion!
+                    <a href="' . get_page_link(97) . '">mach mit</a> in unserer Fachredaktion!
     ';
-}else{
+} else {
     $description = $response->collection->properties->{'cm:description'}[0];
 }
 
 // Construct URL for "Inhalte vorschlagen". URL is extended to reflect swimlane.
-$addContentUrl = get_page_link(9933) . '?collectionID=' . $collectionID . '&headline=' . get_the_title($postID) .'&pageDiscipline=' . $pageDiscipline;
+$addContentUrl = get_page_link(9933) . '?collectionID=' . $collectionID . '&headline=' . get_the_title($postID) . '&pageDiscipline=' . $pageDiscipline;
 
 
 if (!function_exists('helper_useLightColor')) {
     // Fix contrast issues depending on background color.
-    function helper_useLightColor($bgColor){
+    function helper_useLightColor($bgColor)
+    {
         $color = ($bgColor[0] === '#') ? substr($bgColor, 1, 7) : $bgColor;
         $r = intval(substr($color, 0, 2), 16); // hexToR
         $g = intval(substr($color, 2, 4), 16); // hexToG
@@ -132,7 +133,7 @@ $body = '{
     {
       "property": "collection",
       "values": [
-        "'.$collectionID.'"
+        "' . $collectionID . '"
       ]
     }
   ],
@@ -142,12 +143,12 @@ $body = '{
 $newestContent = callWloRestApi($url, 'POST', $body);
 
 $contentArray = array();
-if (!empty($newestContent->nodes)){
+if (!empty($newestContent->nodes)) {
     foreach ($newestContent->nodes as $reference) {
         $prop = $reference->properties;
 
         //check if deleted
-        if($reference->originalId == null){
+        if ($reference->originalId == null) {
             continue;
         }
 
@@ -161,8 +162,8 @@ if (!empty($newestContent->nodes)){
         $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
         $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
         $isOER = false;
-        foreach ($oerLicenses as $license){
-            if( $nodeLicense == $license){
+        foreach ($oerLicenses as $license) {
+            if ($nodeLicense == $license) {
                 $isOER = true;
             }
         }
@@ -192,13 +193,13 @@ $themenseiten_contentArray = array();
 $educationalcontextArray = array();
 $enduserroleArray = array();
 $oerCount = 0;
-if (!empty($response->references)){
+if (!empty($response->references)) {
     foreach ($response->references as $reference) {
 
         $prop = $reference->properties;
 
         // check if deleted
-        if($reference->originalId == null){
+        if ($reference->originalId == null) {
             //echo 'skipped deleted';
             continue;
         }
@@ -206,8 +207,8 @@ if (!empty($response->references)){
         $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
         $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
         $isOER = false;
-        foreach ($oerLicenses as $license){
-            if( $nodeLicense == $license){
+        foreach ($oerLicenses as $license) {
+            if ($nodeLicense == $license) {
                 $isOER = true;
                 $oerCount++;
             }
@@ -233,25 +234,24 @@ if (!empty($response->references)){
             'added' => false
         );
 
-        if (!empty($prop->{'ccm:educationalcontext_DISPLAYNAME'})){
-            foreach ($prop->{'ccm:educationalcontext_DISPLAYNAME'} as $item){
+        if (!empty($prop->{'ccm:educationalcontext_DISPLAYNAME'})) {
+            foreach ($prop->{'ccm:educationalcontext_DISPLAYNAME'} as $item) {
                 if (!array_key_exists($item, $educationalcontextArray)) {
                     $educationalcontextArray[$item] = 1;
-                }else{
-                    $educationalcontextArray[$item] = $educationalcontextArray[$item]+1;
+                } else {
+                    $educationalcontextArray[$item] = $educationalcontextArray[$item] + 1;
                 }
             }
         }
-        if (!empty($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'})){
-            foreach ($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'} as $item){
+        if (!empty($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'})) {
+            foreach ($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'} as $item) {
                 if (!array_key_exists($item, $enduserroleArray)) {
                     $enduserroleArray[$item] = 1;
-                }else{
-                    $enduserroleArray[$item] = $enduserroleArray[$item]+1;
+                } else {
+                    $enduserroleArray[$item] = $enduserroleArray[$item] + 1;
                 }
             }
         }
-
     } //end foreach
 }
 
@@ -273,7 +273,7 @@ $body = '{
             {
               "property": "ngsearchword",
               "values": [
-                "'.get_the_title($postID).'"
+                "' . get_the_title($postID) . '"
               ]
             }]
         }';
@@ -281,7 +281,7 @@ $body = '{
 $searchContent = callWloRestApi($url, 'POST', $body);
 $searchTotal = $searchContent->pagination->total;
 $searchVocabs = array();
-if (!empty($searchContent->facets[0]->values)){
+if (!empty($searchContent->facets[0]->values)) {
     $searchVocabs = $searchContent->facets[0]->values;
 }
 $GLOBALS['wlo_themenseiten_searchVocabs'] = $searchVocabs;
@@ -297,7 +297,9 @@ while (have_posts()) : the_post(); ?>
 
     <div class="portal">
 
-        <div class="fachportal-header-bar" <?php if (is_admin_bar_showing()){echo 'style="top:23px"';} ?>>
+        <div class="fachportal-header-bar" <?php if (is_admin_bar_showing()) {
+                                                echo 'style="top:23px"';
+                                            } ?>>
             <div class="fachportal-header-bar-wrapper">
                 <div class="portal-breadcrumbs">
 
@@ -340,19 +342,19 @@ while (have_posts()) : the_post(); ?>
                         $subCollections = callWloRestApi($url);
                         $filteredSubCollections = [];
 
-                        if (!empty($subCollections->collections)){
-                            foreach ($subCollections->collections as $collection){
+                        if (!empty($subCollections->collections)) {
+                            foreach ($subCollections->collections as $collection) {
 
                                 // Filter hidden collections
-                                if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated' ) {
+                                if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated') {
                                     continue;
                                 }
 
                                 // Filter educationalContexts
                                 if (!empty($educationalContexts)) {
-                                    if (empty($collection->properties->{'ccm:educationalcontext'})){ // skip empty?
+                                    if (empty($collection->properties->{'ccm:educationalcontext'})) { // skip empty?
                                         //continue;
-                                    }else{
+                                    } else {
                                         if (!checkPropertyMatch($collection->properties->{'ccm:educationalcontext'}, $educationalContexts, true)) {
                                             continue;
                                         }
@@ -380,12 +382,13 @@ while (have_posts()) : the_post(); ?>
                                             $ccm_location = $collection->properties->{'cclom:location'}[0];
 
                                             $title = $collection->title;
-                                            if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
+                                            if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])) {
                                                 $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
                                             }
                                             $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
                                             //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
-                                            //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);?>
+                                            //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
+                                        ?>
                                             <div class="sub-subject">
                                                 <a href="<?php echo $ccm_location; ?>">
                                                     <p><?php echo $title; ?></p>
@@ -393,7 +396,7 @@ while (have_posts()) : the_post(); ?>
                                                 </a>
                                             </div>
                                         <?php } ?>
-                                        <?php if (count($filteredSubCollections) > $maxSubCollections): ?>
+                                        <?php if (count($filteredSubCollections) > $maxSubCollections) : ?>
                                             <div class="sub-subject">
                                                 <a id="sub-subjects-button" href="#">
                                                     <p>mehr anzeigen</p>
@@ -407,10 +410,10 @@ while (have_posts()) : the_post(); ?>
                                         <?php foreach (array_slice($filteredSubCollections, $maxSubCollections) as $collection) {
                                             $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
                                             $title = $collection->title;
-                                            if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
+                                            if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])) {
                                                 $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
                                             }
-                                            ?>
+                                        ?>
                                             <div class="sub-subject">
                                                 <a href="<?php echo $ccm_location; ?>">
                                                     <p><?php echo $title; ?></p>
@@ -447,23 +450,23 @@ while (have_posts()) : the_post(); ?>
                             </div>
 
 
-                                <?php if ($searchTotal == 1){ ?>
-                                    <a class="diagram-legend-entry" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
-                                        <div class="diagram-legend-color search-link">
-                                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter">
-                                        </div>
-                                        1 weiteres Ergebnis in unserer Suchmaschine
-                                    </a>
-                                <?php }else if ($searchTotal > 1){ ?>
-                                    <a class="diagram-legend-entry" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
-                                        <div class="diagram-legend-color search-link">
-                                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot-white.svg" alt="Icon: Roboter">
-                                        </div>
-                                        <?php echo $searchTotal; ?> weitere Ergebnisse in unserer Suchmaschine
-                                    </a>
-                                <?php }else{ ?>
+                            <?php if ($searchTotal == 1) { ?>
+                                <a class="diagram-legend-entry" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
+                                    <div class="diagram-legend-color search-link">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter">
+                                    </div>
+                                    1 weiteres Ergebnis in unserer Suchmaschine
+                                </a>
+                            <?php } else if ($searchTotal > 1) { ?>
+                                <a class="diagram-legend-entry" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
+                                    <div class="diagram-legend-color search-link">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot-white.svg" alt="Icon: Roboter">
+                                    </div>
+                                    <?php echo $searchTotal; ?> weitere Ergebnisse in unserer Suchmaschine
+                                </a>
+                            <?php } else { ?>
 
-                                <?php }?>
+                            <?php } ?>
 
 
                         </div>
@@ -479,7 +482,9 @@ while (have_posts()) : the_post(); ?>
             </div>
         </div>
 
-        <div class="fachportal-filterbar" <?php if (is_admin_bar_showing()){echo 'style="top:80px"';} ?>>
+        <div class="fachportal-filterbar" <?php if (is_admin_bar_showing()) {
+                                                echo 'style="top:80px"';
+                                            } ?>>
 
             <div class="fachportal-filterbar-content">
 
@@ -489,9 +494,9 @@ while (have_posts()) : the_post(); ?>
                         <select name="educationalcontext" id="educationalcontext" onchange="filterContentTiles(this, 'educationalcontext', this.value)">
                             <option value="label" selected disabled>Bildungsstufe</option>
                             <option disabled>──────────</option>
-                            <?php foreach ($educationalcontextArray as $key => $value){ ?>
+                            <?php foreach ($educationalcontextArray as $key => $value) { ?>
                                 <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
-                                    <?php echo $key.' ('.$value.')'; ?>
+                                    <?php echo $key . ' (' . $value . ')'; ?>
                                 </option>
                             <?php } ?>
                         </select>
@@ -499,9 +504,9 @@ while (have_posts()) : the_post(); ?>
                         <select name="enduserrole" id="enduserrole" onchange="filterContentTiles(this, 'enduserrole', this.value)">
                             <option value="label" selected disabled>Zielgruppe</option>
                             <option disabled>──────────</option>
-                            <?php foreach ($enduserroleArray as $key => $value){ ?>
+                            <?php foreach ($enduserroleArray as $key => $value) { ?>
                                 <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
-                                    <?php echo $key.' ('.$value.')'; ?>
+                                    <?php echo $key . ' (' . $value . ')'; ?>
                                 </option>
                             <?php } ?>
                         </select>
@@ -520,24 +525,24 @@ while (have_posts()) : the_post(); ?>
 
 
 
-                    <?php foreach ($educationalcontextArray as $key => $value){
+                    <?php foreach ($educationalcontextArray as $key => $value) {
                         $id = preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key));
-                        ?>
+                    ?>
                         <button id="filter-tag-<?php echo $id; ?>" onclick="filterContentTiles(this, 'educationalcontext', '<?php echo $id; ?>')">
                             <div class="fachportal-filterbar-tag">
                                 <?php echo $key; ?>
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg"  alt="">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
                             </div>
                         </button>
                     <?php } ?>
 
-                    <?php foreach ($enduserroleArray as $key => $value){
+                    <?php foreach ($enduserroleArray as $key => $value) {
                         $id = preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key));
-                        ?>
+                    ?>
                         <button id="filter-tag-<?php echo $id; ?>" onclick="filterContentTiles(this, 'enduserrole', '<?php echo $id; ?>')">
                             <div class="fachportal-filterbar-tag">
                                 <?php echo $key; ?>
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg"  alt="">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
                             </div>
                         </button>
                     <?php } ?>
@@ -546,14 +551,14 @@ while (have_posts()) : the_post(); ?>
                     <button id="filter-tag-oer" onclick="filterContentTiles(this, 'oer', 'oer')">
                         <div class="fachportal-filterbar-tag">
                             OER
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg"  alt="">
+                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
                         </div>
                     </button>
 
                     <button id="filter-tag-no-oer" onclick="filterContentTiles(this, 'oer', 'no-oer')">
                         <div class="fachportal-filterbar-tag">
                             Kein OER
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg"  alt="">
+                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
                         </div>
                     </button>
                 </div>
@@ -568,86 +573,90 @@ while (have_posts()) : the_post(); ?>
                     <div class="wlo-accordion-wrapper" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 0.2);">
                         <button class="wlo-accordion" id="fachportal-accordion-<?php echo $accordionID; ?>">
                             <h2>Die neusten geprüften Inhalte für dich!</h2>
-                            <img class="wlo-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg"  alt="Inhalte ein odder ausklappen">
+                            <img class="wlo-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg" alt="Inhalte ein odder ausklappen">
                         </button>
 
                         <div class="wlo-accordion-content" id="<?php echo $sliderId; ?>">
 
                             <?php
-                            if (!empty($contentArray)){
+                            if (!empty($contentArray)) {
                                 foreach (array_slice($contentArray, 0, get_field('content_count')) as $content) { ?>
-                                    <div class="widget-content<?php if (!empty($content['resourcetype'])){ foreach ($content['resourcetype'] as $type){ echo $type.' '; } } ?>">
+                                    <div class="widget-content<?php if (!empty($content['resourcetype'])) {
+                                                                    foreach ($content['resourcetype'] as $type) {
+                                                                        echo $type . ' ';
+                                                                    }
+                                                                } ?>">
 
                                         <button onclick="showContentPopup('<?php echo $content['id']; ?>')">
 
-                                        <?php if (!empty($content['image_url'])) { ?>
-                                            <img class="main-image" src="<?php echo $content['image_url']; ?>" alt="Cover: <?php echo $content['title']; ?>">
-                                        <?php } ?>
-                                        <div class="content-info">
-                                            <div class="content-header">
-                                                <?php if ($content['source']){ ?>
-                                                    <p class="content-source"><?php echo $content['source']; ?></p>
-                                                <?php } ?>
-                                                <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_green.svg"  alt="Auszeichnung: geprüfter Inhalt">
-                                                <?php if ($content['oer']){ ?>
-                                                    <div class="badge ">OER</div>
-                                                <?php } ?>
-                                            </div>
-                                            <div class="content-title"><?php echo $content['title']; ?></div>
-                                            <p class="content-description"><?php echo $content['description'] ?></p>
-                                            <div class="content-meta">
-                                                <?php if (!empty($content['resourcetype'])){
-                                                    echo '<img src="'. get_template_directory_uri() .'/src/assets/img/img_icon.svg"  alt="Materialart">';
-                                                    echo '<p>';
-                                                    $i = 0;
-                                                    foreach ($content['resourcetype'] as $type){
-                                                        if(++$i === count($content['resourcetype'])) {
-                                                            echo $type;
-                                                        }else{
-                                                            echo $type.', ';
+                                            <?php if (!empty($content['image_url'])) { ?>
+                                                <img class="main-image" src="<?php echo $content['image_url']; ?>" alt="Cover: <?php echo $content['title']; ?>">
+                                            <?php } ?>
+                                            <div class="content-info">
+                                                <div class="content-header">
+                                                    <?php if ($content['source']) { ?>
+                                                        <p class="content-source"><?php echo $content['source']; ?></p>
+                                                    <?php } ?>
+                                                    <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_green.svg" alt="Auszeichnung: geprüfter Inhalt">
+                                                    <?php if ($content['oer']) { ?>
+                                                        <div class="badge ">OER</div>
+                                                    <?php } ?>
+                                                </div>
+                                                <div class="content-title"><?php echo $content['title']; ?></div>
+                                                <p class="content-description"><?php echo $content['description'] ?></p>
+                                                <div class="content-meta">
+                                                    <?php if (!empty($content['resourcetype'])) {
+                                                        echo '<img src="' . get_template_directory_uri() . '/src/assets/img/img_icon.svg"  alt="Materialart">';
+                                                        echo '<p>';
+                                                        $i = 0;
+                                                        foreach ($content['resourcetype'] as $type) {
+                                                            if (++$i === count($content['resourcetype'])) {
+                                                                echo $type;
+                                                            } else {
+                                                                echo $type . ', ';
+                                                            }
                                                         }
-                                                    }
-                                                    echo '</p>';
-                                                } ?>
-                                            </div>
-                                            <div class="content-meta">
-                                                <?php if (!empty($content['subjects'])){
-                                                    echo '<img src="'. get_template_directory_uri() .'/src/assets/img/subject_icon.svg"  alt="Fächer">';
-                                                    echo '<p>';
-                                                    $i = 0;
-                                                    foreach ($content['subjects'] as $subject) {
-                                                        if(++$i === count($content['subjects'])) {
-                                                            echo $subject;
-                                                        }else{
-                                                            echo $subject.', ';
+                                                        echo '</p>';
+                                                    } ?>
+                                                </div>
+                                                <div class="content-meta">
+                                                    <?php if (!empty($content['subjects'])) {
+                                                        echo '<img src="' . get_template_directory_uri() . '/src/assets/img/subject_icon.svg"  alt="Fächer">';
+                                                        echo '<p>';
+                                                        $i = 0;
+                                                        foreach ($content['subjects'] as $subject) {
+                                                            if (++$i === count($content['subjects'])) {
+                                                                echo $subject;
+                                                            } else {
+                                                                echo $subject . ', ';
+                                                            }
                                                         }
-                                                    }
-                                                    echo '</p>';
-                                                } ?>
-                                            </div>
-                                            <div class="content-meta">
-                                                <?php if (!empty($content['educationalcontext'])){
-                                                    echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg"  alt="Bildungsebene">';
-                                                    echo '<p>';
-                                                    $i = 0;
-                                                    foreach ($content['educationalcontext'] as $subject) {
-                                                        if(++$i === count($content['educationalcontext'])) {
-                                                            echo $subject;
-                                                        }else{
-                                                            echo $subject.', ';
+                                                        echo '</p>';
+                                                    } ?>
+                                                </div>
+                                                <div class="content-meta">
+                                                    <?php if (!empty($content['educationalcontext'])) {
+                                                        echo '<img src="' . get_template_directory_uri() . '/src/assets/img/class_icon.svg"  alt="Bildungsebene">';
+                                                        echo '<p>';
+                                                        $i = 0;
+                                                        foreach ($content['educationalcontext'] as $subject) {
+                                                            if (++$i === count($content['educationalcontext'])) {
+                                                                echo $subject;
+                                                            } else {
+                                                                echo $subject . ', ';
+                                                            }
                                                         }
-                                                    }
-                                                    echo '</p>';
-                                                } ?>
-                                            </div>
+                                                        echo '</p>';
+                                                    } ?>
+                                                </div>
 
-                                            <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
+                                                <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
 
-                                        </div>
+                                            </div>
 
 
                                     </div>
-                                <?php }
+                            <?php }
                             } ?>
                         </div>
 
@@ -656,7 +665,7 @@ while (have_posts()) : the_post(); ?>
                     </div>
                 </div>
 
-            <?php the_content(); ?>
+                <?php the_content(); ?>
 
             </div>
             <div class="portal-wrapper-right">
@@ -696,7 +705,7 @@ while (have_posts()) : the_post(); ?>
     </div>
 
     <script>
-        function showContentPopup(nodeID){
+        function showContentPopup(nodeID) {
             document.getElementsByTagName("oeh-details-embedded")[0].setAttribute("node-id", nodeID);
             jQuery(".no-content-popup").hide();
             jQuery(".detail-view-popup").css('display', 'flex');
@@ -708,44 +717,43 @@ while (have_posts()) : the_post(); ?>
             e.stopPropagation();
         });
 
-        jQuery(".fachportal-content-popup").click(function(){
+        jQuery(".fachportal-content-popup").click(function() {
             //jQuery(".portal-wrapper-right").hide();
         });
 
-        function showNoContentPopup(){
+        function showNoContentPopup() {
             jQuery(".detail-view-popup").hide();
             jQuery(".no-content-popup").css('display', 'flex');;
             jQuery(".portal-wrapper-right").show('slow');
         }
 
-        jQuery(".close-no-content-popup").click(function(){
+        jQuery(".close-no-content-popup").click(function() {
             jQuery(".portal-wrapper-right").hide('slow');
             jQuery(".no-content-popup").hide('slow');
         });
 
-        jQuery( "#sub-subjects-button" ).click(function() {
+        jQuery("#sub-subjects-button").click(function() {
             jQuery('#hidden-sub-subjects-container').slideToggle('medium', function() {
-                if (jQuery(this).is(':visible')){
-                    jQuery(this).css('display','flex');
+                if (jQuery(this).is(':visible')) {
+                    jQuery(this).css('display', 'flex');
                 }
             });
             jQuery('#sub-subjects-button').hide();
         });
 
-        jQuery(function () {
+        jQuery(function() {
             // Handler for .ready() called. Put the Slick Slider etc. init code here.
             function loadSlider() {
                 if (typeof jQuery().slick === "function") {
                     console.log('Load-Slider...');
-                    jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
+                    jQuery('#<?php echo $sliderId ?>').not('.slick-initialized').slick({
                         infinite: false,
                         slidesToShow: <?php echo $slidesToShow; ?>,
                         slidesToScroll: <?php echo $slidesToScroll; ?>,
                         arrows: true,
                         dots: true,
                         zIndex: 0,
-                        responsive: [
-                            {
+                        responsive: [{
                                 breakpoint: 1230,
                                 settings: {
                                     slidesToShow: 3,
@@ -773,26 +781,26 @@ while (have_posts()) : the_post(); ?>
 
             loadSlider();
 
-            jQuery(window).on('resize', function(){
-                jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+            jQuery(window).on('resize', function() {
+                jQuery('#<?php echo $sliderId ?>').slick('refresh');
             });
         });
 
-        jQuery(window).on('resize', function(){
-            jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+        jQuery(window).on('resize', function() {
+            jQuery('#<?php echo $sliderId ?>').slick('refresh');
         });
 
-        jQuery('#fachportal-accordion-<?php echo $accordionID; ?>').click(function(){
+        jQuery('#fachportal-accordion-<?php echo $accordionID; ?>').click(function() {
             jQuery(this).find("img").toggleClass("fachportal-accordion-icon-active");
             jQuery('#<?php echo $sliderId; ?>').slideToggle('slow');
-            jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+            jQuery('#<?php echo $sliderId ?>').slick('refresh');
         });
     </script>
 
     <script>
-
-        filterContentTiles = ( () => {
+        filterContentTiles = (() => {
             let activeFilters = [];
+
             function updateTiles(type) {
                 if (activeFilters.length === 0) {
                     jQuery('.widget-content').show('fast');
@@ -820,23 +828,25 @@ while (have_posts()) : the_post(); ?>
                     });
 
                     jQuery('.slick-track').each(function() {
-                        if (jQuery(this).find('.widget-content:visible').length == 0){
+                        if (jQuery(this).find('.widget-content:visible').length == 0) {
                             jQuery(this).closest('.fachportal-content-block').hide();
                         }
                     });
                 }
             }
+
             function setActiveState(filter, isActive) {
-                if (isActive){
-                    let button = jQuery('#filter-tag-'+filter);
-                    jQuery('#filter-tag-'+filter).find('.fachportal-filterbar-tag').addClass('active-btn');
-                }else {
-                    jQuery('#filter-tag-'+filter).find('.fachportal-filterbar-tag').removeClass('active-btn');
+                if (isActive) {
+                    let button = jQuery('#filter-tag-' + filter);
+                    jQuery('#filter-tag-' + filter).find('.fachportal-filterbar-tag').addClass('active-btn');
+                } else {
+                    jQuery('#filter-tag-' + filter).find('.fachportal-filterbar-tag').removeClass('active-btn');
                 }
                 jQuery('.fachportal-filterbar-dropdowns select').each(function() {
-                    jQuery( this ).val("label"); // reset select
+                    jQuery(this).val("label"); // reset select
                 });
             }
+
             function toggleFilter(button, type, filter) {
                 if (activeFilters.includes(filter)) {
                     activeFilters.splice(activeFilters.indexOf(filter), 1);
@@ -849,8 +859,6 @@ while (have_posts()) : the_post(); ?>
             }
             return toggleFilter;
         })()
-
-
     </script>
 
 

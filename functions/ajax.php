@@ -718,17 +718,17 @@ function collection_content_browser()
             // Get sub collections
             $url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
             $body = '{
-        "criteria": [
-        {
-            "property": "collection",
-            "values": [
-            "' . $collectionID . '"
-            ]
-        }
-        ],
-        "facets": [
-        ]
-    }';
+                "criteria": [
+                    {
+                        "property": "collection",
+                        "values": [
+                            "' . $collectionID . '"
+                        ]
+                    }
+                ],
+                "facets": [
+                ]
+            }';
             $subCollectionContent = callWloRestApi($url, 'POST', $body);
 
             // Populate $contentArray with filtered and slightly processed nodes from sub collections

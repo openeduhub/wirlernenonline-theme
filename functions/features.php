@@ -221,25 +221,26 @@ function acf_editor_post_id()
  * @param bool $softMatch
  * @return bool
  */
-function checkPropertyMatch($propertyValue, $matchValue, $softMatch = true){
+function checkPropertyMatch($propertyValue, $matchValue, $softMatch = true)
+{
     // soft match == if the item has the property not defined, always display it
-    if($softMatch && (empty($propertyValue))){
+    if ($softMatch && (empty($propertyValue))) {
         //error_log('softmatch!');
         return true;
     }
 
-    if (is_array($matchValue)){
-        foreach($matchValue as $m){
-            foreach($propertyValue as $p){
-                if(basename($p) == $m){
+    if (is_array($matchValue)) {
+        foreach ($matchValue as $m) {
+            foreach ($propertyValue as $p) {
+                if (basename($p) == $m) {
                     //error_log('match: '.basename($p).'-'.$m);
                     return true;
                 }
             }
         }
-    }else{
-        foreach($propertyValue as $p){
-            if(basename($p) == $matchValue){
+    } else {
+        foreach ($propertyValue as $p) {
+            if (basename($p) == $matchValue) {
                 //error_log('$matchValue: '.basename($p).'-'.$matchValue);
                 return true;
             }
@@ -254,15 +255,18 @@ function callWloGraphApi($search_query)
     $data_string = json_encode($curl_post_data);
 
     $restApiCacheObj = null;
-    if ( ( get_transient( $search_query ) ) === false ) {
+    if ((get_transient($search_query)) === false) {
         // this code runs when there is no valid transient set
         // Get Select-Field Options from Vocab Scheme
         try {
-            $curl = curl_init(WLO_SEARCH.'relay/graphql');
+            $curl = curl_init(WLO_SEARCH . 'relay/graphql');
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            curl_setopt(
+                $curl,
+                CURLOPT_HTTPHEADER,
+                array(
                     'Accept: application/json',
                     'Content-Type: application/json; charset=utf-8'
                 )
@@ -282,38 +286,42 @@ function callWloGraphApi($search_query)
         curl_close($curl);
 
         $restApiCacheObj = json_decode($response);
-        set_transient( $search_query, $restApiCacheObj, 60 );
-    } else{
-        $restApiCacheObj = get_transient( $search_query );
+        set_transient($search_query, $restApiCacheObj, 60);
+    } else {
+        $restApiCacheObj = get_transient($search_query);
     }
 
     return $restApiCacheObj;
 }
 
-function callWloRestApi($url, $type='GET', $body=null){
+function callWloRestApi($url, $type = 'GET', $body = null)
+{
 
     $cacheTime = 60;
     // cache source_table for 24h
     //if ($url == WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/ngsearch/?maxItems=5000&skipCount=25&propertyFilter=-all-'){
-    if (strpos($url, 'rest/search/v1/queries/-home-/mds_oeh/ngsearch/?maxItems=500') !== false){
+    if (strpos($url, 'rest/search/v1/queries/-home-/mds_oeh/ngsearch/?maxItems=500') !== false) {
         $cacheTime = 86400;
     }
 
     $restApiCacheObj = null;
-    if ( ( get_transient( $url.$body ) ) === false ) {
+    if ((get_transient($url . $body)) === false) {
         // this code runs when there is no valid transient set
         // Get Select-Field Options from Vocab Scheme
         try {
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $type);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            curl_setopt(
+                $curl,
+                CURLOPT_HTTPHEADER,
+                array(
                     'Accept: application/json',
                     'Content-Type: application/json; charset=utf-8'
                 )
             );
-            if (!empty($body)){
-                curl_setopt( $curl, CURLOPT_POSTFIELDS, $body );
+            if (!empty($body)) {
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
             }
             $response = curl_exec($curl);
             if ($response === false) {
@@ -330,9 +338,9 @@ function callWloRestApi($url, $type='GET', $body=null){
         curl_close($curl);
 
         $restApiCacheObj = json_decode($response);
-        set_transient( $url.$body, $restApiCacheObj, $cacheTime );
-    } else{
-        $restApiCacheObj = get_transient( $url.$body );
+        set_transient($url . $body, $restApiCacheObj, $cacheTime);
+    } else {
+        $restApiCacheObj = get_transient($url . $body);
     }
 
     return $restApiCacheObj;
@@ -349,39 +357,41 @@ function register_query_vars($qvars)
 
 add_filter('query_vars', 'register_query_vars');
 
-function getWloVocaps($type){
-    $transient = 'vocab_'.$type;
+function getWloVocaps($type)
+{
+    $transient = 'vocab_' . $type;
     $vocab_json = null;
-    if ( false === ( $value = get_transient( $transient ) ) ) {
+    if (false === ($value = get_transient($transient))) {
         // this code runs when there is no valid transient set
         // Get Select-Field Options from Vocab Scheme
-        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/'.$type.'/index.json');
+        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/' . $type . '/index.json');
         $vocab_json = json_decode($json);
-        set_transient( $transient, $vocab_json, 60*60*12 );
-    } else{
-        $vocab_json = get_transient( $transient );
+        set_transient($transient, $vocab_json, 60 * 60 * 12);
+    } else {
+        $vocab_json = get_transient($transient);
     }
     return $vocab_json;
 }
 
-function getNewLrtList($id){
-    $transient = 'new_lrt_vocab_'.$id;
+function getNewLrtList($id)
+{
+    $transient = 'new_lrt_vocab_' . $id;
     $vocab_json = null;
     $new_lrt_list = array();
-    if ( false === ( $value = get_transient( $transient ) ) ) {
+    if (false === ($value = get_transient($transient))) {
         // this code runs when there is no valid transient set
         // Get Select-Field Options from Vocab Scheme
-        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/new_lrt/'.$id.'.json');
+        $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/new_lrt/' . $id . '.json');
         $vocab_json = json_decode($json);
 
-        if (!empty($vocab_json)){
+        if (!empty($vocab_json)) {
             $new_lrt_list[] = array(
-                                'id' => $vocab_json->id,
-                                'label' => $vocab_json->prefLabel->de,
-                                );
+                'id' => $vocab_json->id,
+                'label' => $vocab_json->prefLabel->de,
+            );
 
-            if (!empty($vocab_json->narrower)){
-                foreach ($vocab_json->narrower as $item){
+            if (!empty($vocab_json->narrower)) {
+                foreach ($vocab_json->narrower as $item) {
                     $new_lrt_list[] = array(
                         'id' => $item->id,
                         'label' => $item->prefLabel->de,
@@ -390,14 +400,15 @@ function getNewLrtList($id){
             }
         }
 
-        set_transient( $transient, $new_lrt_list, 60*60*12 );
-    } else{
-        $new_lrt_list = get_transient( $transient );
+        set_transient($transient, $new_lrt_list, 60 * 60 * 12);
+    } else {
+        $new_lrt_list = get_transient($transient);
     }
     return $new_lrt_list;
 }
 
-function get_educational_filter_values($postID){
+function get_educational_filter_values($postID)
+{
 
     $collection_level = map_educational_filter_values('collection_level', $postID);
     $collection_url = map_educational_filter_values('collection_url', $postID);
@@ -424,59 +435,72 @@ function get_educational_filter_values($postID){
     ];
 }
 
-function map_educational_filter_values($filter, $postID, $array = false){
+function map_educational_filter_values($filter, $postID, $array = false)
+{
 
-    if (!empty($_GET[$filter])){
+    if (!empty($_GET[$filter])) {
         return $_GET[$filter];
-    }else if (!empty(get_field($filter))) {
+    } else if (!empty(get_field($filter))) {
         return $array ? array_column(get_field($filter), 'value') : get_field($filter);
-    }else if (!empty(get_field($filter, $postID))){
+    } else if (!empty(get_field($filter, $postID))) {
         return $array ? array_column(get_field($filter, $postID), 'value') : get_field($filter, $postID);
     }
     return '';
 }
 
 
-function map_vocab_disciplines($n){
+function map_vocab_disciplines($n)
+{
     return "\"http://w3id.org/openeduhub/vocabs/discipline/" . strval($n) . "\"";
 }
-function map_vocab_educationalContexts($n){
+function map_vocab_educationalContexts($n)
+{
     return "\"http://w3id.org/openeduhub/vocabs/educationalContext/" . strval($n) . "\"";
 }
-function map_vocab_intendedEndUserRoles($n){
+function map_vocab_intendedEndUserRoles($n)
+{
     return "\"http://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "\"";
 }
-function map_vocab_learningResourceTypes($n){
+function map_vocab_learningResourceTypes($n)
+{
     return "\"http://w3id.org/openeduhub/vocabs/learningResourceType/" . strval($n) . "\"";
 }
-function map_vocab_disciplines_value_only($n){
+function map_vocab_disciplines_value_only($n)
+{
     return "http://w3id.org/openeduhub/vocabs/discipline/" . strval($n) . "";
 }
-function map_vocab_educationalContexts_value_only($n){
+function map_vocab_educationalContexts_value_only($n)
+{
     return "http://w3id.org/openeduhub/vocabs/educationalContext/" . strval($n) . "";
 }
-function map_vocab_intendedEndUserRoles_value_only($n){
+function map_vocab_intendedEndUserRoles_value_only($n)
+{
     return "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/" . strval($n) . "";
 }
 
-function map_vocab_learning_resource_types_value_only($n){
+function map_vocab_learning_resource_types_value_only($n)
+{
     return "http://w3id.org/openeduhub/vocabs/learningResourceType/" . strval($n) . "";
 }
 
-function map_vocab_oeh_widgets_value_only($n){
+function map_vocab_oeh_widgets_value_only($n)
+{
     return "http://w3id.org/openeduhub/vocabs/widgets/" . strval($n) . "";
 }
 
-function map_vocab_value_to_quotes($n){
+function map_vocab_value_to_quotes($n)
+{
     return "\"" . strval($n) . "\"";
 }
 
-function trim_https_http_from_array($array){
-    return str_replace(["https", "http"],'', $array);
+function trim_https_http_from_array($array)
+{
+    return str_replace(["https", "http"], '', $array);
 }
 
 
-function wlo_edu_filter($collectionData, $wpData, $filter){
+function wlo_edu_filter($collectionData, $wpData, $filter)
+{
     $propDisciplines = (!empty($collectionData)) ? $collectionData : [];
     $wpData = (!empty($wpData)) ? $wpData : [];
 
@@ -492,24 +516,25 @@ function wlo_edu_filter($collectionData, $wpData, $filter){
     return $filterDiscipline;
 }
 
-function getSearchFilterValues($field, $postID){
+function getSearchFilterValues($field, $postID)
+{
     $field_values = (!empty(get_field($field, $postID))) ? get_field($field, $postID) : [];
-    if(!empty(get_field($field))){
+    if (!empty(get_field($field))) {
         $field_values = get_field($field);
     };
     $search_filter = '';
-    if (!empty($field_values)){
-        if ($field == 'learningResourceTypes'){
+    if (!empty($field_values)) {
+        if ($field == 'learningResourceTypes') {
             $field = 'learningResourceType';
         }
-        $search_filter .= '"'.$field.'":[';
+        $search_filter .= '"' . $field . '":[';
         $i = 0;
         $len = count($field_values);
-        foreach ($field_values as $value){
+        foreach ($field_values as $value) {
             if ($i == $len - 1) {
-                $search_filter .= '"'.$value['label'].'"';
-            }else{
-                $search_filter .= '"'.$value['label'].'",';
+                $search_filter .= '"' . $value['label'] . '"';
+            } else {
+                $search_filter .= '"' . $value['label'] . '",';
             }
             $i++;
         }
@@ -521,23 +546,27 @@ function getSearchFilterValues($field, $postID){
 
 //add_action( 'user_register', 'wlo_registration_save', 10, 1 );
 
-function wlo_registration_save( $user_id ) {
+function wlo_registration_save($user_id)
+{
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,KEYCLOAK_URL."protocol/openid-connect/token");
+    curl_setopt($ch, CURLOPT_URL, KEYCLOAK_URL . "protocol/openid-connect/token");
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS,
-        "username=".KEYCLOAK_USER."&password=".KEYCLOAK_PW."&client_id=wlo_wordpress&grant_type=password");
+    curl_setopt(
+        $ch,
+        CURLOPT_POSTFIELDS,
+        "username=" . KEYCLOAK_USER . "&password=" . KEYCLOAK_PW . "&client_id=wlo_wordpress&grant_type=password"
+    );
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
 
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $server_output = json_decode(curl_exec ($ch));
-    curl_close ($ch);
+    $server_output = json_decode(curl_exec($ch));
+    curl_close($ch);
 
 
-    if ($server_output->access_token){
+    if ($server_output->access_token) {
 
-        $user = get_userdata( $user_id );
+        $user = get_userdata($user_id);
 
         $curl_post_data = array(
             "username" => $user->user_login,
@@ -547,85 +576,90 @@ function wlo_registration_save( $user_id ) {
             "enabled" => 'true',
         );
         $data_string = json_encode($curl_post_data);
-        $url = KEYCLOAK_URL.'users';
+        $url = KEYCLOAK_URL . 'users';
 
         try {
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            curl_setopt(
+                $curl,
+                CURLOPT_HTTPHEADER,
+                array(
                     'Accept: application/json',
                     'Content-Type: application/json; charset=utf-8',
-                    'Authorization: Bearer '.$server_output->access_token
+                    'Authorization: Bearer ' . $server_output->access_token
                 )
             );
             $response = curl_exec($curl);
             if ($response === false) {
-                error_log( 'curl error' . curl_error($curl));
+                error_log('curl error' . curl_error($curl));
                 return false;
             }
         } catch (Exception $e) {
-            error_log( 'curl error: ' . $e->getMessage() );
+            error_log('curl error: ' . $e->getMessage());
             return false;
         }
         curl_close($curl);
 
         $response = json_decode($response);
 
-        error_log('response: '. print_r($response, true));
+        error_log('response: ' . print_r($response, true));
 
         return true;
     }
-
 }
 
-function restrict_redaktionsumgebung(){
-    if(is_page (9935) && !is_user_logged_in ()){
+function restrict_redaktionsumgebung()
+{
+    if (is_page(9935) && !is_user_logged_in()) {
         $loginUrl = home_url('/login/');
         wp_redirect($loginUrl);
         exit();
     }
 }
-add_action( 'template_redirect', 'restrict_redaktionsumgebung' );
+add_action('template_redirect', 'restrict_redaktionsumgebung');
 
 
-function wlo_update_custom_roles() {
-    if ( get_option( 'custom_roles_version' ) < 5 ) {
-        add_role( 'portal_redakteur', 'Themenportal Redakteur', get_role( 'editor' )->capabilities );
-        add_role( 'community_redakteur', 'Community Redakteur', get_role( 'subscriber' )->capabilities );
-        add_role( 'uploadtahon_user', 'Uploadtahon', get_role( 'editor' )->capabilities );
-        update_option( 'custom_roles_version', 5 );
+function wlo_update_custom_roles()
+{
+    if (get_option('custom_roles_version') < 5) {
+        add_role('portal_redakteur', 'Themenportal Redakteur', get_role('editor')->capabilities);
+        add_role('community_redakteur', 'Community Redakteur', get_role('subscriber')->capabilities);
+        add_role('uploadtahon_user', 'Uploadtahon', get_role('editor')->capabilities);
+        update_option('custom_roles_version', 5);
     }
 }
-add_action( 'init', 'wlo_update_custom_roles' );
+add_action('init', 'wlo_update_custom_roles');
 
 
 
-function callRepoApi($restUrl, $data=null, $contentType = 'Content-Type: application/json', $mode = 'POST', $ticket=null){
+function callRepoApi($restUrl, $data = null, $contentType = 'Content-Type: application/json', $mode = 'POST', $ticket = null)
+{
     $apiUrl = WLO_REPO . $restUrl;
     $login = WLO_REPO_LOGIN;
     $password = WLO_REPO_PW;
 
     $curl = curl_init($apiUrl);
-    if ($mode == 'PUT'){
+    if ($mode == 'PUT') {
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-    }else if($mode == 'POST'){
+    } else if ($mode == 'POST') {
         curl_setopt($curl, CURLOPT_POST, 1);
     }
-    if (!empty($data)){
+    if (!empty($data)) {
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
     }
-    if (empty($ticket)){
+    if (empty($ticket)) {
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "$login:$password");
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Accept: application/json',
             $contentType,
         ));
-    }else{
+    } else {
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Authorization: EDU-TICKET '.$ticket,
+            'Authorization: EDU-TICKET ' . $ticket,
             'Accept: application/json',
             $contentType,
         ));
@@ -634,22 +668,22 @@ function callRepoApi($restUrl, $data=null, $contentType = 'Content-Type: applica
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
     // EXECUTE:
-    try{
+    try {
         $result = curl_exec($curl);
         $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        if($result === false) {
-            echo 'Result empty: '.curl_error($curl).'<br>';
+        if ($result === false) {
+            echo 'Result empty: ' . curl_error($curl) . '<br>';
             return false;
         }
     } catch (Exception $e) {
-        echo 'Exception: '.$e->getMessage().'<br>';
+        echo 'Exception: ' . $e->getMessage() . '<br>';
         return false;
     }
     //error_log(print_r(curl_getinfo($curl), true));
     curl_close($curl);
 
-    if(!$result && $httpcode != 200){
-        echo "Connection Failure (http-code: ".$httpcode.", mode: ".$mode.")<br>";
+    if (!$result && $httpcode != 200) {
+        echo "Connection Failure (http-code: " . $httpcode . ", mode: " . $mode . ")<br>";
         return false;
     }
 
@@ -657,7 +691,8 @@ function callRepoApi($restUrl, $data=null, $contentType = 'Content-Type: applica
     return json_decode($result, true);
 }
 
-function callMailcowAPI($endpoint, $mode='GET', $data=NULL){
+function callMailcowAPI($endpoint, $mode = 'GET', $data = NULL)
+{
     $ch = curl_init();
 
     $url = MAILCOW_URL . $endpoint;
@@ -666,11 +701,11 @@ function callMailcowAPI($endpoint, $mode='GET', $data=NULL){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_HEADER, FALSE);
 
-    if ($mode == 'POST'){
+    if ($mode == 'POST') {
         curl_setopt($ch, CURLOPT_POST, TRUE);
     }
 
-    if (!empty($data)){
+    if (!empty($data)) {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     }
 
@@ -687,8 +722,8 @@ function callMailcowAPI($endpoint, $mode='GET', $data=NULL){
 }
 
 
-if( ! function_exists( 'post_meta_request_params' ) ) :
-    function post_meta_request_params( $args, $request )
+if (!function_exists('post_meta_request_params')) :
+    function post_meta_request_params($args, $request)
     {
         $args += array(
             'meta_key'   => $request['meta_key'],
@@ -701,12 +736,13 @@ if( ! function_exists( 'post_meta_request_params' ) ) :
     }
     //add_filter( 'rest_post_query', 'post_meta_request_params', 99, 2 );
     // add_filter( 'rest_page_query', 'post_meta_request_params', 99, 2 ); // Add support for `page`
-    add_filter( 'rest_portal_query', 'post_meta_request_params', 99, 2 ); // Add support for `my-custom-post`
+    add_filter('rest_portal_query', 'post_meta_request_params', 99, 2); // Add support for `my-custom-post`
 endif;
 
 
-function updateCCMlocation($post_ID, $post_after, $post_before) {
-    if ( 'portal' == get_post_type($post_ID) && $post_before->post_name != $post_after->post_name ) {
+function updateCCMlocation($post_ID, $post_after, $post_before)
+{
+    if ('portal' == get_post_type($post_ID) && $post_before->post_name != $post_after->post_name) {
 
         $educational_filter_values = get_educational_filter_values($post_ID);
         $collectionUrl = $educational_filter_values["collectionUrl"];
@@ -715,12 +751,12 @@ function updateCCMlocation($post_ID, $post_after, $post_before) {
         preg_match_all($pattern, $collectionUrl, $matches);
 
         $url = 'rest/node/v1/nodes/-home-/' . $matches[1][0] . '/metadata?versionComment=change%20cclom%3Alocation';
-        $data = '{"cclom:location":["'.get_permalink($post_ID).'"]}';
+        $data = '{"cclom:location":["' . get_permalink($post_ID) . '"]}';
 
         $result = callRepoApi($url, $data);
-        if ($result){
+        if ($result) {
             error_log('changed slug');
-        }else{
+        } else {
             error_log('curl error');
         }
     }
@@ -728,17 +764,18 @@ function updateCCMlocation($post_ID, $post_after, $post_before) {
 add_action('post_updated', 'updateCCMlocation', 10, 3);
 
 
-function hex2rgb($hex) {
+function hex2rgb($hex)
+{
     $hex = str_replace("#", "", $hex);
 
-    if(strlen($hex) == 3) {
-        $r = hexdec(substr($hex,0,1).substr($hex,0,1));
-        $g = hexdec(substr($hex,1,1).substr($hex,1,1));
-        $b = hexdec(substr($hex,2,1).substr($hex,2,1));
+    if (strlen($hex) == 3) {
+        $r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
+        $g = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
+        $b = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
     } else {
-        $r = hexdec(substr($hex,0,2));
-        $g = hexdec(substr($hex,2,2));
-        $b = hexdec(substr($hex,4,2));
+        $r = hexdec(substr($hex, 0, 2));
+        $g = hexdec(substr($hex, 2, 2));
+        $b = hexdec(substr($hex, 4, 2));
     }
     $rgb = array($r, $g, $b);
     return implode(",", $rgb); // returns the rgb values separated by commas
@@ -746,14 +783,15 @@ function hex2rgb($hex) {
 }
 
 add_action("wpcf7_before_send_mail", "registerNewsletter");
-function registerNewsletter($cf7) {
+function registerNewsletter($cf7)
+{
     // get the contact form object
     $wpcf = WPCF7_ContactForm::get_current();
     $submission = WPCF7_Submission::get_instance();
     //Below statement will return all data submitted by form.
     $data = $submission->get_posted_data();
 
-    if ($data['newsletter']){
+    if ($data['newsletter']) {
         $data = array(
             'fields[email]' => $data['your-email'],
             'ml-submit' => 1
@@ -776,7 +814,8 @@ function registerNewsletter($cf7) {
     return $wpcf;
 }
 
-function wloSubjectType($subject){
+function wloSubjectType($subject)
+{
     switch ($subject) {
         case 'Biologie':
         case 'Mathematik':
@@ -784,8 +823,8 @@ function wloSubjectType($subject){
         case 'Chemie':
         case 'Informatik':
             return array(
-                    'color' => '#003B7C',
-                    'type' => 'MINT',
+                'color' => '#003B7C',
+                'type' => 'MINT',
             );
 
         case 'Politik':
@@ -855,12 +894,13 @@ function wloSubjectType($subject){
 }
 
 
-function pagination_bar() {
+function pagination_bar()
+{
     global $wp_query;
 
     $total_pages = $wp_query->max_num_pages;
 
-    if ($total_pages > 1){
+    if ($total_pages > 1) {
         $current_page = max(1, get_query_var('paged'));
 
         echo paginate_links(array(
@@ -876,14 +916,15 @@ function pagination_bar() {
  * Ultimate Member 2.0 - Customization
  * Description: Allow everyone to upload profile registration pages.
  */
-add_filter("um_user_pre_updating_files_array","um_custom_user_pre_updating_files_array", 10, 1);
-function um_custom_user_pre_updating_files_array( $arr_files ){
+add_filter("um_user_pre_updating_files_array", "um_custom_user_pre_updating_files_array", 10, 1);
+function um_custom_user_pre_updating_files_array($arr_files)
+{
 
-    if( is_array( $arr_files ) ){
-        foreach( $arr_files as $key => $details ){
-            if( $key == "reg_profile_img" ){
-                unset( $arr_files[ $key ] );
-                $arr_files[ "profile_photo" ] = $details;
+    if (is_array($arr_files)) {
+        foreach ($arr_files as $key => $details) {
+            if ($key == "reg_profile_img") {
+                unset($arr_files[$key]);
+                $arr_files["profile_photo"] = $details;
             }
         }
     }
@@ -891,10 +932,11 @@ function um_custom_user_pre_updating_files_array( $arr_files ){
     return $arr_files;
 }
 
-add_filter("um_allow_frontend_image_uploads","um_custom_allow_frontend_image_uploads",10, 3);
-function um_custom_allow_frontend_image_uploads( $allowed, $user_id, $key ){
+add_filter("um_allow_frontend_image_uploads", "um_custom_allow_frontend_image_uploads", 10, 3);
+function um_custom_allow_frontend_image_uploads($allowed, $user_id, $key)
+{
 
-    if( $key == "profile_photo" ){
+    if ($key == "profile_photo") {
         return true;
     }
 
@@ -902,26 +944,27 @@ function um_custom_allow_frontend_image_uploads( $allowed, $user_id, $key ){
 }
 
 
-add_action( 'show_user_profile', 'wlo_show_extra_profile_fields' );
-add_action( 'edit_user_profile', 'wlo_show_extra_profile_fields' );
-function wlo_show_extra_profile_fields( $user ) {
-    $mainSubject = get_the_author_meta( 'mainSubject', $user->ID );
-    ?>
-    <h3><?php esc_html_e( 'Fachredaktion', 'crf' ); ?></h3>
+add_action('show_user_profile', 'wlo_show_extra_profile_fields');
+add_action('edit_user_profile', 'wlo_show_extra_profile_fields');
+function wlo_show_extra_profile_fields($user)
+{
+    $mainSubject = get_the_author_meta('mainSubject', $user->ID);
+?>
+    <h3><?php esc_html_e('Fachredaktion', 'crf'); ?></h3>
 
     <table class="form-table">
         <tr>
-            <th><label for="mainSubject"><?php esc_html_e( 'Hautptfach', 'wlo' ); ?></label></th>
+            <th><label for="mainSubject"><?php esc_html_e('Hautptfach', 'wlo'); ?></label></th>
             <td>
                 <select id="mainSubject" name="mainSubject">
                     <?php
                     $subjects = getWloVocaps('discipline')->hasTopConcept;
 
-                    foreach ($subjects as $subject){
-                        if ($subject->prefLabel->de == $mainSubject){
-                            echo '<option value="'.$subject->prefLabel->de.'" selected="selected">'.$subject->prefLabel->de.'</option>';
-                        }else{
-                            echo '<option value="'.$subject->prefLabel->de.'">'.$subject->prefLabel->de.'</option>';
+                    foreach ($subjects as $subject) {
+                        if ($subject->prefLabel->de == $mainSubject) {
+                            echo '<option value="' . $subject->prefLabel->de . '" selected="selected">' . $subject->prefLabel->de . '</option>';
+                        } else {
+                            echo '<option value="' . $subject->prefLabel->de . '">' . $subject->prefLabel->de . '</option>';
                         }
                     }
                     ?>
@@ -929,10 +972,11 @@ function wlo_show_extra_profile_fields( $user ) {
             </td>
         </tr>
     </table>
-    <?php
+<?php
 }
 
-function new_contactmethods( $contactmethods ) {
+function new_contactmethods($contactmethods)
+{
     $contactmethods['wloEmail'] = 'WLO E-Mail';
     unset($contactmethods['facebook']);
     unset($contactmethods['instagram']);
@@ -946,28 +990,31 @@ function new_contactmethods( $contactmethods ) {
     unset($contactmethods['wikipedia']);
     return $contactmethods;
 }
-add_filter('user_contactmethods','new_contactmethods',10,1);
+add_filter('user_contactmethods', 'new_contactmethods', 10, 1);
 
-add_action( 'personal_options_update', 'wlo_update_profile_fields' );
-add_action( 'edit_user_profile_update', 'wlo_update_profile_fields' );
-function wlo_update_profile_fields( $user_id ) {
-    if ( ! current_user_can( 'edit_user', $user_id ) ) {
+add_action('personal_options_update', 'wlo_update_profile_fields');
+add_action('edit_user_profile_update', 'wlo_update_profile_fields');
+function wlo_update_profile_fields($user_id)
+{
+    if (!current_user_can('edit_user', $user_id)) {
         return false;
     }
 
-    if ( ! empty($_POST['mainSubject'])  ) {
-        update_user_meta( $user_id, 'mainSubject',  $_POST['mainSubject'] );
+    if (!empty($_POST['mainSubject'])) {
+        update_user_meta($user_id, 'mainSubject',  $_POST['mainSubject']);
     }
 }
 
-function wlo_convert_dev_url($url){
-    if (get_site_url() != 'https://wirlernenonline.de'){
+function wlo_convert_dev_url($url)
+{
+    if (get_site_url() != 'https://wirlernenonline.de') {
         return str_replace('https://wirlernenonline.de', get_site_url(), $url);
     }
     return $url;
 }
 
-function wlo_getPortalIDbyName($name){
+function wlo_getPortalIDbyName($name)
+{
 
     switch ($name) {
         case 'DaZ':
@@ -1007,4 +1054,3 @@ function wlo_getPortalIDbyName($name){
     parse_str($url_components['query'], $params);
     return $params['id']; // collectionID
 }
-
