@@ -1005,10 +1005,27 @@ function wlo_update_profile_fields($user_id)
     }
 }
 
-function wlo_convert_dev_url($url)
+/**
+ * Replaces the origin of $url with $origin.
+ * 
+ * Example:
+ *  replaceOrigin('https://example.com/foo?q=bar', 'http://localhost:8000')
+ *      returns 'http://localhost:8000/foo?q=bar'
+ */
+function replaceOrigin(string $url, string $origin): string
 {
-    if (get_site_url() != 'https://wirlernenonline.de') {
-        return str_replace('https://wirlernenonline.de', get_site_url(), $url);
+    $parsedUrl = parse_url($url);
+    $currentOrigin =
+        $parsedUrl['scheme'] . '://' .
+        $parsedUrl['host'] .
+        (isset($parsedUrl['port']) ? ':' . $parsedUrl['port'] : '');
+    return str_replace($currentOrigin, $origin, $url);
+}
+
+function wlo_convert_dev_url(?string $url): ?string
+{
+    if (isset($url) && get_site_url() != 'https://wirlernenonline.de') {
+        return replaceOrigin($url, get_site_url());
     }
     return $url;
 }
