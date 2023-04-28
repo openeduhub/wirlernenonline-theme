@@ -798,7 +798,7 @@ function collection_content_browser()
             if (!empty($swimlane_content['filtered_content'])) {
                 $content = '<div class="subcollections-alert subcollections-alert-overlay">';
                 $content .= '<p>Hier gibt es noch keine geprüften Inhalte.<br>Lass dir die geprüften Inhalte von Unterthemen anzeigen.</p>';
-                $content .= '<button onclick="toggleSubcollections(this)">Inhalte einblenden</button>';
+                $content .= '<button onclick="toggleSubcollections(this)">Inhalte anzeigen</button>';
                 $content .= '</div>';
 
                 $content .= '<div class="content-from-subcollections">';
@@ -818,7 +818,7 @@ function collection_content_browser()
                 $searchUrl .= ']}&pageIndex=0';
 
                 $content = '<div class="subcollections-alert">';
-                $content .= '<p>Hier gibt es noch keine geprüften Inhalte.<br>Lass dir in der Suche maschinell gesammelte Inhalte anzeigen.</p>';
+                $content .= '<p>Hier gibt es noch keine geprüften Inhalte.<br>Finde passende maschinell gesammelte Inhalte mit der Suche.</p>';
                 $content .= "<a href='" . ($searchUrl) . "' target='_blank'>Suche öffnen</a>";
                 $content .= '</div>';
             }
