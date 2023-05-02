@@ -246,10 +246,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 </script>
 
 <div class="fachportal-content-block" id="Medien">
-    <div class="header">
-        <h3>Medien</h3>
-    </div>
-
     <?php
     $images_vocab = getNewLrtList('a6d1ac52-c557-4151-bc6f-0d99b0b96fb9');
     $video_vocab = getNewLrtList('7a6e9608-2554-4981-95dc-47ab9ba924de');
@@ -268,7 +264,13 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/39197d6f-dfb1-4e82-92e5-79f906e9d2a9',
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/05aa0f49-7e1b-498b-a7d5-c5fc8e73b2e2',
     );
+    ?>
 
+    <div class="header">
+        <h3>Medien (<?php echo count($swimlane_content['filtered_content']) ?>)</h3>
+    </div>
+
+    <?php
     echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
@@ -280,10 +282,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 </div>
 
 <div class="fachportal-content-block" id="Unterrichtsplanung">
-    <div class="header">
-        <h3>Unterrichtsplanung</h3>
-    </div>
-
     <?php
     $methods_vocab = getNewLrtList('7381f17f-50a6-4ce1-b3a0-9d85a482eec0');
     $lesson_planning_vocab = getNewLrtList('0a79a1d0-583b-47ce-86a7-517ab352d796');
@@ -298,7 +296,12 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/101c0c66-5202-4eba-9ebf-79f4903752b9',
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/8526273b-2b21-46f2-ac8d-bbf362c8a690',
     );
+    ?>
+    <div class="header">
+        <h3>Unterrichtsplanung (<?php echo count($swimlane_content['filtered_content']) ?>)</h3>
+    </div>
 
+    <?php
     echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
@@ -310,10 +313,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 </div>
 
 <div class="fachportal-content-block" id="Praxismaterialien">
-    <div class="header">
-        <h3>Praxismaterialien</h3>
-    </div>
-
     <?php
     $questionnaire_vocab = getNewLrtList('cd625d33-5d7b-4a86-a54a-9a897ded729f');
     $learning_materials_vocab = getNewLrtList('588efe4f-976f-48eb-84aa-8bcb45679f85');
@@ -327,7 +326,13 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $searchLrtID = array(
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/02bfd0fe-96ab-4dd6-a306-ec362ec25ea0',
     );
+    ?>
 
+    <div class="header">
+        <h3>Praxismaterialien (<?php echo count($swimlane_content['filtered_content']) ?>)</h3>
+    </div>
+
+    <?php
     echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
@@ -341,10 +346,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
 
 <div class="fachportal-content-block" id="Tools">
-    <div class="header">
-        <h3>Tools</h3>
-    </div>
-
     <?php
     $tool_vocab = getNewLrtList('cefccf75-cba3-427d-9a0f-35b4fedcbba1');
 
@@ -356,7 +357,13 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $searchLrtID = array(
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/37a3ad9c-727f-4b74-bbab-27d59015c695',
     );
+    ?>
 
+    <div class="header">
+        <h3>Tools (<?php echo count($swimlane_content['filtered_content']) ?>)</h3>
+    </div>
+
+    <?php
     echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID, 'tool');
     ?>
 
@@ -370,10 +377,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
 
 <div class="fachportal-content-block" id="Quellen">
-    <div class="header">
-        <h3>Quellen</h3>
-    </div>
-
     <?php
     $source_vocab = getNewLrtList('3869b453-d3c1-4b34-8f25-9127e9d68766');
 
@@ -385,7 +388,13 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     $searchLrtID = array(
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/2e678af3-1026-4171-b88e-3b3a915d1673',
     );
+    ?>
 
+    <div class="header">
+        <h3>Quellen (<?php echo count($swimlane_content['filtered_content']) ?>)</h3>
+    </div>
+
+    <?php
     echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID, 'source');
     ?>
 
@@ -398,10 +407,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
 
 <div class="fachportal-content-block" id="Bildungsangebote">
-    <div class="header">
-        <h3>Bildungsangebote, Termine, Veranstaltungen</h3>
-    </div>
-
     <?php
     $educational_offer_vocab = getNewLrtList('03ab835b-c39c-48d1-b5af-7611de2f6464');
     $event_meeting_vocab = getNewLrtList('955590ae-5f06-4513-98e9-91dfa8d5a05e');
@@ -416,7 +421,13 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/37a3ad9c-727f-4b74-bbab-27d59015c695',
         'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/b06c5816-60c7-4f1b-bcd7-95d70aaa4740',
     );
+    ?>
 
+    <div class="header">
+        <h3>Bildungsangebote, Termine, Veranstaltungen (<?php echo count($swimlane_content['filtered_content']) ?>)</h3>
+    </div>
+
+    <?php
     echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
@@ -440,7 +451,7 @@ if (!empty($other_content)) { ?>
 
     <div class="fachportal-content-block">
         <div class="header">
-            <h3>Weitere Inhalte</h3>
+            <h3>Weitere Inhalte (<?php echo count($other_content) ?>)</h3>
         </div>
 
         <?php echo wlo_add_swimlane_content($other_content, $slidesToShow, $slidesToScroll, $contentInfo); ?>
