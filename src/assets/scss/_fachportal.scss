@@ -621,10 +621,10 @@ app-report-problem {
 
 .fachportal-header-bar {
   position: sticky;
-  top: -8px;
+  top: -18px;
   background: $fachportal_primary;
   // Make room for the verified-flag. Compensate with negative `top` value.
-  border-top: 8px solid white;
+  border-top: 18px solid white;
   z-index: 55;
 
   .fachportal-header-bar-wrapper {
@@ -692,7 +692,7 @@ app-report-problem {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-right: 50px;
+    padding-right: 115px;
 
     p {
       color: white;
@@ -710,12 +710,11 @@ app-report-problem {
 
     .wlo-team-bookmark {
       border-radius: 0;
-      height: 60px;
+      height: 142px;
       width: auto;
       position: absolute;
-      top: -14px;
+      top: -23.6px;
       right: 0;
-      z-index: 5000;
     }
   }
 }
@@ -1039,12 +1038,12 @@ app-report-problem {
 
 .fachportal-filterbar {
   position: sticky;
-  top: 48px;
+  top: 62px;
   background: white;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 49.6vw);
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
-  z-index: 50;
+  z-index: 55;
 
   .fachportal-filterbar-content {
     display: flex;
@@ -1767,6 +1766,9 @@ app-report-problem {
 
 @media (max-width: 900px) {
   .fachportal-header-bar {
+    top: -18px;
+    border-top-width: 18px;
+
     .fachportal-header-bar-wrapper {
       padding: 16px 24px;
 
@@ -1778,6 +1780,8 @@ app-report-problem {
         display: none;
       }
       .wlo-team-bookmark {
+        height: 68px;
+        top: -15px;
         right: 24px;
       }
     }

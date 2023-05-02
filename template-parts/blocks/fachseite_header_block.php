@@ -83,7 +83,7 @@ $GLOBALS['wlo_fachportal'] = array(
                 <?php foreach ($author_ids as $author_id) {
                     echo $author_id['user_avatar'];
                 } ?>
-                <img class="wlo-team-bookmark" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Bookmark.svg">
+                <img class="wlo-team-bookmark" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/QS-Faehnchen.svg">
             </div>
 
         </div>
