@@ -504,80 +504,9 @@ function collection_content_browser()
                             error_log('shuffeld content: ' . $headline);
                             shuffle($contentArray);
                         }
-                        foreach (array_slice($contentArray, 0, $contentCount) as $content) { ?>
-                            <div class="widget-content" style="<?php if ($slidesToShow == 1) {
-                                                                    echo 'margin: 12px 110px; max-width: 350px;';
-                                                                } ?>">
-
-                                <button onclick="showContentPopup('<?php echo $content['id']; ?>')">
-
-                                    <?php if (!empty($content['image_url'])) { ?>
-                                        <img class="main-image" src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $content['title']; ?>">
-                                    <?php } ?>
-                                    <div class="content-info">
-                                        <div class="content-header">
-                                            <?php if ($content['source'] && false) { ?>
-                                                <p class="content-source"><?php echo $content['source']; ?></p>
-                                            <?php } ?>
-                                            <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_green.svg" alt="Auszeichnung: geprüfter Inhalt">
-                                            <?php if ($content['oer']) { ?>
-                                                <div class="badge ">OER</div>
-                                            <?php } ?>
-                                        </div>
-                                        <div class="content-title"><?php echo $content['title']; ?></div>
-                                        <p class="content-description"><?php echo $content['description'] ?></p>
-                                        <div class="content-meta">
-                                            <?php if (!empty($content['resourcetype'])) {
-                                                echo '<img src="' . get_template_directory_uri() . '/src/assets/img/img_icon.svg" alt="Materialart">';
-                                                echo '<p>';
-                                                $i = 0;
-                                                foreach ($content['resourcetype'] as $type) {
-                                                    if (++$i === count($content['resourcetype'])) {
-                                                        echo $type;
-                                                    } else {
-                                                        echo $type . ', ';
-                                                    }
-                                                }
-                                                echo '</p>';
-                                            } ?>
-                                        </div>
-                                        <div class="content-meta">
-                                            <?php if (!empty($content['subjects'])) {
-                                                echo '<img src="' . get_template_directory_uri() . '/src/assets/img/subject_icon.svg" alt="Fächer">';
-                                                echo '<p>';
-                                                $i = 0;
-                                                foreach ($content['subjects'] as $subject) {
-                                                    if (++$i === count($content['subjects'])) {
-                                                        echo $subject;
-                                                    } else {
-                                                        echo $subject . ', ';
-                                                    }
-                                                }
-                                                echo '</p>';
-                                            } ?>
-                                        </div>
-                                        <div class="content-meta">
-                                            <?php if (!empty($content['educationalcontext'])) {
-                                                echo '<img src="' . get_template_directory_uri() . '/src/assets/img/class_icon.svg" alt="Bildungsebene">';
-                                                echo '<p>';
-                                                $i = 0;
-                                                foreach ($content['educationalcontext'] as $subject) {
-                                                    if (++$i === count($content['educationalcontext'])) {
-                                                        echo $subject;
-                                                    } else {
-                                                        echo $subject . ', ';
-                                                    }
-                                                }
-                                                echo '</p>';
-                                            } ?>
-                                        </div>
-                                        <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
-                                    </div>
-
-                                </button>
-
-                            </div>
-                        <?php }
+                        foreach (array_slice($contentArray, 0, $contentCount) as $content) {
+                            printWloCard($content, $slidesToShow);
+                        }
                     } else {
                         $contentTitle = 'Noch kein Inhalt?';
                         $buttonText = 'Inhalte vorschlagen';
@@ -590,7 +519,7 @@ function collection_content_browser()
                             $addContentUrl = get_page_link(2701) . '?type=tool&collectionID=' . $collectionID;
                         }
 
-                        ?>
+                    ?>
                         <div class="widget-content no-widget-content">
                             <img class="main-image" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/no-content.png" alt="Cover: Keine Inhalte">
                             <div class="content-info no-content-info">
@@ -789,15 +718,20 @@ function collection_content_browser()
 
             $swimlane_content = wloFilterSwimlane($contentArray, $vocab);
 
-            if (!empty($swimlane_content['filtered_content'])) {
-                $content = '<div class="subcollections-alert">';
-                $content .= '<p>Hier gibt es noch keine geprüften Inhalte.<br>Lass dir die geprüften Inhalte von Unterthemen anzeigen.</p>';
-                $content .= '<button onclick="toggleSubcollections(this)">Inhalte anzeigen</button>';
-                $content .= '</div>';
+            if (!empty($swimlane_content['filtered_content'])) { ?>
+                <div class="subcollections-alert">
+                    <p>Hier gibt es noch keine geprüften Inhalte.<br>Lass dir die geprüften Inhalte von Unterthemen anzeigen.</p>
+                    <button onclick="toggleSubcollections(this)">Inhalte anzeigen</button>
+                </div>
 
-                $content .= '<div class="content-from-subcollections">';
-                $content .= wloAddSwimlaneTile($swimlane_content['filtered_content']);
-                $content .= '</div>';
+                <div class="content-from-subcollections">
+                    <?php
+                        foreach (array_slice($swimlane_content['filtered_content'], 0, 3) as $contentItem) {
+                             printWloCard($contentItem, 3);
+                        }
+                     ?>
+                </div>
+            <?php
             } else {
                 $searchUrl = 'https://suche.wirlernenonline.de/de/search?q=' . $pageTitle . '&filters={"oehLrtAggregated":[';
                 $numItems = count($searchLrtID);
@@ -809,15 +743,13 @@ function collection_content_browser()
                         $searchUrl .= '"' . $id . '",';
                     }
                 }
-                $searchUrl .= ']}&pageIndex=0';
-
-                $content = '<div class="subcollections-alert">';
-                $content .= '<p>Hier gibt es noch keine geprüften Inhalte.<br>Finde passende maschinell gesammelte Inhalte mit der Suche.</p>';
-                $content .= "<a href='" . ($searchUrl) . "' target='_blank'>Suche öffnen</a>";
-                $content .= '</div>';
+                $searchUrl .= ']}'; 
+            ?>
+                <div class="subcollections-alert">
+                    <p>Hier gibt es noch keine geprüften Inhalte.<br>Finde passende maschinell gesammelte Inhalte mit der Suche.</p>
+                    <a href="<?php echo htmlspecialchars($searchUrl); ?>" target="_blank">Suche öffnen</a>
+                </div>
+        <?php
             }
-
-            echo $content;
-
             wp_die();
         }

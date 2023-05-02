@@ -271,7 +271,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     </div>
 
     <?php
-    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
+    wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -302,7 +302,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     </div>
 
     <?php
-    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
+    wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -333,7 +333,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     </div>
 
     <?php
-    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
+    wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -364,7 +364,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     </div>
 
     <?php
-    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID, 'tool');
+    wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID, 'tool');
     ?>
 
     <script>
@@ -395,7 +395,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     </div>
 
     <?php
-    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID, 'source');
+    wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID, 'source');
     ?>
 
     <script>
@@ -428,7 +428,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     </div>
 
     <?php
-    echo wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
+    wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
     <script>
@@ -454,7 +454,7 @@ if (!empty($other_content)) { ?>
             <h3>Weitere Inhalte (<?php echo count($other_content) ?>)</h3>
         </div>
 
-        <?php echo wlo_add_swimlane_content($other_content, $slidesToShow, $slidesToScroll, $contentInfo); ?>
+        <?php wlo_add_swimlane_content($other_content, $slidesToShow, $slidesToScroll, $contentInfo); ?>
     </div>
 <?php } ?>
 
