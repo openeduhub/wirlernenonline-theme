@@ -291,10 +291,8 @@ p.header-text, span.header-text {
     height: 425px;
     margin: 20px 11px;
     background: white;
-    border: 1px solid #e0e0e0;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
     transition: 0.3s;
 
     a {
@@ -527,11 +525,12 @@ p.header-text, span.header-text {
 
   .widget-content:hover {
     transform: translate(0, -4px);
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
   }
 
   .no-widget-content {
     button {
+      cursor: pointer;
       width: 100%;
     }
   }
@@ -558,7 +557,9 @@ p.header-text, span.header-text {
 
     .content-from-subcollections {
       display: flex;
+      // align-self: stretch; // Align card heights.
       width: 100%;
+      min-width: 0;
       opacity: 0.1;
       filter: blur(2px);
       pointer-events: none;
@@ -566,18 +567,14 @@ p.header-text, span.header-text {
       justify-content: center;
 
       @media screen and (max-width: 1229.99px) {
-        .widget-content:nth-child(3) {
+        .wlo-card:nth-child(3) {
           display: none;
         }
       }
       @media screen and (max-width: 949.99px) {
-        .widget-content:nth-child(2) {
+        .wlo-card:nth-child(2) {
           display: none;
         }
-      }
-
-      .widget-content {
-        max-width: 275px;
       }
     }
 

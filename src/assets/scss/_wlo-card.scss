@@ -1,0 +1,124 @@
+@mixin fade-out-text($numLines: 2, $lineHeight: 1.2em) {
+  position: relative;
+  max-height: calc($numLines * $lineHeight);
+  overflow: hidden;
+  line-height: $lineHeight;
+  @if $numLines == 1 {
+    white-space: nowrap;
+  }
+  &::after {
+    content: '';
+    text-align: right;
+    position: absolute;
+    top: ($numLines - 1) * $lineHeight;
+    right: 0;
+    width: 30%;
+    height: $lineHeight;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255) 50%);
+  }
+}
+
+.wlo-card {
+  position: relative;
+  // Equally distribute cards in `.content-from-subcollections` container
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  margin: 20px 11px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: white;
+  transition: 0.3s;
+
+  &:hover,
+  &:focus {
+    transform: translate(0, -4px);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+  }
+
+  .wlo-card-image-container {
+    position: relative;
+    .wlo-card-image {
+      height: 212px;
+      width: 100%;
+      object-fit: cover;
+    }
+    .media-type-icon-container {
+      position: absolute;
+      bottom: 0;
+      right: 10%;
+      background-color: white;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      overflow: hidden;
+      padding: 10px 12px 0;
+      .media-type-icon {
+        height: 30px;
+      }
+    }
+  }
+
+  .wlo-card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 18px;
+    color: #545454;
+
+    .media-summary {
+      align-self: flex-end;
+      margin: 8px 5% 0 0;
+    }
+
+    button.wlo-card-title {
+      margin: 14px 0 8px;
+      font-size: 18px;
+      cursor: pointer;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+      }
+
+      h3 {
+        color: black;
+        font-family: 'Montserrat-Medium';
+        font-weight: 500;
+        white-space: unset;
+        text-align: left;
+        @include fade-out-text(2, 1.5em);
+      }
+    }
+
+    .wlo-card-description {
+      margin-bottom: 24px;
+      @include fade-out-text(2, 1.4em);
+    }
+
+    .wlo-card-meta {
+      flex-grow: 1;
+      margin-bottom: 24px;
+      p {
+        margin-bottom: 0.2em;
+        color: #6689b0;
+        @include fade-out-text(1, 1.4em);
+      }
+    }
+
+    .wlo-card-source-container {
+      display: flex;
+      align-items: center;
+      gap: 2em;
+      margin-bottom: 16px;
+      p {
+        margin: 0;
+        flex-grow: 1;
+      }
+    }
+  }
+}

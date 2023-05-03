@@ -138,61 +138,75 @@ function getWloCardDataAttributes(array $item): string
  */
 function printWloCard(mixed $item, int $slidesToShow): void
 {
-    $style = $slidesToShow == 1 ? 'margin: 12px 110px; max-width: 350px;' : '';
     $data = getWloCardDataAttributes($item);
 ?>
-    <div class="widget-content" <?php echo $data; ?> style="<?php echo $style; ?>">
-        <button onclick="showContentPopup('<?php echo $item['id']; ?>')">
-            <?php if (!empty($item['image_url'])) { ?>
-                <img class="main-image" src="<?php echo $item['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $item['title']; ?>">
-            <?php } ?>
-            <div class="content-info">
-                <div class="content-header">
-                    <?php if ($item['source'] && false) { ?>
-                        <p class="content-source">
-                            <?php echo $item['source']; ?>
-                        </p>
-                    <?php } ?>
-                    <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_green.svg" alt="Auszeichnung: geprüfter Inhalt">
-                    <?php if ($item['oer']) { ?>
-                        <div class="badge ">OER</div>
-                    <?php } ?>
+    <!-- FIXME: slick sets this div to tabindex="0" -->
+    <div class="wlo-card" <?php echo $data; ?>>
+        <?php if (!empty($item['image_url'])) { ?>
+            <div class="wlo-card-image-container">
+                <img class="wlo-card-image" src="<?php echo $item['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $item['title']; ?>">
+                <div class="media-type-icon-container">
+                    <!-- TODO: choose correct icon -->
+                    <img class="media-type-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/media-types/video.svg">
                 </div>
-                <div class="content-title">
-                    <?php echo $item['title']; ?>
-                </div>
-                <p class="content-description">
-                    <?php echo  $item['description']; ?>
-                </p>
-                <div class="content-meta">
-                    <?php if (!empty($item['resourcetype'])) { ?>
-                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/img_icon.svg" alt="Materialart">
-                        <p>
-                            <?php echo implode(', ', $item['resourcetype']); ?>
-                        </p>
-                    <?php } ?>
-                </div>
-                <div class="content-meta">
-                    <?php if (!empty($item['subjects'])) { ?>
-                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/subject_icon.svg" alt="Fächer">
-                        <p>
-                            <?php echo implode(', ', $item['subjects']); ?>
-                        </p>
-                    <?php } ?>
-                </div>
-                <div class="content-meta">
-                    <?php if (!empty($item['educationalcontext'])) { ?>
-                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/class_icon.svg" alt="Bildungsebene">
-                        <p>
-                            <?php echo implode(', ', $item['educationalcontext']); ?>
-                        </p>
-                    <?php } ?>
-                </div>
-                <a class="content-button" href="<?php echo $item['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $item['title']; ?>">
-                    Zum Inhalt
-                </a>
             </div>
-        </button>
+        <?php } ?>
+        <div class="wlo-card-body">
+            <p class="media-summary">
+                <!-- 20-minütiger TV-Beitrag -->
+                <?php if (!empty($item['resourcetype'][0])) { ?>
+                    <?php echo $item['resourcetype'][0] ?>
+                <?php } ?>
+                <?php if (!empty($item['duration'])) { ?>
+                    (<?php echo getDurationString($item['duration']); ?>)
+                <?php } ?>
+            </p>
+            <!--
+                Make the title the button content to be sensible towards screen readers.
+
+                Place the heading inside a button to be able to do text fading in the heading and
+                still expand the clickable area of the button to the whole card.
+            -->
+            <button onclick="showContentPopup('<?php echo $item['id']; ?>')" class="wlo-card-title">
+                <h3>
+                    <?php echo $item['title']; ?>
+                </h3>
+            </button>
+            <p class="wlo-card-description">
+                <?php echo $item['description']; ?>
+            </p>
+            <div class="wlo-card-meta">
+                <?php if (!empty($item['resourcetype'])) { ?>
+                    <p>
+                        <?php echo implode(', ', $item['resourcetype']); ?>
+                    </p>
+                <?php } ?>
+                <p>
+                    <?php
+                    if (!empty($item['subjects'])) {
+                        echo implode(', ', $item['subjects']);
+                    }
+                    if (!empty($item['subjects']) && !empty($item['educationalcontext'])) {
+                        echo ': ';
+                    }
+                    if (!empty($item['educationalcontext'])) {
+                        echo implode(', ', $item['educationalcontext']);
+                    }
+                    ?>
+                </p>
+            </div>
+            <?php if (!empty($item['replicationsource']) || !empty($item['publisher'])) { ?>
+                <div class="wlo-card-source-container">
+                    <?php
+                    if (!empty($item['publisher'])) { ?>
+                        <p>
+                            <?php echo $item['publisher']; ?>
+                        </p>
+                    <?php } ?>
+                    <img class="source-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/sources/zdf.svg">
+                </div>
+            <?php } ?>
+        </div>
     </div>
 <?php
 }
@@ -215,16 +229,18 @@ function processEduSharingNode(mixed $reference): array
         'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
         'publisher' => !empty($prop->{'ccm:oeh_publisher_combined'}[0]) ? $prop->{'ccm:oeh_publisher_combined'}[0] : false,
         'oeh_lrt' =>  !empty($prop->{'ccm:oeh_lrt'}) ? $prop->{'ccm:oeh_lrt'} : [],
+        'duration' =>  !empty($prop->{'cclom:duration'}[0]) ? $prop->{'cclom:duration'}[0] : false,
         'oer' => isOer($prop),
 
-        'replicationsource' => !empty($prop->{'ccm:replicationsource_DISPLAYNAME'}) ? $prop->{'ccm:replicationsource_DISPLAYNAME'} : [],
-        'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
-        'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
+        // 'replicationsource' => !empty($prop->{'ccm:replicationsource_DISPLAYNAME'}) ? $prop->{'ccm:replicationsource_DISPLAYNAME'} : [],
+        // 'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+
+        // 'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
         // 'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
-        'author' => !empty($prop->{'ccm:lifecyclecontributer_author'}) ? $prop->{'ccm:lifecyclecontributer_author'} : [],
-        'enduserrole' => !empty($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'}) ? $prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'} : [],
-        'mimetype' => $reference->mimetype,
-        'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : '',
+        // 'author' => !empty($prop->{'ccm:lifecyclecontributer_author'}) ? $prop->{'ccm:lifecyclecontributer_author'} : [],
+        // 'enduserrole' => !empty($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'}) ? $prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'} : [],
+        // 'mimetype' => $reference->mimetype,
+        // 'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : '',
     );
 }
 
@@ -239,6 +255,26 @@ function isOer(mixed $prop): bool
         }
     }
     return $isOER;
+}
+
+/**
+ * Returns a human-readable string that represents a duration, reducing precision for large values.
+ */
+function getDurationString(int $seconds): string
+{
+    if ($seconds < 60) {
+        return $seconds . ' Sekunden';
+    } else if ($seconds < 180 * 60) {
+        $minutes = intdiv($seconds, 60);
+        if ($minutes == 1) {
+            return '1 Minute';
+        } else {
+            return $minutes . ' Minuten';
+        }
+    } else {
+        $hours = intdiv($seconds, 3600);
+        return $hours . ' Stunden';
+    }
 }
 
 function initSlick(string $sliderId, int $slidesToShow = 3, int $slidesToScroll = 3, int $contentCount)
