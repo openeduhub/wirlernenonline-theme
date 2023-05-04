@@ -509,9 +509,15 @@ app-report-problem {
     position: relative;
 
     .fachportal-content-block {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      // Draw all children of this container centered on top of each other, defining the container
+      // dimensions by the maximum width and height of all children.
+      display: grid;
+      place-items: center;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      > * {
+        grid-area: 1 / 1 / 2 / 2;
+      }
       @media screen and (max-width: 749.99px) {
         display: none;
       }
@@ -524,6 +530,7 @@ app-report-problem {
       filter: blur(2px);
       pointer-events: none;
       transition: 0.3s;
+      justify-content: center;
 
       @media screen and (max-width: 1229.99px) {
         .widget-content:nth-child(3) {
@@ -551,11 +558,6 @@ app-report-problem {
       display: flex;
       flex-direction: column;
       align-items: center;
-
-      &.subcollections-alert-overlay {
-        position: absolute;
-        z-index: 5;
-      }
 
       p {
         color: $wlo-primary-dark;

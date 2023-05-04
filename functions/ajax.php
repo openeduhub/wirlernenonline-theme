@@ -796,7 +796,7 @@ function collection_content_browser()
             $swimlane_content = wloFilterSwimlane($contentArray, $vocab);
 
             if (!empty($swimlane_content['filtered_content'])) {
-                $content = '<div class="subcollections-alert subcollections-alert-overlay">';
+                $content = '<div class="subcollections-alert">';
                 $content .= '<p>Hier gibt es noch keine geprüften Inhalte.<br>Lass dir die geprüften Inhalte von Unterthemen anzeigen.</p>';
                 $content .= '<button onclick="toggleSubcollections(this)">Inhalte anzeigen</button>';
                 $content .= '</div>';
