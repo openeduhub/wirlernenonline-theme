@@ -442,7 +442,7 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 <?php
 $other_content = array();
 foreach ($contentArray as $content) {
-    if (!$content['added']) {
+    if (empty($content['added'])) {
         $other_content[] = $content;
     }
 }

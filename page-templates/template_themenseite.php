@@ -159,29 +159,7 @@ if (!empty($newestContent->nodes)) {
             }
         }
 
-        $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
-        $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
-        $isOER = false;
-        foreach ($oerLicenses as $license) {
-            if ($nodeLicense == $license) {
-                $isOER = true;
-            }
-        }
-
-        $contentArray[] = array(
-            //'id' => $prop->{'ccm:original'}[0] ? $prop->{'ccm:original'}[0] : $reference->ref->id,
-            'id' => $reference->ref->id,
-            'image_url' => $reference->preview->url,
-            'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
-            'title' => $title,
-            'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-            'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
-            'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
-            'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
-            'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
-            'oer' => $isOER,
-            'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
-        );
+        $contentArray[] = processEduSharingNode($reference);
     } //end foreach
 }
 
@@ -204,35 +182,7 @@ if (!empty($response->references)) {
             continue;
         }
 
-        $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
-        $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
-        $isOER = false;
-        foreach ($oerLicenses as $license) {
-            if ($nodeLicense == $license) {
-                $isOER = true;
-                $oerCount++;
-            }
-        }
-
-        $themenseiten_contentArray[] = array(
-            //'id' => $prop->{'ccm:original'}[0] ? $prop->{'ccm:original'}[0] : $reference->ref->id,
-            'id' => $reference->ref->id,
-            'image_url' => $reference->preview->url,
-            'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
-            'title' => $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
-            //'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-            'description' => $prop->{'cclom:general_description'}[0] ? $prop->{'cclom:general_description'}[0] : $reference->ref->id,
-            'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
-            'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
-            //'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
-            'resourcetype' => !empty($prop->{'ccm:oeh_lrt_aggregated_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_aggregated_DISPLAYNAME'} : [],
-            'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
-            'enduserrole' => !empty($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'}) ? $prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'} : [],
-            'oer' => $isOER,
-            'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : '',
-            'oeh_lrt' =>  !empty($reference->properties->{'ccm:oeh_lrt'}) ? $reference->properties->{'ccm:oeh_lrt'} : '',
-            'added' => false
-        );
+        $themenseiten_contentArray[] = processEduSharingNode($reference);
 
         if (!empty($prop->{'ccm:educationalcontext_DISPLAYNAME'})) {
             foreach ($prop->{'ccm:educationalcontext_DISPLAYNAME'} as $item) {

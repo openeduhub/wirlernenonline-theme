@@ -130,6 +130,7 @@ function wloFilterSwimlane($contentArray, $vocabs)
 {
     $filtered_content = array();
     foreach ($contentArray as $key => $content) {
+        array_merge(array('added' => false), $content);
         $added = false;
         foreach ($content['oeh_lrt'] as $lrt) {
             if (!empty(array_search($lrt, array_column($vocabs, 'id'))) && !$added) {
@@ -243,4 +244,48 @@ function printWloCard(mixed $item, int $slidesToShow): void
         </button>
     </div>
 <?php
+}
+
+function processEduSharingNode(mixed $reference): array
+{
+    // $content_url = $reference->content->url;
+    // $content_url = str_replace('https://redaktion.openeduhub.net/edu-sharing/', 'https://materialkiste.kita.bayern/edu-sharing/', $content_url);
+    $prop = $reference->properties;
+    return array(
+        'id' => $reference->ref->id,
+        'title' => !empty($prop->{'cclom:title'}[0]) ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0],
+        'description' => !empty($prop->{'cclom:general_description'}[0]) ? $prop->{'cclom:general_description'}[0] : $reference->ref->id,
+        // 'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
+        'image_url' => $reference->preview->url,
+        'resourcetype' => !empty($prop->{'ccm:oeh_lrt_aggregated_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_aggregated_DISPLAYNAME'} : [],
+        // 'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
+        // 'resourcetype' => !empty($prop->{'ccm:oeh_lrt_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_DISPLAYNAME'} : [],
+        'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
+        'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
+        'publisher' => !empty($prop->{'ccm:oeh_publisher_combined'}[0]) ? $prop->{'ccm:oeh_publisher_combined'}[0] : false,
+        'oeh_lrt' =>  !empty($prop->{'ccm:oeh_lrt'}) ? $prop->{'ccm:oeh_lrt'} : [],
+        'oer' => isOer($prop),
+
+        'replicationsource' => !empty($prop->{'ccm:replicationsource_DISPLAYNAME'}) ? $prop->{'ccm:replicationsource_DISPLAYNAME'} : [],
+        'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+        'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
+        // 'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
+        'author' => !empty($prop->{'ccm:lifecyclecontributer_author'}) ? $prop->{'ccm:lifecyclecontributer_author'} : [],
+        'enduserrole' => !empty($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'}) ? $prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'} : [],
+        'mimetype' => $reference->mimetype,
+        'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : '',
+    );
+}
+
+function isOer(mixed $prop): bool
+{
+    $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
+    $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
+    $isOER = false;
+    foreach ($oerLicenses as $license) {
+        if ($nodeLicense == $license) {
+            $isOER = true;
+        }
+    }
+    return $isOER;
 }
