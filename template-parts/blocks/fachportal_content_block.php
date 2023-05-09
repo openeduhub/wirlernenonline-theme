@@ -44,8 +44,8 @@ if(!empty(get_field('headline'))){
     $headline = base64_encode(get_field('headline'));
 }
 
-$slidesToShow = 4;
-$slidesToScroll = 4;
+$slidesToShow = 3;
+$slidesToScroll = 3;
 if (get_field('slidesToShow')) {
     $slidesToShow = get_field('slidesToShow');
 }

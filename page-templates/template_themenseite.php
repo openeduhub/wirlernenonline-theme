@@ -243,8 +243,8 @@ $GLOBALS['wlo_themenseiten_searchTotal'] = $searchTotal;
 
 $accordionID = uniqid();
 $sliderId = uniqid('slider-');
-$slidesToShow = 4;
-$slidesToScroll = 4;
+$slidesToShow = 3;
+$slidesToScroll = 3;
 
 while (have_posts()) : the_post(); ?>
 
