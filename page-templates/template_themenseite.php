@@ -621,6 +621,8 @@ while (have_posts()) : the_post(); ?>
 
     </div>
 
+    <?php initSlick($sliderId, $slidesToShow, $slidesToScroll,  count($contentArray) + 1) ?>
+
     <script>
         function showContentPopup(nodeID) {
             document.getElementsByTagName("oeh-details-embedded")[0].setAttribute("node-id", nodeID);
@@ -656,51 +658,6 @@ while (have_posts()) : the_post(); ?>
                 }
             });
             jQuery('#sub-subjects-button').hide();
-        });
-
-        jQuery(function() {
-            // Handler for .ready() called. Put the Slick Slider etc. init code here.
-            function loadSlider() {
-                if (typeof jQuery().slick === "function") {
-                    console.log('Load-Slider...');
-                    jQuery('#<?php echo $sliderId ?>').not('.slick-initialized').slick({
-                        infinite: false,
-                        slidesToShow: <?php echo $slidesToShow; ?>,
-                        slidesToScroll: <?php echo $slidesToScroll; ?>,
-                        arrows: true,
-                        dots: true,
-                        zIndex: 0,
-                        responsive: [{
-                                breakpoint: 1230,
-                                settings: {
-                                    slidesToShow: 3,
-                                    slidesToScroll: 3
-                                }
-                            },
-                            {
-                                breakpoint: 950,
-                                settings: {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 2
-                                }
-                            },
-                            {
-                                breakpoint: 750,
-                                settings: {
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1
-                                }
-                            }
-                        ]
-                    });
-                }
-            }
-
-            loadSlider();
-
-            jQuery(window).on('resize', function() {
-                jQuery('#<?php echo $sliderId ?>').slick('refresh');
-            });
         });
 
         jQuery(window).on('resize', function() {

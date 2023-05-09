@@ -457,10 +457,6 @@ function fachportal_content_block()
     }
 
     $sliderId = uniqid('slider-');
-    $showSliderDots = 'true';
-    if (count($contentArray) <= 4 && $slidesToShow >= 3) {
-        $showSliderDots = 'false';
-    }
     ?>
 
     <div class="header">
@@ -515,50 +511,6 @@ function fachportal_content_block()
     </div>
 
     <script type="text/javascript">
-        jQuery(function() {
-            // Handler for .ready() called. Put the Slick Slider etc. init code here.
-            function loadWLOSlider() {
-                if (typeof jQuery().slick === "function") {
-                    jQuery('#<?php echo $sliderId ?>').not('.slick-initialized').slick({
-                        infinite: false,
-                        slidesToShow: <?php echo $slidesToShow; ?>,
-                        slidesToScroll: <?php echo $slidesToScroll; ?>,
-                        arrows: true,
-                        dots: <?php echo $showSliderDots; ?>,
-                        zIndex: 0,
-                        responsive: [{
-                                breakpoint: 1230,
-                                settings: {
-                                    slidesToShow: <?php echo min($slidesToShow, 3); ?>,
-                                    slidesToScroll: <?php echo min($slidesToScroll, 3); ?>
-                                }
-                            },
-                            {
-                                breakpoint: 950,
-                                settings: {
-                                    slidesToShow: <?php echo min($slidesToShow, 2); ?>,
-                                    slidesToScroll: <?php echo min($slidesToScroll, 2); ?>,
-                                }
-                            },
-                            {
-                                breakpoint: 750,
-                                settings: {
-                                    slidesToShow: <?php echo min($slidesToShow, 1); ?>,
-                                    slidesToScroll: <?php echo min($slidesToScroll, 1); ?>,
-                                }
-                            }
-                        ]
-                    });
-                }
-            }
-
-            loadWLOSlider();
-
-            jQuery(window).on('resize', function() {
-                jQuery('#<?php echo $sliderId ?>').slick('refresh');
-            });
-        });
-
         jQuery(document).ready(function() {
 
             <?php if ($collectionLevel >= 1 && !empty($contentType['label'])) { ?>
@@ -573,6 +525,7 @@ function fachportal_content_block()
     </script>
 
 <?php
+    initSlick($sliderId, $slidesToShow, $slidesToScroll, count($contentArray) + 1);
     wp_die(); // this is required to terminate immediately and return a proper response
 }
 

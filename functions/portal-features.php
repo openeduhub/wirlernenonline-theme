@@ -3,10 +3,6 @@
 function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScroll = 4, $contentInfo, $lrtID = '', $searchLrtID = '', $type = 'material')
 {
     $sliderId = uniqid('slider-');
-    $showSliderDots = 'true';
-    if (count($contentArray) <= 4 && $slidesToShow >= 3) {
-        $showSliderDots = 'false';
-    }
 
     if (!empty($contentArray)) {
         echo '<div class="content" id="' . $sliderId . '">';
@@ -42,52 +38,7 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
     }
     echo '</div>';
 
-    echo '<script type="text/javascript">  
-        jQuery(function () {
-            // Handler for .ready() called. Put the Slick Slider etc. init code here.
-            function loadWLOSlider() {
-                if (typeof jQuery().slick === "function") {
-                    jQuery("#' . $sliderId . '").not(".slick-initialized").slick({
-                        infinite: false,
-                        slidesToShow: ' . $slidesToShow . ',
-                        slidesToScroll: ' . $slidesToScroll . ',
-                        arrows: true,
-                        dots:  ' . $showSliderDots . ',
-                        zIndex: 0,
-                        responsive: [
-                            {
-                                breakpoint: 1230,
-                                settings: {
-                                    slidesToShow: ' . min($slidesToShow, 3) . ',
-                                    slidesToScroll: ' . min($slidesToScroll, 3) . '
-                                }
-                            },
-                            {
-                                breakpoint: 950,
-                                settings: {
-                                    slidesToShow: ' . min($slidesToShow, 2) . ',
-                                    slidesToScroll: ' . min($slidesToScroll, 2) . ',
-                                }
-                            },
-                            {
-                                breakpoint: 750,
-                                settings: {
-                                    slidesToShow: ' . min($slidesToShow, 1) . ',
-                                    slidesToScroll: ' . min($slidesToScroll, 1) . ',
-                                }
-                            }
-                        ]
-                    });
-                }
-            }
-
-            loadWLOSlider();
-
-            jQuery(window).on("resize", function(){
-                jQuery("#' . $sliderId . '").slick( "refresh" );
-            });
-        });
-    </script>';
+    initSlick($sliderId, $slidesToShow, $slidesToScroll, count($contentArray) + 1);
 }
 
 
@@ -288,4 +239,57 @@ function isOer(mixed $prop): bool
         }
     }
     return $isOER;
+}
+
+function initSlick(string $sliderId, int $slidesToShow = 3, int $slidesToScroll = 3, int $contentCount)
+{
+?>
+    <script type="text/javascript">
+        jQuery(function() {
+            function loadWLOSlider() {
+                if (typeof jQuery().slick === "function") {
+                    jQuery('#<?php echo $sliderId ?>').not('.slick-initialized').slick({
+                        infinite: false,
+                        slidesToShow: <?php echo $slidesToShow; ?>,
+                        slidesToScroll: <?php echo $slidesToScroll; ?>,
+                        arrows: true,
+                        dots: <?php echo ($contentCount > $slidesToShow) ? 'true' : 'false'; ?>,
+                        zIndex: 0,
+                        responsive: [{
+                                breakpoint: 1230,
+                                settings: {
+                                    slidesToShow: <?php echo min($slidesToShow, 3); ?>,
+                                    slidesToScroll: <?php echo min($slidesToScroll, 3); ?>,
+                                    dots: <?php echo ($contentCount > min($slidesToShow, 3)) ? 'true' : 'false'; ?>,
+                                }
+                            },
+                            {
+                                breakpoint: 950,
+                                settings: {
+                                    slidesToShow: <?php echo min($slidesToShow, 2); ?>,
+                                    slidesToScroll: <?php echo min($slidesToScroll, 2); ?>,
+                                    dots: <?php echo ($contentCount > min($slidesToShow, 2)) ? 'true' : 'false'; ?>,
+                                }
+                            },
+                            {
+                                breakpoint: 750,
+                                settings: {
+                                    slidesToShow: <?php echo min($slidesToShow, 1); ?>,
+                                    slidesToScroll: <?php echo min($slidesToScroll, 1); ?>,
+                                    dots: <?php echo ($contentCount > min($slidesToShow, 1)) ? 'true' : 'false'; ?>,
+                                }
+                            },
+                        ]
+                    });
+                }
+            }
+
+            loadWLOSlider();
+
+            jQuery(window).on('resize', function() {
+                jQuery('#<?php echo $sliderId ?>').slick('refresh');
+            });
+        });
+    </script>
+<?php
 }
