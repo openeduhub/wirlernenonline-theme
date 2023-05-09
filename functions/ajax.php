@@ -510,20 +510,6 @@ function fachportal_content_block()
         <?php } ?>
     </div>
 
-    <script type="text/javascript">
-        jQuery(document).ready(function() {
-
-            <?php if ($collectionLevel >= 1 && !empty($contentType['label'])) { ?>
-                jQuery('#<?php echo str_replace(' ', '-', $contentType['label']); ?>-count').html('<?php echo count($contentArray); ?>');
-                let currentCount = parseInt(jQuery('.diagram-count-total').first().text());
-                jQuery('<div class="diagram-count-total">' + (currentCount + <?php echo count($contentArray); ?>) + '</div>').replaceAll(".diagram-count-total");
-
-                addData(contentChart, '<?php echo $contentType['label']; ?>', <?php echo count($contentArray); ?>, '<?php echo $diagramColor; ?>', <?php echo $contentType['value']; ?>);
-            <?php } ?>
-
-        });
-    </script>
-
 <?php
     initSlick($sliderId, $slidesToShow, $slidesToScroll, count($contentArray) + 1);
     wp_die(); // this is required to terminate immediately and return a proper response

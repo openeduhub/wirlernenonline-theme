@@ -161,90 +161,6 @@ $contentArray = $GLOBALS['wlo_themenseiten_content'];
 $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
 ?>
-
-<script>
-    function addData(chart, label, data_r, data_m, index) {
-        //chart.data.labels.push(label);
-        if (data_r >= 1 || data_m >= 1) {
-
-        }
-
-        chart.data.labels[index] = label;
-
-        chart.data.datasets[0].data[index] = data_r;
-        chart.data.datasets[0].label = 'Redaktionell geprüft';
-
-        chart.data.datasets[1].data[index] = data_m;
-        chart.data.datasets[1].label = 'Maschienell erschlossen';
-
-        chart.update();
-    }
-
-    const cv = document.getElementById('contentChart');
-    const ctx = document.getElementById('contentChart').getContext('2d');
-    let contentChart = new Chart(ctx, {
-        // The type of chart we want to create
-        //type: 'polarArea',
-        type: 'horizontalBar',
-        //type: 'pie',
-        //type: 'doughnut',
-
-        // The data for our dataset
-        data: {
-            datasets: [{
-                    label: [],
-                    data: [],
-                    backgroundColor: "rgba(255,255,255,0.75)",
-                },
-                {
-                    label: [],
-                    data: [],
-                    backgroundColor: "rgba(255,255,255,0.4)",
-                }
-            ],
-            labels: [],
-        },
-
-        // Configuration options go here
-        options: {
-            indexAxis: 'y',
-            scales: {
-                xAxes: [{
-                    type: 'logarithmic',
-                    display: false //this will remove all the x-axis grid lines
-                }],
-                yAxes: [{
-                    gridLines: {
-                        display: false
-                    },
-                    ticks: {
-                        fontColor: "white",
-                    }
-                }]
-            },
-            legend: {
-                display: false
-            },
-            // Elements options apply to all of the options unless overridden in a dataset
-            // In this case, we are setting the border of each horizontal bar to be 2px wide
-            elements: {
-                bar: {
-                    borderWidth: 2,
-                }
-            },
-            responsive: true,
-        },
-    });
-
-    cv.onclick = function(evt) {
-        var activePoint = contentChart.getElementAtEvent(evt);
-        //console.log('label', contentChart.data.labels[activePoint[0]._index])
-        const label = contentChart.data.labels[activePoint[0]._index];
-        let dims = document.getElementById(label).getBoundingClientRect();
-        window.scrollTo(window.scrollX, dims.top - 175);
-    };
-</script>
-
 <div class="fachportal-content-block" id="Medien">
     <?php
     $images_vocab = getNewLrtList('a6d1ac52-c557-4151-bc6f-0d99b0b96fb9');
@@ -274,10 +190,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
-    <script>
-        addData(contentChart, 'Medien', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $media_vocab); ?>', 0);
-    </script>
-
     <div class="fachportal-spacer"></div>
 </div>
 
@@ -304,10 +216,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     <?php
     wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
-
-    <script>
-        addData(contentChart, 'Unterrichtsplanung', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $lesson_planning_complete); ?>', 1);
-    </script>
 
     <div class="fachportal-spacer"></div>
 </div>
@@ -336,10 +244,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
 
-    <script>
-        addData(contentChart, 'Praxismaterialien', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $practice_materials_complete); ?>', 2);
-    </script>
-
     <div class="fachportal-spacer"></div>
 </div>
 
@@ -367,10 +271,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID, 'tool');
     ?>
 
-    <script>
-        addData(contentChart, 'Tools', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $tool_vocab); ?>', 3);
-    </script>
-
     <div class="fachportal-spacer"></div>
 </div>
 
@@ -397,10 +297,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     <?php
     wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID, 'source');
     ?>
-
-    <script>
-        addData(contentChart, 'Quellen', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $source_vocab); ?>', 4);
-    </script>
 
     <div class="fachportal-spacer"></div>
 </div>
@@ -430,10 +326,6 @@ $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
     <?php
     wlo_add_swimlane_content($swimlane_content['filtered_content'], $slidesToShow, $slidesToScroll, $contentInfo, $lrtID, $searchLrtID);
     ?>
-
-    <script>
-        addData(contentChart, 'Bildungsangebote', <?php echo count($swimlane_content['filtered_content']); ?>, '<?php echo wloSearchContentSum($searchVocabs, $event_complete); ?>', 5);
-    </script>
 
     <div class="fachportal-spacer"></div>
 </div>

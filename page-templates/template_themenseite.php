@@ -418,53 +418,6 @@ while (have_posts()) : the_post(); ?>
                         </div>
 
                     </div>
-
-
-                    <div class="content-stats">
-                        <div class="header" style="color: <?php echo $fontColor ?> !important;">
-                            Inhalte
-                        </div>
-
-                        <div class="diagram">
-                            <div class="diagram-content">
-                                <canvas width="80%" height="80%" id="contentChart"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="diagram-legend">
-                            <div class="diagram-legend-entry Redaktionell" style="color: <?php echo $fontColor ?> !important;">
-                                <div class="diagram-legend-color"></div> Redaktionell geprüfte Inhalte
-                            </div>
-                            <div class="diagram-legend-entry Maschinell" style="color: <?php echo $fontColor ?> !important;">
-                                <div class="diagram-legend-color"></div> Maschinell erschlossene Inhalte in der Suche
-                            </div>
-
-
-                            <?php if ($searchTotal == 1) { ?>
-                                <a class="diagram-legend-entry" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
-                                    <div class="diagram-legend-color search-link">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot.svg" alt="Icon: Roboter">
-                                    </div>
-                                    1 weiteres Ergebnis in unserer Suchmaschine
-                                </a>
-                            <?php } else if ($searchTotal > 1) { ?>
-                                <a class="diagram-legend-entry" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>" target="_blank">
-                                    <div class="diagram-legend-color search-link">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot-white.svg" alt="Icon: Roboter">
-                                    </div>
-                                    <?php echo $searchTotal; ?> weitere Ergebnisse in unserer Suchmaschine
-                                </a>
-                            <?php } else { ?>
-
-                            <?php } ?>
-
-
-                        </div>
-
-
-                    </div>
-
-
                 </div>
 
 

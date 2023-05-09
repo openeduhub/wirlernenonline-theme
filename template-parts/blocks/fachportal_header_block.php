@@ -235,27 +235,6 @@ if (get_field('slidesToScroll')) {
 
         </div>
 
-
-        <div class="content-stats">
-            <div class="header" style="color: <?php echo $fontColor ?> !important;">
-                Geprüfte Inhalte
-            </div>
-
-            <div class="diagram"  style="background-color:rgba(255, 255, 255, 0.1);">
-                <div class="diagram-content">
-                    <canvas width="80%" height="80%" id="contentChart"></canvas>
-                </div>
-            </div>
-
-            <div class="diagram-legend">
-                <div class="diagram-legend-entry Wissen" style="color: <?php echo $fontColor ?> !important;">Gut zu Wissen <div class="diagram-legend-color"></div></div>
-                <div class="diagram-legend-entry Lerninhalte" style="color: <?php echo $fontColor ?> !important;"><div class="diagram-legend-color"></div> Material</div>
-                <div class="diagram-legend-entry Methoden" style="color: <?php echo $fontColor ?> !important;">Unterrichtsplanung <div class="diagram-legend-color"></div></div>
-                <div class="diagram-legend-entry Tools" style="color: <?php echo $fontColor ?> !important;"><div class="diagram-legend-color"></div> Software und Tools</div>
-            </div>
-        </div>
-
-
         <div class="header-bottom"></div>
     </div>
 </div>
@@ -352,48 +331,6 @@ if (get_field('slidesToScroll')) {
 </div>
 
 <script>
-    function addData(chart, label, data, color, index) {
-        //chart.data.labels.push(label);
-        chart.data.labels[index] = label;
-        chart.data.datasets.forEach((dataset) => {
-            dataset.data[index] = data;
-            dataset.backgroundColor[index] = color;
-            dataset.borderWidth[index] = 0;
-        });
-        chart.update();
-    }
-
-    const ctx = document.getElementById('contentChart').getContext('2d');
-    let contentChart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'polarArea',
-        //type: 'pie',
-        //type: 'doughnut',
-
-        // The data for our dataset
-        data: {
-            datasets: [{
-                data: [],
-                backgroundColor: [],
-                borderAlign:[],
-                borderColor: [],
-                borderWidth: []
-            }],
-            labels: [],
-
-        },
-
-        // Configuration options go here
-        options: {
-            scale: {
-                display: false
-            },
-            legend: {
-                display: false
-            }
-        }
-    });
-
     jQuery(function () {
         // Handler for .ready() called. Put the Slick Slider etc. init code here.
         function loadSlider() {
@@ -457,12 +394,6 @@ if (get_field('slidesToScroll')) {
         });
         jQuery('#sub-subjects-button').hide();
     });
-
-    jQuery( document ).ready(function() {
-        //addData(contentChart, 'Tools', 25, 'rgba(255,255,255,0.8)');
-        //addData(contentChart, 'Gut zu Wissen', 5, 'rgba(255,255,255,0.2)');
-    });
-
 </script>
 
 <?php if (is_admin()) {
