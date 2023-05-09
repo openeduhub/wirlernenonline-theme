@@ -7,7 +7,7 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
     if (!empty($contentArray)) {
         echo '<div class="content" id="' . $sliderId . '">';
         foreach ($contentArray as $contentItem) {
-            printWloCard($contentItem, $slidesToShow);
+            printWloCard($contentItem);
         }
         echo getAddNewContentTile($contentInfo, $lrtID,  $type);
     } else {
@@ -136,7 +136,7 @@ function getWloCardDataAttributes(array $item): string
 /**
  * Prints the HTML for a swimlane card.
  */
-function printWloCard(mixed $item, int $slidesToShow): void
+function printWloCard(mixed $item): void
 {
     $data = getWloCardDataAttributes($item);
 ?>

@@ -482,7 +482,7 @@ function fachportal_content_block()
                 shuffle($contentArray);
             }
             foreach (array_slice($contentArray, 0, $contentCount) as $content) {
-                printWloCard($content, $slidesToShow);
+                printWloCard($content);
             }
         } else {
             $contentTitle = 'Noch kein Inhalt?';
@@ -633,7 +633,7 @@ function emptySwimlaneContent()
         <div class="content-from-subcollections">
             <?php
             foreach (array_slice($swimlane_content['filtered_content'], 0, 3) as $contentItem) {
-                printWloCard($contentItem, 3);
+                printWloCard($contentItem);
             }
             ?>
         </div>

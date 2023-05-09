@@ -572,7 +572,7 @@ while (have_posts()) : the_post(); ?>
                             <?php
                             if (!empty($contentArray)) {
                                 foreach (array_slice($contentArray, 0, get_field('content_count')) as $content) {
-                                    printWloCard($content, $slidesToShow);
+                                    printWloCard($content);
                                 }
                             } ?>
                         </div>
