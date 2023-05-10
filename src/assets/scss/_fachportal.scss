@@ -1,7 +1,7 @@
-@import "custom-variables";
-@import "custom-fonts";
+@import 'custom-variables';
+@import 'custom-fonts';
 //@import 'settings';
-@import "custom-colors-variables";
+@import 'custom-colors-variables';
 
 $fachportal_primary: $wlo-primary-dark;
 $fachportal_bright: $wlo-primary;
@@ -179,8 +179,7 @@ $fachportal_bright: $wlo-primary;
   }
 
   p {
-    font-family: "Montserrat", "Helvetica Neue", Helvetica, Roboto, Arial,
-      sans-serif;
+    font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
     font-size: 15px;
     padding: 1em;
     line-height: 1.5;
@@ -195,8 +194,7 @@ $fachportal_bright: $wlo-primary;
     width: 50%;
     background: #032850;
     color: white;
-    font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial,
-      sans-serif;
+    font-family: 'Montserrat-Medium', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
     font-size: 14px;
     border-radius: 15px;
     transition: 0.3s;
@@ -229,16 +227,17 @@ app-report-problem {
   }
 }
 
-p.header-text, span.header-text {
+p.header-text,
+span.header-text {
   font-size: 16px;
-  font-family: "Montserrat-Medium";
+  font-family: 'Montserrat-Medium';
   font-weight: 600;
 }
 
 .fachportal-content-block,
 .wlo-page .fachportal-content-block {
   //margin: 16px;
-  font-family: "Source-Sans-Pro-Regular", sans-serif;
+  font-family: 'Source-Sans-Pro-Regular', sans-serif;
   // When using the jump-to-first-content-button, leave space for the sticky breadcrumbs bar
   scroll-margin: 66px;
 
@@ -254,7 +253,7 @@ p.header-text, span.header-text {
     h2,
     h3 {
       color: #313131;
-      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
       font-size: 20px;
       padding-top: 16px;
       max-width: 100%;
@@ -274,7 +273,7 @@ p.header-text, span.header-text {
       top: 22px;
       font-weight: 600;
       font-size: 18px;
-      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
       text-decoration: underline;
     }
   }
@@ -341,8 +340,7 @@ p.header-text, span.header-text {
           position: absolute;
           left: 0;
           top: 3px;
-          font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto,
-            Arial, sans-serif;
+          font-family: 'Montserrat-Medium', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
           font-size: 10px;
           color: #313131;
           overflow: hidden;
@@ -353,18 +351,14 @@ p.header-text, span.header-text {
         }
 
         .content-source::after {
-          content: "";
+          content: '';
           text-align: right;
           position: absolute;
           bottom: 0;
           right: 0;
           width: 30%;
           height: 1.2em;
-          background: linear-gradient(
-            to right,
-            rgba(255, 255, 255, 0),
-            rgba(255, 255, 255, 1) 50%
-          );
+          background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
         }
 
         .badge {
@@ -372,8 +366,7 @@ p.header-text, span.header-text {
           align-items: center;
           z-index: 100;
           font-size: 10px;
-          font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto,
-            Arial, sans-serif;
+          font-family: 'Montserrat-Bold', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
           height: 25px;
           padding: 2px 4px;
           margin-left: 4px;
@@ -387,8 +380,7 @@ p.header-text, span.header-text {
       }
 
       .content-title {
-        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto,
-          Arial, sans-serif;
+        font-family: 'Montserrat-Medium', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
         font-size: 18px;
         color: #313131;
         position: relative;
@@ -399,23 +391,18 @@ p.header-text, span.header-text {
       }
 
       .content-title::after {
-        content: "";
+        content: '';
         text-align: right;
         position: absolute;
         bottom: 0;
         right: 0;
         width: 30%;
         height: 1.2em;
-        background: linear-gradient(
-          to right,
-          rgba(255, 255, 255, 0),
-          rgba(255, 255, 255, 1) 50%
-        );
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
       }
 
       .content-title-bold {
-        font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto,
-          Arial, sans-serif;
+        font-family: 'Montserrat-Bold', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
         font-size: 20px;
       }
 
@@ -434,18 +421,14 @@ p.header-text, span.header-text {
       }
 
       .content-description::after {
-        content: "";
+        content: '';
         text-align: right;
         position: absolute;
         bottom: 0;
         right: 0;
         width: 30%;
         height: 1.2em;
-        background: linear-gradient(
-          to right,
-          rgba(255, 255, 255, 0),
-          rgba(255, 255, 255, 1) 50%
-        );
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
       }
 
       .content-meta {
@@ -466,18 +449,14 @@ p.header-text, span.header-text {
         }
 
         p::after {
-          content: "";
+          content: '';
           text-align: right;
           position: absolute;
           bottom: 0;
           right: 0;
           width: 30%;
           height: 1.2em;
-          background: linear-gradient(
-            to right,
-            rgba(255, 255, 255, 0),
-            rgba(255, 255, 255, 1) 50%
-          );
+          background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
         }
       }
 
@@ -489,8 +468,7 @@ p.header-text, span.header-text {
         width: 100%;
         background: #032850;
         color: white;
-        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto,
-          Arial, sans-serif;
+        font-family: 'Montserrat-Medium', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
         font-size: 14px;
         border-radius: 15px;
         transition: 0.3s;
@@ -519,8 +497,7 @@ p.header-text, span.header-text {
       text-align: left;
 
       .content-title {
-        font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto,
-          Arial, sans-serif;
+        font-family: 'Montserrat-Bold', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
         font-size: 20px;
         color: $wlo-red;
         height: 24px;
@@ -613,8 +590,7 @@ p.header-text, span.header-text {
         padding: 0 3em;
         background: $wlo-primary-dark;
         color: white;
-        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto,
-          Arial, sans-serif;
+        font-family: 'Montserrat-Medium', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
         font-size: 14px;
         border-radius: 15px;
         cursor: pointer;
@@ -654,8 +630,7 @@ p.header-text, span.header-text {
       border-radius: 18px 18px 0 0;
 
       a {
-        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto,
-          Arial, sans-serif;
+        font-family: 'Montserrat-Medium', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
         font-size: 16px;
         color: white;
         text-decoration: underline;
@@ -772,8 +747,7 @@ p.header-text, span.header-text {
       }
 
       .title {
-        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto,
-          Arial, sans-serif;
+        font-family: 'Montserrat-Medium', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
         font-size: 40px;
         font-weight: normal;
         line-height: 1.3;
@@ -806,7 +780,7 @@ p.header-text, span.header-text {
           align-items: center;
           justify-content: center;
           color: white;
-          font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+          font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
           font-size: 14px;
           height: 30px;
           width: fit-content;
@@ -928,7 +902,7 @@ p.header-text, span.header-text {
       align-items: center;
       padding: 0 8px;
       color: #ffffff;
-      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
       font-size: 14px;
       white-space: nowrap;
       overflow: hidden;
@@ -941,7 +915,7 @@ p.header-text, span.header-text {
       p {
         color: white;
         font-weight: 600;
-        font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+        font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
         font-size: 14px;
         margin: 0 8px;
         max-width: 75vw;
@@ -969,8 +943,7 @@ p.header-text, span.header-text {
     .header {
       text-align: left;
       width: 100%;
-      font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial,
-        sans-serif;
+      font-family: 'Montserrat-Bold', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
       font-style: normal;
       font-size: 18px;
       font-weight: 700;
@@ -1003,7 +976,7 @@ p.header-text, span.header-text {
     }
 
     .diagram:after {
-      content: "";
+      content: '';
       display: block;
       padding-bottom: 100%;
     }
@@ -1018,7 +991,7 @@ p.header-text, span.header-text {
         display: flex;
         align-items: center;
         color: #ffffff;
-        font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+        font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
         font-size: 12px;
         line-height: 1.2;
         padding: 4px;
@@ -1151,7 +1124,7 @@ p.header-text, span.header-text {
           align-items: center;
           justify-content: center;
           color: white;
-          font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+          font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
           font-size: 14px;
           height: 30px;
           width: fit-content;
@@ -1161,13 +1134,13 @@ p.header-text, span.header-text {
           border: 2px solid $wlo-primary-dark;
           border-radius: 50px;
           transition: 0.3s;
-    
+
           img {
             margin-left: 6px;
             max-width: 10px;
           }
         }
-    
+
         .fachportal-filterbar-tag:hover {
           color: white;
           background: #003b7c;
@@ -1195,7 +1168,7 @@ p.header-text, span.header-text {
 
     h2 {
       color: #313131;
-      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
       font-size: 20px;
       text-align: center;
       max-width: 85%;
@@ -1218,7 +1191,7 @@ p.header-text, span.header-text {
   .fachportal-accordion-content {
     max-height: 500px;
     padding: 0.5em;
-    font-family: "Source-Sans-Pro-Regular", sans-serif;
+    font-family: 'Source-Sans-Pro-Regular', sans-serif;
   }
 
   .fachportal-header-wrapper {
@@ -1232,7 +1205,7 @@ p.header-text, span.header-text {
 
       h2 {
         color: #313131;
-        font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+        font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
         font-size: 20px;
         text-align: center;
       }
@@ -1267,7 +1240,7 @@ p.header-text, span.header-text {
   .fachportal-footer-search {
     display: flex;
     justify-content: space-between;
-    font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
+    font-family: 'Montserrat-Bold', Helvetica, Roboto, Arial, sans-serif;
     font-size: 16px;
 
     p {
@@ -1289,8 +1262,7 @@ p.header-text, span.header-text {
       padding: 0 1em;
       background: $wlo-primary-dark;
       color: white;
-      font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto,
-        Arial, sans-serif;
+      font-family: 'Montserrat-Medium', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
       font-size: 14px;
       border-radius: 15px;
       transition: 0.3s;
@@ -1340,8 +1312,7 @@ p.header-text, span.header-text {
     margin: 1em auto;
     background: $wlo-neon;
     color: $wlo-primary-dark;
-    font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial,
-      sans-serif;
+    font-family: 'Montserrat-Bold', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
     font-size: 14px;
     border-radius: 15px;
     transition: 0.3s;
@@ -1390,8 +1361,7 @@ p.header-text, span.header-text {
         position: absolute;
         left: 0;
         top: 3px;
-        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto,
-          Arial, sans-serif;
+        font-family: 'Montserrat-Medium', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
         font-size: 10px;
         color: #313131;
         overflow: hidden;
@@ -1401,18 +1371,14 @@ p.header-text, span.header-text {
       }
 
       .content-source::after {
-        content: "";
+        content: '';
         text-align: right;
         position: absolute;
         bottom: 0;
         right: 0;
         width: 30%;
         height: 1.2em;
-        background: linear-gradient(
-          to right,
-          rgba(255, 255, 255, 0),
-          rgba(255, 255, 255, 1) 50%
-        );
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
       }
 
       .badge {
@@ -1420,8 +1386,7 @@ p.header-text, span.header-text {
         align-items: center;
         z-index: 100;
         font-size: 10px;
-        font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto,
-          Arial, sans-serif;
+        font-family: 'Montserrat-Bold', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
         height: 25px;
         padding: 2px 4px;
         margin-left: 4px;
@@ -1435,8 +1400,7 @@ p.header-text, span.header-text {
     }
 
     .content-title {
-      font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial,
-        sans-serif;
+      font-family: 'Montserrat-Bold', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
       font-size: 20px;
       color: #313131;
       position: relative;
@@ -1446,22 +1410,18 @@ p.header-text, span.header-text {
     }
 
     .content-title::after {
-      content: "";
+      content: '';
       text-align: right;
       position: absolute;
       bottom: 0;
       right: 0;
       width: 30%;
       height: 1.2em;
-      background: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0),
-        rgba(255, 255, 255, 1) 50%
-      );
+      background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
     }
 
     .content-description {
-      font-family: "Source-Sans-Pro-Regular", sans-serif;
+      font-family: 'Source-Sans-Pro-Regular', sans-serif;
       font-size: 14px;
       color: #313131;
       line-height: 150%;
@@ -1486,18 +1446,14 @@ p.header-text, span.header-text {
       }
 
       p::after {
-        content: "";
+        content: '';
         text-align: right;
         position: absolute;
         bottom: 0;
         right: 0;
         width: 30%;
         height: 1.2em;
-        background: linear-gradient(
-          to right,
-          rgba(255, 255, 255, 0),
-          rgba(255, 255, 255, 1) 50%
-        );
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
       }
     }
   }
@@ -1551,7 +1507,7 @@ p.header-text, span.header-text {
       }
 
       .content-title::after {
-        content: "";
+        content: '';
         width: auto;
         height: auto;
         background: none;
@@ -1563,7 +1519,7 @@ p.header-text, span.header-text {
       }
 
       .content-description::after {
-        content: "";
+        content: '';
         width: auto;
         height: auto;
         background: none;
@@ -1600,8 +1556,7 @@ p.header-text, span.header-text {
       margin: 1em auto;
       background: $wlo-primary-dark;
       color: white;
-      font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial,
-        sans-serif;
+      font-family: 'Montserrat-Bold', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
       font-size: 14px;
       border-radius: 15px;
       transition: 0.3s;
@@ -1649,7 +1604,7 @@ p.header-text, span.header-text {
     align-items: center;
     justify-content: center;
     color: $wlo-primary-dark;
-    font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+    font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
     font-size: 14px;
     height: 30px;
     width: fit-content;
@@ -1691,7 +1646,7 @@ p.header-text, span.header-text {
 }
 
 .wlo-portals-title {
-  font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
+  font-family: 'Montserrat-Bold', Helvetica, Roboto, Arial, sans-serif;
   font-size: 22px;
   text-align: center;
 }
@@ -1743,7 +1698,7 @@ p.header-text, span.header-text {
   }
 
   .wlo-portals-tile-type {
-    font-family: "Source-Sans-Pro-Regular", sans-serif;
+    font-family: 'Source-Sans-Pro-Regular', sans-serif;
     font-size: 14px;
     text-align: center;
     color: #333333;
@@ -1751,7 +1706,7 @@ p.header-text, span.header-text {
   }
 
   .wlo-portals-tile-title {
-    font-family: "Montserrat-Bold", Helvetica, Roboto, Arial, sans-serif;
+    font-family: 'Montserrat-Bold', Helvetica, Roboto, Arial, sans-serif;
     font-size: 14px;
     text-align: center;
     color: #333333;
@@ -1804,7 +1759,7 @@ p.header-text, span.header-text {
     }
 
     .portal-wrapper-right:before {
-      content: "";
+      content: '';
       height: 100vh;
       width: 100vw;
       position: absolute;
@@ -1899,18 +1854,14 @@ p.header-text, span.header-text {
         }
 
         .header-description-mobile::after {
-          content: "";
+          content: '';
           text-align: right;
           position: absolute;
           bottom: 0;
           right: 0;
           width: 30%;
           height: 1.2em;
-          background: linear-gradient(
-            to right,
-            rgba(255, 255, 255, 0),
-            rgba(255, 255, 255, 1) 50%
-          );
+          background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
         }
 
         .header-description-button {
