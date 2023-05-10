@@ -1,0 +1,29 @@
+.career-info-page {
+  .fachportal-header-block .description .description-content {
+    h1 {
+      margin-top: 15px;
+      margin-bottom: 26px;
+      p {
+        margin: 0;
+      }
+      .subject {
+        color: #6689b0;
+        font-size: 26px;
+      }
+      .career-info-title {
+        font-size: 32px;
+      }
+    }
+    .header-description {
+      font-size: 16px;
+      .career-info-description {
+        color: #072545;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .sub-subjects-container {
+    margin-bottom: 1em;
+  }
+}

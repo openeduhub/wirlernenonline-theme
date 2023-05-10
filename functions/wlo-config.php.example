@@ -16,6 +16,12 @@ define("WLO_METAQS_URL","https://metaqs....net");
 define("WLO_METAQS_NG_URL","https://metaqs-ng.....net");
 define("WLO_METAQS_EDUSHARING_URL","https://repository.....net/edu-sharing/");
 
+// AI Prompt Service
+define("WLO_AI_PROMPT_SERVICE_URL", "https://ai-prompt-service.....net");
+define("WLO_AI_PROMPT_SERVICE_TOKEN", "XXXXXXXXXXXXXXXX");
+
+// Template IDs
+define("CAREER_PAGE_TEMPLATE_ID", 00000);
 
 // LDAP
 define("LDAP_SERVER","10.88.88.1");

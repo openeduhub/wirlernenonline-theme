@@ -553,6 +553,33 @@ function wlo_metaQs()
     wp_die();
 }
 
+add_action('wp_ajax_wloAiCareerAdvice', 'wloAiCareerAdvice');
+add_action('wp_ajax_nopriv_wloAiCareerAdvice', 'wloAiCareerAdvice');
+function wloAiCareerAdvice()
+{
+    $postId = $_POST['postId'];
+    // error_log('wloAiCareerAdvice postId: ' . $postId);
+    $title = get_the_title($postId);
+    if (empty($title)) {
+        wp_send_json_error(null, 404);
+    } else {
+        $url = WLO_AI_PROMPT_SERVICE_URL . "/ai/prompt/profession/description";
+        $headers = array('ai-prompt-token' => WLO_AI_PROMPT_SERVICE_TOKEN);
+        $query = array('query' => $title);
+        $response = wp_remote_get(
+            $url . '?' . http_build_query($query),
+            array('headers' => $headers, 'timeout' => 60),
+        );
+        if (is_wp_error($response) || $response['response']['code'] != 200) {
+            error_log(print_r($response, true));
+            wp_send_json_error(null, 500);
+        }
+        header('Content-Type: application/json');
+        echo $response['body'];
+    }
+    wp_die();
+}
+
 add_action('wp_ajax_emptySwimlaneContent', 'emptySwimlaneContent');
 add_action('wp_ajax_nopriv_emptySwimlaneContent', 'emptySwimlaneContent');
 function emptySwimlaneContent()

@@ -740,10 +740,18 @@ if (!function_exists('post_meta_request_params')) :
 endif;
 
 
+/**
+ * Updates the `cclom:location` property of the collection referenced by a topics page to point to
+ * the topics page when the topics page's URL changed.
+ */
 function updateCCMlocation($post_ID, $post_after, $post_before)
 {
-    if ('portal' == get_post_type($post_ID) && $post_before->post_name != $post_after->post_name) {
-
+    $template = get_page_template_slug($post_ID);
+    if (
+        'portal' == get_post_type($post_ID)
+        && $template == 'page-templates/template_themenseite.php'
+        && $post_before->post_name != $post_after->post_name
+    ) {
         $educational_filter_values = get_educational_filter_values($post_ID);
         $collectionUrl = $educational_filter_values["collectionUrl"];
 

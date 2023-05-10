@@ -1,4 +1,7 @@
+@use "sass:color";
+
 @import 'fachportal';
+@import 'career-info';
 @import 'wlo-card';
 @import 'wlo-new';
 @import 'editorial-desk';
@@ -826,4 +829,46 @@ table.dataTable tfoot td {
     // Adjust to smaller menu bar.
     margin-top: 91.4px;
   }
+}
+
+.failed-message-box {
+  padding: 2px 6px;
+  border: 2px solid #e73445;
+  background-color: #e7344530;
+}
+
+@mixin wlo-chip($foreground, $background: transparent) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  height: 30px;
+  padding: 0 16px;
+  gap: 8px;
+  color: $foreground;
+  background-color: $background;
+  font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: 0.3s;
+  border-radius: 15px;
+  img {
+    height: 20px;
+  }
+  &:hover,
+  &:focus {
+    color: $foreground;
+    background-color: color.mix($foreground, $background, 10%);
+  }
+}
+
+.wlo-chip-gray {
+  @include wlo-chip(#000000ab);
+}
+
+.wlo-chip-wide-red {
+  @include wlo-chip(white, #e73445);
+  padding: 0 2em;
 }

@@ -17,6 +17,54 @@ $url_components = parse_url($collectionUrl);
 parse_str($url_components['query'], $params);
 $collectionID = $params['id'];
 
+// Create a career page if it doesn't exist or update it, if the career-page template was updated.
+$slug = $post->post_name . '-berufsinfo';
+$career_page = get_page_by_path($slug, OBJECT, 'portal');
+if (empty($career_page)) {
+    $content = get_post_field('post_content', CAREER_PAGE_TEMPLATE_ID);
+    $postParams = array(
+        'post_author' => 'admin',
+        'post_content' => $content,
+        'post_content_filtered' => '',
+        'post_title' => 'Berufsinformationen zu ' . $post->post_title,
+        'post_name' => $slug,
+        'post_excerpt' => '',
+        'post_status' => 'publish',
+        'post_type' => 'portal',
+        'comment_status' => '',
+        'ping_status' => '',
+        'post_password' => '',
+        'to_ping' => '',
+        'pinged' => '',
+        'post_parent' => 0,
+        'menu_order' => 0,
+        'guid' => '',
+        'import_id' => 0,
+        'context' => '',
+        'page_template'  => 'page-templates/template_career_info.php'
+    );
+    $career_post_id = wp_insert_post($postParams, true);
+    update_field('template-date', get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID), $career_post_id);
+    update_field('collection_url', $collectionUrl, $career_post_id);
+    update_field('collection_level', get_field('collection_level', $postID), $career_post_id);
+    update_field('discipline', get_field('discipline', $postID), $career_post_id);
+    update_field('topic', get_field('topic', $postID), $career_post_id);
+    error_log("Created new career page: " . $career_post_id);
+} else {
+    $career_post_id = $career_page->ID;
+    if (get_field('template-date', $career_post_id) != get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID)) {
+        $content = get_post_field('post_content', CAREER_PAGE_TEMPLATE_ID);
+        $postParams = array(
+            'ID' => $career_post_id,
+            'post_content' => $content,
+        );
+        wp_update_post($postParams);
+        update_field('template-date', get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID), $career_post_id);
+        error_log("Updated career page: " . $career_post_id);
+    }
+}
+
+
 # Get collection from edu-sharing. Used to display description.
 $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID;
 $response = callWloRestApi($url);
@@ -270,7 +318,9 @@ while (have_posts()) : the_post(); ?>
                     <?php foreach ($author_ids as $author_id) {
                         echo $author_id['user_avatar'];
                     } ?>
-                    <img class="wlo-team-bookmark" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/QS-Faehnchen.svg">
+                    <div class="wlo-verified-flag-container">
+                        <img class="wlo-verified-flag" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/QS-Faehnchen.svg">
+                    </div>
                 </div>
 
             </div>
@@ -283,11 +333,51 @@ while (have_posts()) : the_post(); ?>
 
                     <div class="description">
 
-                        <div class="description-content">
-                            <a class="portal-page" href="<?php echo wlo_convert_dev_url($portalUrl); ?>">Themenseite im Fachportal <?php echo $portalTitle; ?></a>
+                        <div class="header-top-row">
+                            <div class="description-content">
+                                <a class="portal-page" href="<?php echo wlo_convert_dev_url($portalUrl); ?>">Themenseite im Fachportal <?php echo $portalTitle; ?></a>
 
-                            <h1 class="title"><?php echo get_the_title($postID); ?></h1>
-                            <div class="header-description"><?php echo $description; ?></div>
+                                <h1 class="title"><?php echo get_the_title($postID); ?></h1>
+                                <div class="header-description"><?php echo $description; ?></div>
+                            </div>
+
+                            <?php
+                            $careerAdviceId = uniqid('career-advice-');
+                            ?>
+                            <div class="career-advice-container">
+                                <img class="lightbulb-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/lightbulb.svg" alt="">
+                                <h2 class="section-title">Wofür ist das wichtig?</h2>
+
+                                <p class="career-advice">
+                                    <span id="<?php echo $careerAdviceId; ?>" class="career-advice-textbox">
+                                        Lädt...
+                                    </span>
+                                    <script type="text/javascript">
+                                        jQuery(document).ready(function() {
+                                            const data = {
+                                                action: 'wloAiCareerAdvice',
+                                                postId: <?php echo $postID; ?>,
+                                            };
+                                            jQuery.post(ajaxurl, data, function(response) {
+                                                const element = jQuery('#<?php echo $careerAdviceId; ?>');
+                                                element.text(response.description);
+                                                // console.log('response', response);
+                                            }).fail(() => {
+                                                const element = jQuery('#<?php echo $careerAdviceId; ?>');
+                                                element.addClass('failed-message-box');
+                                                element.text('Fehler beim Laden der Daten.');
+                                            });
+                                        });
+                                    </script>
+                                </p>
+                                <div class="links-container">
+                                    <a href='<?php echo get_permalink($career_post_id); ?>'>mehr erfahren</a>
+                                </div>
+                                <p class="ai-generated-notice">
+                                    <img class="robot-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot-white.svg" alt="">
+                                    generiert mit ChatGPT
+                                </p>
+                            </div>
                         </div>
 
                         <div class="content-summary">

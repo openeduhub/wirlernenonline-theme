@@ -614,10 +614,7 @@ span.header-text {
 
   .fachportal-header-bar-wrapper {
     display: flex;
-    // Position verified-flag relative to wrapper, so it won't be affected by inner paddings.
-    position: relative;
     justify-content: space-between;
-    flex-wrap: wrap;
     max-width: 1200px;
     min-height: 50px;
     margin: 0 auto;
@@ -676,7 +673,7 @@ span.header-text {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-right: 115px;
+    padding-right: 34px;
 
     p {
       color: white;
@@ -692,13 +689,18 @@ span.header-text {
       border-radius: 50%;
     }
 
-    .wlo-team-bookmark {
-      border-radius: 0;
-      height: 142px;
-      width: auto;
-      position: absolute;
-      top: -23.6px;
-      right: 0;
+    .wlo-verified-flag-container {
+      flex-shrink: 0;
+      // Occupy horizontal space, but effectively position absolute with regards to height.
+      height: 0;
+      align-self: flex-start;
+      .wlo-verified-flag {
+        width: unset;
+        border-radius: unset;
+        margin: 0;
+        height: 142px;
+        margin-top: -16.6px;
+      }
     }
   }
 }
@@ -728,14 +730,35 @@ span.header-text {
   }
 
   .description {
+    --horizontal-padding: 64px;
+    --vertical-padding: 32px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 32px 64px;
+    padding: var(--vertical-padding) var(--horizontal-padding);
     gap: 32px;
-    width: 70%;
     background: #ffffff;
     border-radius: 24px 24px 0px 0px;
+
+    // This container is only used when there is a second column displayed next to
+    // `.description-content`.
+    .header-top-row {
+      display: flex;
+      @media (max-width: 899.99px) {
+        flex-direction: column;
+      }
+      .description-content {
+        @media (min-width: 900px) {
+          flex: 1 1 70%;
+          border-right: 1px dashed black;
+          margin-right: 5%;
+          padding-right: 5%;
+        }
+        @media (max-width: 899.99px) {
+          margin-bottom: 0.5em;
+        }
+      }
+    }
 
     .description-content {
       display: flex;
@@ -802,6 +825,75 @@ span.header-text {
         div:hover {
           color: white;
           background: $wlo-primary;
+        }
+      }
+    }
+
+    .career-advice-container {
+      $aiGeneratedNoticeBorderWidth: 10px;
+      display: flex;
+      flex-direction: column;
+      $frameColor: #55779a;
+      @media (min-width: 900px) {
+        flex: 1 1 30%;
+      }
+      @media (max-width: 899.99px) {
+        .lightbulb-icon,
+        .section-title {
+          display: none;
+        }
+        .career-advice {
+          color: $frameColor;
+        }
+      }
+      .lightbulb-icon {
+        align-self: flex-start;
+      }
+      .section-title {
+        margin-top: 14px;
+        margin-bottom: 16px;
+        font-size: 16px;
+        font-weight: 500;
+        font-family: Montserrat-Medium;
+      }
+      .career-advice {
+        padding-top: 11px;
+        padding-bottom: 18px;
+        margin: 0;
+        position: relative;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: -$aiGeneratedNoticeBorderWidth;
+          width: 15px + $aiGeneratedNoticeBorderWidth;
+          border-bottom: 2px solid $frameColor;
+        }
+      }
+      .links-container {
+        padding-bottom: 17px;
+        a:hover {
+          text-decoration: underline;
+        }
+      }
+      .career-advice,
+      .links-container,
+      .ai-generated-notice {
+        margin-right: calc(-1 * var(--horizontal-padding));
+        padding-right: calc(var(--horizontal-padding) - $aiGeneratedNoticeBorderWidth);
+        border-right: $aiGeneratedNoticeBorderWidth solid $frameColor;
+      }
+      .ai-generated-notice {
+        align-self: flex-end;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        color: white;
+        background-color: $frameColor;
+        padding-right: 6px;
+        .robot-icon {
+          height: 16px;
+          margin: 0 7px;
         }
       }
     }
@@ -1794,17 +1886,16 @@ span.header-text {
     .fachportal-header-bar-wrapper {
       padding: 16px 24px;
 
-      .portal-breadcrumbs {
-        margin-right: 65px; // Make room for verified flag
+      .wlo-tile-team {
+        padding-right: 6px;
       }
 
-      .wlo-tile-team > *:not(.wlo-team-bookmark) {
+      .wlo-tile-team > *:not(.wlo-verified-flag-container) {
         display: none;
       }
-      .wlo-team-bookmark {
+      .wlo-verified-flag-container .wlo-verified-flag {
         height: 68px;
-        top: -15px;
-        right: 24px;
+        margin-top: -24px;
       }
     }
   }
@@ -1840,7 +1931,7 @@ span.header-text {
 
     .description {
       width: 100%;
-      padding: 32px 38px;
+      --horizontal-padding: 38px;
 
       .description-content {
         .title {
