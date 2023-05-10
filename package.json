@@ -19,7 +19,8 @@
     "url": "https://github.com/openeduhub/wirlernenonline-theme/issues"
   },
   "homepage": "https://github.com/openeduhub/wirlernenonline-theme#readme",
-  "dependencies": {
+  "devDependencies": {
+    "prettier": "2.8.8",
     "sass": "^1.62.0"
   }
 }
