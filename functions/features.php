@@ -325,10 +325,20 @@ function callWloRestApi($url, $type = 'GET', $body = null)
             }
             $response = curl_exec($curl);
             if ($response === false) {
-                error_log('Curl error ' . $type . ' '. $url);
-                error_log($body);
-                error_log('Error: ' . curl_error($curl));
+                error_log('Curl error when calling ' . $type . ' ' . $url . ': ' . curl_error($curl));
+                if (!empty($body)) {
+                    error_log('Request body: ' . $body);
+                }
                 echo 'curl error';
+                return false;
+            }
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            if ($httpCode != 200) {
+                error_log('Response code ' . $httpCode . ' when calling ' . $type . ' ' . $url . "\n" . $response);
+                if (!empty($body)) {
+                    error_log('Request body: ' . $body);
+                }
+                echo 'error ' . $httpCode;
                 return false;
             }
         } catch (Exception $e) {
@@ -633,7 +643,44 @@ function wlo_update_custom_roles()
 }
 add_action('init', 'wlo_update_custom_roles');
 
-
+/**
+ * Calls the Google Geocoding API to resolve an address string provided by the user to geo
+ * coordinates.
+ * 
+ * @return array results as described here: https://developers.google.com/maps/documentation/geocoding/requests-geocoding#results
+ */
+function callGeocodingApi(string $address)
+{
+    $url = 'https://maps.googleapis.com/maps/api/geocode/json'
+        . '?address=' . urlencode($address)
+        . '&language=de'
+        . '&region=de' // bias results to be located in Germany, does not fully restrict results
+        . '&key=' . GOOGLE_MAPS_API_KEY;
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        'Accept: application/json',
+    ));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    try {
+        $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    } catch (Exception $e) {
+        error_log('Exception when requesting ' . $url . ': ' . $e->getMessage());
+        return false;
+    }
+    curl_close($curl);
+    if ($httpCode != 200) {
+        error_log('Response code ' . $httpCode . ' when requesting ' . $url . ': ' . $response);
+        return false;
+    }
+    // error_log($response);
+    $response = json_decode($response, true);
+    if ($response['status'] != 'OK') {
+        error_log('Status ' . $response['status'] . ' when requesting ' . $url . ': ' . $response['error_message']);
+        return false;
+    }
+    return $response['results'];
+}
 
 function callRepoApi($restUrl, $data = null, $contentType = 'Content-Type: application/json', $mode = 'POST', $ticket = null)
 {
@@ -1077,8 +1124,13 @@ function wlo_getPortalPostId(string $name): int
 
 function wlo_getPortalIDbyName($name)
 {
-    $portalID = wlo_getPortalPostId($name);
-    $collectionUrl = get_field('collection_url', $portalID);
+    $postId = wlo_getPortalPostId($name);
+    return wlo_getPortalIdByPostId($postId);
+}
+
+function wlo_getPortalIdByPostId($postId)
+{
+    $collectionUrl = get_field('collection_url', $postId);
     $url_components = parse_url($collectionUrl);
     parse_str($url_components['query'], $params);
     return $params['id']; // collectionID

@@ -1,29 +1,230 @@
+@mixin sectionHeading {
+  font-weight: 500;
+  font-family: 'Montserrat-Medium', Helvetica, Roboto, Arial, sans-serif;
+  font-size: 26px;
+  margin-top: 20px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+@mixin sectionHeadingSub {
+  // font-size: 14px;
+  line-height: 22px;
+  // font-family: 'Montserrat';
+  margin: 0;
+  text-align: center;
+  max-width: 1000px;
+}
+
+@mixin sectionHeadingSubBold {
+  @include sectionHeadingSub();
+  font-weight: 600;
+}
+
+// Sets the scroll offset for jump-button targets to account for sticky navigation bars.
+@mixin scrollOffset {
+  // Breadcrumbs bar + filter bar + 10px extra space
+  scroll-margin: 152px;
+  @media screen and (max-width: 899.99px) {
+    // The filter bar isn't sticky on mobile
+    scroll-margin: 72px;
+  }
+}
+
 .career-info-page {
-  .fachportal-header-block .description .description-content {
-    h1 {
-      margin-top: 15px;
-      margin-bottom: 26px;
-      p {
-        margin: 0;
+  .fachportal-header-block {
+    position: relative;
+    overflow: hidden;
+    &::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      // Crop the background image as long as the screen is smaller than the image and start scaling
+      // it up for larger screens.
+      min-width: 3840px;
+      background-image: url('../../../src/assets/img/Header_Image_Berufsthemenseite.svg');
+      background-size: cover;
+    }
+    .fachportal-header-wrapper {
+      padding-top: 62px;
+    }
+  }
+  .fachportal-header-block .description {
+    gap: 0;
+    padding-bottom: 0;
+
+    p {
+      font-size: 16px;
+    }
+
+    .description-content {
+      .portal-page {
+        color: #336296;
       }
-      .subject {
-        color: #6689b0;
-        font-size: 26px;
-      }
-      .career-info-title {
-        font-size: 32px;
+      h1 {
+        margin-top: 2px;
+        margin-bottom: 19px;
+        font-family: 'Montserrat-Medium';
+        font-weight: 500;
       }
     }
-    .header-description {
-      font-size: 16px;
-      .career-info-description {
-        color: #072545;
-        font-weight: 600;
+
+    .scroll-down-chips {
+      margin-top: 4px;
+      margin-bottom: 44px;
+      display: flex;
+      gap: 11px;
+      flex-wrap: wrap;
+      button {
+        cursor: pointer;
+      }
+    }
+
+    .more-career-pages {
+      a {
+        font-family: 'Source-Sans-Pro-Bold';
+        text-decoration: underline;
+        color: #336296;
       }
     }
   }
 
   .sub-subjects-container {
     margin-bottom: 1em;
+  }
+
+  .job-profiles {
+    .wlo-accordion-content {
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .job-profiles-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: unset;
+      @include scrollOffset();
+      h2 {
+        @include sectionHeading();
+      }
+      .job-profiles-description {
+        @include sectionHeadingSub();
+      }
+      .job-profiles-description-bold {
+        @include sectionHeadingSubBold();
+      }
+    }
+  }
+
+  .wlo-events-map {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    @include scrollOffset();
+    h2 {
+      @include sectionHeading();
+    }
+    .heading-description {
+      @include sectionHeadingSub();
+      align-self: center;
+      margin-bottom: 34px;
+    }
+    .events-map-widget-container {
+      display: flex;
+      @media (max-width: 899.99px) {
+        flex-direction: column;
+      }
+      .sidebar {
+        @media (min-width: 900px) {
+          width: 290px;
+        }
+        background-color: white;
+        padding: 19px 25px;
+        legend {
+          font-size: 16px;
+          font-family: 'Source-Sans-Pro-Bold';
+          font-weight: 700;
+          margin-bottom: 21px;
+        }
+        select {
+          height: 38px;
+          margin: 0;
+          padding: 0 35px 0 13px;
+          border: 1px solid #003b7c;
+          border-radius: 3px;
+          color: rgb(7, 37, 69);
+          font-size: 16px;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%280, 59, 124%29'></polygon></svg>");
+          background-size: 10px;
+          background-position: right -20px center;
+          cursor: pointer;
+          &:not(:last-child) {
+            margin-bottom: 21px;
+          }
+          &[disabled] {
+            color: rgb(100, 100, 100);
+            background-color: unset;
+            border-color: #7d7d7d;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28150, 150, 150%29'></polygon></svg>");
+            cursor: unset;
+          }
+        }
+      }
+      .map-container {
+        position: relative;
+        z-index: 0; // Don't let the z-index set by leaflet let it paint over page elements.
+        flex-grow: 1;
+        height: min(500px, 100vh);
+        .map {
+          height: 100%;
+          width: 100%;
+          .leaflet-popup-content {
+            p {
+              font-size: 13px;
+              margin: 0;
+            }
+            .title {
+              font-size: 17px;
+              font-weight: 600;
+            }
+            .description,
+            .url {
+              margin-top: 1em;
+            }
+          }
+        }
+        .notice-overlay-container {
+          display: grid;
+          position: absolute;
+          z-index: 1000; // Draw above map
+          padding: 50px;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          background-color: rgba(255, 255, 255, 0.9);
+          .notice-overlay {
+            margin: auto;
+            text-align: center;
+            font-size: 26px;
+            p {
+              margin: 2em 0 0;
+            }
+          }
+        }
+      }
+    }
+    .wlo-chip-add-content {
+      align-self: center;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .fachportal-content-block {
+    @include scrollOffset();
   }
 }

@@ -146,7 +146,7 @@ function printWloCard(mixed $item): void
     $data = getWloCardDataAttributes($item);
 ?>
     <!-- FIXME: slick sets this div to tabindex="0" -->
-    <div class="wlo-card" <?php echo $data; ?>>
+    <div class="wlo-card wlo-card-interactive" <?php echo $data; ?>>
         <?php if (!empty($item['image_url'])) { ?>
             <div class="wlo-card-image-container">
                 <img class="wlo-card-image" src="<?php echo $item['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $item['title']; ?>">

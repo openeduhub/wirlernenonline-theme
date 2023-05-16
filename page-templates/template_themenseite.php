@@ -20,11 +20,10 @@ $collectionID = $params['id'];
 // Create a career page if it doesn't exist or update it, if the career-page template was updated.
 $slug = $post->post_name . '-berufsinfo';
 $career_page = get_page_by_path($slug, OBJECT, 'portal');
+$updatedCareerPage = true;
 if (empty($career_page)) {
-    $content = get_post_field('post_content', CAREER_PAGE_TEMPLATE_ID);
     $postParams = array(
         'post_author' => 'admin',
-        'post_content' => $content,
         'post_content_filtered' => '',
         'post_title' => 'Berufsinformationen zu ' . $post->post_title,
         'post_name' => $slug,
@@ -50,17 +49,13 @@ if (empty($career_page)) {
     update_field('discipline', get_field('discipline', $postID), $career_post_id);
     update_field('topic', get_field('topic', $postID), $career_post_id);
     error_log("Created new career page: " . $career_post_id);
+    $updatedCareerPage = true;
 } else {
     $career_post_id = $career_page->ID;
     if (get_field('template-date', $career_post_id) != get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID)) {
-        $content = get_post_field('post_content', CAREER_PAGE_TEMPLATE_ID);
-        $postParams = array(
-            'ID' => $career_post_id,
-            'post_content' => $content,
-        );
-        wp_update_post($postParams);
         update_field('template-date', get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID), $career_post_id);
         error_log("Updated career page: " . $career_post_id);
+        $updatedCareerPage = true;
     }
 }
 
@@ -116,6 +111,37 @@ if (!empty($parents)) {
         }
     }
     $breadcrumbs = array_reverse($breadcrumbs);
+}
+
+// Populate the career page's content.
+if ($updatedCareerPage) {
+    $careerPageContent = get_post_field('post_content', CAREER_PAGE_TEMPLATE_ID);
+
+    // Append the editors' information and participation invitation from the subject page to the
+    // career page.
+    $portalContent = get_post_field('post_content', $portalID);
+    foreach (parse_blocks($portalContent) as &$block) {
+        $innerBlock = $block;
+        while (!empty($innerBlock['innerBlocks'])) {
+            $innerBlock = $innerBlock['innerBlocks'][0];
+        }
+        if (
+            $innerBlock['blockName'] == 'acf/fachportal-team-block'
+        ) {
+            $editorsBlock = $block;
+            continue;
+        }
+    }
+    unset($block);
+    if (!empty($editorsBlock)) {
+        $careerPageContent .= serialize_block($editorsBlock);
+    }
+
+    $postParams = array(
+        'ID' => $career_post_id,
+        'post_content' => $careerPageContent,
+    );
+    wp_update_post($postParams);
 }
 
 // Use collection description from edu-sharing; default to standard text if no description available
@@ -319,7 +345,7 @@ while (have_posts()) : the_post(); ?>
 
                 <div class="fachportal-header-wrapper themenseite-header-wrapper">
 
-                    <div class="description">
+                    <div class="description description-full-width">
 
                         <div class="header-top-row">
                             <div class="description-content">

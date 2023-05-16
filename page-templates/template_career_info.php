@@ -17,10 +17,6 @@ $url_components = parse_url($collectionUrl);
 parse_str($url_components['query'], $params);
 $collectionID = $params['id'];
 
-$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID;
-$response = callWloRestApi($url);
-
-
 $url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $collectionID . '/parents?propertyFilter=-all-&fullPath=false';
 $parents = callWloRestApi($url);
 if (isset($parents->nodes)) {
@@ -89,6 +85,8 @@ $topic = end($breadcrumbs)[0];
 /** The post id of the topic page to which this info page belongs. */
 $topicPostId = url_to_postid(end($breadcrumbs)[1]);
 
+$breadcrumbs[] = [$topic . ' im Beruf', get_permalink()];
+
 $url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/?maxItems=0';
 $body = '{
           "criteria": [
@@ -122,12 +120,11 @@ $fontColor = (!empty($backgroundColor) && helper_useLightColor($backgroundColor)
 
 $GLOBALS['wlo_fachportal'] = array(
     'title' => $portalTitle,
-    'backgroundColor' => $backgroundColor,
-    'rgbBackgroundColor' => $rgbBackgroundColor
 );
 
-
-$accordionID = uniqid();
+$GLOBALS['wloCareerInfo'] = array(
+    'topicPostId' => $topicPostId,
+);
 
 while (have_posts()) : the_post(); ?>
     <div class="portal career-info-page">
@@ -145,7 +142,6 @@ while (have_posts()) : the_post(); ?>
                     </ul>
                 </div>
                 <div class="wlo-tile-team <?php echo $portalID; ?>">
-                    <p>Forschungsprototyp!</p>
                     <div class="wlo-verified-flag-container">
                         <img class="wlo-verified-flag" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/KI-Faehnchen.svg">
                     </div>
@@ -158,151 +154,50 @@ while (have_posts()) : the_post(); ?>
                 <div class="fachportal-header-wrapper themenseite-header-wrapper">
                     <div class="description">
                         <div class="description-content">
-                            <a class="portal-page" href="<?php echo wlo_convert_dev_url($portalUrl); ?>">Informationsseite im Fachportal <?php echo $portalTitle; ?></a>
-
-                            <h1>
-                                <p class="subject">
-                                    <?php echo $topic; ?>
-                                </p>
-                                <p class="career-info-title">Wofür ist das wichtig?</p>
-                            </h1>
+                            <a class="portal-page" href="<?php echo wlo_convert_dev_url($portalUrl); ?>">Berufsseite im Fachportal <?php echo $portalTitle; ?></a>
+                            <h1><?php echo $topic; ?> im Beruf</h1>
                             <div class="header-description">
-                                <?php
-                                $careerAdviceId = uniqid('career-advice-');
-                                ?>
-                                <p class="career-advice">
-                                    <span id="<?php echo $careerAdviceId; ?>" class="career-advice-textbox">
-                                        Lädt...
-                                    </span>
-                                    <script type="text/javascript">
-                                        jQuery(document).ready(function() {
-                                            const data = {
-                                                action: 'wloAiCareerAdvice',
-                                                postId: <?php echo $topicPostId; ?>,
-                                            };
-                                            jQuery.post(ajaxurl, data, function(response) {
-                                                const element = jQuery('#<?php echo $careerAdviceId; ?>');
-                                                element.text(response.description);
-                                            }).fail(() => {
-                                                const element = jQuery('#<?php echo $careerAdviceId; ?>');
-                                                element.addClass('failed-message-box');
-                                                element.text('Fehler beim Laden der Daten.');
-                                            });
-                                        });
-                                    </script>
-                                </p>
-                                <p class="career-info-description">
-                                    Auf dieser Seite haben wir mit KI Links zusammengestellt.<br>
-                                    Wir verraten dir auch die Prompts, damit du KI nutzen lernst...
-                                </p>
+                                <p>Du möchtest wissen, welche Berufe es zum Thema <?php echo $topic; ?> gibt? Du wirst überrascht sein, was du mit deinem Interesse dafür alles machen kannst.</p>
+                                <p>Wir haben dir hier passende Berufsprofile zusammengestellt. Künstliche Intelligenz hat uns dabei geholfen, dir einen guten Überblick zu verschaffen. Außerdem findest du hilfreiche Tipps und Infos rund um deine ersten Schritte in die Berufswelt, z. B. zu Praktika, Bewerbung schreiben und vieles mehr.</p>
                             </div>
                         </div>
 
-                        <?php
-                        $url = WLO_REPO . 'rest/collection/v1/collections/local/' . $collectionID . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
-                        $subCollections = callWloRestApi($url);
-                        $filteredSubCollections = [];
-
-                        if (!empty($subCollections->collections)) {
-                            foreach ($subCollections->collections as $collection) {
-
-                                // Filter hidden collections
-                                if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated') {
-                                    continue;
-                                }
-
-                                // Filter educationalContexts
-                                if (!empty($educationalContexts)) {
-                                    if (empty($collection->properties->{'ccm:educationalcontext'})) { // skip empty?
-                                        //continue;
-                                    } else {
-                                        if (!checkPropertyMatch($collection->properties->{'ccm:educationalcontext'}, $educationalContexts, true)) {
-                                            continue;
-                                        }
-                                    }
-                                }
-
-                                $filteredSubCollections[] = $collection;
-                            }
-                        }
-
-                        $maxSubCollections = 6;
-                        if (get_field('maxSubCollections')) {
-                            $maxSubCollections = get_field('maxSubCollections');
-                        }
-                        ?>
-                        <div class="collections">
-                            <?php if (!empty($filteredSubCollections)) : ?>
-                                <div class="sub-subjects">
-                                    <div class="sub-subjects-header">
-                                        <h2>Unterthemen <?php echo $topic; ?></h2>
-                                    </div>
-                                    <div class="sub-subjects-container">
-                                        <?php foreach (array_slice($filteredSubCollections, 0, $maxSubCollections) as $collection) {
-                                            $ccm_location = $collection->properties->{'cclom:location'}[0];
-
-                                            $title = $collection->title;
-                                            if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])) {
-                                                $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
-                                            }
-                                            $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
-                                        ?>
-                                            <div class="sub-subject">
-                                                <a href="<?php echo $ccm_location; ?>">
-                                                    <p><?php echo $title; ?></p>
-                                                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward_white.svg">
-                                                </a>
-                                            </div>
-                                        <?php } ?>
-                                        <?php if (count($filteredSubCollections) > $maxSubCollections) : ?>
-                                            <div class="sub-subject">
-                                                <a id="sub-subjects-button" href="#">
-                                                    <p>mehr anzeigen</p>
-                                                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down_white.svg">
-                                                </a>
-                                            </div>
-
-                                        <?php endif; ?>
-                                    </div>
-                                    <div id="hidden-sub-subjects-container" class="sub-subjects-container">
-                                        <?php foreach (array_slice($filteredSubCollections, $maxSubCollections) as $collection) {
-                                            $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
-                                            $title = $collection->title;
-                                            if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])) {
-                                                $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
-                                            }
-                                        ?>
-                                            <div class="sub-subject">
-                                                <a href="<?php echo $ccm_location; ?>">
-                                                    <p><?php echo $title; ?></p>
-                                                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward_white.svg">
-                                                </a>
-                                            </div>
-                                        <?php } ?>
-                                    </div>
-                                    <div>
-                                        <a class="wlo-chip-wide-red" href="<?php echo $portalUrl ?>">
-                                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/categories_white.svg">
-                                            <span>zur Themenübersicht <?php echo $portalTitle ?></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
+                        <div class="scroll-down-chips">
+                            <button class="wlo-chip-light-blue" onclick="
+                            jQuery('.job-profiles-header')
+                                .get(0)
+                                .scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            ">
+                                <span>Berufsprofile</span>
+                                <span class="arrow-down-icon material-icons">arrow_downward</span>
+                            </button>
+                            <button class="wlo-chip-light-blue" onclick="
+                            jQuery('.wlo-events-map')
+                                .get(0)
+                                .scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            ">
+                                <span>Veranstaltungen und Lernorte</span>
+                                <span class="arrow-down-icon material-icons">arrow_downward</span>
+                            </button>
+                            <button class="wlo-chip-light-blue" onclick="
+                            jQuery('.fachportal-content-block')
+                                .get(0)
+                                .scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            ">
+                                <span>Tipps zum Start</span>
+                                <span class="arrow-down-icon material-icons">arrow_downward</span>
+                            </button>
                         </div>
 
-                        <div class="search-results-container">
-                            <p class="search-results-notice">
-                                <?php if ($searchTotal == 1) { ?>
-                                    Die Suche findet 1 maschinell geprüften Inhalt:
-                                <?php } else if ($searchTotal > 1) { ?>
-                                    Die Suche findet <?php echo $searchTotal; ?> maschinell geprüfte Inhalte:
-                                <?php } ?>
-                            </p>
-                            <a class="wlo-chip-wide-red" href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo $topic; ?>" target="_blank">
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot-white.svg">
-                                <span>Zur WLO-Suchmaschine</span>
-                            </a>
-                        </div>
+                        <p class="more-career-pages">
+                            Weitere Berufsthemen in <?php echo $portalTitle; ?>: WAS ANZEIGEN?
+                            <a href="<?php echo $portalUrl; ?>">Zeige mir alle Themen</a>
+                        </p>
+
+                        <p>
+                            WirLernenOnline sammelt für dich Bildungs- und Wissensinhalte sowie Informationen aus Internetportalen, Datenbanken und anderen Quellen. Dies werden automatisch erschlossen und mit künstlicher Intelligenz so verschlagwortet, dass die Inhalte auf Seiten wie diesen erscheinen. Trotz redaktioneller Stichproben können sich da Fehler einschleichen.
+                        </p>
+
                         <?php
                         $reportProblemUrl = add_query_arg(
                             array(
@@ -312,40 +207,78 @@ while (have_posts()) : the_post(); ?>
                             get_site_url(path: 'problem-mit-seite-melden'),
                         );
                         ?>
-                        <a class="wlo-chip-gray" href="<?php echo $reportProblemUrl; ?>" target="_blank">
+                        <!-- <a class="wlo-chip-gray" href="<?php echo $reportProblemUrl; ?>" target="_blank">
                             <span>Problem melden</span>
                             <span class="material-icons">flag</span>
-                        </a>
+                        </a> -->
                     </div>
                 </div>
             </div>
         </div>
 
-
-        <div class="portal-wrapper portal-wrapper-themenseite">
-            <div class="portal-wrapper-left">
-                <div class="fachportal-header-accordion">
-
-                    <div class="wlo-accordion-wrapper" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 0.2);">
-                        <button class="wlo-accordion" id="fachportal-accordion-<?php echo $accordionID; ?>">
-                            <h2>Lorem ipsum</h2>
-                            <img class="wlo-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg" alt="Inhalte ein odder ausklappen">
-                            <script>
-                                jQuery('#fachportal-accordion-<?php echo $accordionID; ?>').click(function() {
-                                    jQuery(this).find("img").toggleClass("wlo-accordion-icon-active");
-                                    jQuery('#fachportal-accordion-content-<?php echo $accordionID; ?>').slideToggle();
-                                });
-                            </script>
-                        </button>
-
-                        <div id="fachportal-accordion-content-<?php echo $accordionID; ?>" class="wlo-accordion-content career-info-chat-gpt-container">
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Necessitatibus similique quas quis in, mollitia maiores distinctio. Aperiam impedit vero nostrum eligendi! Nulla beatae odit dolore aperiam ipsa sequi? Commodi, quis.</p>
-                        </div>
-                        <div class="wlo-accordion-bottom"></div>
+        <div class="fachportal-filterbar" <?php if (is_admin_bar_showing()) {
+                                                echo 'style="top:80px"';
+                                            } ?>>
+            <?php
+            $educationalcontextArray = ['foo' => 42]
+            ?>
+            <div class="fachportal-filterbar-content">
+                <div class="fachportal-filterbar-header-row">
+                    <p class="header-text">Filtere die Berufsprofile:</p>
+                    <div class="fachportal-filterbar-dropdowns">
+                        <select name="educationalcontext" id="educationalcontext" onchange="filterContentTiles(this, 'educationalcontext', this.value)">
+                            <option value="label" selected disabled>Bildungsstufe</option>
+                            <option disabled>──────────</option>
+                            <?php foreach ($educationalcontextArray as $key => $value) { ?>
+                                <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
+                                    <?php echo $key . ' (' . $value . ')'; ?>
+                                </option>
+                            <?php } ?>
+                        </select>
                     </div>
                 </div>
 
+                <div class="filter-chips-container">
+                    <?php foreach ($educationalcontextArray as $key => $value) {
+                        $id = preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key));
+                    ?>
+                        <button id="filter-tag-<?php echo $id; ?>" onclick="filterContentTiles(this, 'educationalcontext', '<?php echo $id; ?>')">
+                            <div class="fachportal-filterbar-tag">
+                                <?php echo $key; ?>
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
+                            </div>
+                        </button>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="portal-wrapper portal-wrapper-themenseite">
+            <div class="portal-wrapper-left">
+                <?php
+                get_template_part('template-parts/career/job-profiles', args: array(
+                    'topicPostId' => $topicPostId,
+                    'topic' => $topic,
+                    'color' => $rgbBackgroundColor,
+                ));
+                ?>
                 <?php the_content(); ?>
+            </div>
+            <div class="portal-wrapper-right">
+                <div class="detail-view-popup">
+                    <script>
+                        window.__env = {
+                            EDU_SHARING_API_URL: '<?php echo WLO_REPO; ?>rest',
+                        };
+                    </script>
+                    <oeh-details-embedded></oeh-details-embedded>
+                    <script>
+                        document.getElementsByTagName('oeh-details-embedded')[0].addEventListener('closed', () => {
+                            jQuery(".portal-wrapper-right").hide('slow');
+                            jQuery(".detail-view-popup").hide('slow');
+                        });
+                    </script>
+                </div>
             </div>
         </div>
     </div>
@@ -353,3 +286,12 @@ while (have_posts()) : the_post(); ?>
 <?php
 endwhile;
 get_footer();
+
+?>
+<script>
+    function showContentPopup(nodeID) {
+        document.getElementsByTagName("oeh-details-embedded")[0].setAttribute("node-id", nodeID);
+        jQuery(".detail-view-popup").css('display', 'flex');
+        jQuery(".portal-wrapper-right").show('slow');
+    }
+</script>

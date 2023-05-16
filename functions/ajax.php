@@ -528,6 +528,106 @@ function wloAiCareerAdvice()
     wp_die();
 }
 
+add_action('wp_ajax_wloJobProfilesCarousel', 'wloJobProfilesCarousel');
+add_action('wp_ajax_nopriv_wloJobProfilesCarousel', 'wloJobProfilesCarousel');
+/** Prints HTML to render a job profiles carousel. */
+function wloJobProfilesCarousel()
+{
+    // Use post id instead of passing the topic title directly to prevent forged requests for
+    // arbitrary input.
+    $postId = $_GET['postId'];
+    $topic = get_the_title($postId);
+    if (empty($topic)) {
+        wp_send_json_error(null, 404);
+    } else {
+        get_template_part('template-parts/career/job-profiles-carousel', args: array(
+            'topic' => $topic,
+        ));
+    }
+    wp_die();
+}
+
+add_action('wp_ajax_wloEventsMap', 'wloEventsMap');
+add_action('wp_ajax_nopriv_wloEventsMap', 'wloEventsMap');
+/** Prints HTML to render a map for event locations. */
+function wloEventsMap()
+{
+    /** The ID of the original topic page. */
+    $postId = $_GET['postId'];
+    $topic = get_the_title($postId);
+    if (empty($topic)) {
+        wp_send_json_error(null, 404);
+    } else {
+        get_template_part('template-parts/career/events-map', args: array(
+            'topicPagePostId' => $postId,
+            'topic' => $topic,
+        ));
+    }
+    wp_die();
+}
+
+add_action('wp_ajax_wloEventLocations', 'wloEventLocations');
+add_action('wp_ajax_nopriv_wloEventLocations', 'wloEventLocations');
+/** Retrieves event locations for the topic given by `postId` in JSON format. */
+function wloEventLocations()
+{
+    /** The ID of the original topic page. */
+    $postId = $_GET['postId'];
+    $lat = $_GET['lat'];
+    $lon = $_GET['lon'];
+    $zoom = $_GET['zoom'];
+    $topic = get_the_title($postId);
+    if (empty($topic)) {
+        wp_send_json_error(null, 404);
+    } else {
+        $collectionId = wlo_getPortalIdByPostId($postId);
+        $url = add_query_arg(
+            array(
+                'contentType' => 'ALL',
+                'skipCount' => 0,
+                'maxItems' => 999,
+                'propertyFilter' => '-all-',
+            ),
+            WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/ngsearch/',
+        );
+        $body = <<<EOD
+        {
+            "criteria": [
+                {
+                  "property": "virtual:collection_id",
+                  "values": [ "$collectionId" ]
+                },
+                {
+                  "property": "ccm:oeh_geographical_location_lat",
+                  "values": [ "exists" ]
+                }
+            ]
+        }
+        EOD;
+        $response = callWloRestApi($url, 'POST', $body);
+        // error_log(print_r($response, true));
+        $eventLocations = [];
+        foreach ($response->nodes as &$node) {
+            $eventLocations[] = mapEduSharingNodeToEventLocation($node);
+        }
+        unset($node);
+        wp_send_json(array('eventLocations' => $eventLocations));
+    }
+    wp_die();
+}
+
+function mapEduSharingNodeToEventLocation($node) {
+    $props = $node->properties;
+    return array(
+        'lat' => $props->{'ccm:oeh_geographical_location_lat'}[0] ?? 0,
+        'lon' => $props->{'ccm:oeh_geographical_location_lng'}[0] ?? 0,
+        'title' => $node->title,
+        'location' => $props->{'ccm:oeh_geographical_location_address_formatted'}[0],
+        'description' => $props->{'cclom:general_description'}[0],
+        'url' => $props->{'ccm:wwwurl'}[0],
+    );
+}
+
 add_action('wp_ajax_emptySwimlaneContent', 'emptySwimlaneContent');
 add_action('wp_ajax_nopriv_emptySwimlaneContent', 'emptySwimlaneContent');
 function emptySwimlaneContent()

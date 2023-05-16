@@ -1,4 +1,4 @@
-@use "sass:color";
+@use 'sass:color';
 
 @import 'fachportal';
 @import 'career-info';
@@ -868,7 +868,23 @@ table.dataTable tfoot td {
   @include wlo-chip(#000000ab);
 }
 
+.wlo-chip-light-blue {
+  @include wlo-chip(white, #336296);
+}
+
+.wlo-chip-dark-blue {
+  @include wlo-chip(white, #475668);
+}
+
 .wlo-chip-wide-red {
   @include wlo-chip(white, #e73445);
   padding: 0 2em;
+}
+
+.wlo-chip-add-content {
+  @include wlo-chip($wlo-primary-dark, $wlo-neon);
+  padding: 0 2em;
+  img {
+    height: unset;
+  }
 }

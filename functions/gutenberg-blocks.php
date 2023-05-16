@@ -131,6 +131,19 @@ function register_acf_block_types()
         'keywords'          => [],
     ]);
     acf_register_block_type([
+        'name'              => 'career_events_map',
+        'title'             => __('Berufsseite: Veranstaltungs-Karte'),
+        'description'       => __('Kartenansicht berufsbezogener Veranstaltungen'),
+        'render_template'   => 'template-parts/blocks/career_events_map.php',
+        'category'          => 'themenportal',
+        'icon'              => 'location-alt',
+        'keywords'          => [],
+        'enqueue_assets' => function () {
+            wp_enqueue_style('leaflet', get_template_directory_uri() . '/vendor/leaflet/dist/leaflet.css', array(), '1.9.4');
+            wp_enqueue_script('leaflet', get_template_directory_uri() . '/vendor/leaflet/dist/leaflet.js', array(), '1.9.4', true);
+        },
+    ]);
+    acf_register_block_type([
         'name'              => 'wlo_news',
         'title'             => __('WLO News'),
         'description'       => __('Zeigt News-Beiträge'),

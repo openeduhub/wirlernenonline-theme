@@ -1,6 +1,26 @@
 <?php /* Template Name: TP Inhalte Formular 2 */
 
-define('COLLECTION_ADD_ID', '7b1fab33-e2d9-4a19-a1ba-3079c49f1239');
+/*
+ * This is the suggest-content form, that allows users to provide suggestions for new content,
+ * tools, or sources to be listed on WLO.
+ *
+ * When this form is referenced to, query parameters can be used to provide context.
+ *
+ * Allowed query parameters are
+ *  - type: 'material' | 'tool' | 'source'
+ *  - pageDiscipline: Vocabs ID valid in http://w3id.org/openeduhub/vocabs/discipline/, e.g. 460 for
+ *    "Physics"
+ *  - collectionID: Collection ID for a "Themenportal" in edu-sharing, e.g.
+ *    "2c8cd907-78b5-46f0-b3e7-7fe171633e44" for "Lyrische Texte"
+ *  - lrtID: Complete vocabs URL under
+ *    http://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/new_lrt, e.g.
+ *    "http://w3id.org/openeduhub/vocabs/new_lrt/44868358-7b1f-42e4-a6b9-c3889d9d2623" for
+ *    "Checkliste"
+ *
+ * Internally, we use an embedded edu-sharing view to provide show input fields to the user. On
+ * submission, we read the fields' values and submit a POST request to this same page. When
+ * receiving this POST request, we send the data back to edu-sharing.
+ */
 
 get_header();
 global $post;
@@ -59,14 +79,6 @@ if (isset($_GET['type'])) {
         } else {
             $collectionID = null;
         }
-        $widgetName = '';
-        if (isset($_GET['headline'])) {
-            $widgetName = $_GET['headline'];
-        }
-        $widgetId = '';
-        if (isset($_GET['oehWidgets'])) {
-            $widgetId = map_vocab_oeh_widgets_value_only($_GET['oehWidgets']);
-        }
         $pageTitle = '';
         if (isset($_GET['pageTitle'])) {
             $pageTitle = $_GET['pageTitle'];
@@ -80,16 +92,14 @@ if (isset($_GET['type'])) {
             $lrtID = explode(',', $_GET['lrtID']);
         }
 
-        // $objectType = 'MATERIAL';
         $mdsGroup = 'wlo_upload_content';
         if (isset($_GET['type'])) {
             if ($_GET['type'] == 'source') {
-                //$objectType = 'SOURCE';
                 $mdsGroup = 'wlo_upload_source';
-            }
-            if ($_GET['type'] == 'tool') {
-                // $objectType = 'TOOL';
+            } else if ($_GET['type'] == 'tool') {
                 $mdsGroup = 'wlo_upload_tool';
+            } else if ($_GET['type'] == 'event') {
+                $mdsGroup = 'wlo_upload_event';
             }
         }
 
@@ -99,8 +109,6 @@ if (isset($_GET['type'])) {
             $formErr = $formOk = '';
             $success = false;
             $collectionID = $_POST['collectionID'];
-            $widgetName = $_POST['widgetName'];
-            $widgetName = $_POST['widgetName'];
             $pageDiscipline = $_POST['pageDiscipline'];
             $pageTitle = $_POST['pageTitle'];
             /*https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/discipline/*/
@@ -113,7 +121,7 @@ if (isset($_GET['type'])) {
 
             if (isset($mdsData['fileupload-filedata'])) {
                 $mdsData["cm:name"] = $mdsData['fileupload-filename'];
-            } else if ($mdsData['fileupload-link']) {
+            } else if (isset($mdsData['fileupload-link'])) {
                 $mdsData["ccm:wwwurl"] = $mdsData['fileupload-link'];
             }
             // prefix with http if missing
@@ -126,7 +134,7 @@ if (isset($_GET['type'])) {
             $mdsData["ccm:linktype"] = ['USER_GENERATED'];
 
             // unfold license
-            if (isset($mdsData["ccm:custom_license"])) {
+            if (!empty($mdsData["ccm:custom_license"][0])) {
                 preg_match('/.*\/(.*)/', $mdsData["ccm:custom_license"][0], $license);
                 $license = $license[1];
                 if (substr($license, -3) == '_40') {
@@ -143,7 +151,21 @@ if (isset($_GET['type'])) {
             if (!$kw || count($kw) == 0) {
                 unset($mdsData['cclom:general_keyword']);
             }
-            if (isset($mdsData['virtual:email'])) {
+
+            // get geo coordinates
+            if (!empty($mdsData['ccm:oeh_geographical_location_address_freetext'][0])) {
+                $results = callGeocodingApi($mdsData['ccm:oeh_geographical_location_address_freetext'][0]);
+                if (!empty($results)) {
+                    // Just take the first result for now
+                    $location = $results[0]['geometry']['location'];
+                    $formattedAddress = $results[0]['formatted_address'];
+                    $mdsData['ccm:oeh_geographical_location_lat'] = [$location['lat']];
+                    $mdsData['ccm:oeh_geographical_location_lng'] = [$location['lng']];
+                    $mdsData['ccm:oeh_geographical_location_address_formatted'] = [$formattedAddress];
+                }
+            }
+
+            if (!empty($mdsData['virtual:email'])) {
                 $mdsData['ccm:metadatacontributer_creator'] = ["BEGIN:VCARD\nVERSION:3.0\nN:Upload;WLO\nFN:WLO Upload\nORG:\nURL:\nTITLE:\nTEL;TYPE=WORK,VOICE:\nADR;TYPE=intl,postal,parcel,work:;;;;;;\nX-ES-LOM-CONTRIBUTE-DATE:\nEMAIL;TYPE=PREF,INTERNET:" . $mdsData['virtual:email'][0] . "\nEND:VCARD\n"];
                 if (isset($mdsData['virtual:newsletter']) && $mdsData['virtual:newsletter'][0] == 'true') {
                     $data = array(
@@ -164,13 +186,14 @@ if (isset($_GET['type'])) {
                 }
             }
 
-            $location = $mdsData["virtual:publish_location"];
-            if (!$location || !trim($location[0])) {
-                $location = "Ohne Kategorie";
-            } else {
+            $location = @$mdsData["virtual:publish_location"][0];
+            if (isset($location) && !empty(trim($location[0]))) {
                 preg_match('/.*\/(.*)/', $location[0], $matches);
                 $location = $matches[1];
+            } else {
+                $location = "Ohne Kategorie";
             }
+
             $apiUrl = 'rest/node/v1/nodes/-home-/' . WLO_REPO_UPLOAD_LOCATION . '/children';
             $nodes = callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET')['nodes'];
             $parent = null;
@@ -184,7 +207,9 @@ if (isset($_GET['type'])) {
                 $formErr = 'Interner Verarbeitungsfehler: Gruppenordner ' . $location . ' nicht gefunden';
             } else {
                 $apiUrl = 'rest/node/v1/nodes/-home-/' . $parent . '/children?type=ccm:io&renameIfExists=true';
-                $nodeID = callRepoApi($apiUrl, json_encode($mdsData))['node']['ref']['id'];
+                error_log('mdsData: ' . json_encode($mdsData));
+                $response = callRepoApi($apiUrl, json_encode($mdsData));
+                $nodeID = $response['node']['ref']['id'];
                 //second api-call for file upload
                 if (!empty($nodeID)) {
                     //echo 'Uploading File...<br>';
@@ -193,8 +218,9 @@ if (isset($_GET['type'])) {
                         $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/metadata?versionComment=WLO-Uploadformular';
                         callRepoApi($apiUrl, json_encode($mdsData));
                     }
-                    $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/content?versionComment=MAIN_FILE_UPLOAD&mimetype=' . $mdsData['fileupload-filetype'][0];
-                    if ($mdsData['fileupload-filedata']) {
+                    $apiUrl = 'rest/node/v1/nodes/-home-/' . $nodeID . '/content?versionComment=MAIN_FILE_UPLOAD' .
+                        (!empty($mdsData['fileupload-filetype'][0]) ? '&mimetype=' . $mdsData['fileupload-filetype'][0] : '');
+                    if (!empty($mdsData['fileupload-filedata'][0])) {
                         $uploadFile = tempnam(".", "upload_");
                         $filedata = substr($mdsData['fileupload-filedata'][0], strpos($mdsData['fileupload-filedata'][0], ',') + 1);
                         if (file_put_contents($uploadFile, base64_decode($filedata)) !== false) {
@@ -211,8 +237,6 @@ if (isset($_GET['type'])) {
                         @unlink($uploadFile);
                     }
                     if (!$formErr) {
-                        // $apiUrl = 'rest/collection/v1/collections/-home-/'.COLLECTION_ADD_ID.'/references/' . $nodeID;
-                        // callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
                         $workflowComment = 'Für folgende Sammlung(en) vorgeschlagen: ';
                         if (count(@$mdsData['ccm:curriculum'])) {
                             array_walk($mdsData['ccm:curriculum'], function (&$m) {
@@ -228,8 +252,6 @@ if (isset($_GET['type'])) {
                             }
                         }
 
-                        $emailBody = '<h3>Es wurde eine neute Datei ("' . [$_FILES['fileToUpload']['name']] . '") hochgeladen.</h3>';
-
                         if (!empty($mdsData['fileupload-link'])) {
                             $emailBody = '<h3>Es wurde eine neuer Link vorgeschlagen.</h3>';
                             $emailBody .= '<p>Titel: ' . $mdsData['cclom:title'][0] . '</p>';
@@ -241,8 +263,6 @@ if (isset($_GET['type'])) {
                             $emailBody = '<h3>Es wurde eine neues Tool vorgeschlagen ("' . $mdsData['cclom:title'][0] . '")</h3>';
                             $emailBody .= '<p>Tool-Url: ' . $mdsData['ccm:wwwurl'][0] . '</p>';
                         } else {
-                            $emailBody = '<h3>Es wurde eine neue Datei hochgeladen ("' . $mdsData['cclom:title'][0] . '")</h3>';
-                            $emailBody .= '<p>Dateiname: ' . $mdsData['fileupload-filename'][0] . '</p>';
                             if ($mdsData['cm:name']) {
                                 $emailBody = '<h3>Es wurde eine neue Datei ("' . $mdsData["cm:name"][0] . '") hochgeladen.</h3>';
                             } else {
@@ -374,9 +394,9 @@ if (isset($_GET['type'])) {
         $iFrameSrc = WLO_REPO . 'components/embed/mds'
             . '?set=mds_oeh'
             . '&group=' . $mdsGroup
-            . '&data' . urlencode(json_encode([
+            . '&data=' . urlencode(json_encode([
                 "ccm:curriculum" => (isset($collectionID)
-                    ? ['http://w3id.org/openeduhub/vocabs/oehTopics/' . $collectionID]
+                    ? ['http://w3id.org/openeduhub/vocabs/oeh-topics/' . $collectionID]
                     : []),
                 "ccm:oeh_lrt" => (isset($lrtID)
                     ? $lrtID
@@ -390,21 +410,23 @@ if (isset($_GET['type'])) {
             src="<?php echo $iFrameSrc; ?>"
             frameborder=0>
         </iframe>
+        <!--
+            We listen for a message from the embedded edu-sharing page that indicates that the 
+            "post" button has been pressed and submit this form after validating the filled-in data.
+        -->
         <form
             action="<?php echo get_page_link($post->ID); ?>?type=<?php echo isset($_GET['type']) ? $_GET["type"] : ''; ?>"
             method=post
             enctype="multipart/form-data"
             id="formAdd">
+            <!-- Data received via query parameters -->
             <input type="hidden" id="i" name="collectionID" value="<?php echo @$collectionID; ?>">
-            <input type="hidden" id="widgetName" name="widgetName" value="<?php echo @$widgetName; ?>">
             <input type="hidden" id="pageDiscipline" name="pageDiscipline" value="<?php echo @$pageDiscipline; ?>">
             <input type="hidden" id="lrtID" name="lrtID" value="<?php echo @implode(',', $lrtID); ?>">
             <input type="hidden" id="pageTitle" name="pageTitle" value="<?php echo @$pageTitle; ?>">
+            <!-- Data from edu-sharing form as stringified JSON -->
             <input type="hidden" id="formMds" name="mds">
         </form>
-        <!--<div class="portal_form_button submit-btn">
-            <button class="wlo-button" id="mds-submit" onclick="submitForm()" style="display:none">Absenden</button>
-        </div>-->
 
         <script type="application/javascript">
             <?php

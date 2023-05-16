@@ -39,8 +39,8 @@
   background-color: white;
   transition: 0.3s;
 
-  &:hover,
-  &:focus {
+  &.wlo-card-interactive:hover,
+  &.wlo-card-interactive:focus {
     transform: translate(0, -4px);
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
   }
@@ -75,6 +75,7 @@
     color: #545454;
 
     .media-summary {
+      color: #4f4f5b;
       align-self: flex-end;
       margin: 8px 5% 0 0;
     }
@@ -117,6 +118,11 @@
         color: #6689b0;
         @include fade-out-text(1, 1.4em);
       }
+    }
+
+    .wlo-card-link-chip {
+      align-self: center;
+      margin-bottom: 12px;
     }
 
     .wlo-card-source-container {
