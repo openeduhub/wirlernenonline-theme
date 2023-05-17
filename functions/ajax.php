@@ -564,12 +564,15 @@ function wloAiCareerAdvice()
         wp_send_json_error(null, 404);
     } else {
         $url = WLO_AI_PROMPT_SERVICE_URL . "/ai/prompt/profession/description";
-        $headers = array('ai-prompt-token' => WLO_AI_PROMPT_SERVICE_TOKEN);
-        $query = array('query' => $title);
-        $response = wp_remote_get(
-            $url . '?' . http_build_query($query),
-            array('headers' => $headers, 'timeout' => 60),
+        $headers = array(
+            'ai-prompt-token' => WLO_AI_PROMPT_SERVICE_TOKEN,
+            'Content-Type' => 'application/json',
         );
+        $response = wp_remote_post($url, array(
+            'headers' => $headers,
+            'timeout' => 60,
+            'body' => $title,
+        ));
         if (is_wp_error($response) || $response['response']['code'] != 200) {
             error_log(print_r($response, true));
             wp_send_json_error(null, 500);
