@@ -88,7 +88,20 @@ if (!empty($portal->properties->{'cclom:location'}[0])) {
 }
 $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
-$portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
+// Get page by title
+$query = new WP_Query(
+    array(
+        'post_type'              => 'portal',
+        'title'                  => $portalTitle,
+        'posts_per_page'         => 1,
+        'no_found_rows'          => true,
+        'ignore_sticky_posts'    => true,
+        'update_post_term_cache' => false,
+        'update_post_meta_cache' => false,
+    )
+);
+$portalID = $query->post->ID;
+
 switch ($portalID) {
     case 62890:
         $portalID = 54293; // Musik
