@@ -89,7 +89,7 @@
 }
 [dir='rtl'] .slick-prev
 {
-    right: 4px;
+    right: -4px;
     left: auto;
 }
 .slick-prev:before, .portal-wrapper .slick-prev:before
@@ -103,7 +103,7 @@
 
 .slick-next, .portal-wrapper .slick-next
 {
-    right: 4px;
+    right: -4px;
 }
 [dir='rtl'] .slick-next
 {
