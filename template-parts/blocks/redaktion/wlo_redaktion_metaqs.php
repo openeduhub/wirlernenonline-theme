@@ -22,7 +22,7 @@ if (empty($metaQsHeight)){
 ?>
 
 <div class="wlo-redaktion-metaqs" id="<?php echo $wloMetaQsId; ?>">
-    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    <div class="lds-ring"><div></div><div></div></div>
 </div>
 
 <script type="text/javascript" >

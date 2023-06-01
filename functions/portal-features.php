@@ -18,7 +18,7 @@ function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScr
         $emptySwimlaneId = uniqid('emptySwimlaneId-');
 
         echo '<div class="fachportal-content-block" id="' . $emptySwimlaneId . '">';
-        echo '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+        echo '<div class="lds-ring"><div></div><div></div></div>';
         echo '</div>';
 
         echo '<script type="text/javascript">

@@ -56,7 +56,7 @@ $showSliderDots = 'true';
 ?>
 
 <div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
-    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    <div class="lds-ring"><div></div><div></div></div>
 </div>
 
 <script type="text/javascript" >
