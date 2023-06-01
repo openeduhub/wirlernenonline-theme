@@ -259,9 +259,16 @@ function isOer(mixed $prop): bool
 
 /**
  * Returns a human-readable string that represents a duration, reducing precision for large values.
+ * 
+ * @param int|string $duration given in seconds or ISO 8601 duration format.
  */
-function getDurationString(int $seconds): string
+function getDurationString(int | string $duration): string
 {
+    if (is_numeric($duration)) {
+        $seconds = $duration;
+    } else {
+        $seconds = getDurationSeconds($duration);
+    }
     if ($seconds < 60) {
         return $seconds . ' Sekunden';
     } else if ($seconds < 180 * 60) {
@@ -275,6 +282,18 @@ function getDurationString(int $seconds): string
         $hours = intdiv($seconds, 3600);
         return $hours . ' Stunden';
     }
+}
+
+/**
+ * Returns the number of seconds from an ISO-8601-formatted duration string, e.g., 'PT2H3M4S'.
+ */
+function getDurationSeconds(string $duration): int
+{
+    $a = new \DateTime();
+    $b = new \DateTime();
+    $delta = new \DateInterval($duration);
+    $b->add($delta);
+    return $b->getTimestamp() - $a->getTimestamp();
 }
 
 function initSlick(string $sliderId, int $slidesToShow = 3, int $slidesToScroll = 3, int $contentCount)
