@@ -25,7 +25,7 @@
     position: absolute;
     top: 50%;
 
-    z-index: 500;
+    z-index: 1;
     display: block;
     width: 36px;
     height: 36px;
