@@ -287,8 +287,6 @@ add_action('wp_ajax_fachportal_content_block', 'fachportal_content_block');
 add_action('wp_ajax_nopriv_fachportal_content_block', 'fachportal_content_block');
 function fachportal_content_block()
 {
-    global $wpdb; // this is how you get access to the database
-
     $postID = $_POST['postID'];
     $collectionID = $_POST['collectionID'];
     $headline = base64_decode($_POST['headline']);
@@ -308,10 +306,8 @@ function fachportal_content_block()
     $disciplines = $educational_filter_values["disciplines"];
     $educationalContexts = $educational_filter_values["educationalContexts"];
     $intendedEndUserRoles = $educational_filter_values["intendedEndUserRoles"];
-    $oer = $educational_filter_values["oer"];
     $objectTypes = $educational_filter_values["objectTypes"];
     $learningResourceTypes = $educational_filter_values["learningResourceTypes"];
-    $generalKeywords = $educational_filter_values["generalKeyword"];
     $oehWidgets = $educational_filter_values["oehWidgets"];
 
     if ($collectionLevel >= 1) {  // activate softmatch for 'themenseiten'
@@ -333,48 +329,7 @@ function fachportal_content_block()
     $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
     $response = callWloRestApi($url);
 
-    //also content from the sub-collections
-    /*
-    $url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=5000&skipCount=0&propertyFilter=-all-';
-    $body = '{
-      "criterias": [
-        {
-          "property": "collection",
-          "values": [
-            "'.$collectionID.'"
-          ]
-        }
-      ],
-      "facettes": [
-      ]
-    }';
-    $response = callWloRestApi($url, 'POST', $body);
-    */
-
-    //$rgbBackgroundColor = $GLOBALS['wlo_fachportal']['rgbBackgroundColor'];
-    $rgbBackgroundColor = '255,255,255';
-    $diagramColor = 'rgb(250, 250, 250)';
-
-    if (!empty($contentType['value'])) {
-        switch ($contentType['value']) {
-            case 0: // lerninhalte
-                $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.8)';
-                break;
-            case 1: // tools
-                $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.6)';
-                break;
-            case 2: // methoden
-                $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.4)';
-                break;
-            case 3: // gut zu wissen
-                $diagramColor = 'rgba(' . $rgbBackgroundColor . ', 0.2)';
-                break;
-        }
-    }
-
     $contentArray = array();
-    //if (!empty($response->nodes)){
-    //    foreach ($response->nodes as $reference) {
     if (!empty($response->references)) {
         foreach ($response->references as $reference) {
 
