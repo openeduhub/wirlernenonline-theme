@@ -1,6 +1,6 @@
 <?php
 
-function wlo_add_swimlane_content($contentArray, $slidesToShow = 4, $slidesToScroll = 4, $contentInfo, $lrtID = '', $searchLrtID = '', $type = 'material')
+function wlo_add_swimlane_content($contentArray, $slidesToShow, $slidesToScroll, $contentInfo, $lrtID = '', $searchLrtID = '', $type = 'material')
 {
     $sliderId = uniqid('slider-');
 
@@ -296,7 +296,7 @@ function getDurationSeconds(string $duration): int
     return $b->getTimestamp() - $a->getTimestamp();
 }
 
-function initSlick(string $sliderId, int $slidesToShow = 3, int $slidesToScroll = 3, int $contentCount)
+function initSlick(string $sliderId, int $slidesToShow, int $slidesToScroll, int $contentCount)
 {
 ?>
     <script type="text/javascript">
