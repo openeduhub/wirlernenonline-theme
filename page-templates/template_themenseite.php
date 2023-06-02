@@ -88,34 +88,8 @@ if (!empty($portal->properties->{'cclom:location'}[0])) {
 }
 $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
-// Get page by title
-$query = new WP_Query(
-    array(
-        'post_type'              => 'portal',
-        'title'                  => $portalTitle,
-        'posts_per_page'         => 1,
-        'no_found_rows'          => true,
-        'ignore_sticky_posts'    => true,
-        'update_post_term_cache' => false,
-        'update_post_meta_cache' => false,
-    )
-);
-$portalID = $query->post->ID;
+$portalID = wlo_getPortalPostId($portalTitle);
 
-switch ($portalID) {
-    case 62890:
-        $portalID = 54293; // Musik
-        break;
-    case 21284:
-        $portalID = 47664; // Wirtschaft
-        break;
-    case 21281:
-        $portalID = 6509; // Geschichte
-        break;
-    case 21276:
-        $portalID = 21348; // Religion
-        break;
-}
 // Get authors field from root subject page
 $authors = get_field('authors', $portalID);
 update_field('authors', $authors, $postID);

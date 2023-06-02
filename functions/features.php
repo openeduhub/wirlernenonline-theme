@@ -1038,9 +1038,8 @@ function wlo_convert_dev_url(?string $url): ?string
     return $url;
 }
 
-function wlo_getPortalIDbyName($name)
+function wlo_getPortalPostId(string $name): int
 {
-
     switch ($name) {
         case 'DaZ':
             $name = 'Deutsch als Zweitsprache';
@@ -1073,7 +1072,12 @@ function wlo_getPortalIDbyName($name)
     );
     $query_result = new WP_Query($query_args);
 
-    $portalID = $query_result->posts[0];
+    return $query_result->posts[0];
+}
+
+function wlo_getPortalIDbyName($name)
+{
+    $portalID = wlo_getPortalPostId($name);
     $collectionUrl = get_field('collection_url', $portalID);
     $url_components = parse_url($collectionUrl);
     parse_str($url_components['query'], $params);
