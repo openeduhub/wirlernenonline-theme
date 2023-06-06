@@ -317,6 +317,9 @@ function callWloRestApi($url, $type='GET', $body=null){
             }
             $response = curl_exec($curl);
             if ($response === false) {
+                error_log('Curl error ' . $type . ' '. $url);
+                error_log($body);
+                error_log('Error: ' . curl_error($curl));
                 echo 'curl error';
                 return false;
             }
