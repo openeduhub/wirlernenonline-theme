@@ -716,7 +716,7 @@ function collection_content_browser()
             $searchLrtID = json_decode(html_entity_decode($_POST['searchLrtID']));
 
             // Get sub collections
-            $url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
+            $url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=30&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
             $body = '{
                 "criteria": [
                     {
