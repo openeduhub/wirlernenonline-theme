@@ -160,8 +160,6 @@ if (!empty($response->references)){
 $contentArray = $GLOBALS['wlo_themenseiten_content'];
 $searchVocabs = $GLOBALS['wlo_themenseiten_searchVocabs'];
 
-
-
 ?>
 
 <script>

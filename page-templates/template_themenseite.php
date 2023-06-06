@@ -258,6 +258,8 @@ if (!empty($response->references)) {
 $GLOBALS['wlo_themenseiten_content'] = $themenseiten_contentArray;
 
 $noOerCount = count($themenseiten_contentArray) - $oerCount;
+// The number of elements in sub collections of this collection.
+$sumSubCollectionsElements = $newestContent->pagination->total - count($themenseiten_contentArray);
 
 // content for diagram
 $url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/facets';
@@ -280,6 +282,7 @@ $body = '{
 
 $searchContent = callWloRestApi($url, 'POST', $body);
 $searchTotal = $searchContent->pagination->total;
+$searchAdditional = $searchTotal - $newestContent->pagination->total;
 $searchVocabs = array();
 if (!empty($searchContent->facets[0]->values)) {
     $searchVocabs = $searchContent->facets[0]->values;
@@ -331,10 +334,37 @@ while (have_posts()) : the_post(); ?>
                     <div class="description">
 
                         <div class="description-content">
-                            <a class="portal-page" href="<?php echo wlo_convert_dev_url($portalUrl); ?>">Themenseite im Fachportal <?php echo $portalTitle; ?>:</a>
+                            <a class="portal-page" href="<?php echo wlo_convert_dev_url($portalUrl); ?>">Themenseite im Fachportal <?php echo $portalTitle; ?></a>
 
                             <h1 class="title"><?php echo get_the_title($postID); ?></h1>
                             <div class="header-description"><?php echo $description; ?></div>
+                        </div>
+
+                        <div class="content-summary">
+                            <p>
+                                <span class="header-text">
+                                    Auf dieser Seite findest du
+                                    <?php echo count($themenseiten_contentArray); ?>
+                                    redaktionell geprüfte Bildungsinhalte...
+                                </span>
+                                <!--
+                                    FIXME: When we know the height of sticky / fixed elements, we
+                                    can use `block: 'start'` and set the appropriate `scroll-margin`
+                                    on the accordion, but currently, we don't know how far the
+                                    filters will extend into the page. 
+                                -->
+                                <?php if (count($themenseiten_contentArray) > 0) { ?>
+                                    <button class="jump-to-first-content-button" onclick="
+                                    jQuery('.fachportal-content-block .content')
+                                        .parent()
+                                        .get(0)
+                                        .scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                    ">
+                                        Springe zum ersten Inhalt
+                                        <span class="arrow-down-icon material-icons">arrow_downward</span>
+                                    </button>
+                                <?php } ?>
+                            </p>
                         </div>
 
                         <?php
@@ -374,8 +404,7 @@ while (have_posts()) : the_post(); ?>
                             <?php if (!empty($filteredSubCollections)) : ?>
                                 <div class="sub-subjects">
                                     <div class="sub-subjects-header">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/categories.svg" alt="Icon: Unterthemen">
-                                        <h2>Unterthemen <?php echo get_the_title($postID); ?></h2>
+                                        <p class="header-text"><?php echo $sumSubCollectionsElements; ?> weitere geprüfte Inhalte gibt es in Unterthemen:</p>
                                     </div>
                                     <div class="sub-subjects-container">
                                         <?php foreach (array_slice($filteredSubCollections, 0, $maxSubCollections) as $collection) {
@@ -386,12 +415,10 @@ while (have_posts()) : the_post(); ?>
                                                 $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
                                             }
                                             $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
-                                            //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
-                                            //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
                                         ?>
                                             <div class="sub-subject">
                                                 <a href="<?php echo $ccm_location; ?>">
-                                                    <p><?php echo $title; ?></p>
+                                                    <p><?php echo $title; ?> (<?php echo $collection->collection->childReferencesCount; ?>)</p>
                                                     <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_forward_white.svg">
                                                 </a>
                                             </div>
@@ -424,7 +451,26 @@ while (have_posts()) : the_post(); ?>
                                     </div>
                                 </div>
                             <?php endif; ?>
+                        </div>
 
+                        <div class="chip-link chip-link-highlight">
+                            <a href="<?php echo wlo_convert_dev_url($portalUrl); ?>">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/categories-white.svg" alt="">
+                                <p>Zur Themenübersicht <?php echo $portalTitle; ?></p>
+                            </a>
+                        </div>
+
+                        <div class="go-to-search-container">
+                            <p class="header-text">
+                                Die Suche hat noch <?php echo $searchAdditional; ?> maschinell geprüfte
+                                <?php echo ($searchTotal != 1 ? 'Inhalte' : 'Inhalt') ?>:
+                            </p>
+                            <div class="chip-link chip-link-highlight">
+                                <a href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>">
+                                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/robot-white.svg" alt="">
+                                    <p>Zur WLO-Suchmaschine</p>
+                                </a>
+                            </div>
                         </div>
 
                     </div>

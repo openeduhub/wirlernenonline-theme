@@ -747,6 +747,8 @@ app-report-problem {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 32px 64px;
+    gap: 32px;
     width: 70%;
     background: #ffffff;
     border-radius: 24px 24px 0px 0px;
@@ -754,8 +756,6 @@ app-report-problem {
     .description-content {
       display: flex;
       flex-direction: column;
-      margin: 32px 0;
-      padding: 0 64px;
 
       .portal-page {
         font-size: 15px;
@@ -824,27 +824,36 @@ app-report-problem {
     }
   }
 
-  .collections {
-    padding: 0 0.5em;
-    padding-left: 64px;
-    padding-bottom: 1em;
-    margin-bottom: 0.5em;
+  .content-summary {
+    p {
+      margin: 0;
+    }
+    .jump-to-first-content-button {
+      color: $wlo-primary;
+      float: right;
+      margin-top: 10px;
+      display: none;
+      align-items: center;
+      font-weight: 300;
+      font-size: 18px;
+      cursor: pointer;
+      .arrow-down-icon {
+        margin-left: 8px;
+        color: white;
+        background: $wlo-primary;
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        border-radius: 16px;
+      }
+    }
+  }
 
+  .collections {
     .sub-subjects-header {
       display: flex;
       justify-content: start;
       align-items: center;
-      margin-bottom: 16px;
-
-      h2 {
-        font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto,
-          Arial, sans-serif;
-        font-size: 16px;
-        font-weight: normal;
-        line-height: 1.3;
-        color: #313131;
-        margin: 0 0 0 8px;
-      }
 
       #sub-subjects-button {
         justify-self: end;
@@ -861,58 +870,82 @@ app-report-problem {
     .sub-subjects-container {
       display: flex;
       flex-wrap: wrap;
+      gap: 1em;
       transition: 0.3s;
-
-      .sub-subject {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 30px;
-        width: fit-content;
-        margin: 0.5em;
-        background: $fachportal_primary;
-        border-radius: 50px;
-        transition: 0.3s;
-
-        a {
-          display: flex;
-          align-items: center;
-          color: #ffffff;
-          font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
-          font-size: 14px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-
-          p {
-            color: white;
-            font-family: "Montserrat-Medium", Helvetica, Roboto, Arial,
-              sans-serif;
-            font-size: 14px;
-            margin: 0 8px 0 16px;
-            max-width: 75vw;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-
-          p::first-letter {
-            text-transform: capitalize;
-          }
-
-          img {
-            margin-right: 8px;
-          }
-        }
-      }
-
-      .sub-subject:hover {
-        background: $fachportal_bright;
-      }
     }
 
     #hidden-sub-subjects-container {
       display: none;
+    }
+  }
+
+  .go-to-search-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em 2em;
+    align-items: center;
+    .header-text {
+      margin: 0;
+    }
+    .chip-link {
+      flex-shrink: 0;
+    }
+  }
+
+  .sub-subject, .chip-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 30px;
+    width: fit-content;
+    background: $fachportal_primary;
+    border-radius: 50px;
+    transition: 0.3s;
+
+    &.chip-link-highlight {
+      background-color: #E73445;
+      a {
+        padding: 0 2em;
+      }
+      img {
+        margin: 0 8px;
+      }
+    }
+
+    a {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      color: #ffffff;
+      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &:hover, &:focus {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      p {
+        color: white;
+        font-weight: 600;
+        font-family: "Montserrat-Medium", Helvetica, Roboto, Arial,
+          sans-serif;
+        font-size: 14px;
+        margin: 0 8px;
+        max-width: 75vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      p::first-letter {
+        text-transform: capitalize;
+      }
+      img {
+        height: 20px;
+      }
     }
   }
 
@@ -1810,16 +1843,17 @@ app-report-problem {
 
   .fachportal-header-block {
     .fachportal-header-wrapper {
+      padding-top: 0;
+      background: $fachportal_primary !important;
       flex-direction: column-reverse;
       align-items: center;
     }
 
     .description {
-      width: 90%;
+      width: 100%;
+      padding: 32px 38px;
 
       .description-content {
-        padding: 0 1em;
-
         .title {
           font-size: 28px;
         }
@@ -1849,12 +1883,9 @@ app-report-problem {
           display: flex;
         }
       }
-
-      .collections {
-        padding-left: 0.5em;
-
-        .sub-subjects-container .sub-subject {
-          height: auto;
+      .content-summary {
+        .jump-to-first-content-button {
+          display: inline-flex;
         }
       }
     }
