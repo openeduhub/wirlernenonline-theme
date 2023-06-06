@@ -1768,14 +1768,17 @@ app-report-problem {
 @media (max-width: 900px) {
   .fachportal-header-bar {
     .fachportal-header-bar-wrapper {
-      padding: 16px 2%;
+      padding: 16px 24px;
 
       .portal-breadcrumbs {
-        margin-right: 45px; // Make room for verified flag
+        margin-right: 65px; // Make room for verified flag
       }
 
       .wlo-tile-team > *:not(.wlo-team-bookmark) {
         display: none;
+      }
+      .wlo-team-bookmark {
+        right: 24px;
       }
     }
   }
