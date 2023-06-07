@@ -347,18 +347,12 @@ while (have_posts()) : the_post(); ?>
                                     <?php echo count($themenseiten_contentArray); ?>
                                     redaktionell geprüfte Bildungsinhalte...
                                 </span>
-                                <!--
-                                    FIXME: When we know the height of sticky / fixed elements, we
-                                    can use `block: 'start'` and set the appropriate `scroll-margin`
-                                    on the accordion, but currently, we don't know how far the
-                                    filters will extend into the page. 
-                                -->
                                 <?php if (count($themenseiten_contentArray) > 0) { ?>
                                     <button class="jump-to-first-content-button" onclick="
                                     jQuery('.fachportal-content-block .content')
                                         .parent()
                                         .get(0)
-                                        .scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                        .scrollIntoView({ behavior: 'smooth', block: 'start' });
                                     ">
                                         Springe zum ersten Inhalt
                                         <span class="arrow-down-icon material-icons">arrow_downward</span>
@@ -531,11 +525,13 @@ while (have_posts()) : the_post(); ?>
         <div class="fachportal-filterbar" <?php if (is_admin_bar_showing()) {
                                                 echo 'style="top:80px"';
                                             } ?>>
-
             <div class="fachportal-filterbar-content">
-
-                <div>
-
+                <div class="fachportal-filterbar-header-row">
+                    <p class="header-text">
+                        Filtere
+                        <?php echo count($themenseiten_contentArray); ?>
+                        qualitätsgesicherte Inhalte
+                    </p>
                     <div class="fachportal-filterbar-dropdowns">
                         <select name="educationalcontext" id="educationalcontext" onchange="filterContentTiles(this, 'educationalcontext', this.value)">
                             <option value="label" selected disabled>Bildungsstufe</option>
@@ -568,9 +564,9 @@ while (have_posts()) : the_post(); ?>
                             </option>
                         </select>
                     </div>
+                </div>
 
-
-
+                <div class="filter-chips-container">
                     <?php foreach ($educationalcontextArray as $key => $value) {
                         $id = preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key));
                     ?>
@@ -609,7 +605,6 @@ while (have_posts()) : the_post(); ?>
                     </button>
                 </div>
             </div>
-
         </div>
 
         <div class="portal-wrapper portal-wrapper-themenseite">
@@ -884,9 +879,9 @@ while (have_posts()) : the_post(); ?>
             function setActiveState(filter, isActive) {
                 if (isActive) {
                     let button = jQuery('#filter-tag-' + filter);
-                    jQuery('#filter-tag-' + filter).find('.fachportal-filterbar-tag').addClass('active-btn');
+                    jQuery('#filter-tag-' + filter).addClass('active-btn');
                 } else {
-                    jQuery('#filter-tag-' + filter).find('.fachportal-filterbar-tag').removeClass('active-btn');
+                    jQuery('#filter-tag-' + filter).removeClass('active-btn');
                 }
                 jQuery('.fachportal-filterbar-dropdowns select').each(function() {
                     jQuery(this).val("label"); // reset select
