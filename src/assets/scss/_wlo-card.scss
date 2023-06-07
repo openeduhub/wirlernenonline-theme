@@ -18,11 +18,20 @@
   }
 }
 
+// Allow equal heights of elements with content driven container height.
+.slick-list .slick-track {
+  display: flex;
+}
+
 .wlo-card {
   position: relative;
   // Equally distribute cards in `.content-from-subcollections` container
   flex: 1 1 0;
-  display: flex;
+  .slick-initialized &.slick-slide, // Be more specific than slick.css
+  & {
+    height: unset; // Unset `height: 100%` from slick.css, so we get stretched alignment per flex
+    display: flex;
+  }
   flex-direction: column;
   margin: 20px 11px;
   border-radius: 20px;
