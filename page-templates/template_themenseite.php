@@ -175,11 +175,11 @@ $body = '{
   "facets": [
   ]
 }';
-$newestContent = callWloRestApi($url, 'POST', $body);
+$subCollectionsElements = callWloRestApi($url, 'POST', $body);
 
 $contentArray = array();
-if (!empty($newestContent->nodes)) {
-    foreach ($newestContent->nodes as $reference) {
+if (!empty($subCollectionsElements->nodes)) {
+    foreach ($subCollectionsElements->nodes as $reference) {
         $prop = $reference->properties;
 
         //check if deleted
@@ -243,8 +243,9 @@ if (!empty($response->references)) {
 $GLOBALS['wlo_themenseiten_content'] = $themenseiten_contentArray;
 
 $noOerCount = count($themenseiten_contentArray) - $oerCount;
-// The number of elements in sub collections of this collection.
-$sumSubCollectionsElements = $newestContent->pagination->total - count($themenseiten_contentArray);
+// The number of elements in sub collections of this collection that are _not_ also part of this
+// "Themenseite".
+$sumSubCollectionsElements = $subCollectionsElements->pagination->total - count($themenseiten_contentArray);
 
 // content for diagram
 $url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/facets';
@@ -267,7 +268,7 @@ $body = '{
 
 $searchContent = callWloRestApi($url, 'POST', $body);
 $searchTotal = $searchContent->pagination->total;
-$searchAdditional = $searchTotal - $newestContent->pagination->total;
+$searchAdditional = $searchTotal - $subCollectionsElements->pagination->total;
 $searchVocabs = array();
 if (!empty($searchContent->facets[0]->values)) {
     $searchVocabs = $searchContent->facets[0]->values;
