@@ -7,34 +7,35 @@ global $post;
 
 $title = get_the_title();
 if (isset($_GET['type'])) {
-    if($_GET['type'] == 'source'){
+    if ($_GET['type'] == 'source') {
         $title = 'Quellen vorschlagen';
     }
-    if($_GET['type'] == 'tool'){
+    if ($_GET['type'] == 'tool') {
         $title = 'Tools vorschlagen';
     }
 }
 
 ?>
 <style>
-    #mds-frame{
+    #mds-frame {
         width: 100%;
         min-height: 1400px;
         display: flex;
         justify-content: center;
     }
-    .submit-btn{
+
+    .submit-btn {
         display: flex;
         width: 100%;
         justify-content: flex-end;
         margin: 0.5em;
     }
-    .submit-btn .wlo-button{
+
+    .submit-btn .wlo-button {
         margin: 1em;
         cursor: pointer;
     }
 </style>
-
 
 <div class="wlo-page">
 
@@ -82,19 +83,19 @@ if (isset($_GET['type'])) {
         // $objectType = 'MATERIAL';
         $mdsGroup = 'wlo_upload_content';
         if (isset($_GET['type'])) {
-            if($_GET['type'] == 'source'){
+            if ($_GET['type'] == 'source') {
                 //$objectType = 'SOURCE';
                 $mdsGroup = 'wlo_upload_source';
             }
-            if($_GET['type'] == 'tool'){
+            if ($_GET['type'] == 'tool') {
                 // $objectType = 'TOOL';
                 $mdsGroup = 'wlo_upload_tool';
             }
         }
 
-        if(!defined("WLO_REPO_UPLOAD_LOCATION")){
+        if (!defined("WLO_REPO_UPLOAD_LOCATION")) {
             $formErr = 'Interner Konfigurationsfehler, WLO_REPO_UPLOAD_LOCATION muss definiert sein';
-        } else if(isset($_POST['mds'])) {
+        } else if (isset($_POST['mds'])) {
             $formErr = $formOk = '';
             $success = false;
             $collectionID = $_POST['collectionID'];
@@ -128,10 +129,10 @@ if (isset($_GET['type'])) {
             if (isset($mdsData["ccm:custom_license"])) {
                 preg_match('/.*\/(.*)/', $mdsData["ccm:custom_license"][0], $license);
                 $license = $license[1];
-                if(substr($license, -3) == '_40') {
+                if (substr($license, -3) == '_40') {
                     $mdsData['ccm:commonlicense_key'] = [substr($license, 0, -3)];
                     $mdsData['ccm:commonlicense_cc_version'] = ['4.0'];
-                } else if($license == 'OTHER') {
+                } else if ($license == 'OTHER') {
                     // do nothing
                 } else {
                     $mdsData['ccm:commonlicense_key'] = [$license];
@@ -220,7 +221,7 @@ if (isset($_GET['type'])) {
                             });
                             $workflowComment .= implode(',', $mdsData['ccm:curriculum']);
                             foreach ($mdsData['ccm:curriculum'] as $node) {
-                                if(trim($node)) {
+                                if (trim($node)) {
                                     $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode($node) . '/references/' . $nodeID . '?asProposal=true';
                                     callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
                                 }
@@ -233,8 +234,7 @@ if (isset($_GET['type'])) {
                             $emailBody = '<h3>Es wurde eine neuer Link vorgeschlagen.</h3>';
                             $emailBody .= '<p>Titel: ' . $mdsData['cclom:title'][0] . '</p>';
                             $emailBody .= '<p>Link: ' . $mdsData['fileupload-link'][0] . '</p>';
-
-                        } else if ($mdsData['ccm:objecttype'] [0] == 'SOURCE') {
+                        } else if ($mdsData['ccm:objecttype'][0] == 'SOURCE') {
                             $emailBody = '<h3>Es wurde eine neue Quelle vorgeschlagen ("' . $mdsData['cclom:title'][0] . '")</h3>';
                             $emailBody .= '<p>Quellen-Url: ' . $mdsData['ccm:wwwurl'][0] . '</p>';
                         } else if ($mdsData['ccm:objecttype'][0] == 'TOOL') {
@@ -339,22 +339,23 @@ if (isset($_GET['type'])) {
         }
 
 
-        function get_mds_values($mds){
+        function get_mds_values($mds)
+        {
             $values = '';
-            if (is_array($mds)){
+            if (is_array($mds)) {
                 $numItems = count($mds);
                 $i = 0;
-                foreach( $mds as $value ) {
-                    if (strpos($value, 'w3id.org')){
+                foreach ($mds as $value) {
+                    if (strpos($value, 'w3id.org')) {
                         $value = basename($value);
                     }
-                    if(++$i === $numItems) {
+                    if (++$i === $numItems) {
                         $values .= $value;
-                    }else{
+                    } else {
                         $values .= $value . ', ';
                     }
                 }
-            }else{
+            } else {
                 $values = $mds;
             }
             return $values;
@@ -362,28 +363,42 @@ if (isset($_GET['type'])) {
         ?>
 
         <?php
-        if(isset($pageTitle) && $pageTitle) {
+        if (isset($pageTitle) && $pageTitle) {
             echo "<h4>Für das Thema $pageTitle</h4>";
         }
         ?>
-        <?php if(!empty($formErr)) echo '<h4 class="portal_form_error">'.$formErr.'</h4>'; ?>
+        <?php if (!empty($formErr)) echo '<h4 class="portal_form_error">' . $formErr . '</h4>'; ?>
+        <?php if (!empty($formOk)) echo '<h4 class="portal_form_succes">' . $formOk . '</h4>'; ?>
 
-        <?php if(!empty($formOk)) echo '<h4 class="portal_form_succes">'.$formOk.'</h4>'; ?>
-
-        <iframe id="mds-frame" class="wlo-form-iframe"
-                style="opacity:0"
-                src="<?php echo WLO_REPO; ?>components/embed/mds?set=mds_oeh&group=<?php echo $mdsGroup;?>&data=<?php
-                echo urlencode(json_encode([
-                    "ccm:curriculum" => (isset($collectionID) ? ['http://w3id.org/openeduhub/vocabs/oehTopics/' . $collectionID] : []),
-                    "ccm:oeh_lrt" => (isset($lrtID) ? $lrtID : []),
-                ]));
-                ?>
-	" frameborder=0></iframe>
-        <form action="<?php echo get_page_link($post->ID); ?>?type=<?php echo isset($_GET['type']) ? $_GET["type"] : '';?>"  method=post enctype="multipart/form-data" id="formAdd">
+        <?php
+        $iFrameSrc = WLO_REPO . 'components/embed/mds'
+            . '?set=mds_oeh'
+            . '&group=' . $mdsGroup
+            . '&data' . urlencode(json_encode([
+                "ccm:curriculum" => (isset($collectionID)
+                    ? ['http://w3id.org/openeduhub/vocabs/oehTopics/' . $collectionID]
+                    : []),
+                "ccm:oeh_lrt" => (isset($lrtID)
+                    ? $lrtID
+                    : []),
+            ]));
+        ?>
+        <iframe
+            id="mds-frame"
+            class="wlo-form-iframe"
+            style="opacity: 0"
+            src="<?php echo $iFrameSrc; ?>"
+            frameborder=0>
+        </iframe>
+        <form
+            action="<?php echo get_page_link($post->ID); ?>?type=<?php echo isset($_GET['type']) ? $_GET["type"] : ''; ?>"
+            method=post
+            enctype="multipart/form-data"
+            id="formAdd">
             <input type="hidden" id="i" name="collectionID" value="<?php echo @$collectionID; ?>">
             <input type="hidden" id="widgetName" name="widgetName" value="<?php echo @$widgetName; ?>">
             <input type="hidden" id="pageDiscipline" name="pageDiscipline" value="<?php echo @$pageDiscipline; ?>">
-            <input type="hidden" id="lrtID" name="lrtID" value="<?php echo @implode(',',$lrtID); ?>">
+            <input type="hidden" id="lrtID" name="lrtID" value="<?php echo @implode(',', $lrtID); ?>">
             <input type="hidden" id="pageTitle" name="pageTitle" value="<?php echo @$pageTitle; ?>">
             <input type="hidden" id="formMds" name="mds">
         </form>
@@ -391,46 +406,41 @@ if (isset($_GET['type'])) {
             <button class="wlo-button" id="mds-submit" onclick="submitForm()" style="display:none">Absenden</button>
         </div>-->
 
-
         <script type="application/javascript">
             <?php
-            if (!empty($consentErr)){
+            if (!empty($consentErr)) {
                 echo "jQuery('.portal_form_url').hide();";
                 echo "jQuery('.portal_form_file').show();";
             }
-            if (isset($success)){
+            if (isset($success)) {
                 echo "jQuery('.portal_form_url').hide();";
                 echo "jQuery('.portal_form_file').hide();";
             }
             ?>
-            function submitForm() {
-                //document.getElementById('mds-submit').disabled = true;
-                document.getElementById('mds-frame').contentWindow.postMessage({event:'PARENT_FETCH_DATA'}, '*');
-            }
-            function receiveMessage(event){
-                if(event.data.event === 'CONTENT_HEIGHT'){
+
+            function receiveMessage(event) {
+                if (event.data.event === 'CONTENT_HEIGHT') {
                     document.getElementById('mds-frame').style.height = (event.data.data) + 'px';
                     // timeout to make sure mds is prepared by edu-sharing
                     setTimeout(() => document.getElementById('mds-frame').style.opacity = 1, 1000);
-                    //setTimeout(() => document.getElementById('mds-submit').style.display = '', 2000);
-                }
-                if(event.data.event !== 'CONTENT_HEIGHT') {
-                    //console.log(event);
-                }
-                if(event.data.event == 'POST_DATA'){
+                } else if (event.data.event == 'POST_DATA') {
                     const mds = event.data.data;
                     console.log(event.data);
-                    if(mds==null){
-                        alert('Bitte fügen Sie eine Datei/Link hinzu und geben dem Inhalt einen Titel.');
-                        //document.getElementById('mds-submit').disabled = false;
+                    if (mds == null) {
+                        alert(
+                            'Bitte fügen Sie eine Datei/Link hinzu und geben dem Inhalt einen Titel.'
+                        );
                         return;
                     }
-                    console.log(mds);
-                    const size = mds['fileupload-filedata'] ? mds['fileupload-filedata'][0].length * 0.768 : 0;
-                    console.log(size / 1024 / 1024);
-                    if((!mds['ccm:wwwurl'] && !mds['fileupload-link']) && !size || size > 1024*1024*100){
+                    // console.log(mds);
+                    const size = mds['fileupload-filedata'] ? mds['fileupload-filedata'][0].length *
+                        0.768 : 0;
+                    // console.log(size / 1024 / 1024);
+                    if (
+                        (!mds['ccm:wwwurl'] && !mds['fileupload-link']) &&
+                        !size || size > 1024 * 1024 * 100
+                    ) {
                         alert('Die Größe von Dateien ist aktuell auf 100MB begrenzt');
-                        //document.getElementById('mds-submit').disabled = false;
                         return;
                     }
                     document.getElementById('formMds').value = JSON.stringify(mds);
