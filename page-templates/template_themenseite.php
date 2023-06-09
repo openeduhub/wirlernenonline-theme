@@ -133,7 +133,7 @@ if (empty($response->collection->properties->{'cm:description'}[0])) {
 }
 
 // Construct URL for "Inhalte vorschlagen". URL is extended to reflect swimlane.
-$addContentUrl = get_page_link(9933) . '?collectionID=' . $collectionID . '&headline=' . get_the_title($postID) . '&pageDiscipline=' . $pageDiscipline;
+$addContentUrl = get_page_link(ADD_CONTENT_PAGE_ID) . '?collectionID=' . $collectionID . '&headline=' . get_the_title($postID) . '&pageDiscipline=' . $pageDiscipline;
 
 
 if (!function_exists('helper_useLightColor')) {

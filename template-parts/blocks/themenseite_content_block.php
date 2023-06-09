@@ -71,10 +71,6 @@ if (empty($contentCount)) {
     $contentCount = 500;
 }
 
-//$addContentPageID = 9614; //dev
-$addContentPageID = 9933; //pre
-//$addContentPageID = 9081; //local
-
 $pageTitle = get_the_title($postID);
 //$pageDiscipline = get_field('discipline', $postID)[0]['label'];
 $pageDiscipline = get_field('discipline', $postID)[0]['value'];
@@ -84,7 +80,6 @@ $pageDiscipline = get_field('discipline', $postID)[0]['value'];
 //$response = callWloRestApi($url);
 
 $contentInfo = array(
-    "addContentPageID" => $addContentPageID,
     "pageTitle" => $pageTitle,
     "pageDiscipline" => $pageDiscipline,
     "collectionID" => $collectionID,

@@ -95,10 +95,6 @@ function collection_content_browser()
     $generalKeywords = $educational_filter_values["generalKeyword"];
     $oehWidgets = $educational_filter_values["oehWidgets"];
 
-    //$addContentPageID = 9614; //dev
-    $addContentPageID = 9933; //pre
-    //$addContentPageID = 9081; //local
-
     /* ------------------------------------------------------------------- */
 
     $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references';
@@ -318,10 +314,6 @@ function fachportal_content_block()
         $contentCount = 500;
     }
 
-    //$addContentPageID = 9614; //dev
-    $addContentPageID = 9933; //pre
-    //$addContentPageID = 9081; //local
-
     $pageTitle = get_the_title($postID);
     $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
@@ -442,12 +434,10 @@ function fachportal_content_block()
         } else {
             $contentTitle = 'Noch kein Inhalt?';
             $buttonText = 'Inhalte vorschlagen';
-            //$addContentUrl = get_page_link($addContentPageID) . '?type=material&collectionID=' . $collectionID;
-            $addContentUrl = get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&headline=' . $pageTitle . '&pageDiscipline=' . $pageDiscipline;
+            $addContentUrl = get_page_link(ADD_CONTENT_PAGE_ID) . '?collectionID=' . $collectionID . '&headline=' . $pageTitle . '&pageDiscipline=' . $pageDiscipline;
             if (!empty($contentType['value']) && $contentType['value'] == 1) {
                 $contentTitle = 'Noch kein Tool?';
                 $buttonText = 'Tool vorschlagen';
-                //$addContentUrl = get_page_link($addContentPageID) . '?type=tool&collectionID=' . $collectionID;
                 $addContentUrl = get_page_link(2701) . '?type=tool&collectionID=' . $collectionID;
             }
 

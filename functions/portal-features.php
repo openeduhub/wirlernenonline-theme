@@ -61,7 +61,12 @@ function getAddNewContentTile($contentInfo, $lrtID,  $type)
             break;
     }
 
-    $addContentUrl = get_page_link($contentInfo['addContentPageID']) . '?collectionID=' . $contentInfo['collectionID'] . '&headline=' . $contentInfo['pageTitle'] . '&pageDiscipline=' . $contentInfo['pageDiscipline'] . '&lrtID=' . $lrtID . '&type=' . $type;
+    $addContentUrl = get_page_link(ADD_CONTENT_PAGE_ID)
+        . '?collectionID=' . $contentInfo['collectionID']
+        . '&headline=' . $contentInfo['pageTitle']
+        . '&pageDiscipline=' . $contentInfo['pageDiscipline']
+        . '&lrtID=' . $lrtID
+        . '&type=' . $type;
     $content = '<div class="widget-content no-widget-content">';
     $content .= '<button onclick="showNoContentPopup()">';
     $content .= '<img class="main-image" src="' . get_template_directory_uri() . '/src/assets/img/mitmachen-3.png" alt="Cover: Keine Inhalte">';

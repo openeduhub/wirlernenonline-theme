@@ -20,7 +20,8 @@ define("WLO_METAQS_EDUSHARING_URL","https://repository.....net/edu-sharing/");
 define("WLO_AI_PROMPT_SERVICE_URL", "https://ai-prompt-service.....net");
 define("WLO_AI_PROMPT_SERVICE_TOKEN", "XXXXXXXXXXXXXXXX");
 
-// Template IDs
+// Page IDs
+define("ADD_CONTENT_PAGE_ID", 00000);
 define("CAREER_PAGE_TEMPLATE_ID", 00000);
 
 // LDAP

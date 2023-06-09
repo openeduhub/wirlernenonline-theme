@@ -22,9 +22,6 @@ $showAuthors = get_field('showAuthors');
 $author_ids = (!empty(get_field('authors', $postID))) ? get_field('authors', $postID) : [];
 $author_page_link = (!empty(get_field('author_page_link', $postID))) ? get_field('author_page_link', $postID) : '';
 
-//$addContentPageID = 9614; //dev
-$addContentPageID = 9933; //pre
-//$addContentPageID = 9081; //local
 ?>
 
 <div class="fachportal-footer">
@@ -47,7 +44,7 @@ $addContentPageID = 9933; //pre
         </a>
     </div>
 
-    <a class="fachportal-add-content-button" href="<?php echo get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&headline=' . $pageTitle .'&pageDiscipline=' . $pageDiscipline; ?>" target="_blank">
+    <a class="fachportal-add-content-button" href="<?php echo get_page_link(ADD_CONTENT_PAGE_ID) . '?collectionID=' . $collectionID . '&headline=' . $pageTitle .'&pageDiscipline=' . $pageDiscipline; ?>" target="_blank">
         <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus.svg" alt="Icon: Plus"> Inhalte vorschlagen
     </a>
 
