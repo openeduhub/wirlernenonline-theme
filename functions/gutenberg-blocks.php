@@ -131,6 +131,21 @@ function register_acf_block_types()
         'keywords'          => [],
     ]);
     acf_register_block_type([
+        'name'              => 'fachportal_swimlane',
+        'title'             => __('Fachportal: Swimlane'),
+        'description'       => __('Swimlane für gefilterte Sammlungsinhalte aus der Redaktionsumgebung'),
+        'render_template'   => 'template-parts/blocks/fachportal_swimlane.php',
+        'category'          => 'themenportal',
+        'icon'              => 'slides',
+        'keywords'          => [],
+        'enqueue_assets' => function () {
+            wp_enqueue_style('wlo-pages', get_template_directory_uri() . '/vendor/wlo-pages/styles.css', array(), '');
+            wp_enqueue_script('wlo-pages-polyfills', get_template_directory_uri() . '/vendor/wlo-pages/polyfills.js', array(), '', true);
+            wp_enqueue_script('wlo-pages-runtime', get_template_directory_uri() . '/vendor/wlo-pages/runtime.js', array(), '', true);
+            wp_enqueue_script('wlo-pages-main', get_template_directory_uri() . '/vendor/wlo-pages/main.js', array(), '', true);
+        },
+    ]);
+    acf_register_block_type([
         'name'              => 'career_events_map',
         'title'             => __('Berufsseite: Veranstaltungs-Karte'),
         'description'       => __('Kartenansicht berufsbezogener Veranstaltungen'),
