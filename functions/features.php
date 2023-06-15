@@ -729,7 +729,9 @@ function callRepoApi($restUrl, $data = null, $contentType = 'Content-Type: appli
     //error_log(print_r(curl_getinfo($curl), true));
     curl_close($curl);
 
-    if (!$result && $httpcode != 200) {
+    if ($httpcode != 200) {
+        error_log($mode . ' request to ' . $apiUrl . ' failed with response code ' . $httpcode);
+        error_log(print_r($result, true));
         echo "Connection Failure (http-code: " . $httpcode . ", mode: " . $mode . ")<br>";
         return false;
     }
