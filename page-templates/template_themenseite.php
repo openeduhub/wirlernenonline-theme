@@ -20,7 +20,7 @@ $collectionID = $params['id'];
 // Create a career page if it doesn't exist or update it, if the career-page template was updated.
 $slug = $post->post_name . '-berufsinfo';
 $career_page = get_page_by_path($slug, OBJECT, 'portal');
-$updatedCareerPage = true;
+$updatedCareerPage = false;
 if (empty($career_page)) {
     $postParams = array(
         'post_author' => 'admin',
