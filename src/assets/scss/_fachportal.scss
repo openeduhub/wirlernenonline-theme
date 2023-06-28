@@ -83,6 +83,7 @@ $fachportal_bright: $wlo-primary;
 
   .portal-wrapper-left {
     width: 1200px;
+    min-width: 0;
     max-width: 100%;
     background: #f4f4f4;
     border-radius: 24px 24px 0 0;
@@ -90,11 +91,17 @@ $fachportal_bright: $wlo-primary;
 
   .portal-wrapper-right {
     display: none;
+    flex-direction: column;
+    align-items: flex-start;
     position: sticky;
-    top: 170px;
+    top: 143px;
     bottom: 0;
     height: 100%;
     max-width: 1200px;
+    max-height: calc(100vh - 143px);
+    &[style*='display: block'] {
+      display: flex !important;
+    }
   }
 }
 
@@ -118,21 +125,28 @@ $fachportal_bright: $wlo-primary;
   flex-direction: column;
   position: relative;
   width: 500px;
+  min-height: 0;
   height: fit-content;
-  margin: 48px 1.5em 1.5em;
+  margin: 1.5em;
   background: white;
   border-radius: 24px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
   cursor: auto;
 
-  img {
-    width: 100%;
-    height: 100%;
-  }
-
   oeh-details-embedded {
+    display: flex;
+    min-height: 0;
+
     app-details {
+      overflow: hidden; // don't let scroll bars overflow rounded corners
       border-radius: 24px;
+    }
+
+    .app-preview-panel-content-wrapper::-webkit-scrollbar {
+      width: 4px;
+    }
+    .app-preview-panel-content-wrapper::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.26);
     }
 
     .mat-icon {
@@ -153,7 +167,7 @@ $fachportal_bright: $wlo-primary;
   width: 500px;
   height: fit-content;
   background: #f4f4f4;
-  margin: 48px 1.5em 1.5em;
+  margin: 1.5em;
   padding: 0.5em;
   border-radius: 24px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
@@ -185,11 +199,6 @@ $fachportal_bright: $wlo-primary;
     align-self: flex-start;
   }
 
-  img {
-    width: 100%;
-    height: 100%;
-  }
-
   p {
     font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
     font-size: 15px;
@@ -202,8 +211,7 @@ $fachportal_bright: $wlo-primary;
     justify-content: center;
     align-items: center;
     height: 30px;
-    width: 100%;
-    width: 50%;
+    padding: 0 1em;
     background: #032850;
     color: white;
     font-family: 'Montserrat-Medium', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
@@ -1864,11 +1872,13 @@ span.header-text {
     }
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1750px) {
   .portal-wrapper {
     .portal-wrapper-right {
       position: fixed;
-      top: 25px;
+      max-height: unset;
+      top: 0;
+      right: 0;
       z-index: 5000;
     }
 
@@ -1885,18 +1895,14 @@ span.header-text {
     }
   }
 
-  .detail-view-popup {
+  .detail-view-popup,
+  .no-content-popup {
     width: auto;
-
-    .app-preview-panel-content-wrapper {
-      max-height: 90vh;
-    }
+    max-width: 500px;
   }
 
   .fachportal-header-block {
     margin: 0;
-  }
-  .no-widget-content {
   }
 }
 
