@@ -18,31 +18,32 @@ $response = callWloRestApi($url);
 $portalTitle = get_the_title($postID);
 
 $author_ids = get_field('authors', $postID);
-if (empty($author_ids)){
+if (empty($author_ids)) {
     $author_ids = array();
 }
 
 $educationalContexts = $educational_filter_values["educationalContexts"];
 
-if (empty(get_field('description'))){
+if (empty(get_field('description'))) {
     $description = '
-                    Herzlich willkommen auf der Fachseite für '.$portalTitle.'! <br>
+                    Herzlich willkommen auf der Fachseite für ' . $portalTitle . '! <br>
                     <br>
                     Du findest hier neben von unserer Redaktion sorgfältig ausgewählten Materialien für den 
                     Präsenzunterricht, den Online-Unterricht oder das hybride Klassenzimmer auch Informationen zu 
-                    Events, Fortbidungsangeboten und zum Neusten aus '.$portalTitle.'. Über “unsere Themen” kannst du auch 
+                    Events, Fortbidungsangeboten und zum Neusten aus ' . $portalTitle . '. Über “unsere Themen” kannst du auch 
                     tiefer in Lehrplanthemen eintauchen und spezielle Materialien finden. Lass dich inspirieren!<br>
                     <br>
                     Für jeden und jede ist etwas dabei und es soll noch viel mehr werden – dafür brauchen wir deine 
-                    Unterstützung, <a href="'.get_page_link(97).'">werde Teil der Community</a>! Du kannst in Redaktionen mitarbeiten und eigene Inhalte 
+                    Unterstützung, <a href="' . get_page_link(97) . '">werde Teil der Community</a>! Du kannst in Redaktionen mitarbeiten und eigene Inhalte 
                     hochladen und der Community zur Verfügung stellen.
     ';
-}else{
+} else {
     $description = get_field('description');
 }
 
 if (!function_exists('helper_useLightColor')) {
-    function helper_useLightColor($bgColor){
+    function helper_useLightColor($bgColor)
+    {
         $color = ($bgColor[0] === '#') ? substr($bgColor, 1, 7) : $bgColor;
         $r = intval(substr($color, 0, 2), 16); // hexToR
         $g = intval(substr($color, 2, 4), 16); // hexToG
@@ -95,7 +96,7 @@ $GLOBALS['wlo_fachportal'] = array(
             <div class="description-content">
                 <h1 class="title"><?php echo $portalTitle; ?></h1>
                 <div class="header-description header-description-mobile"><?php echo $description; ?></div>
-                <?php if (strlen($description) >= 190){ ?>
+                <?php if (strlen($description) >= 190) { ?>
                     <button class="header-description-button" onclick="toggleDescription(this)">
                         <div>
                             <span>Mehr</span>
@@ -103,29 +104,37 @@ $GLOBALS['wlo_fachportal'] = array(
                         </div>
                     </button>
                 <?php } ?>
-                <?php if (false): ?>
+                <?php if (false) : ?>
                     <div class="educational-context-filter">
                         <button onclick="educationalcontextFilter('grundschule')">
-                            <div class="wlo-portals-filter-tag <?php if (in_array('grundschule', $educationalContexts)){echo 'active-btn';} ?>">
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                            <div class="wlo-portals-filter-tag <?php if (in_array('grundschule', $educationalContexts)) {
+                                                                    echo 'active-btn';
+                                                                } ?>">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg" alt="">
                                 Primarstufe
                             </div>
                         </button>
                         <button onclick="educationalcontextFilter('sekundarstufe_1')">
-                            <div class="wlo-portals-filter-tag <?php if (in_array('sekundarstufe_1', $educationalContexts)){echo 'active-btn';} ?>">
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                            <div class="wlo-portals-filter-tag <?php if (in_array('sekundarstufe_1', $educationalContexts)) {
+                                                                    echo 'active-btn';
+                                                                } ?>">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg" alt="">
                                 Sekundarstufe 1
                             </div>
                         </button>
                         <button onclick="educationalcontextFilter('sekundarstufe_2')">
-                            <div class="wlo-portals-filter-tag <?php if (in_array('sekundarstufe_2', $educationalContexts)){echo 'active-btn';} ?>">
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                            <div class="wlo-portals-filter-tag <?php if (in_array('sekundarstufe_2', $educationalContexts)) {
+                                                                    echo 'active-btn';
+                                                                } ?>">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg" alt="">
                                 Sekundarstufe 2
                             </div>
                         </button>
                         <button onclick="educationalcontextFilter('berufliche_bildung')">
-                            <div class="wlo-portals-filter-tag <?php if (in_array('berufliche_bildung', $educationalContexts)){echo 'active-btn';} ?>">
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg"  alt="">
+                            <div class="wlo-portals-filter-tag <?php if (in_array('berufliche_bildung', $educationalContexts)) {
+                                                                    echo 'active-btn';
+                                                                } ?>">
+                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/checkmark.svg" alt="">
                                 Berufliche Bildung
                             </div>
                         </button>
@@ -139,11 +148,11 @@ $GLOBALS['wlo_fachportal'] = array(
 </div>
 
 <div class="fachportal-header-block fachportal-new-content">
-    <div class="fachportal-header-wrapper" >
+    <div class="fachportal-header-wrapper">
         <div class="fachportal-new-content-inner" style="background-color: #F4F4F4">
             <button class="fachportal-accordion" id="fachportal-accordion-<?php echo $accordionID; ?>">
                 <h2>Durchstöbere hier unsere Lehrplanthemen</h2>
-                <img class="fachportal-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg"  alt="Inhalte ein odder ausklappen">
+                <img class="fachportal-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg" alt="Inhalte ein odder ausklappen">
             </button>
             <div class="fachportal-accordion-content" id="fachportal-accordion-content-<?php echo $accordionID; ?>">
                 <?php
@@ -162,15 +171,15 @@ $GLOBALS['wlo_fachportal'] = array(
                                     //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
 
                                     // Filter hidden collections
-                                    if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated' ) {
+                                    if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated') {
                                         continue;
                                     }
 
                                     // Filter educationalContexts
                                     if (!empty($educationalContexts)) {
-                                        if (empty($collection->properties->{'ccm:educationalcontext'})){ // skip empty?
+                                        if (empty($collection->properties->{'ccm:educationalcontext'})) { // skip empty?
                                             //continue;
-                                        }else{
+                                        } else {
                                             if (!checkPropertyMatch($collection->properties->{'ccm:educationalcontext'}, $educationalContexts, true)) {
                                                 continue;
                                             }
@@ -178,11 +187,11 @@ $GLOBALS['wlo_fachportal'] = array(
                                     }
 
                                     $title = $collection->title;
-                                    if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
-                                        $title =$collection->properties->{'ccm:collectionshorttitle'}[0];
+                                    if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])) {
+                                        $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
                                     }
 
-                                    ?>
+                                ?>
                                     <div class="sub-subject">
                                         <a href="<?php echo $ccm_location; ?>">
                                             <p><?php echo $title; ?></p>
@@ -196,48 +205,48 @@ $GLOBALS['wlo_fachportal'] = array(
                 </div>
             </div>
         </div>
-<!--        <div class="header-bottom"></div>-->
+        <!--        <div class="header-bottom"></div>-->
     </div>
 </div>
 
 <script>
-    jQuery('#fachportal-accordion-<?php echo $accordionID; ?>').click(function(){
+    jQuery('#fachportal-accordion-<?php echo $accordionID; ?>').click(function() {
         jQuery(this).find("img").toggleClass("fachportal-accordion-icon-active");
         jQuery('#fachportal-accordion-content-<?php echo $accordionID; ?>').slideToggle('medium');
     });
 
     // educationalcontext filter
-    function educationalcontextFilter(educationalcontext){
-        let url =  window.location.href.split('?')[0];
+    function educationalcontextFilter(educationalcontext) {
+        let url = window.location.href.split('?')[0];
         let educationalcontexts = [<?php
-                                        foreach ($educationalContexts as $context){
-                                            echo '"'.$context.'",';
-                                        }
+                                    foreach ($educationalContexts as $context) {
+                                        echo '"' . $context . '",';
+                                    }
                                     ?>];
 
-        if (educationalcontexts.includes(educationalcontext)){
+        if (educationalcontexts.includes(educationalcontext)) {
             educationalcontexts.forEach(function(item, index, array) {
-                if (item == educationalcontext){
+                if (item == educationalcontext) {
                     //console.log('same');
-                }else {
-                    if (url.indexOf('?') > -1){
+                } else {
+                    if (url.indexOf('?') > -1) {
                         url += '&educationalContext[]=' + item;
-                    }else{
+                    } else {
                         url += '?educationalContext[]=' + item;
                     }
                 }
             })
-        }else {
+        } else {
             educationalcontexts.forEach(function(item, index, array) {
-                if (url.indexOf('?') > -1){
+                if (url.indexOf('?') > -1) {
                     url += '&educationalContext[]=' + item;
-                }else{
+                } else {
                     url += '?educationalContext[]=' + item;
                 }
             })
-            if (url.indexOf('?') > -1){
+            if (url.indexOf('?') > -1) {
                 url += '&educationalContext[]=' + educationalcontext;
-            }else{
+            } else {
                 url += '?educationalContext[]=' + educationalcontext;
             }
         }
@@ -245,23 +254,21 @@ $GLOBALS['wlo_fachportal'] = array(
         window.location.href = url;
     }
 
-    function toggleDescription(button){
-        if (jQuery(button).closest('.description-content').find('.header-description').height() <= '145'){
+    function toggleDescription(button) {
+        if (jQuery(button).closest('.description-content').find('.header-description').height() <= '145') {
             jQuery(button).closest('.description-content').find('.header-description').css('max-height', 1000);
             jQuery(button).closest('.description-content').find('.header-description-button div img').css("transform", "rotate(180deg)");
             jQuery(button).closest('.description-content').find('.header-description-button div span').html("Weniger");
-        }else {
+        } else {
             //jQuery(button).closest('.wlo-partner').find('.wlo-partner-text').height('74');
             jQuery(button).closest('.description-content').find('.header-description').css('max-height', '9em');
             jQuery(button).closest('.description-content').find('.header-description-button div img').css("transform", "rotate(0deg)");
             jQuery(button).closest('.description-content').find('.header-description-button div span').html("Mehr");
         }
     }
-
 </script>
 
 
 <?php if (is_admin()) {
     echo '</div>';
 } ?>
-
