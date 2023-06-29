@@ -3,16 +3,6 @@
 //@import 'settings';
 @import 'custom-colors-variables';
 
-// The "Fachseiten" have a different layout than "Themenseiten" that depends on quirky margin hacks
-// that generally don't work very well. Don't let these bleed into "Themenseiten".
-//
-// TODO: Migrate "Fachseiten" to a better layout and remove this mixin and all usages.
-@mixin fachportal-only {
-  body:not(.portal-template-template_themenseite):not(.portal-template-template_career_info) & {
-    @content;
-  }
-}
-
 $fachportal_primary: $wlo-primary-dark;
 $fachportal_bright: $wlo-primary;
 
@@ -105,7 +95,7 @@ $fachportal_bright: $wlo-primary;
   }
 }
 
-.portal-wrapper-themenseite {
+.portal-wrapper-fachseite, .portal-wrapper-themenseite {
   display: flex;
   justify-content: center;
   max-width: initial;
@@ -115,9 +105,6 @@ $fachportal_bright: $wlo-primary;
 .portal-wrapper-header {
   margin: 0 auto;
   background: #f4f4f4;
-  @include fachportal-only {
-    max-width: 1200px;
-  }
 }
 
 .detail-view-popup {
@@ -725,11 +712,6 @@ span.header-text {
 }
 
 .fachportal-header-block {
-  @include fachportal-only {
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 49.56vw);
-  }
-
   .fachportal-header-wrapper {
     display: flex;
     justify-content: flex-start;
@@ -1174,10 +1156,6 @@ span.header-text {
   position: sticky;
   top: 62px;
   background: #f5f5f5;
-  @include fachportal-only {
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 49.6vw);
-  }
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
   z-index: 55;
 
@@ -1321,7 +1299,9 @@ span.header-text {
     .fachportal-new-content-inner {
       width: 100%;
       height: 100%;
-      padding: 0 0.5em 24px;
+      padding: 24px 0.5em;
+      margin-top: -24px;
+      border-radius: 24px 24px 0px 0px;
 
       h2 {
         color: #313131;
@@ -1865,13 +1845,6 @@ span.header-text {
   }
 }
 
-@media (max-width: 1850px) {
-  .fachportal-header-block {
-    @include fachportal-only {
-      margin-right: calc(50% - 50vw);
-    }
-  }
-}
 @media (max-width: 1750px) {
   .portal-wrapper {
     .portal-wrapper-right {
