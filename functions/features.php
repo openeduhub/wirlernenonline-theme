@@ -296,6 +296,9 @@ function callWloGraphApi($search_query)
 
 function callWloRestApi($url, $type = 'GET', $body = null)
 {
+    // error_log('Start ----------------------------------------------------------------------------');
+    // error_log($type . ' ' . $url);
+    // error_log($body);
 
     $cacheTime = 60;
     // cache source_table for 24h
@@ -323,7 +326,10 @@ function callWloRestApi($url, $type = 'GET', $body = null)
             if (!empty($body)) {
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
             }
+            // $start = microtime(true);
             $response = curl_exec($curl);
+            // $time_elapsed = microtime(true) - $start;
+            // error_log('took: '. $time_elapsed);
             if ($response === false) {
                 error_log('Curl error when calling ' . $type . ' ' . $url . ': ' . curl_error($curl));
                 if (!empty($body)) {
