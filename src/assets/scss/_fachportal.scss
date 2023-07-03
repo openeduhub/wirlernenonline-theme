@@ -1852,7 +1852,7 @@ span.header-text {
       max-height: unset;
       top: 0;
       right: 0;
-      z-index: 5000;
+      z-index: 999; // Above the menu bar, but below Angular's dialog overlays
     }
 
     .portal-wrapper-right:before {
