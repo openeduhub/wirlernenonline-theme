@@ -1735,7 +1735,7 @@ app-report-problem {
     .portal-wrapper-right {
       position: fixed;
       top: 25px;
-      z-index: 5000;
+      z-index: 999; // Above the menu bar, but below Angular's dialog overlays
     }
 
     .portal-wrapper-right:before {
