@@ -149,11 +149,17 @@ function printWloCard(mixed $item): void
     <div class="wlo-card wlo-card-interactive" <?php echo $data; ?>>
         <?php if (!empty($item['image_url'])) { ?>
             <div class="wlo-card-image-container">
-                <img class="wlo-card-image" src="<?php echo $item['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $item['title']; ?>">
-                <div class="media-type-icon-container">
-                    <!-- TODO: choose correct icon -->
-                    <img class="media-type-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/media-types/video.svg">
-                </div>
+                <img class="wlo-card-image"
+                    src="<?php echo $item['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300"
+                    alt="Cover: <?php echo $item['title']; ?>">
+                <?php $mediaIcon = getMediaTypeIcon($item['oeh_lrt_aggregated']);
+                if ($mediaIcon) { ?>
+                    <div class="media-type-icon-container">
+                        <span class="material-icons media-type-icon">
+                            <?php echo $mediaIcon; ?>
+                        </span>
+                    </div>
+                <?php } ?>
             </div>
         <?php } ?>
         <div class="wlo-card-body">
@@ -214,6 +220,32 @@ function printWloCard(mixed $item): void
         </div>
     </div>
 <?php
+}
+
+const MEDIA_TYPE_ICONS = array(
+    'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/38774279-af36-4ec2-8e70-811d5a51a6a1' => 'videocam',
+    'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/c8e52242-361b-4a2a-b95d-25e516b28b45' => 'note_alt',
+    'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/f1341358-3f91-449b-b6eb-f58636f756a0' => 'build',
+    'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/2e678af3-1026-4171-b88e-3b3a915d1673' => 'source',
+    'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/0b2d7dec-8eb1-4a28-9cf2-4f3a4f5a511b' => 'history_edu',
+    'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/55761ec6-0cd4-4677-86ee-6f395934dae7' => 'web',
+    'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/37a3ad9c-727f-4b74-bbab-27d59015c695' => 'hardware',
+    'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/11f438d7-cb11-49c2-8e67-2dd7df677092' => 'tips_and_updates',
+    'http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/39197d6f-dfb1-4e82-92e5-79f906e9d2a9' => 'music_note'
+);
+
+/**
+ * Gets the material icon for the given array of values oeh-lrt-aggregated vocab values.
+ * 
+ * Returns the icon of the first value, or false, if no icon was defined for that value.
+ */
+function getMediaTypeIcon(array $oehLrtAggregated): string | false
+{
+    if (!empty($oehLrtAggregated[0]) && array_key_exists($oehLrtAggregated[0], MEDIA_TYPE_ICONS)) {
+        return MEDIA_TYPE_ICONS[$oehLrtAggregated[0]];
+    } else {
+        return false;
+    }
 }
 
 // Always use lower case and dash (-) as separator for keys
@@ -285,6 +317,7 @@ function processEduSharingNode(mixed $reference): array
         'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
         'publisher' => !empty($prop->{'ccm:oeh_publisher_combined'}[0]) ? $prop->{'ccm:oeh_publisher_combined'}[0] : false,
         'oeh_lrt' =>  !empty($prop->{'ccm:oeh_lrt'}) ? $prop->{'ccm:oeh_lrt'} : [],
+        'oeh_lrt_aggregated' => !empty($prop->{'ccm:oeh_lrt_aggregated'}) ? $prop->{'ccm:oeh_lrt_aggregated'} : [],
         'duration' =>  !empty($prop->{'cclom:duration'}[0]) ? $prop->{'cclom:duration'}[0] : false,
         'oer' => isOer($prop),
 

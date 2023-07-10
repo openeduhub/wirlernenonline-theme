@@ -53,6 +53,7 @@
       object-fit: cover;
     }
     .media-type-icon-container {
+      display: flex;
       position: absolute;
       bottom: 0;
       right: 10%;
@@ -62,6 +63,7 @@
       overflow: hidden;
       padding: 10px 12px 0;
       .media-type-icon {
+        font-size: 30px;
         height: 30px;
       }
     }
