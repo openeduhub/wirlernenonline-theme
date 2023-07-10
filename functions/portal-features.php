@@ -208,12 +208,63 @@ function printWloCard(mixed $item): void
                             <?php echo $item['publisher']; ?>
                         </p>
                     <?php } ?>
-                    <img class="source-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/sources/zdf.svg">
+                    <img class="source-icon" src="<?php echo getSourceLogo($item['publisher']); ?>" alt="">
                 </div>
             <?php } ?>
         </div>
     </div>
 <?php
+}
+
+// Always use lower case and dash (-) as separator for keys
+const SOURCE_LOGOS = array(
+    'agentur-für-arbeit' => 'agentur-fuer-arbeit.svg',
+    'bpb' => 'BPB.png',
+    'bundeszentrale-für-politische-bildung' => 'BPB.png',
+    'br' => 'BR.jpg',
+    'bayerischer-rundfunk' => 'BR.jpg',
+    'digital-learning-lab' => 'Digital Learning Lab.png',
+    'geogebra' => 'Geogebra.png',
+    'klexikon' => 'Klexikon.png',
+    'miniklexikon' => 'Klexikon.png',
+    'learning-apps' => 'Learning Apps.png',
+    'leifi-physik' => 'LEIFI Physik.png',
+    'niedersachsen' => 'Niedersachsen.png',
+    'niedersachsen-abituraufgaben' => 'Niedersachsen.png',
+    'planet-schule' => 'Planet Schule.jpg',
+    'planet-wissen' => 'Planetwissen.jpg',
+    'planetwissen' => 'Planetwissen.jpg',
+    'rpi-virtuell' => 'RPI Virtuell.png',
+    'schulcampus-rlp' => 'Schulcampus RLP.png',
+    'segu' => 'segu.jpg',
+    'serlo' => 'serlo.png',
+    'sodis' => 'Sodis.png',
+    'tutory' => 'Tutory.png',
+    'umwelt-im-unterricht' => 'Umwelt im Unterricht.png',
+    'wlo' => 'WLO.png',
+    'wirlernenonline' => 'WLO.png',
+    'youtube' => 'Youtube.png',
+    'zdf' => 'zdf.svg',
+    'zum' => 'ZUM.png',
+    'zum-unterrichten' => 'ZUM.png',
+    'zum-apps' => 'ZUM.png',
+    'zum-pad' => 'ZUM.png',
+    'zum-projekte' => 'ZUM.png',
+    'zum-grundschule' => 'ZUM.png',
+    'zum-deutsch-lernen' => 'ZUM.png',
+);
+
+function getSourceLogo(string $sourceName): string | false
+{
+    $key = strtolower($sourceName);
+    $key = str_replace([' ', '_'], '-', $key);
+    if (array_key_exists($key, SOURCE_LOGOS)) {
+        return get_template_directory_uri()
+            . '/src/assets/img/sources/'
+            . SOURCE_LOGOS[$key];
+    } else {
+        return false;
+    }
 }
 
 function processEduSharingNode(mixed $reference): array
