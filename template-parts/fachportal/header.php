@@ -20,14 +20,16 @@ if (!function_exists('fachportalHeaderGetDescription')) {
         unset($block);
         if (!empty($headerBlock)) {
             $description = $headerBlock['attrs']['data']['description'];
+        }
+
+        if (!empty($description)) {
             // Imitate ACF's processing of whitespace in its HTML editor.
             //
             // Wrap all lines separated by at least one empty line in <p> tags.
             $description = '<p>' . preg_replace("/(\r?\n){2,}/", "</p><p>", trim($description)) . '</p>';
             // Convert single new-lines to <br> tags.
             $description = preg_replace("/(\r?\n)/", "<br>", $description);
-        }
-        if (empty($description)) {
+        } else {
             $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
             $portalTitle = get_the_title($postID);
             $description = '
