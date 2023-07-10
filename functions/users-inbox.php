@@ -8,6 +8,7 @@ function setWLOInbox(){
         'GROUP_7ea16e92-eadc-103a-81f6-9d9aea029be1' => '80151374-f53a-49f2-8516-0a6ae41d7a05', // Schule im Aufbruch
         'GROUP_cf7c3cf8-41c5-103b-88aa-2b6a146a3545' => '627d249d-61e4-4860-b739-bb3c8b21946e', // rpi virtuell
         'GROUP_513e4a78-4a56-103a-84e4-2b017690ecd2' => 'f036ab86-7089-4130-8d4e-c89d5bb169f0', // WLO-Redaktion
+        'GROUP_efc39a36-b353-103d-8168-19dcc5d7b7c4' => 'cd00551c-afc1-488b-96d9-ba1939d000ee', // GPM
         null => '3f8cb71e-f508-434c-99f9-098bd7164305', // others or unknown
     ];
 
