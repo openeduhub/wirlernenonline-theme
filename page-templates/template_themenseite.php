@@ -294,7 +294,6 @@ $body = '{
 
 $searchContent = callWloRestApi($url, 'POST', $body);
 $searchTotal = $searchContent->pagination->total;
-$searchAdditional = $searchTotal - $subCollectionsElements->pagination->total;
 $searchVocabs = array();
 if (!empty($searchContent->facets[0]->values)) {
     $searchVocabs = $searchContent->facets[0]->values;
@@ -510,8 +509,8 @@ while (have_posts()) : the_post(); ?>
 
                         <div class="go-to-search-container">
                             <p class="header-text">
-                                Die Suche hat noch <?php echo $searchAdditional; ?> maschinell geprüfte
-                                <?php echo ($searchTotal != 1 ? 'Inhalte' : 'Inhalt') ?>:
+                                In der Suche findest du <?php echo $searchTotal; ?> maschinell
+                                <?php echo ($searchTotal != 1 ? 'geprüfte Inhalte' : 'geprüften Inhalt') ?>:
                             </p>
                             <div class="chip-link chip-link-highlight">
                                 <a href="<?php echo WLO_SEARCH; ?>de/search?q=<?php echo get_the_title($postID); ?>">
