@@ -39,5 +39,10 @@ $jobProfilesCarouselId = uniqid('wlo-job-profiles-carousel-');
         success: (html) => {
             jQuery('#<?php echo $jobProfilesCarouselId; ?>').html(html);
         },
+        error: (error) => {
+            jQuery('#<?php echo $jobProfilesCarouselId; ?>').html(
+                '<p class="wlo-feature-error">Fehler beim Laden der Daten</p>',
+            );
+        }
     });
 </script>
