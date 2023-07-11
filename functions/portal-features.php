@@ -437,3 +437,47 @@ function initSlick(string $sliderId, int $slidesToShow, int $slidesToScroll, int
     </script>
 <?php
 }
+
+/**
+ * Retrieves relevant sub collections from the edu-sharing API.
+ */
+function getSubCollections(string $collectionId): array
+{
+    $url = WLO_REPO . 'rest/collection/v1/collections/local/' . $collectionId . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
+    $subCollections = callWloRestApi($url);
+    $filteredSubCollections = [];
+
+    if (!empty($subCollections->collections)) {
+        foreach ($subCollections->collections as $collection) {
+            // Filter hidden collections
+            if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated') {
+                continue;
+            }
+            // Filter educationalContexts
+            if (!empty($educationalContexts)) {
+                if (empty($collection->properties->{'ccm:educationalcontext'})) { // skip empty?
+                    //continue;
+                } else {
+                    if (!checkPropertyMatch($collection->properties->{'ccm:educationalcontext'}, $educationalContexts, true)) {
+                        continue;
+                    }
+                }
+            }
+            $filteredSubCollections[] = $collection;
+        }
+    }
+
+    return $filteredSubCollections;
+}
+
+/**
+ * Returns the short title of a collection if defined, the normal title otherwise.
+ */
+function getCollectionShortTitle(mixed $collection): string
+{
+    if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])) {
+        return $collection->properties->{'ccm:collectionshorttitle'}[0];
+    } else {
+        return $collection->title;
+    }
+}

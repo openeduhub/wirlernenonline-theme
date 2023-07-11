@@ -82,6 +82,17 @@
     }
 
     .more-career-pages {
+      ul {
+        margin: 0;
+        list-style: none;
+        display: inline;
+      }
+      li {
+        display: inline;
+        &:not(:last-child)::after {
+          content: ' / ';
+        }
+      }
       a {
         font-family: 'Source-Sans-Pro-Bold';
         text-decoration: underline;

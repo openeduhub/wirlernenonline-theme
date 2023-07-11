@@ -190,8 +190,20 @@ while (have_posts()) : the_post(); ?>
                         </div>
 
                         <p class="more-career-pages">
-                            Weitere Berufsthemen in <?php echo $portalTitle; ?>: WAS ANZEIGEN?
-                            <a href="<?php echo $portalUrl; ?>">Zeige mir alle Themen</a>
+                            Weitere Berufsthemen zu <?php echo $topic; ?>:
+                            <span id="sub-career-pages-links">Lädt...</span>
+                            <script>
+                                jQuery.ajax({
+                                    url: ajaxurl,
+                                    data: {
+                                        action: 'wloSubCareerPagesLinks',
+                                        collectionId: '<?php echo $collectionID; ?>',
+                                    },
+                                    success: (html) => {
+                                        jQuery('#sub-career-pages-links').html(html);
+                                    },
+                                });
+                            </script>
                         </p>
 
                         <p>

@@ -344,6 +344,7 @@ function callWloRestApi($url, $type = 'GET', $body = null)
                 if (!empty($body)) {
                     error_log('Request body: ' . $body);
                 }
+                // error_log(print_r(debug_backtrace(), true));
                 echo 'error ' . $httpCode;
                 return false;
             }

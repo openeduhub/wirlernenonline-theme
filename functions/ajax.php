@@ -528,6 +528,18 @@ function wloAiCareerAdvice()
     wp_die();
 }
 
+add_action('wp_ajax_wloSubCareerPagesLinks', 'wloSubCareerPagesLinks');
+add_action('wp_ajax_nopriv_wloSubCareerPagesLinks', 'wloSubCareerPagesLinks');
+/** Prints HTML to render a link list of sub pages of a career page. */
+function wloSubCareerPagesLinks()
+{
+    $collectionId = $_GET['collectionId'];
+    get_template_part('template-parts/career/sub-pages-links', args: array(
+        'collectionId' => $collectionId,
+    ));
+    wp_die();
+}
+
 add_action('wp_ajax_wloJobProfilesCarousel', 'wloJobProfilesCarousel');
 add_action('wp_ajax_nopriv_wloJobProfilesCarousel', 'wloJobProfilesCarousel');
 /** Prints HTML to render a job profiles carousel. */
@@ -616,7 +628,8 @@ function wloEventLocations()
     wp_die();
 }
 
-function mapEduSharingNodeToEventLocation($node) {
+function mapEduSharingNodeToEventLocation($node)
+{
     $props = $node->properties;
     return array(
         'lat' => $props->{'ccm:oeh_geographical_location_lat'}[0] ?? 0,

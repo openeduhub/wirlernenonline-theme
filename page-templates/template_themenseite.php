@@ -415,52 +415,22 @@ while (have_posts()) : the_post(); ?>
                         </div>
 
                         <?php
-                        $url = WLO_REPO . 'rest/collection/v1/collections/local/' . $collectionID . '/children/collections?scope=MY&&skipCount=0&maxItems=1247483647&sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
-                        $subCollections = callWloRestApi($url);
-                        $filteredSubCollections = [];
-
-                        if (!empty($subCollections->collections)) {
-                            foreach ($subCollections->collections as $collection) {
-
-                                // Filter hidden collections
-                                if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated') {
-                                    continue;
-                                }
-
-                                // Filter educationalContexts
-                                if (!empty($educationalContexts)) {
-                                    if (empty($collection->properties->{'ccm:educationalcontext'})) { // skip empty?
-                                        //continue;
-                                    } else {
-                                        if (!checkPropertyMatch($collection->properties->{'ccm:educationalcontext'}, $educationalContexts, true)) {
-                                            continue;
-                                        }
-                                    }
-                                }
-
-                                $filteredSubCollections[] = $collection;
-                            }
-                        }
-
+                        $subCollections = getSubCollections($collectionID);
                         $maxSubCollections = 6;
                         if (get_field('maxSubCollections')) {
                             $maxSubCollections = get_field('maxSubCollections');
                         }
                         ?>
                         <div class="collections">
-                            <?php if (!empty($filteredSubCollections)) : ?>
+                            <?php if (!empty($subCollections)) : ?>
                                 <div class="sub-subjects">
                                     <div class="sub-subjects-header">
                                         <p class="header-text"><?php echo $sumSubCollectionsElements; ?> weitere geprüfte Inhalte gibt es in Unterthemen:</p>
                                     </div>
                                     <div class="sub-subjects-container">
-                                        <?php foreach (array_slice($filteredSubCollections, 0, $maxSubCollections) as $collection) {
+                                        <?php foreach (array_slice($subCollections, 0, $maxSubCollections) as $collection) {
                                             $ccm_location = $collection->properties->{'cclom:location'}[0];
-
-                                            $title = $collection->title;
-                                            if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])) {
-                                                $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
-                                            }
+                                            $title = getCollectionShortTitle($collection);
                                             $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
                                         ?>
                                             <div class="sub-subject">
@@ -470,7 +440,7 @@ while (have_posts()) : the_post(); ?>
                                                 </a>
                                             </div>
                                         <?php } ?>
-                                        <?php if (count($filteredSubCollections) > $maxSubCollections) : ?>
+                                        <?php if (count($subCollections) > $maxSubCollections) : ?>
                                             <div class="sub-subject">
                                                 <a id="sub-subjects-button" href="#">
                                                     <p>mehr anzeigen</p>
@@ -481,7 +451,7 @@ while (have_posts()) : the_post(); ?>
                                         <?php endif; ?>
                                     </div>
                                     <div id="hidden-sub-subjects-container" class="sub-subjects-container">
-                                        <?php foreach (array_slice($filteredSubCollections, $maxSubCollections) as $collection) {
+                                        <?php foreach (array_slice($subCollections, $maxSubCollections) as $collection) {
                                             $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
                                             $title = $collection->title;
                                             if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])) {
