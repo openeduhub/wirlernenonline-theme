@@ -198,6 +198,7 @@ while (have_posts()) : the_post(); ?>
                                     data: {
                                         action: 'wloSubCareerPagesLinks',
                                         collectionId: '<?php echo $collectionID; ?>',
+                                        subjectPortalId: '<?php echo $portalID; ?>',
                                     },
                                     success: (html) => {
                                         jQuery('#sub-career-pages-links').html(html);

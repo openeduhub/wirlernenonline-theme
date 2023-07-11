@@ -533,9 +533,9 @@ add_action('wp_ajax_nopriv_wloSubCareerPagesLinks', 'wloSubCareerPagesLinks');
 /** Prints HTML to render a link list of sub pages of a career page. */
 function wloSubCareerPagesLinks()
 {
-    $collectionId = $_GET['collectionId'];
     get_template_part('template-parts/career/sub-pages-links', args: array(
-        'collectionId' => $collectionId,
+        'collectionId' => $_GET['collectionId'],
+        'subjectPortalId' => $_GET['subjectPortalId'],
     ));
     wp_die();
 }

@@ -17,49 +17,6 @@ $url_components = parse_url($collectionUrl);
 parse_str($url_components['query'], $params);
 $collectionID = $params['id'];
 
-// Create a career page if it doesn't exist or update it, if the career-page template was updated.
-$slug = $post->post_name . '-berufsinfo';
-$career_page = get_page_by_path($slug, OBJECT, 'portal');
-$updatedCareerPage = false;
-if (empty($career_page)) {
-    $postParams = array(
-        'post_author' => 'admin',
-        'post_content_filtered' => '',
-        'post_title' => 'Berufsinformationen zu ' . $post->post_title,
-        'post_name' => $slug,
-        'post_excerpt' => '',
-        'post_status' => 'publish',
-        'post_type' => 'portal',
-        'comment_status' => '',
-        'ping_status' => '',
-        'post_password' => '',
-        'to_ping' => '',
-        'pinged' => '',
-        'post_parent' => 0,
-        'menu_order' => 0,
-        'guid' => '',
-        'import_id' => 0,
-        'context' => '',
-        'page_template'  => 'page-templates/template_career_info.php'
-    );
-    $career_post_id = wp_insert_post($postParams, true);
-    update_field('template-date', get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID), $career_post_id);
-    update_field('collection_url', $collectionUrl, $career_post_id);
-    update_field('collection_level', get_field('collection_level', $postID), $career_post_id);
-    update_field('discipline', get_field('discipline', $postID), $career_post_id);
-    update_field('topic', get_field('topic', $postID), $career_post_id);
-    error_log("Created new career page: " . $career_post_id);
-    $updatedCareerPage = true;
-} else {
-    $career_post_id = $career_page->ID;
-    if (get_field('template-date', $career_post_id) != get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID)) {
-        update_field('template-date', get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID), $career_post_id);
-        error_log("Updated career page: " . $career_post_id);
-        $updatedCareerPage = true;
-    }
-}
-
-
 # Get collection from edu-sharing. Used to display description.
 $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID;
 $response = callWloRestApi($url);
@@ -84,6 +41,8 @@ if (!empty($portal->properties->{'cclom:location'}[0])) {
 $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
 $portalID = wlo_getPortalPostId($portalTitle);
+
+$career_post_id = createOrUpdateCareerPage($post, $portalID);
 
 // Get authors field from root subject page
 $authors = get_field('authors', $portalID);
@@ -111,37 +70,6 @@ if (!empty($parents)) {
         }
     }
     $breadcrumbs = array_reverse($breadcrumbs);
-}
-
-// Populate the career page's content.
-if ($updatedCareerPage) {
-    $careerPageContent = get_post_field('post_content', CAREER_PAGE_TEMPLATE_ID);
-
-    // Append the editors' information and participation invitation from the subject page to the
-    // career page.
-    $portalContent = get_post_field('post_content', $portalID);
-    foreach (parse_blocks($portalContent) as &$block) {
-        $innerBlock = $block;
-        while (!empty($innerBlock['innerBlocks'])) {
-            $innerBlock = $innerBlock['innerBlocks'][0];
-        }
-        if (
-            $innerBlock['blockName'] == 'acf/fachportal-team-block'
-        ) {
-            $editorsBlock = $block;
-            continue;
-        }
-    }
-    unset($block);
-    if (!empty($editorsBlock)) {
-        $careerPageContent .= serialize_block($editorsBlock);
-    }
-
-    $postParams = array(
-        'ID' => $career_post_id,
-        'post_content' => $careerPageContent,
-    );
-    wp_update_post($postParams);
 }
 
 // Use collection description from edu-sharing; default to standard text if no description available

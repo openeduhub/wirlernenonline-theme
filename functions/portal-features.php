@@ -481,3 +481,92 @@ function getCollectionShortTitle(mixed $collection): string
         return $collection->title;
     }
 }
+
+/**
+ * Creates or updates matching career pages for the given topic page as needed.
+ *
+ * Creates a career page if it doesn't exist or updates it, if the career-page template was updated.
+ * 
+ * @param mixed $post the post object of the corresponding topic page
+ * @param int $subjectPortalId the post ID of the root subject portal to which the topic belongs
+ * @return int the post ID of the career page
+ */
+function createOrUpdateCareerPage(mixed $post, int $subjectPortalId): int
+{
+    $educational_filter_values = get_educational_filter_values($post->ID);
+    $collectionUrl = $educational_filter_values["collectionUrl"];
+
+    $slug = $post->post_name . '-berufsinfo';
+    $career_page = get_page_by_path($slug, OBJECT, 'portal');
+    $updatedCareerPage = false;
+    if (empty($career_page)) {
+        $postParams = array(
+            'post_author' => 'admin',
+            'post_content_filtered' => '',
+            'post_title' => 'Berufsinformationen zu ' . $post->post_title,
+            'post_name' => $slug,
+            'post_excerpt' => '',
+            'post_status' => 'publish',
+            'post_type' => 'portal',
+            'comment_status' => '',
+            'ping_status' => '',
+            'post_password' => '',
+            'to_ping' => '',
+            'pinged' => '',
+            'post_parent' => 0,
+            'menu_order' => 0,
+            'guid' => '',
+            'import_id' => 0,
+            'context' => '',
+            'page_template'  => 'page-templates/template_career_info.php'
+        );
+        $career_post_id = wp_insert_post($postParams, true);
+        update_field('template-date', get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID), $career_post_id);
+        update_field('collection_url', $collectionUrl, $career_post_id);
+        update_field('collection_level', get_field('collection_level', $post->ID), $career_post_id);
+        update_field('discipline', get_field('discipline', $post->ID), $career_post_id);
+        update_field('topic', get_field('topic', $post->ID), $career_post_id);
+        error_log("Created new career page: " . $career_post_id);
+        $updatedCareerPage = true;
+    } else {
+        $career_post_id = $career_page->ID;
+        if (get_field('template-date', $career_post_id) != get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID)) {
+            update_field('template-date', get_post_modified_time(post: CAREER_PAGE_TEMPLATE_ID), $career_post_id);
+            error_log("Updated career page: " . $career_post_id);
+            $updatedCareerPage = true;
+        }
+    }
+
+    // Populate the career page's content.
+    if ($updatedCareerPage) {
+        $careerPageContent = get_post_field('post_content', CAREER_PAGE_TEMPLATE_ID);
+
+        // Append the editors' information and participation invitation from the subject page to the
+        // career page.
+        $portalContent = get_post_field('post_content', $subjectPortalId);
+        foreach (parse_blocks($portalContent) as &$block) {
+            $innerBlock = $block;
+            while (!empty($innerBlock['innerBlocks'])) {
+                $innerBlock = $innerBlock['innerBlocks'][0];
+            }
+            if (
+                $innerBlock['blockName'] == 'acf/fachportal-team-block'
+            ) {
+                $editorsBlock = $block;
+                continue;
+            }
+        }
+        unset($block);
+        if (!empty($editorsBlock)) {
+            $careerPageContent .= serialize_block($editorsBlock);
+        }
+
+        $postParams = array(
+            'ID' => $career_post_id,
+            'post_content' => $careerPageContent,
+        );
+        wp_update_post($postParams);
+    }
+
+    return $career_post_id;
+}
