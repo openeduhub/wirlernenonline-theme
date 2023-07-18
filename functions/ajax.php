@@ -736,12 +736,6 @@ function collection_content_browser()
             if (!empty($subCollectionContent->nodes)) {
                 foreach ($subCollectionContent->nodes as $reference) {
                     $prop = $reference->properties;
-
-                    // Check if deleted
-                    if ($reference->originalId == null) {
-                        continue;
-                    }
-
                     $title = $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0];
                     // Filter nodes with equal title
                     foreach ($contentArray as $newContent) {
