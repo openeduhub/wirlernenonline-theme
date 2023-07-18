@@ -629,6 +629,9 @@ while (have_posts()) : the_post(); ?>
         filterContentTiles = (() => {
             let activeFilters = [];
 
+            /**
+             * Shows / hides content tiles depending on the contents of `activeFilters`.
+             */
             function updateTiles(type) {
                 if (activeFilters.length === 0) {
                     jQuery('.widget-content').show('fast');
@@ -663,6 +666,9 @@ while (have_posts()) : the_post(); ?>
                 }
             }
 
+            /**
+             * Shows / hides the filter chip for the filter value `filter` depending on `isActive`.
+             */
             function setActiveState(filter, isActive) {
                 if (isActive) {
                     let button = jQuery('#filter-tag-' + filter);
@@ -675,13 +681,17 @@ while (have_posts()) : the_post(); ?>
                 });
             }
 
-            function toggleFilter(button, type, filter) {
-                if (activeFilters.includes(filter)) {
-                    activeFilters.splice(activeFilters.indexOf(filter), 1);
-                    setActiveState(filter, false);
+            /**
+             * Activates / deactivates the filter given by `type` and `value` depending on its
+             * current state. 
+             */
+            function toggleFilter(button, type, value) {
+                if (activeFilters.includes(value)) {
+                    activeFilters.splice(activeFilters.indexOf(value), 1);
+                    setActiveState(value, false);
                 } else {
-                    activeFilters.push(filter);
-                    setActiveState(filter, true);
+                    activeFilters.push(value);
+                    setActiveState(value, true);
                 }
                 updateTiles(type);
             }

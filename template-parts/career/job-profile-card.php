@@ -7,13 +7,14 @@
     'professionGroup' => $professionGroup,
     // 'sourceName' => $sourceName,
     // 'sourceIcon' => $sourceIcon,
+    'attributes' => $attributes
 ] = $args;
 $sourceName = 'Bundesagentur für Arbeit';
 $sourceIcon = 'agentur-fuer-arbeit.svg';
 ?>
 
 
-<div class="wlo-card job-profile-card">
+<div class="wlo-card job-profile-card" <?php echo $attributes; ?>>
     <?php if (!empty($imageUrl)) { ?>
         <div class="wlo-card-image-container">
             <img class="wlo-card-image" src="<?php echo $imageUrl; ?>" alt="">

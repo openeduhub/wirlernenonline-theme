@@ -229,39 +229,18 @@ while (have_posts()) : the_post(); ?>
             </div>
         </div>
 
-        <div class="fachportal-filterbar" <?php if (is_admin_bar_showing()) {
-                                                echo 'style="top:80px"';
-                                            } ?>>
-            <?php
-            $educationalcontextArray = ['foo' => 42]
-            ?>
+        <div class="fachportal-filterbar"
+            <?php if (is_admin_bar_showing()) {
+                echo 'style="top: 80px"';
+            } ?>>
             <div class="fachportal-filterbar-content">
                 <div class="fachportal-filterbar-header-row">
                     <p class="header-text">Filtere die Berufsprofile:</p>
                     <div class="fachportal-filterbar-dropdowns">
-                        <select name="educationalcontext" id="educationalcontext" onchange="filterContentTiles(this, 'educationalcontext', this.value)">
-                            <option value="label" selected disabled>Bildungsstufe</option>
-                            <option disabled>──────────</option>
-                            <?php foreach ($educationalcontextArray as $key => $value) { ?>
-                                <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
-                                    <?php echo $key . ' (' . $value . ')'; ?>
-                                </option>
-                            <?php } ?>
+                        <select name="profession-group" id="profession-group-filters">
+                            <option value="all" selected>Alle Bildungswege</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="filter-chips-container">
-                    <?php foreach ($educationalcontextArray as $key => $value) {
-                        $id = preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key));
-                    ?>
-                        <button id="filter-tag-<?php echo $id; ?>" onclick="filterContentTiles(this, 'educationalcontext', '<?php echo $id; ?>')">
-                            <div class="fachportal-filterbar-tag">
-                                <?php echo $key; ?>
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
-                            </div>
-                        </button>
-                    <?php } ?>
                 </div>
             </div>
         </div>
