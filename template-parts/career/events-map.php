@@ -111,15 +111,13 @@ $barArray = array();
                 const {
                     lat,
                     lon,
-                    title,
-                    location,
-                    description,
-                    url,
+                    ...data
                 } = eventLocation;
+                console.log(data, lat, lon);
                 const marker = L.marker({
                     lon,
                     lat
-                }).bindPopup(getPopupHtml(title, location, description, url)).addTo(map);
+                }).bindPopup(getPopupHtml(data)).addTo(map);
                 this._markers.push(marker);
             }
 
@@ -217,15 +215,43 @@ $barArray = array();
             locationEventsManager.loadLocationEvents(center, zoom);
         }
 
+        function formatDate(date) {
+            return new Date(date).toLocaleDateString('de', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
 
         /** Generates HTML to be displayed as content of an event-location popup. */
-        function getPopupHtml(title, location, description, url) {
+        function getPopupHtml({
+            title,
+            location,
+            begin,
+            end,
+            description,
+            url
+        }) {
             let result = `<p class='title'>${title}</p>`;
             if (location) {
                 result += `<p class='location'>${location}</p>`;
             }
             if (description) {
                 result += `<p class='description'>${description}</p>`;
+            }
+            if (begin || end) {
+                let str;
+                if (begin === end) {
+                    str = `${formatDate(begin)}`;
+                } else if (begin && end) {
+                    str = `${formatDate(begin)} - ${formatDate(end)}`;
+                } else if (begin) {
+                    str = `ab ${formatDate(begin)}`;
+                } else {
+                    str = `bis ${formatDate(end)}`;
+                }
+                result += `<p class='date'>${str}</p>`;
             }
             if (url) {
                 result += `<p class='url'><a href="${url}" target="_blank">${url}</a></p>`;

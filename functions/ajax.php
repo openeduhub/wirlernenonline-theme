@@ -639,12 +639,16 @@ function getEduSharingLocationData($postId)
 function mapEduSharingNodeToEventLocation($node)
 {
     $props = $node->properties;
+    // error_log(print_r($props, true));
     return array(
         'lat' => $props->{'ccm:oeh_geographical_location_lat'}[0] ?? 0,
         'lon' => $props->{'ccm:oeh_geographical_location_lng'}[0] ?? 0,
+        'begin' => $props->{'ccm:oeh_event_begin'}[0],
+        'end' => $props->{'ccm:oeh_event_end'}[0],
         'title' => $node->title,
         'location' => $props->{'ccm:oeh_geographical_location_address_formatted'}[0],
         'description' => $props->{'cclom:general_description'}[0],
+        'educationalContext' => $props->{'ccm:educationalcontext'},
         'url' => $props->{'ccm:wwwurl'}[0],
     );
 }
@@ -656,7 +660,7 @@ function getTestLocationData()
     $jsonData = json_decode($jsonString, true);
     $eventLocations = [];
     foreach ($jsonData as &$entry) {
-        error_log(print_r($entry, true));
+        // error_log(print_r($entry, true));
         $eventLocations[] = mapTestLocationEntryToEventLocation($entry);
     }
     unset($entry);
@@ -679,6 +683,7 @@ function mapTestLocationEntryToEventLocation($entry)
         'title' => $entry['name'],
         'location' => $location,
         'description' => !empty($entry['description']) ? $entry['description'] : 'Test Beschreibung',
+        'educationalContext' => [$entry['additionalType']['id']],
         'url' => !empty($entry['url']) ? $entry['url'] : 'http://example.com',
     );
 }
