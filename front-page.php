@@ -47,7 +47,7 @@ if (!empty($subjects->facets[0])){
     $subjects = array();
 }
 
-$subjects_vocab = getWloVocaps('discipline')->hasTopConcept;
+$subjects_vocab = getWloVocabs('discipline')->hasTopConcept;
 $subjects_mapped = array();
 foreach ($subjects_vocab as $subject){
     $subjects_mapped[$subject->id] = $subject->prefLabel->de;

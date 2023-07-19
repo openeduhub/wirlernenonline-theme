@@ -374,7 +374,7 @@ function register_query_vars($qvars)
 
 add_filter('query_vars', 'register_query_vars');
 
-function getWloVocaps($type)
+function getWloVocabs($type)
 {
     $transient = 'vocab_' . $type;
     $vocab_json = null;
@@ -1022,7 +1022,7 @@ function wlo_show_extra_profile_fields($user)
             <td>
                 <select id="mainSubject" name="mainSubject">
                     <?php
-                    $subjects = getWloVocaps('discipline')->hasTopConcept;
+                    $subjects = getWloVocabs('discipline')->hasTopConcept;
 
                     foreach ($subjects as $subject) {
                         if ($subject->prefLabel->de == $mainSubject) {

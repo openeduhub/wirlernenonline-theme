@@ -66,14 +66,14 @@ function add_portal(WP_REST_Request $request) {
         $type = 'zmf';
     }
 
-    $requestDiciplines = explode(",",urldecode($request->get_param( 'discipline' )));
+    $requestDisciplines = explode(",",urldecode($request->get_param( 'discipline' )));
 
-    $diciplines = getWloVocaps('discipline')->hasTopConcept;
+    $disciplines = getWloVocabs('discipline')->hasTopConcept;
     $disciplinesMapped = [];
-    foreach ($requestDiciplines as $currentDicipline){
-        foreach ($diciplines as $dicipline){
-            if ($dicipline->id == $currentDicipline){
-                $disciplinesMapped[] = $dicipline->prefLabel->de;
+    foreach ($requestDisciplines as $currentDiscipline){
+        foreach ($disciplines as $discipline){
+            if ($discipline->id == $currentDiscipline){
+                $disciplinesMapped[] = $discipline->prefLabel->de;
             }
         }
     }
