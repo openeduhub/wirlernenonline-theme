@@ -592,40 +592,48 @@ function wloEventLocations()
     if (empty($topic)) {
         wp_send_json_error(null, 404);
     } else {
-        $collectionId = wlo_getPortalIdByPostId($postId);
-        $url = add_query_arg(
-            array(
-                'contentType' => 'ALL',
-                'skipCount' => 0,
-                'maxItems' => 999,
-                'propertyFilter' => '-all-',
-            ),
-            WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/ngsearch/',
-        );
-        $body = <<<EOD
-        {
-            "criteria": [
-                {
-                  "property": "virtual:collection_id",
-                  "values": [ "$collectionId" ]
-                },
-                {
-                  "property": "ccm:oeh_geographical_location_lat",
-                  "values": [ "exists" ]
-                }
-            ]
-        }
-        EOD;
-        $response = callWloRestApi($url, 'POST', $body);
-        // error_log(print_r($response, true));
-        $eventLocations = [];
-        foreach ($response->nodes as &$node) {
-            $eventLocations[] = mapEduSharingNodeToEventLocation($node);
-        }
-        unset($node);
-        wp_send_json(array('eventLocations' => $eventLocations));
+        $eduSharingLocations = getEduSharingLocationData($postId);
+        $testLocations = getTestLocationData();
+        $locations = array_merge($eduSharingLocations, $testLocations);
+        wp_send_json(array('eventLocations' => $locations));
     }
     wp_die();
+}
+
+function getEduSharingLocationData($postId)
+{
+    $collectionId = wlo_getPortalIdByPostId($postId);
+    $url = add_query_arg(
+        array(
+            'contentType' => 'ALL',
+            'skipCount' => 0,
+            'maxItems' => 999,
+            'propertyFilter' => '-all-',
+        ),
+        WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/ngsearch/',
+    );
+    $body = <<<EOD
+    {
+        "criteria": [
+            {
+              "property": "virtual:collection_id",
+              "values": [ "$collectionId" ]
+            },
+            {
+              "property": "ccm:oeh_geographical_location_lat",
+              "values": [ "exists" ]
+            }
+        ]
+    }
+    EOD;
+    $response = callWloRestApi($url, 'POST', $body);
+    // error_log(print_r($response, true));
+    $eventLocations = [];
+    foreach ($response->nodes as &$node) {
+        $eventLocations[] = mapEduSharingNodeToEventLocation($node);
+    }
+    unset($node);
+    return $eventLocations;
 }
 
 function mapEduSharingNodeToEventLocation($node)
@@ -638,6 +646,40 @@ function mapEduSharingNodeToEventLocation($node)
         'location' => $props->{'ccm:oeh_geographical_location_address_formatted'}[0],
         'description' => $props->{'cclom:general_description'}[0],
         'url' => $props->{'ccm:wwwurl'}[0],
+    );
+}
+
+function getTestLocationData()
+{
+    $path = plugin_dir_path(__FILE__) . '../src/assets/data/organization.json';
+    $jsonString = file_get_contents($path);
+    $jsonData = json_decode($jsonString, true);
+    $eventLocations = [];
+    foreach ($jsonData as &$entry) {
+        error_log(print_r($entry, true));
+        $eventLocations[] = mapTestLocationEntryToEventLocation($entry);
+    }
+    unset($entry);
+    return $eventLocations;
+}
+
+function mapTestLocationEntryToEventLocation($entry)
+{
+    $location = '';
+    if (!empty($entry['location']['address']['streetAddress'])) {
+        $location .= $entry['location']['address']['streetAddress'] . ', ';
+    }
+    $location .= $entry['location']['address']['postalCode'] . ' '
+        . $entry['location']['address']['addressLocality'] . ', '
+        . $entry['location']['address']['addressCountry'];
+
+    return array(
+        'lat' => $entry['location']['geo']['latitude'],
+        'lon' => $entry['location']['geo']['longitude'],
+        'title' => $entry['name'],
+        'location' => $location,
+        'description' => !empty($entry['description']) ? $entry['description'] : 'Test Beschreibung',
+        'url' => !empty($entry['url']) ? $entry['url'] : 'http://example.com',
     );
 }
 
