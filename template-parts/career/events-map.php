@@ -70,14 +70,73 @@ $barArray = array();
 
 <script>
     (() => {
+        /**
+         * Loads, displays, and filters location events.
+         */
+        class LocationEventsManager {
+            /** All event locations to be displayed when there are no active filters. */
+            _eventLocations = [];
+            /** Markers currently displayed on the map. */
+            _markers = [];
+
+            /**
+             * Loads location events from the API for the given location and displays them in the
+             * map.
+             *
+             * Replaces previously displayed location events.
+             */
+            loadLocationEvents(center = GERMANY.center, zoom = GERMANY.zoom) {
+                this._removeAllMarkers();
+                const data = {
+                    action: 'wloEventLocations',
+                    postId: '<?php echo $topicPagePostId; ?>',
+                    lat: center[0],
+                    lon: center[1],
+                    zoom,
+                };
+                jQuery.get(ajaxurl, data, (response) => {
+                    // console.log('response', response);
+                    hideOverlayNotice();
+                    this._eventLocations = response.eventLocations
+                    for (const eventLocation of this._eventLocations) {
+                        this._addMarker(eventLocation);
+                    }
+
+                }).fail(() => {
+                    showErrorNotice();
+                });
+            }
+
+            _addMarker(eventLocation) {
+                const {
+                    lat,
+                    lon,
+                    title,
+                    location,
+                    description,
+                    url,
+                } = eventLocation;
+                const marker = L.marker({
+                    lon,
+                    lat
+                }).bindPopup(getPopupHtml(title, location, description, url)).addTo(map);
+                this._markers.push(marker);
+            }
+
+            /** Removes all event-location markers from the map. */
+            _removeAllMarkers() {
+                this._markers.forEach(m => m.remove());
+                this._markers = [];
+            }
+        }
+
         const GERMANY = {
             center: [50.485, 10.272],
             zoom: 6,
         };
         /** Leaflet map object. */
         let map;
-        /** Markers currently displayed on the map. */
-        let markers = [];
+        let locationEventsManager = new LocationEventsManager();
 
         jQuery(document).ready(() => {
             initializeMap();
@@ -155,51 +214,9 @@ $barArray = array();
             zoom
         }) {
             map.setView(center, zoom);
-            loadLocationEvents(center, zoom);
+            locationEventsManager.loadLocationEvents(center, zoom);
         }
 
-        /**
-         * Loads location events from the API for the given location and displays them in the map.
-         *
-         * Replaces previously displayed location events.
-         */
-        function loadLocationEvents(center = GERMANY.center, zoom = GERMANY.zoom) {
-            removeAllMarkers();
-            const data = {
-                action: 'wloEventLocations',
-                postId: '<?php echo $topicPagePostId; ?>',
-                lat: center[0],
-                lon: center[1],
-                zoom,
-            };
-            jQuery.get(ajaxurl, data, function(response) {
-                // console.log('response', response);
-                hideOverlayNotice();
-                for (const eventLocation of response.eventLocations) {
-                    const {
-                        lat,
-                        lon,
-                        title,
-                        location,
-                        description,
-                        url,
-                    } = eventLocation;
-                    const marker = L.marker({
-                        lon,
-                        lat
-                    }).bindPopup(getPopupHtml(title, location, description, url)).addTo(map);
-                    markers.push(marker);
-                }
-            }).fail(() => {
-                showErrorNotice();
-            });
-        }
-
-        /** Removes all event-location markers from the map. */
-        function removeAllMarkers() {
-            markers.forEach(m => m.remove());
-            markers = [];
-        }
 
         /** Generates HTML to be displayed as content of an event-location popup. */
         function getPopupHtml(title, location, description, url) {
