@@ -390,6 +390,20 @@ function getWloVocabs($type)
     return $vocab_json;
 }
 
+/**
+ * Returns an associative array of value-label pairs for the given vocabs. 
+ */
+function getWloVocabsValueLabelPairs($type, $lang = 'de') {
+    $vocabs = getWloVocabs($type);
+    $entries = $vocabs->hasTopConcept;
+    $result = [];
+    foreach($entries as &$entry) {
+        $result[$entry->id] = $entry->prefLabel->$lang;
+    }
+    unset($entry);
+    return $result;
+}
+
 function getNewLrtList($id)
 {
     $transient = 'new_lrt_vocab_' . $id;

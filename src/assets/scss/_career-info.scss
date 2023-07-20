@@ -144,6 +144,7 @@
       margin-bottom: 34px;
     }
     .events-map-widget-container {
+      position: relative;
       display: flex;
       @media (max-width: 899.99px) {
         flex-direction: column;
@@ -185,7 +186,6 @@
         }
       }
       .map-container {
-        position: relative;
         z-index: 0; // Don't let the z-index set by leaflet let it paint over page elements.
         flex-grow: 1;
         height: min(500px, 100vh);
@@ -208,23 +208,23 @@
             }
           }
         }
-        .notice-overlay-container {
-          display: grid;
-          position: absolute;
-          z-index: 1000; // Draw above map
-          padding: 50px;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          background-color: rgba(255, 255, 255, 0.9);
-          .notice-overlay {
-            margin: auto;
-            text-align: center;
-            font-size: 26px;
-            p {
-              margin: 2em 0 0;
-            }
+      }
+      .notice-overlay-container {
+        display: grid;
+        position: absolute;
+        z-index: 1000; // Draw above map
+        padding: 50px;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.9);
+        .notice-overlay {
+          margin: auto;
+          text-align: center;
+          font-size: 26px;
+          p {
+            margin: 2em 0 0;
           }
         }
       }
