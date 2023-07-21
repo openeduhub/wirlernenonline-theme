@@ -22,8 +22,12 @@ $barArray = array();
         <form class="sidebar" id="<?php echo $formId; ?>">
             <fieldset>
                 <legend>Veranstaltungen und Lernorte</legend>
-                <select name="locationKind"></select>
-                <select name="educationalContext"></select>
+                <select name="locationKind">
+                    <option value="all" selected disabled>Alle Orte</option>
+                </select>
+                <select name="educationalContext">
+                    <option value="all" selected disabled>Alle Bildungsstufen</option>
+                </select>
                 <select name="region">
                     <option value="germany" selected>Deutschlandweit</option>
                     <option value="near-me">In meiner Nähe</option>
@@ -249,17 +253,18 @@ $educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
             updateFilterOptions(type, options) {
                 const form = jQuery('#<?php echo $formId; ?>');
                 const select = form.find(`select[name = "${type}"]`);
+                const selectedValue = select.val();
+                select.find('option').remove();
                 for (const option of options) {
-                    const optionElement = select.find(`option[value="${option.value}"]`);
-                    if (optionElement.length) {
-                        optionElement.text(option.label);
-                    } else {
-                        select.append(jQuery('<option>', {
-                            value: option.value,
-                            text: option.label
-                        }));
-                    }
+                    select.append(jQuery('<option>', {
+                        value: option.value,
+                        text: option.label
+                    }));
                 }
+                if (selectedValue) {
+                    select.val(selectedValue);
+                }
+                select.attr('disabled', options.length <= 1);
             }
 
             /**
@@ -367,7 +372,7 @@ $educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
                 };
                 jQuery.get(ajaxurl, data, (response) => {
                     this._containerUi.hideOverlayNotice();
-                    this._eventLocations = response.eventLocations
+                    this._eventLocations = this._filterLocationsGLobal(response.eventLocations);
                     for (const eventLocation of this._eventLocations) {
                         this._mapsUi.addMarker(eventLocation);
                     }
@@ -375,6 +380,17 @@ $educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
                 }).fail((e) => {
                     this._containerUi.showErrorNotice();
                 });
+            }
+
+            _filterLocationsGLobal(locations) {
+                return locations.filter((location) => {
+                    // Dismiss events in the past
+                    if (location.end && new Date(location.end) < new Date()) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                })
             }
 
             /**
@@ -385,22 +401,25 @@ $educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
              * @returns {{ value: string, label: string }[]}
              */
             _getFilterOptions(type) {
-                const resultMap = {
-                    all: this._getOccurrences(type, null)
-                };
+                let values = [];
                 for (const location of this._eventLocations) {
-                    const values = this._mapFilterOption(type, location);
-                    for (const value of values) {
-                        resultMap[value] = null;
+                    const locationValues = this._mapFilterOption(type, location);
+                    for (const value of locationValues) {
+                        if (!values.includes(value)) {
+                            values.push(value);
+                        }
                     }
                 }
-                return Object.keys(resultMap).sort().map((value) => {
-                    const occurrences = resultMap[value] ?? this._getOccurrences(type, value);
-                    return {
-                        value,
-                        label: `${this._getFilterOptionLabel(value, type)} (${occurrences})`,
-                    };
-                });
+                values = ['all', ...values.sort()]
+                return values.map((value) => {
+                    const occurrences = this._getOccurrences(type, value);
+                    if (value === 'all' || occurrences > 0) {
+                        return {
+                            value,
+                            label: `${this._getFilterOptionLabel(value, type)} (${occurrences})`,
+                        };
+                    }
+                }).filter((option) => !!option);
             }
 
             /**
@@ -440,14 +459,15 @@ $educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
             _getOccurrences(type, value) {
                 const filters = {
                     ...this._activeFilters,
-                    [type]: value,
+                    [type]: value === 'all' ? null : value,
                 };
-                return this._eventLocations.reduce((count, location) => {
+                const result = this._eventLocations.reduce((count, location) => {
                     if (this._isVisibleAfterFilter(location, filters)) {
                         count++;
                     }
                     return count;
-                }, 0)
+                }, 0);
+                return result;
             }
 
             /**
