@@ -502,12 +502,14 @@ add_action('wp_ajax_wloAiCareerAdvice', 'wloAiCareerAdvice');
 add_action('wp_ajax_nopriv_wloAiCareerAdvice', 'wloAiCareerAdvice');
 function wloAiCareerAdvice()
 {
-    $postId = $_POST['postId'];
-    // error_log('wloAiCareerAdvice postId: ' . $postId);
-    $title = get_the_title($postId);
-    if (empty($title)) {
+    $collectionId = $_POST['collectionId'];
+    $ancestors = getCollectionAncestors($collectionId);
+    if (empty($ancestors)) {
         wp_send_json_error(null, 404);
     } else {
+        // Remove root "Portale" node.
+        $ancestors = array_slice($ancestors, 1);
+        $titles = array_map(fn ($node) => $node->title, $ancestors);
         $url = WLO_AI_PROMPT_SERVICE_URL . "/ai/prompt/profession/description";
         $headers = array(
             'ai-prompt-token' => WLO_AI_PROMPT_SERVICE_TOKEN,
@@ -516,7 +518,7 @@ function wloAiCareerAdvice()
         $response = wp_remote_post($url, array(
             'headers' => $headers,
             'timeout' => 60,
-            'body' => $title,
+            'body' => $titles[count($titles) - 1],
         ));
         if (is_wp_error($response) || $response['response']['code'] != 200) {
             error_log(print_r($response, true));

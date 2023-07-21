@@ -22,13 +22,9 @@ $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID;
 $response = callWloRestApi($url);
 
 # Get parents of collection from edu-sharing. Used for breadcrumbs.
-$url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $collectionID . '/parents?propertyFilter=-all-&fullPath=false';
-$parents = callWloRestApi($url);
-if (isset($parents->nodes)) {
-    $parents = $parents->nodes;
-    # Root subject portal
-    $portal = $parents[count($parents) - 2];
-}
+$parents = getCollectionAncestors($collectionID);
+$portal = $parents[1];
+$breadcrumbs = getBreadcrumbs($parents);
 
 $portalTitle = '';
 if (isset($portal->title)) {
@@ -51,25 +47,6 @@ update_field('authors', $authors, $postID);
 $author_ids = get_field('authors', $postID);
 if (empty($author_ids)) {
     $author_ids = array();
-}
-
-// Collect breadcrumbs data
-$breadcrumbs = array();
-if (!empty($parents)) {
-    foreach ($parents as $node) {
-        if (is_object($node)) {
-            if ($node->title == 'Portale') {
-                $breadcrumbs[] = ['Fachportale', get_page_link(55115)];
-            } else {
-                $title = $node->title;
-                if (!empty($node->properties->{'ccm:collectionshorttitle'}[0])) {
-                    $title = $node->properties->{'ccm:collectionshorttitle'}[0];
-                }
-                $breadcrumbs[] = [$title, wlo_convert_dev_url($node->properties->{'cclom:location'}[0])];
-            }
-        }
-    }
-    $breadcrumbs = array_reverse($breadcrumbs);
 }
 
 // Use collection description from edu-sharing; default to standard text if no description available
@@ -297,7 +274,7 @@ while (have_posts()) : the_post(); ?>
                                         jQuery(document).ready(function() {
                                             const data = {
                                                 action: 'wloAiCareerAdvice',
-                                                postId: <?php echo $postID; ?>,
+                                                collectionId: '<?php echo $collectionID; ?>',
                                             };
                                             jQuery.post(ajaxurl, data, function(response) {
                                                 const element = jQuery('#<?php echo $careerAdviceId; ?>');

@@ -570,3 +570,54 @@ function createOrUpdateCareerPage(mixed $post, int $subjectPortalId): int
 
     return $career_post_id;
 }
+
+/**
+ * Returns ancestor nodes up to and including the given edu-sharing collection.
+ * 
+ * For "Themen-" and "Fachportale", this includes the root collection "Portale".
+ * 
+ * @return array nodes, starting with the root node
+ */
+function getCollectionAncestors($collectionId)
+{
+    $url = WLO_REPO
+        . 'rest/node/v1/nodes/-home-/'
+        . $collectionId
+        . '/parents?propertyFilter=-all-&fullPath=false';
+    $response = callWloRestApi($url);
+    if (isset($response->nodes)) {
+        return array_reverse($response->nodes);
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Returns an array of pairs of labels and links to be displayed as breadcrumbs.
+ * 
+ * @param array $collectionAncestors as returned by `getCollectionAncestors`
+ * @return array
+ */
+function getBreadcrumbs($collectionAncestors)
+{
+    $breadcrumbs = array();
+    if (!empty($collectionAncestors)) {
+        foreach ($collectionAncestors as $node) {
+            if (is_object($node)) {
+                if ($node->title == 'Portale') {
+                    $breadcrumbs[] = ['Fachportale', get_page_link(55115)];
+                } else {
+                    $title = $node->title;
+                    if (!empty($node->properties->{'ccm:collectionshorttitle'}[0])) {
+                        $title = $node->properties->{'ccm:collectionshorttitle'}[0];
+                    }
+                    $breadcrumbs[] = [
+                        $title,
+                        wlo_convert_dev_url($node->properties->{'cclom:location'}[0]),
+                    ];
+                }
+            }
+        }
+    }
+    return $breadcrumbs;
+}
