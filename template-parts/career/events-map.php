@@ -158,7 +158,7 @@ $educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
                 this.setLocation(this.GERMANY);
 
                 // add the OpenStreetMap tiles
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                L.tileLayer(ajaxurl + '?action=wloCardTile&z={z}&x={x}&y={y}&suffix=.png', {
                     maxZoom: 19,
                     attribution: '&copy; <a href=" https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
                 }).addTo(this._map);

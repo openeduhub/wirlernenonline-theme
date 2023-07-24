@@ -294,73 +294,73 @@ function callWloGraphApi($search_query)
     return $restApiCacheObj;
 }
 
-function callWloRestApi($url, $type = 'GET', $body = null)
+/**
+ * Sends a generic HTTP request.
+ */
+function httpRequest($url, $method = 'GET', $body = null, $cacheTime = null, $headers = null)
 {
-    // error_log('Start ----------------------------------------------------------------------------');
-    // error_log($type . ' ' . $url);
+    // error_log($method . ' ' . $url);
     // error_log($body);
-
-    $cacheTime = 60;
-    // cache source_table for 24h
-    //if ($url == WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/ngsearch/?maxItems=5000&skipCount=25&propertyFilter=-all-'){
-    if (strpos($url, 'rest/search/v1/queries/-home-/mds_oeh/ngsearch/?maxItems=500') !== false) {
-        $cacheTime = 86400;
+    $cacheKey = $method . ' ' . $url . ' ' . $body;
+    $transient = get_transient($cacheKey);
+    if ($transient !== false) {
+        return $transient;
     }
-
-    $restApiCacheObj = null;
-    if ((get_transient($url . $body)) === false) {
-        // this code runs when there is no valid transient set
-        // Get Select-Field Options from Vocab Scheme
-        try {
-            $curl = curl_init($url);
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $type);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt(
-                $curl,
-                CURLOPT_HTTPHEADER,
-                array(
-                    'Accept: application/json',
-                    'Content-Type: application/json; charset=utf-8'
-                )
-            );
+    try {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; +https://wirlernenonline.de)');
+        if (!empty($headers)) {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        }
+        if (!empty($body)) {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+        }
+        // $start = microtime(true);
+        $response = curl_exec($curl);
+        // $time_elapsed = microtime(true) - $start;
+        // error_log('took: '. $time_elapsed);
+        if ($response === false) {
+            error_log('Curl error when calling ' . $method . ' ' . $url . ': ' . curl_error($curl));
             if (!empty($body)) {
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+                error_log('Request body: ' . $body);
             }
-            // $start = microtime(true);
-            $response = curl_exec($curl);
-            // $time_elapsed = microtime(true) - $start;
-            // error_log('took: '. $time_elapsed);
-            if ($response === false) {
-                error_log('Curl error when calling ' . $type . ' ' . $url . ': ' . curl_error($curl));
-                if (!empty($body)) {
-                    error_log('Request body: ' . $body);
-                }
-                echo 'curl error';
-                return false;
-            }
-            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            if ($httpCode != 200) {
-                error_log('Response code ' . $httpCode . ' when calling ' . $type . ' ' . $url . "\n" . $response);
-                if (!empty($body)) {
-                    error_log('Request body: ' . $body);
-                }
-                // error_log(print_r(debug_backtrace(), true));
-                echo 'error ' . $httpCode;
-                return false;
-            }
-        } catch (Exception $e) {
-            echo 'curl error: ' . $e->getMessage();
+            // error_log(print_r(debug_backtrace(), true));
+            echo 'curl error';
             return false;
         }
-        curl_close($curl);
-
-        $restApiCacheObj = json_decode($response);
-        set_transient($url . $body, $restApiCacheObj, $cacheTime);
-    } else {
-        $restApiCacheObj = get_transient($url . $body);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    } catch (Exception $e) {
+        echo 'curl error: ' . $e->getMessage();
+        return false;
     }
+    curl_close($curl);
+    if ($httpCode !== 200) {
+        error_log('Response code ' . $httpCode . ' when requesting ' . $url . ': ' . $response);
+        echo 'Response code ' . $httpCode . ': ' . $response;
+        return false;
+    }
+    if (!empty($cacheTime)) {
+        set_transient($cacheKey, $response, $cacheTime);
+    };
+    return $response;
+}
 
-    return $restApiCacheObj;
+/**
+ * Calls a generic REST API with optional JSON request data and expected JSON response.
+ * 
+ * Caches responses for one minute by default (even for "POST" requests!).
+ */
+function callWloRestApi($url, $type = 'GET', $body = null, $cacheTime = 60)
+{
+    $headers = array(
+        'Accept: application/json',
+        'Content-Type: application/json; charset=utf-8'
+    );
+    $response = httpRequest($url, $type, $body, $cacheTime, $headers);
+    $result = json_decode($response);
+    return $result;
 }
 
 function register_query_vars($qvars)

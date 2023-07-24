@@ -580,6 +580,25 @@ function wloEventsMap()
     wp_die();
 }
 
+add_action('wp_ajax_wloCardTile', 'wloCardTile');
+add_action('wp_ajax_nopriv_wloCardTile', 'wloCardTile');
+/** Prints HTML to render a map for event locations. */
+function wloCardTile()
+{
+    /** The ID of the original topic page. */
+    $x = $_GET['x'];
+    $y = $_GET['y'];
+    $z = $_GET['z'];
+    $url = 'https://tile.openstreetmap.org/' . $z . '/' . $x . '/' . $y . '.png';
+    // Cache 7 days as per the requirements of https://operations.osmfoundation.org/policies/tiles/.
+    $cacheTime = 604800;
+    $response = httpRequest($url, cacheTime: $cacheTime);
+    status_header(200);
+    header('Content-Type: image/png');
+    echo $response;
+    wp_die('', '', array('response' => null));
+}
+
 add_action('wp_ajax_wloEventLocations', 'wloEventLocations');
 add_action('wp_ajax_nopriv_wloEventLocations', 'wloEventLocations');
 /** Retrieves event locations for the topic given by `postId` in JSON format. */
