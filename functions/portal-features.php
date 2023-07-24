@@ -319,6 +319,7 @@ function processEduSharingNode(mixed $reference): array
         'oeh_lrt' =>  !empty($prop->{'ccm:oeh_lrt'}) ? $prop->{'ccm:oeh_lrt'} : [],
         'oeh_lrt_aggregated' => !empty($prop->{'ccm:oeh_lrt_aggregated'}) ? $prop->{'ccm:oeh_lrt_aggregated'} : [],
         'duration' =>  !empty($prop->{'cclom:duration'}[0]) ? $prop->{'cclom:duration'}[0] : false,
+        'enduserrole' => !empty($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'}) ? $prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'} : [],
         'oer' => isOer($prop),
 
         // 'replicationsource' => !empty($prop->{'ccm:replicationsource_DISPLAYNAME'}) ? $prop->{'ccm:replicationsource_DISPLAYNAME'} : [],
@@ -327,7 +328,6 @@ function processEduSharingNode(mixed $reference): array
         // 'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
         // 'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
         // 'author' => !empty($prop->{'ccm:lifecyclecontributer_author'}) ? $prop->{'ccm:lifecyclecontributer_author'} : [],
-        // 'enduserrole' => !empty($prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'}) ? $prop->{'ccm:educationalintendedenduserrole_DISPLAYNAME'} : [],
         // 'mimetype' => $reference->mimetype,
         // 'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : '',
     );

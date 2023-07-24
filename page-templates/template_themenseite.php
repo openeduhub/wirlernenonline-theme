@@ -148,7 +148,12 @@ if (!empty($response->references)) {
             continue;
         }
 
-        $themenseiten_contentArray[] = processEduSharingNode($reference);
+        $content = processEduSharingNode($reference);
+        $themenseiten_contentArray[] = $content;
+
+        if ($content['oer']) {
+            $oerCount++;
+        }
 
         if (!empty($prop->{'ccm:educationalcontext_DISPLAYNAME'})) {
             foreach ($prop->{'ccm:educationalcontext_DISPLAYNAME'} as $item) {
@@ -604,43 +609,104 @@ while (have_posts()) : the_post(); ?>
 
     <script>
         filterContentTiles = (() => {
-            let activeFilters = [];
+            /**
+             * @typedef FilterType
+             * @type {'educationalcontext' | 'enduserrole' | 'oer'}
+             */
+
+            /**
+             * @type {FilterType[]}
+             */
+            const FILTER_TYPES = ['educationalcontext', 'enduserrole', 'oer'];
+
+            /**
+             * @type {{[type in FilterType]: string[]}}
+             */
+            let activeFilters = {};
+            /** 
+             * Maps slick-slider IDs to all of its tiles when no filters are active.
+             * 
+             * @type {{[id: string]: HTMLDivElement[]}}
+             */
+            let tilesMap = null;
+
+            /**
+             * Gets all currently displayed tiles of all slick sliders.
+             * 
+             * @returns {{[id: string]: HTMLDivElement[]}}
+             */
+            function getTilesMap() {
+                const result = {};
+                jQuery('.slick-slider').each(function() {
+                    const id = this.id;
+                    if (!id) {
+                        console.warn('Slick slider has no ID. Cannot apply filters.', this);
+                        return;
+                    }
+                    const tiles = jQuery(this).find('.slick-slide');
+                    result[id] = tiles;
+                });
+                return result;
+            }
 
             /**
              * Shows / hides content tiles depending on the contents of `activeFilters`.
              */
             function updateTiles(type) {
-                if (activeFilters.length === 0) {
-                    jQuery('.widget-content').show('fast');
-                    jQuery('.fachportal-content-block').show('fast');
-                } else {
-                    jQuery('.widget-content').hide();
-                    jQuery('.fachportal-content-block').show();
-                    activeFilters.forEach((filter) => {
-                        //jQuery('[data-educationalcontext~="' + filter + '"]').show('fast');
-                        //jQuery('[data-enduserrole~="' + filter + '"]').show('fast');
-                        //jQuery('[data-oer="' + filter + '"]').show('fast');
-
-                        switch (type) {
-                            case "educationalcontext":
-                                jQuery('[data-educationalcontext~="' + filter + '"]').show('fast');
-                                break;
-                            case "enduserrole":
-                                jQuery('[data-enduserrole~="' + filter + '"]').show('fast');
-                                break;
-                            case "oer":
-                                jQuery('[data-oer="' + filter + '"]').show('fast');
-                                break;
-                        }
-
-                    });
-
-                    jQuery('.slick-track').each(function() {
-                        if (jQuery(this).find('.widget-content:visible').length == 0) {
-                            jQuery(this).closest('.fachportal-content-block').hide();
-                        }
-                    });
+                if (!tilesMap) {
+                    tilesMap = getTilesMap();
                 }
+
+                for (const [sliderId, tiles] of Object.entries(tilesMap)) {
+                    const slickSlide = jQuery(`#${sliderId}`);
+                    // Remove all slides
+                    slickSlide.slick('removeSlide', null, null, true);
+                    // Add matching slides again
+                    const tilesToShow = tiles.filter(function() {
+                        const tile = this;
+                        return FILTER_TYPES.every(type => tileMatchesTypeFilter(tile, type)) ||
+                            // Always include no-content tile ("Mitmachen!")
+                            tile.classList.contains('no-widget-content');
+                    });
+                    tilesToShow.each(function() {
+                        slickSlide.slick('addSlide', this);
+                    })
+                    updateHeadingCount(
+                        slickSlide,
+                        // Exclude no-content tile from count
+                        tilesToShow.length - 1,
+                    );
+                }
+            }
+
+            /**
+             * Returns true if `tile` matches active filters of `type`.
+             */
+            function tileMatchesTypeFilter(tile, type) {
+                const typeFilters = activeFilters[type];
+                if (!typeFilters?.length) {
+                    // No filters defined for `type`.
+                    return true;
+                }
+                const attributes = tile.getAttribute(`data-${type}`)?.split(' ').filter(w => !!w);
+                return typeFilters.some(typeFilter => attributes?.includes(typeFilter));
+            }
+
+
+            /**
+             * Updates the heading of a slick slide to print the correct number of tiles, if any.
+             * 
+             * E.g. "Medien (23)"
+             */
+            function updateHeadingCount(slickSlide, count) {
+                const heading = slickSlide.parent().find('.header h3');
+                if (heading.length !== 1) {
+                    // No unambiguous heading, not updating.
+                    return;
+                }
+                const text = heading.text();
+                const newText = text.replace(/\(\d+\)$/, `(${count})`);
+                heading.text(newText);
             }
 
             /**
@@ -663,11 +729,12 @@ while (have_posts()) : the_post(); ?>
              * current state. 
              */
             function toggleFilter(button, type, value) {
-                if (activeFilters.includes(value)) {
-                    activeFilters.splice(activeFilters.indexOf(value), 1);
+                activeFilters[type] ??= [];
+                if (activeFilters[type].includes(value)) {
+                    activeFilters[type].splice(activeFilters[type].indexOf(value), 1);
                     setActiveState(value, false);
                 } else {
-                    activeFilters.push(value);
+                    activeFilters[type].push(value);
                     setActiveState(value, true);
                 }
                 updateTiles(type);
