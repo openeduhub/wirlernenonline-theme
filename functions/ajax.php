@@ -669,7 +669,6 @@ function mapEduSharingNodeToEventLocation($node)
         'title' => $node->title,
         'location' => $props->{'ccm:oeh_geographical_location_address_formatted'}[0],
         'description' => $props->{'cclom:general_description'}[0],
-        'educationalContext' => $props->{'ccm:educationalcontext'},
         'url' => $props->{'ccm:wwwurl'}[0],
     );
 }
@@ -681,32 +680,35 @@ function getTestLocationData()
     $jsonData = json_decode($jsonString, true);
     $eventLocations = [];
     foreach ($jsonData as &$entry) {
-        // error_log(print_r($entry, true));
-        $eventLocations[] = mapTestLocationEntryToEventLocation($entry);
+        $eventLocations = array_merge($eventLocations, mapTestLocationEntryToEventLocation($entry));
     }
     unset($entry);
     return $eventLocations;
 }
 
-function mapTestLocationEntryToEventLocation($entry)
+function mapTestLocationEntryToEventLocation($entry): array
 {
-    $location = '';
-    if (!empty($entry['location']['address']['streetAddress'])) {
-        $location .= $entry['location']['address']['streetAddress'] . ', ';
+    $result = [];
+    foreach ($entry['location'] as &$location) {
+        $locationString = '';
+        if (!empty($location['address']['streetAddress'])) {
+            $locationString .= $location['address']['streetAddress'] . ', ';
+        }
+        $locationString .= $location['address']['postalCode'] . ' '
+            . $location['address']['addressLocality'] . ', '
+            . $location['address']['addressCountry'];
+        $result[] = array(
+            'lat' => $location['geo']['latitude'],
+            'lon' => $location['geo']['longitude'],
+            'title' => $entry['name'],
+            'location' => $locationString,
+            'description' => !empty($entry['description']) ? $entry['description'] : 'Test Beschreibung',
+            'locationType' => $entry['additionalType'],
+            'url' => !empty($entry['url']) ? $entry['url'] : 'http://example.com',
+        );
     }
-    $location .= $entry['location']['address']['postalCode'] . ' '
-        . $entry['location']['address']['addressLocality'] . ', '
-        . $entry['location']['address']['addressCountry'];
-
-    return array(
-        'lat' => $entry['location']['geo']['latitude'],
-        'lon' => $entry['location']['geo']['longitude'],
-        'title' => $entry['name'],
-        'location' => $location,
-        'description' => !empty($entry['description']) ? $entry['description'] : 'Test Beschreibung',
-        'educationalContext' => [$entry['additionalType']['id']],
-        'url' => !empty($entry['url']) ? $entry['url'] : 'http://example.com',
-    );
+    unset($location);
+    return $result;
 }
 
 add_action('wp_ajax_emptySwimlaneContent', 'emptySwimlaneContent');

@@ -397,9 +397,20 @@ function getWloVocabsValueLabelPairs($type, $lang = 'de')
 {
     $vocabs = getWloVocabs($type);
     $entries = $vocabs->hasTopConcept;
+    return getWloVocabsValueLabelPairsInner($entries, $lang);
+}
+
+function getWloVocabsValueLabelPairsInner($entries, $lang, $parent = null)
+{
     $result = [];
     foreach ($entries as &$entry) {
         $result[$entry->id] = $entry->prefLabel->$lang;
+        if (!empty($entry->narrower)) {
+            $result = array_merge(
+                $result,
+                getWloVocabsValueLabelPairsInner($entry->narrower, $lang, $entry->id),
+            );
+        }
     }
     unset($entry);
     return $result;

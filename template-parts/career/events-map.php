@@ -22,11 +22,8 @@ $barArray = array();
         <form class="sidebar" id="<?php echo $formId; ?>">
             <fieldset>
                 <legend>Veranstaltungen und Lernorte</legend>
-                <select name="locationKind">
+                <select name="locationType">
                     <option value="all" selected disabled>Alle Orte</option>
-                </select>
-                <select name="educationalContext">
-                    <option value="all" selected disabled>Alle Bildungsstufen</option>
                 </select>
                 <select name="region">
                     <option value="germany" selected>Deutschlandweit</option>
@@ -57,20 +54,20 @@ $barArray = array();
 </div>
 
 <?php
-$educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
+$locationTypeLabels = getWloVocabsValueLabelPairs('locationType');
 ?>
 
 <script>
     (() => {
         /**
          * @typedef FilterType
-         * @type {'locationKind' | 'educationalContext'}
+         * @type {'locationType'}
          */
 
         /**
          * @type {FilterType[]}
          */
-        const FILTER_TYPES = ['locationKind', 'educationalContext'];
+        const FILTER_TYPES = ['locationType'];
 
         /**
          * Provides access to UI elements on the container, encompassing the filter sidebar and map
@@ -258,7 +255,7 @@ $educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
                 for (const option of options) {
                     select.append(jQuery('<option>', {
                         value: option.value,
-                        text: option.label
+                        text: capitalizeFirstLetter(option.label),
                     }));
                 }
                 if (selectedValue) {
@@ -329,19 +326,14 @@ $educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
 
             /** Currently selected filter value for each type. Set to `null` for 'all'. */
             _activeFilters = {
-                locationKind: null,
-                educationalContext: null,
+                locationType: null,
             }
 
             FILTER_LABELS = {
-                locationKind: {
+                locationType: {
                     all: 'Alle Orte',
                     event: 'Veranstaltung',
-                    facility: 'Einrichtung',
-                },
-                educationalContext: {
-                    all: 'Alle Bildungsstufen',
-                    ...<?php echo json_encode($educationalContextLabels); ?>,
+                    ...<?php echo json_encode($locationTypeLabels); ?>,
                 }
             }
 
@@ -493,15 +485,24 @@ $educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
              * @returns {string[]} filter values
              */
             _mapFilterOption(type, location) {
-                switch (type) {
-                    case 'locationKind':
-                        if (location.begin || location.end) {
-                            return ['event'];
-                        } else {
-                            return ['facility'];
-                        }
-                    default:
-                        return location[type] ?? [];
+                const result = (() => {
+                    switch (type) {
+                        case 'locationType':
+                            if (location.begin || location.end) {
+                                return ['event'];
+                            } else {
+                                return location[type] ?? [];
+                            }
+                        default:
+                            return location[type] ?? [];
+                    }
+                })();
+                if (typeof result === 'string') {
+                    return [result];
+                } else if (Array.isArray(result)) {
+                    return result.filter(entry => typeof entry === 'string');
+                } else {
+                    return [];
                 }
             }
 
@@ -514,6 +515,11 @@ $educationalContextLabels = getWloVocabsValueLabelPairs('educationalContext');
             _getFilterOptionLabel(value, type) {
                 return this.FILTER_LABELS[type]?.[value] ?? value;
             }
+        }
+
+        // From https://stackoverflow.com/a/1026087
+        function capitalizeFirstLetter(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
         }
 
         jQuery(document).ready(() => {
