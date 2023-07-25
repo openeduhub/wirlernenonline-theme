@@ -677,20 +677,24 @@ function mapEduSharingNodeToEventLocation($node)
 function getTestLocationData($jobProfileIds)
 {
     $eventLocations = [];
-    foreach ($jobProfileIds as &$jobProfile) {
-        // error_log('getTestLocationData ' . $jobProfile);
+    foreach ($jobProfileIds as &$jobProfileId) {
+        $path = plugin_dir_path(__FILE__)
+            . '../src/assets/data/locations-by-job-profile-id/' . $jobProfileId . '.json';
+        try {
+            $jsonString = file_get_contents($path);
+            $jsonData = json_decode($jsonString, true);
+            foreach ($jsonData as &$entry) {
+                $eventLocations = array_merge(
+                    $eventLocations,
+                    mapTestLocationEntryToEventLocation($entry),
+                );
+            }
+        } catch (Exception $e) {
+            // Just skip missing files.
+        }
+        unset($entry);
     }
     unset($jobProfile);
-
-    // TODO: move inside above loop
-    $path = plugin_dir_path(__FILE__) . '../src/assets/data/organization.json';
-    $jsonString = file_get_contents($path);
-    $jsonData = json_decode($jsonString, true);
-    foreach ($jsonData as &$entry) {
-        $eventLocations = array_merge($eventLocations, mapTestLocationEntryToEventLocation($entry));
-    }
-    unset($entry);
-
     return $eventLocations;
 }
 
