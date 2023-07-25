@@ -53,6 +53,8 @@ $professionGroups = [];
 
 <script>
     (() => {
+        const profiles = complementProfileIds(<?php echo json_encode($profiles) ?>);
+        window.jobProfilesSubject.next(profiles);
         /** The select element for the user to choose filters. */
         const select = jQuery('#profession-group-filters')[0];
         /** All cards' HTML elements. */
@@ -83,11 +85,25 @@ $professionGroups = [];
                 cardElements.each(function() {
                     cardsContainer.slick('addSlide', this)
                 });
+                window.jobProfilesSubject.next(profiles);
             } else {
                 cardElements.filter(`[data-profession-group="${value}"]`).each(function() {
                     cardsContainer.slick('addSlide', this)
                 });
+                window.jobProfilesSubject.next(
+                    profiles.filter(profile => profile.professionGroup === value),
+                )
             }
+        }
+
+        /**
+         * Takes an array of job profiles and adds an 'id' property to each entry.
+         */
+        function complementProfileIds(profiles) {
+            return profiles.map(profile => ({
+                ...profile,
+                id: profile.url?.split('/').pop(),
+            }));
         }
 
         populateFilterOptions();

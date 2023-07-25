@@ -606,6 +606,7 @@ function wloEventLocations()
 {
     /** The ID of the original topic page. */
     $postId = $_GET['postId'];
+    $jobProfileIds = $_GET['jobProfileIds'];
     $lat = $_GET['lat'];
     $lon = $_GET['lon'];
     $zoom = $_GET['zoom'];
@@ -614,7 +615,7 @@ function wloEventLocations()
         wp_send_json_error(null, 404);
     } else {
         $eduSharingLocations = getEduSharingLocationData($postId);
-        $testLocations = getTestLocationData();
+        $testLocations = getTestLocationData($jobProfileIds);
         $locations = array_merge($eduSharingLocations, $testLocations);
         wp_send_json(array('eventLocations' => $locations));
     }
@@ -673,16 +674,23 @@ function mapEduSharingNodeToEventLocation($node)
     );
 }
 
-function getTestLocationData()
+function getTestLocationData($jobProfileIds)
 {
+    $eventLocations = [];
+    foreach ($jobProfileIds as &$jobProfile) {
+        // error_log('getTestLocationData ' . $jobProfile);
+    }
+    unset($jobProfile);
+
+    // TODO: move inside above loop
     $path = plugin_dir_path(__FILE__) . '../src/assets/data/organization.json';
     $jsonString = file_get_contents($path);
     $jsonData = json_decode($jsonString, true);
-    $eventLocations = [];
     foreach ($jsonData as &$entry) {
         $eventLocations = array_merge($eventLocations, mapTestLocationEntryToEventLocation($entry));
     }
     unset($entry);
+
     return $eventLocations;
 }
 

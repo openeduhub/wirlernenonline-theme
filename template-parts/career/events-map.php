@@ -353,11 +353,12 @@ $locationTypeLabels = getWloVocabsValueLabelPairs('locationType');
              *
              * Replaces previously displayed location events.
              */
-            loadLocationEvents() {
+            loadLocationEvents(jobProfiles) {
                 this._mapsUi.removeAllMarkers();
                 const data = {
                     action: 'wloEventLocations',
                     postId: '<?php echo $topicPagePostId; ?>',
+                    jobProfileIds: jobProfiles.map(profile => profile.id),
                     // lat: center[0],
                     // lon: center[1],
                     // zoom,
@@ -531,7 +532,11 @@ $locationTypeLabels = getWloVocabsValueLabelPairs('locationType');
             mapsUi.init();
             filtersUi.init();
             locationEventsManager.init();
-            locationEventsManager.loadLocationEvents();
+            window.jobProfilesSubject.subscribe(jobProfiles => {
+                if (jobProfiles !== null) {
+                    locationEventsManager.loadLocationEvents(jobProfiles);
+                }
+            })
         });
     })();
 </script>

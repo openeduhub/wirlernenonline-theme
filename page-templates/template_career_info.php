@@ -286,4 +286,39 @@ get_footer();
         jQuery(".detail-view-popup").css('display', 'flex');
         jQuery(".portal-wrapper-right").show('slow');
     }
+
+    class Subject {
+        get value() {
+            return this._value;
+        }
+
+        _value;
+        _observers = [];
+
+        constructor(value) {
+            this._value = value;
+        }
+
+        next(value) {
+            this._value = value;
+            for (const observer of this._observers) {
+                observer(value);
+            }
+        }
+
+        complete() {
+            this._observers = [];
+        }
+
+        subscribe(callback) {
+            this._observers.push(callback);
+            callback(this._value);
+        }
+
+        unsubscribe(callback) {
+            this._observers = this._observers.filter((cb) => cb !== callback);
+        }
+    }
+
+    window.jobProfilesSubject = new Subject(null);
 </script>
