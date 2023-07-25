@@ -304,7 +304,7 @@ $locationTypeLabels = getWloVocabsValueLabelPairs('locationType');
                             const lon = coords.longitude;
                             this._mapsUi.setLocation({
                                 center: [lat, lon],
-                                zoom: 12
+                                zoom: 10,
                             });
                             this._containerUi.hideOverlayNotice();
                         }, () => {
