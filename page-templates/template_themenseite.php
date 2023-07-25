@@ -114,7 +114,7 @@ if (!empty($subCollectionsElements->nodes)) {
         $prop = $reference->properties;
 
         //check if deleted
-        if ($reference->originalId == null) {
+        if (empty($reference->originalId)) {
             continue;
         }
 

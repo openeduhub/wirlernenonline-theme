@@ -607,9 +607,9 @@ function wloEventLocations()
     /** The ID of the original topic page. */
     $postId = $_GET['postId'];
     $jobProfileIds = $_GET['jobProfileIds'];
-    $lat = $_GET['lat'];
-    $lon = $_GET['lon'];
-    $zoom = $_GET['zoom'];
+    // $lat = $_GET['lat'];
+    // $lon = $_GET['lon'];
+    // $zoom = $_GET['zoom'];
     $topic = get_the_title($postId);
     if (empty($topic)) {
         wp_send_json_error(null, 404);
@@ -669,7 +669,7 @@ function mapEduSharingNodeToEventLocation($node)
         'end' => $props->{'ccm:oeh_event_end'}[0],
         'title' => $node->title,
         'location' => $props->{'ccm:oeh_geographical_location_address_formatted'}[0],
-        'description' => $props->{'cclom:general_description'}[0],
+        'description' => $props->{'cclom:general_description'}[0] ?? '',
         'url' => $props->{'ccm:wwwurl'}[0],
     );
 }
@@ -680,7 +680,7 @@ function getTestLocationData($jobProfileIds)
     foreach ($jobProfileIds as &$jobProfileId) {
         $path = plugin_dir_path(__FILE__)
             . '../src/assets/data/locations-by-job-profile-id/' . $jobProfileId . '.json';
-        try {
+        if (file_exists($path)) {
             $jsonString = file_get_contents($path);
             $jsonData = json_decode($jsonString, true);
             foreach ($jsonData as &$entry) {
@@ -689,8 +689,6 @@ function getTestLocationData($jobProfileIds)
                     mapTestLocationEntryToEventLocation($entry),
                 );
             }
-        } catch (Exception $e) {
-            // Just skip missing files.
         }
         unset($entry);
     }
