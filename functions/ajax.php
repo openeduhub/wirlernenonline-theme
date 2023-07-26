@@ -503,13 +503,10 @@ add_action('wp_ajax_nopriv_wloAiCareerAdvice', 'wloAiCareerAdvice');
 function wloAiCareerAdvice()
 {
     $collectionId = $_POST['collectionId'];
-    $ancestors = getCollectionAncestors($collectionId);
-    if (empty($ancestors)) {
+    $portalPath = getPortalPath($collectionId);
+    if (empty($portalPath)) {
         wp_send_json_error(null, 404);
     } else {
-        // Remove root "Portale" node.
-        $ancestors = array_slice($ancestors, 1);
-        $titles = array_map(fn ($node) => $node->title, $ancestors);
         $url = WLO_AI_PROMPT_SERVICE_URL . "/ai/prompt/profession/description";
         $headers = array(
             'ai-prompt-token' => WLO_AI_PROMPT_SERVICE_TOKEN,
@@ -518,7 +515,7 @@ function wloAiCareerAdvice()
         $response = wp_remote_post($url, array(
             'headers' => $headers,
             'timeout' => 60,
-            'body' => $titles[count($titles) - 1],
+            'body' => $portalPath[count($portalPath) - 1],
         ));
         if (is_wp_error($response) || $response['response']['code'] != 200) {
             error_log(print_r($response, true));
@@ -547,15 +544,13 @@ add_action('wp_ajax_nopriv_wloJobProfilesCarousel', 'wloJobProfilesCarousel');
 /** Prints HTML to render a job profiles carousel. */
 function wloJobProfilesCarousel()
 {
-    // Use post id instead of passing the topic title directly to prevent forged requests for
-    // arbitrary input.
-    $postId = $_GET['postId'];
-    $topic = get_the_title($postId);
-    if (empty($topic)) {
+    $collectionId = $_GET['collectionId'];
+    $portalPath = getPortalPath($collectionId);
+    if (empty($portalPath)) {
         wp_send_json_error(null, 404);
     } else {
         get_template_part('template-parts/career/job-profiles-carousel', args: array(
-            'topic' => $topic,
+            'portalPath' => $portalPath,
         ));
     }
     wp_die();

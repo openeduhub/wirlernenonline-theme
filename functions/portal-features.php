@@ -621,3 +621,19 @@ function getBreadcrumbs($collectionAncestors)
     }
     return $breadcrumbs;
 }
+
+/**
+ * Returns the titles of ancestor collections up to and including the given collection, skipping the
+ * root collection "Portale".
+ */
+function getPortalPath(string $collectionId): array | false
+{
+    $ancestors = getCollectionAncestors($collectionId);
+    if (empty($ancestors)) {
+        return false;
+    }
+    // Remove root "Portale" node.
+    $ancestors = array_slice($ancestors, 1);
+    $titles = array_map(fn ($node) => $node->title, $ancestors);
+    return $titles;
+}

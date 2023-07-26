@@ -249,7 +249,7 @@ while (have_posts()) : the_post(); ?>
             <div class="portal-wrapper-left">
                 <?php
                 get_template_part('template-parts/career/job-profiles', args: array(
-                    'topicPostId' => $topicPostId,
+                    'collectionId' => $collectionID,
                     'topic' => $topic,
                     'color' => $rgbBackgroundColor,
                 ));

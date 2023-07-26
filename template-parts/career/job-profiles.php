@@ -1,6 +1,6 @@
 <?php
 [
-    'topicPostId' => $topicPostId,
+    'collectionId' => $collectionId,
     'topic' => $topic,
     'color' => $color,
 ] = $args;
@@ -34,7 +34,7 @@ $jobProfilesCarouselId = uniqid('wlo-job-profiles-carousel-');
         url: ajaxurl,
         data: {
             action: 'wloJobProfilesCarousel',
-            postId: <?php echo $topicPostId; ?>,
+            collectionId: '<?php echo $collectionId; ?>',
         },
         success: (html) => {
             jQuery('#<?php echo $jobProfilesCarouselId; ?>').html(html);

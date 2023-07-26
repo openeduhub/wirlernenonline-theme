@@ -1,6 +1,6 @@
 <?php
 [
-    'topic' => $topic,
+    'portalPath' => $portalPath,
 ] = $args;
 
 // Fetch card data
@@ -12,7 +12,7 @@ $headers = array(
 $response = wp_remote_post($url, array(
     'headers' => $headers,
     'timeout' => 60,
-    'body' => $topic,
+    'body' => $portalPath[count($portalPath) - 1],
 ));
 if (is_wp_error($response) || $response['response']['code'] != 200) {
     error_log(print_r($response, true));
