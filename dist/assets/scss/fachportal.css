@@ -1,0 +1,345 @@
+/* Spaces */
+/* Heights */
+/* Shadows */
+/* Animation */
+@font-face {
+  font-family: 'Montserrat-Bold';
+  src: url("../fonts/Montserrat/Montserrat-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Montserrat-Medium';
+  src: url("../fonts/Montserrat/Montserrat-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Source-Serif-Regular';
+  src: url("../fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Source-Serif-Bold';
+  src: url("../fonts/Source_Serif_Pro/SourceSerifPro-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Material-Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../../assets/fonts/MaterialIcons-Regular.eot);
+  /* For IE6-8 */
+  src: local("Material Icons"), local("MaterialIcons-Regular"), url("../../assets/fonts/MaterialIcons-Regular.eot?#iefix") format("embedded-opentype"), url("../../assets/fonts/MaterialIcons-Regular.woff2") format("woff2"), url("../../assets/fonts/MaterialIcons-Regular.woff") format("woff"), url("../../assets/fonts/MaterialIcons-Regular.ttf") format("truetype");
+  /* Safari, Android, iOS */ }
+
+.material-icons {
+  font-family: 'Material-Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga'; }
+
+.fachportal-content-block {
+  margin: 16px; }
+  .fachportal-content-block .header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 16px; }
+    .fachportal-content-block .header h3 {
+      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-size: 18px;
+      padding-top: 16px; }
+    .fachportal-content-block .header a {
+      position: absolute;
+      right: 16px;
+      top: 22px;
+      font-weight: 600;
+      font-size: 18px;
+      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      text-decoration: underline; }
+  .fachportal-content-block .content .widget-content {
+    position: relative;
+    min-width: 251px;
+    height: 425px;
+    margin: 17px;
+    border: 1px solid #545454;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+    transition: 0.3s; }
+    .fachportal-content-block .content .widget-content .main-image {
+      border-radius: 6px 6px 0 0;
+      width: 100%;
+      height: 175px;
+      -o-object-fit: cover;
+         object-fit: cover; }
+    .fachportal-content-block .content .widget-content .widget-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      height: 22px;
+      background: white;
+      border-radius: 3px;
+      padding: 2px 4px;
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25); }
+    .fachportal-content-block .content .widget-content .content-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px; }
+      .fachportal-content-block .content .widget-content .content-info .content-header {
+        display: flex;
+        justify-content: flex-end; }
+        .fachportal-content-block .content .widget-content .content-info .content-header .badge {
+          display: flex;
+          align-items: center;
+          font-size: 10px;
+          font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+          height: 25px;
+          padding: 2px 4px;
+          margin-left: 4px;
+          color: #545454;
+          background: #FFFFFF;
+          box-sizing: border-box;
+          border-radius: 3px;
+          border: 1px solid #FFFFFF;
+          box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25); }
+      .fachportal-content-block .content .widget-content .content-info .content-title {
+        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 18px;
+        color: black;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 4px; }
+      .fachportal-content-block .content .widget-content .content-info .content-description {
+        font-size: 14px;
+        color: #333333;
+        line-height: 150%;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 4px; }
+      .fachportal-content-block .content .widget-content .content-info .content-meta {
+        display: flex;
+        align-items: center;
+        margin-bottom: 4px;
+        height: 18px; }
+        .fachportal-content-block .content .widget-content .content-info .content-meta p {
+          font-size: 10px;
+          color: #545454;
+          padding: 0 4px;
+          margin: 0; }
+      .fachportal-content-block .content .widget-content .content-info .content-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+        width: 100%;
+        background: #032850;
+        color: white;
+        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 14px;
+        border-radius: 15px;
+        transition: 0.3s; }
+      .fachportal-content-block .content .widget-content .content-info .content-button:hover {
+        background: #003B7C; }
+  .fachportal-content-block .content .widget-content:hover {
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25); }
+
+.fachportal-header-block {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw); }
+  .fachportal-header-block .fachportal-header-bar {
+    background: #032850; }
+    .fachportal-header-block .fachportal-header-bar .fachportal-header-bar-wrapper {
+      max-width: 1200px;
+      margin: 0 auto; }
+      .fachportal-header-block .fachportal-header-bar .fachportal-header-bar-wrapper .fachportal-header-bar-tab {
+        display: flex;
+        align-items: center;
+        height: 48px;
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
+        width: fit-content;
+        border-radius: 18px 18px 0 0; }
+        .fachportal-header-block .fachportal-header-bar .fachportal-header-bar-wrapper .fachportal-header-bar-tab a {
+          font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+          font-size: 18px;
+          color: white;
+          text-decoration: underline;
+          padding: 8px 16px;
+          transition: 0.3s; }
+        .fachportal-header-block .fachportal-header-bar .fachportal-header-bar-wrapper .fachportal-header-bar-tab a:hover {
+          color: #032850; }
+  .fachportal-header-block .fachportal-header-wrapper {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 36px;
+    transition: 0.3s; }
+  .fachportal-header-block h3 {
+    font-size: 24px; }
+  .fachportal-header-block .description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 70%;
+    background: #ffffff;
+    border-radius: 50px 50px 0px 0px; }
+    .fachportal-header-block .description .description-content {
+      margin: 32px 0;
+      padding: 0 64px; }
+      .fachportal-header-block .description .description-content .title {
+        font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 40px;
+        margin-bottom: 16px; }
+      .fachportal-header-block .description .description-content .header-description {
+        font-size: 16px; }
+    .fachportal-header-block .description .collections {
+      padding: 0 64px;
+      margin-bottom: 32px; }
+      .fachportal-header-block .description .collections .sub-subjects-header {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        margin-bottom: 16px; }
+        .fachportal-header-block .description .collections .sub-subjects-header h3 {
+          font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+          font-size: 16px;
+          margin: 0 0 0 8px; }
+      .fachportal-header-block .description .collections .sub-subjects-container {
+        display: flex;
+        flex-wrap: wrap; }
+        .fachportal-header-block .description .collections .sub-subjects-container .sub-subject {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          height: 30px;
+          margin: 4px;
+          background: #032850;
+          border-radius: 50px;
+          transition: 0.3s; }
+          .fachportal-header-block .description .collections .sub-subjects-container .sub-subject a {
+            color: #ffffff;
+            font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+            font-size: 14px; }
+            .fachportal-header-block .description .collections .sub-subjects-container .sub-subject a p {
+              margin: 8px 16px; }
+        .fachportal-header-block .description .collections .sub-subjects-container .sub-subject:hover {
+          background: #003B7C; }
+  .fachportal-header-block .content-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 30%; }
+    .fachportal-header-block .content-info .header {
+      text-align: center;
+      width: 100%; }
+      .fachportal-header-block .content-info .header h3 {
+        font-size: 18px;
+        color: white;
+        padding: 8px;
+        margin: 0; }
+    .fachportal-header-block .content-info .diagram {
+      position: relative;
+      width: 80%;
+      border-radius: 50%; }
+      .fachportal-header-block .content-info .diagram .diagram-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+        height: 100%; }
+      .fachportal-header-block .content-info .diagram #contentChart {
+        position: relative;
+        top: 7.5%;
+        left: -5%; }
+    .fachportal-header-block .content-info .diagram:after {
+      content: "";
+      display: block;
+      padding-bottom: 100%; }
+    .fachportal-header-block .content-info .diagram-legend {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 24px; }
+      .fachportal-header-block .content-info .diagram-legend .diagram-legend-entry {
+        display: flex;
+        align-items: center;
+        width: 50%;
+        color: #ffffff;
+        font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+        font-size: 14px;
+        padding: 4px; }
+      .fachportal-header-block .content-info .diagram-legend .diagram-legend-color {
+        width: 19px;
+        height: 19px;
+        margin: 0 4px; }
+      .fachportal-header-block .content-info .diagram-legend .Lerninhalte {
+        justify-content: flex-end; }
+        .fachportal-header-block .content-info .diagram-legend .Lerninhalte .diagram-legend-color {
+          background: rgba(255, 255, 255, 0.8); }
+      .fachportal-header-block .content-info .diagram-legend .Tools {
+        justify-content: flex-end; }
+        .fachportal-header-block .content-info .diagram-legend .Tools .diagram-legend-color {
+          background: rgba(255, 255, 255, 0.6); }
+      .fachportal-header-block .content-info .diagram-legend .Methoden {
+        justify-content: flex-start; }
+        .fachportal-header-block .content-info .diagram-legend .Methoden .diagram-legend-color {
+          background: rgba(255, 255, 255, 0.4); }
+      .fachportal-header-block .content-info .diagram-legend .Wissen {
+        justify-content: flex-start; }
+        .fachportal-header-block .content-info .diagram-legend .Wissen .diagram-legend-color {
+          background: rgba(255, 255, 255, 0.2); }
+  .fachportal-header-block .header-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 24px 24px 0px 0px; }
+
+.fachportal-new-content .fachportal-header-wrapper {
+  background: white;
+  padding: 0; }
+  .fachportal-new-content .fachportal-header-wrapper .fachportal-new-content-inner {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 24px; }
+    .fachportal-new-content .fachportal-header-wrapper .fachportal-new-content-inner h3 {
+      font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
+      font-size: 20px;
+      text-align: center; }
+  .fachportal-new-content .fachportal-header-wrapper .header-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 24px;
+    background: white;
+    border-radius: 24px 24px 0px 0px; }
