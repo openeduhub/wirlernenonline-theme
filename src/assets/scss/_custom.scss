@@ -78,7 +78,7 @@ html {
       color: $wlo-primary-dark;
       height: 30px;
       font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-      font-size: 16px !important;
+      font-size: 16px;
       border-radius: 60px;
       transition: 0.3s;
     }
@@ -88,10 +88,6 @@ html {
       background: $wlo-neon-dark;
     }
   }
-}
-.menu li a{
-  font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-  font-size: 20px;
 }
 .is-dropdown-submenu {
   background-color: $white !important;
@@ -104,7 +100,6 @@ html {
 
   li a{
     font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 20px;
   }
 
   &-item{
@@ -116,7 +111,7 @@ html {
   }
 
   &-item:hover {
-    background-color: #D9E2EB;
+    background-color: #c3cfdc;
     cursor: pointer;
   }
 
@@ -168,7 +163,7 @@ html {
           font-family: "Montserrat-Medium", Helvetica, Roboto, Arial, sans-serif;
           font-size: 16px;
           padding-left: 0;
-          padding-right: 1.15em;
+          padding-right: 1.5em;
           transition: 0.3s;
         }
 
@@ -184,8 +179,7 @@ html {
       width: 30%;
 
       .footer-bmbf{
-        //display: flex;
-        display: none;
+        display: flex;
         align-items: center;
         width: 40%;
         background: white;
@@ -206,7 +200,6 @@ html {
           color: white;
           font-family: 'Source-Sans-Pro-Bold', sans-serif;
           transition: 0.3s;
-          text-decoration: underline;
         }
 
         a:hover{
@@ -286,7 +279,7 @@ html {
 
   .edu-item {
     &__content {
-      color: #313131;
+      color: $black;
     }
   }
 }
@@ -418,12 +411,12 @@ html {
       background-color: lighten(#f21b5a, 10);
     }
     p{
-      color: #313131 !important;
+      color: $black !important;
       margin-bottom: 0px;
       font-size: 0.8em;
     };
     h5{
-      color: #313131 !important;
+      color: $black !important;
     };
   }
 }

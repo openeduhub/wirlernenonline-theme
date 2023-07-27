@@ -36,11 +36,6 @@ if (empty(get_field('description'))){
     $description = get_field('description');
 }
 
-$menu_headline = 'Durchstöbere hier unsere Lehrplanthemen';
-if (!empty(get_field('menu_headline'))){
-    $menu_headline = get_field('menu_headline');
-}
-
 if (!function_exists('helper_useLightColor')) {
     function helper_useLightColor($bgColor){
         $color = ($bgColor[0] === '#') ? substr($bgColor, 1, 7) : $bgColor;
@@ -53,8 +48,7 @@ if (!function_exists('helper_useLightColor')) {
     }
 }
 
-//$backgroundColor = wloSubjectType($portalTitle)['color'];
-$backgroundColor = get_field('background_color', $postID);
+$backgroundColor = wloSubjectType($portalTitle)['color'];
 $rgbBackgroundColor = hex2rgb($backgroundColor);
 $fontColor = (!empty($backgroundColor) && helper_useLightColor($backgroundColor)) ? "#313131" : "#ffffff";
 $accordionID = uniqid();
@@ -124,7 +118,7 @@ $GLOBALS['wlo_fachportal'] = array(
     <div class="fachportal-header-wrapper" >
         <div class="fachportal-new-content-inner" style="background-color: #F4F4F4">
             <button class="fachportal-accordion" id="fachportal-accordion-<?php echo $accordionID; ?>">
-                <h2><?php echo $menu_headline; ?></h2>
+                <h2>Durchstöbere hier unsere Lehrplanthemen</h2>
                 <img class="fachportal-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg"  alt="Inhalte ein odder ausklappen">
             </button>
             <div class="fachportal-accordion-content" id="fachportal-accordion-content-<?php echo $accordionID; ?>">
@@ -141,7 +135,7 @@ $GLOBALS['wlo_fachportal'] = array(
                                     $ccm_location = $collection->properties->{'cclom:location'}[0];
 
                                     //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
-                                    $ccm_location = str_replace('https://wirlernenonline.de/', 'https://medien.kita.bayern/', $collection->properties->{'cclom:location'}[0]);
+                                    //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
 
                                     // Filter hidden collections
                                     if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated' ) {

@@ -14,7 +14,7 @@ get_header();?>
         'numberposts'	=> -1,
         'posts_per_page' => -1,
         'post_status' => 'any',
-        'post_type'		=> 'edusource',
+        'post_type'		=> 'source',
         'meta_query'	=> array(
             'relation'		=> 'OR',
             array(
@@ -36,23 +36,20 @@ get_header();?>
             <?php while( $the_query->have_posts() ) : $the_query->the_post(); ?>
             <?php
 
-            $long_text = get_field('long_text');
 
-            if (!empty($long_text)) :
 
 
 
             ?>
                 <li>
                     <a href="<?php the_permalink(); ?>">
-                        <?php echo$i.' - '; the_title(); ?>: <?php echo get_the_ID().' - '.$long_text; ?>
+                        <?php echo$i.' - '; the_title(); ?>: <?php echo get_the_ID().' - '; ?>
                     </a>
                 </li>
 
                 <?php
                     //update_field('discipline', array('080'), get_the_ID());
                     $i++;
-                    endif;
                  ?>
             <?php endwhile; ?>
         </ul>

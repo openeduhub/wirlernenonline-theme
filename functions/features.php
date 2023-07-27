@@ -281,7 +281,7 @@ function callWloGraphApi($search_query)
         curl_close($curl);
 
         $restApiCacheObj = json_decode($response);
-        set_transient( $search_query, $restApiCacheObj, 60 );
+        set_transient( $search_query, $restApiCacheObj, 600 );
     } else{
         $restApiCacheObj = get_transient( $search_query );
     }
@@ -291,7 +291,7 @@ function callWloGraphApi($search_query)
 
 function callWloRestApi($url, $type='GET', $body=null){
 
-    $cacheTime = 60;
+    $cacheTime = 600;
     // cache source_table for 24h
     if ($url == WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/ngsearch/?maxItems=5000&skipCount=0&propertyFilter=-all-'){
         $cacheTime = 86400;

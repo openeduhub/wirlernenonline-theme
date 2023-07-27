@@ -50,7 +50,7 @@ if (get_field('icon')){
     <div class="wlo-tile content">
         <div class="widget-content">
             <?php if (!empty(get_field('url'))){ ?>
-                <a class="wlo-tile-link" href="<?php echo get_field('url'); ?>" <?php echo $externalLink; ?>>
+                <a href="<?php echo get_field('url'); ?>" <?php echo $externalLink; ?>>
             <?php } ?>
 
                     <?php if (!empty(get_field('image'))) { ?>
@@ -60,10 +60,11 @@ if (get_field('icon')){
                         <div class="content-title content-title-bold"><?php echo $title; ?></div>
                         <p class="content-description"><?php echo get_field('description'); ?></p>
                         <?php if (!empty(get_field('url'))){ ?>
-                            <button class="wlo-tile-button <?php echo $yellowButton; ?>" style="<?php echo $buttonIconAlign . $buttonAlign; ?>" aria-label="Zum-Inhalt: <?php echo $title; ?>">
+                            <a class="wlo-tile-button <?php echo $yellowButton; ?>" href="<?php echo get_field('url'); ?>" <?php echo $externalLink; ?>
+                               style="<?php echo $buttonIconAlign . $buttonAlign; ?>" aria-label="Zum-Inhalt: <?php echo $title; ?>">
                                 <img src="<?php echo $buttonIcon; ?>" alt="">
                                 <span><?php echo $buttonText; ?></span>
-                            </button>
+                            </a>
                         <?php } ?>
                     </div>
 

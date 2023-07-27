@@ -1,0 +1,458 @@
+@charset "UTF-8";
+/* Spaces */
+/* Heights */
+/* Shadows */
+/* Animation */
+@font-face {
+  font-family: 'Montserrat-Bold';
+  src: url("../fonts/Montserrat/Montserrat-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Montserrat-Medium';
+  src: url("../fonts/Montserrat/Montserrat-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Source-Serif-Regular';
+  src: url("../fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Source-Serif-Bold';
+  src: url("../fonts/Source_Serif_Pro/SourceSerifPro-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Material-Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../../assets/fonts/MaterialIcons-Regular.eot);
+  /* For IE6-8 */
+  src: local("Material Icons"), local("MaterialIcons-Regular"), url("../../assets/fonts/MaterialIcons-Regular.eot?#iefix") format("embedded-opentype"), url("../../assets/fonts/MaterialIcons-Regular.woff2") format("woff2"), url("../../assets/fonts/MaterialIcons-Regular.woff") format("woff"), url("../../assets/fonts/MaterialIcons-Regular.ttf") format("truetype");
+  /* Safari, Android, iOS */ }
+
+.material-icons {
+  font-family: 'Material-Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga'; }
+
+/**
+ * Foundation for Sites
+ * Version 6.6.3
+ * https://get.foundation
+ * Licensed under MIT Open Source
+ */
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+p,
+blockquote,
+th,
+td {
+  margin: 0;
+  padding: 0; }
+
+p {
+  margin-bottom: 1rem;
+  font-size: inherit;
+  line-height: 1.4;
+  text-rendering: optimizeLegibility; }
+
+em,
+i {
+  font-style: italic;
+  line-height: inherit; }
+
+strong,
+b {
+  font-weight: bold;
+  line-height: inherit; }
+
+small {
+  font-size: 80%;
+  line-height: inherit; }
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  color: inherit;
+  text-rendering: optimizeLegibility; }
+  h1 small, .h1 small,
+  h2 small, .h2 small,
+  h3 small, .h3 small,
+  h4 small, .h4 small,
+  h5 small, .h5 small,
+  h6 small, .h6 small {
+    line-height: 0;
+    color: #D8D8D8; }
+
+h1, .h1 {
+  font-size: 1.2rem;
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 0.5rem; }
+
+h2, .h2 {
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 0.5rem; }
+
+h3, .h3 {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 0.5rem; }
+
+h4, .h4 {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 0.5rem; }
+
+h5, .h5 {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 0.5rem; }
+
+h6, .h6 {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 0.5rem; }
+
+@media print, screen and (min-width: 40em) {
+  h1, .h1 {
+    font-size: 2rem; }
+  h2, .h2 {
+    font-size: 1.6rem; }
+  h3, .h3 {
+    font-size: 1.2rem; }
+  h4, .h4 {
+    font-size: 1rem; }
+  h5, .h5 {
+    font-size: 1rem; }
+  h6, .h6 {
+    font-size: 0.8rem; } }
+
+a {
+  line-height: inherit;
+  color: #003E82;
+  text-decoration: none;
+  cursor: pointer; }
+  a:hover, a:focus {
+    color: #003570; }
+  a img {
+    border: 0; }
+
+hr {
+  clear: both;
+  max-width: 100%;
+  height: 0;
+  margin: 1rem auto;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 1px solid #ECECEC;
+  border-left: 0; }
+
+ul,
+ol,
+dl {
+  margin-bottom: 1rem;
+  list-style-position: outside;
+  line-height: 1.4; }
+
+li {
+  font-size: inherit; }
+
+ul {
+  margin-left: 1.25rem;
+  list-style-type: disc; }
+
+ol {
+  margin-left: 1.25rem; }
+
+ul ul, ol ul, ul ol, ol ol {
+  margin-left: 1.25rem;
+  margin-bottom: 0; }
+
+dl {
+  margin-bottom: 1rem; }
+  dl dt {
+    margin-bottom: 0.3rem;
+    font-weight: bold; }
+
+blockquote {
+  margin: 0 0 1rem;
+  padding: 0.45rem 1rem 0 0.95rem;
+  border-left: 1px solid #D8D8D8; }
+  blockquote, blockquote p {
+    line-height: 1.4;
+    color: #8a8a8a; }
+
+abbr, abbr[title] {
+  border-bottom: 1px dotted #313131;
+  cursor: help;
+  text-decoration: none; }
+
+figure {
+  margin: 0; }
+
+kbd {
+  margin: 0;
+  padding: 0.1rem 0.2rem 0;
+  background-color: #ECECEC;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  color: #313131;
+  border-radius: 5px; }
+
+.subheader {
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+  line-height: 1.4;
+  color: #8a8a8a; }
+
+.lead {
+  font-size: 25px;
+  line-height: 1.4; }
+
+.stat {
+  font-size: 2.5rem;
+  line-height: 1; }
+  p + .stat {
+    margin-top: -1rem; }
+
+ul.no-bullet, ol.no-bullet {
+  margin-left: 0;
+  list-style: none; }
+
+.cite-block, cite {
+  display: block;
+  color: #8a8a8a;
+  font-size: 0.65rem; }
+  .cite-block:before, cite:before {
+    content: "— "; }
+
+.code-inline, code {
+  border: 1px solid #D8D8D8;
+  background-color: #ECECEC;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  font-weight: normal;
+  color: #313131;
+  display: inline;
+  max-width: 100%;
+  word-wrap: break-word;
+  padding: 0.1rem 0.25rem 0.05rem; }
+
+.code-block {
+  border: 1px solid #D8D8D8;
+  background-color: #ECECEC;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  font-weight: normal;
+  color: #313131;
+  display: block;
+  overflow: auto;
+  white-space: pre;
+  padding: 1rem;
+  margin-bottom: 1.5rem; }
+
+.text-left {
+  text-align: left; }
+
+.text-right {
+  text-align: right; }
+
+.text-center {
+  text-align: center; }
+
+.text-justify {
+  text-align: justify; }
+
+@media print, screen and (min-width: 40em) {
+  .medium-text-left {
+    text-align: left; }
+  .medium-text-right {
+    text-align: right; }
+  .medium-text-center {
+    text-align: center; }
+  .medium-text-justify {
+    text-align: justify; } }
+
+@media print, screen and (min-width: 64em) {
+  .large-text-left {
+    text-align: left; }
+  .large-text-right {
+    text-align: right; }
+  .large-text-center {
+    text-align: center; }
+  .large-text-justify {
+    text-align: justify; } }
+
+.show-for-print {
+  display: none !important; }
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    -webkit-print-color-adjust: economy;
+            color-adjust: economy;
+    box-shadow: none !important;
+    text-shadow: none !important; }
+  .show-for-print {
+    display: block !important; }
+  .hide-for-print {
+    display: none !important; }
+  table.show-for-print {
+    display: table !important; }
+  thead.show-for-print {
+    display: table-header-group !important; }
+  tbody.show-for-print {
+    display: table-row-group !important; }
+  tr.show-for-print {
+    display: table-row !important; }
+  td.show-for-print {
+    display: table-cell !important; }
+  th.show-for-print {
+    display: table-cell !important; }
+  a,
+  a:visited {
+    text-decoration: underline; }
+  a[href]:after {
+    content: " (" attr(href) ")"; }
+  .ir a:after,
+  a[href^='javascript:']:after,
+  a[href^='#']:after {
+    content: ''; }
+  abbr[title]:after {
+    content: " (" attr(title) ")"; }
+  pre,
+  blockquote {
+    border: 1px solid #8a8a8a;
+    page-break-inside: avoid; }
+  thead {
+    display: table-header-group; }
+  tr,
+  img {
+    page-break-inside: avoid; }
+  img {
+    max-width: 100% !important; }
+  @page {
+    margin: 0.5cm; }
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3; }
+  h2,
+  h3 {
+    page-break-after: avoid; }
+  .print-break-inside {
+    page-break-inside: auto; } }
+
+.block-editor-writing-flow {
+  font-family: "Source-Serif-Regular", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; }
+  .block-editor-writing-flow .editor-post-title__block .editor-post-title__input {
+    font-family: "Montserrat-Bold", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-weight: 700; }
+  .block-editor-writing-flow .slick-slider {
+    max-height: none;
+    height: auto; }
+  .block-editor-writing-flow .portal_block_slider_content {
+    display: block;
+    padding: 0; }
+    .block-editor-writing-flow .portal_block_slider_content p {
+      max-height: 20px;
+      text-overflow: ellipsis;
+      overflow: hidden; }
+  .block-editor-writing-flow .cell.medium-4 {
+    display: inline-block; }
+  .block-editor-writing-flow .portal_block {
+    margin: 0px;
+    padding: 10px; }
+  .block-editor-writing-flow .backend_hint {
+    font-family: "Montserrat-Medium", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-size: 0.6em;
+    color: gray(90);
+    background: lightgrey;
+    margin-bottom: 0.2rem;
+    padding: 10px; }
+  .block-editor-writing-flow .backend_border {
+    border: 1px solid lightblue; }
+
+.edit-post-sidebar ul {
+  list-style-type: none; }
+
+.acf-preset .acf-preset-desc {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  display: inline-block; }
+
+.acf-preset .acf-preset-field {
+  display: inline-block;
+  padding: 3px;
+  background-color: grey;
+  color: white;
+  font-size: 0.8em;
+  margin: 0px 2px; }
+
+#adminmenumain ul {
+  margin-left: 0px; }
+
+.wp-block-themenportal-portal-edusharing-grid {
+  display: block !important; }
+  .wp-block-themenportal-portal-edusharing-grid .block-editor-block-list__layout > div {
+    width: 30%;
+    display: inline-block;
+    margin: 20px; }
+  .wp-block-themenportal-portal-edusharing-grid .block-editor-block-list__layout .es-placeholder {
+    margin: 0; }
+  .wp-block-themenportal-portal-edusharing-grid .block-editor-block-list__layout .eduObject .components-resizable-box__container {
+    height: auto !important;
+    width: auto !important; }
+
+.block-editor .portal-subject-tree .portal_subject_list > ul {
+  padding: 0;
+  margin: 0; }

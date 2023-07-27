@@ -34,4 +34,4 @@ require_once(get_template_directory().'/functions/rest-api.php');
 require_once(get_template_directory().'/functions/ajax.php');
 
 // Handle User Regristration / LDAP
-//require_once(get_template_directory().'/functions/users.php');
+require_once(get_template_directory().'/functions/users.php');

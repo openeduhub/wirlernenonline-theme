@@ -50,6 +50,9 @@ function check_unique_collection_link($collection_url) {
 
 function add_portal(WP_REST_Request $request) {
 
+    error_log('###ADD-PORTAL####');
+    error_log(print_r($request, true));
+
     $collection_id = $request->get_param( 'collectionId' );
 
     $requestDiciplines = explode(",",urldecode($request->get_param( 'discipline' )));

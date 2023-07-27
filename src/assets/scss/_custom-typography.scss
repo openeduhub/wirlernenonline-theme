@@ -1,12 +1,11 @@
 /* Global */
 html, body {
-	font-family: 'Source-Sans-Pro-Regular', sans-serif;
 	font-size: 20px;
-	color: #313131;
+	font-family: $body-font-family;
 }
 /* Headlines */
 h1, h2 {
-	color: #313131;
+	color: $primary-color;
 }
 /* Sans */
 .sans,
@@ -38,9 +37,9 @@ label,
 	font-family: $header-font-family;
 	text-transform: uppercase;
 	&.success {
-		color: #313131;
+		color: $black;
 		&:hover {
-			color: #313131;
+			color: $black;
 		}
 	}
 }

@@ -4,7 +4,6 @@
     src: url('../fonts/Montserrat/Montserrat-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
-    font-display: swap;
 }
 
 @font-face {
@@ -13,7 +12,6 @@
     src: url('../fonts/Montserrat/Montserrat-Medium.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
-    font-display: swap;
 }
 
 @font-face {
@@ -22,7 +20,6 @@
     src: url('../fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
-    font-display: swap;
 }
 
 @font-face {
@@ -31,7 +28,6 @@
     src: url('../fonts/Source_Serif_Pro/SourceSerifPro-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
-    font-display: swap;
 }
 
 @font-face {
@@ -39,7 +35,6 @@
     src: url('../fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
-    font-display: swap;
 }
 
 @font-face {
@@ -47,7 +42,6 @@
     src: url('../fonts/Source_Sans_Pro/SourceSansPro-Bold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
-    font-display: swap;
 }
 
 @font-face {
@@ -61,7 +55,6 @@
     url('../../assets/fonts/MaterialIcons-Regular.woff2') format('woff2'), /* Super Modern Browsers */
     url('../../assets/fonts/MaterialIcons-Regular.woff') format('woff'), /* Pretty Modern Browsers */
     url('../../assets/fonts/MaterialIcons-Regular.ttf')  format('truetype'); /* Safari, Android, iOS */
-    font-display: swap;
 }
 
 .material-icons {

@@ -43,8 +43,7 @@ class Wlo_ldap{
 
     function createUser($user){
         $obj=$this->toLdapObject($user);
-        $dn = "uid=".ldap_escape($obj["uid"]).",".LDAP_MAIN_ORG;
-        return ldap_add($this->ds, $dn ,$obj);
+        return ldap_add($this->ds,"uid=".ldap_escape($obj["uid"]).",".LDAP_MAIN_ORG,$obj);
     }
     function addToGroup($user,$group,$password){
         $groups=$this->searchGroups("(&(cn=".ldap_escape($group).")(businessCategory=".ldap_escape($password)."))");

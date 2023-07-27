@@ -90,107 +90,10 @@ $GLOBALS['wlo_fachportal'] = array(
         'backgroundColor' => $backgroundColor,
         'rgbBackgroundColor' => $rgbBackgroundColor
 );
-/*
-// newest contents
-$url = WLO_REPO . 'rest/search/v1/queriesV2/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=8&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
-$body = '{
-  "criterias": [
-    {
-      "property": "collection",
-      "values": [
-        "'.$collectionID.'"
-      ]
-    }
-  ],
-  "facettes": [
-  ]
-}';
-$newestContent = callWloRestApi($url, 'POST', $body);
-*/
 
 
-//only content from the given collection
-//$url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
-//$newestContent = callWloRestApi($url);
-
-// newest contents
-$url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/wlo_collection?contentType=FILES&maxItems=150&skipCount=0&sortProperties=cm%3Amodified&sortAscending=false&propertyFilter=-all-';
-$body = '{
-  "criteria": [
-    {
-      "property": "collection",
-      "values": [
-        "'.$collectionID.'"
-      ]
-    }
-  ],
-  "facets": [
-  ]
-}';
-
-$newestContent = callWloRestApi($url, 'POST', $body);
-
-if (empty($newestContent->nodes)){
-    $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID . '/children/references?sortProperties=ccm%3Acollection_ordered_position&sortAscending=true';
-    $newestContent = callWloRestApi($url);
-    $newestContent->nodes = $newestContent->references;
-    unset($newestContent->references);
-}
-
-$contentArray = array();
-//if (!empty($newestContent->references)){
-    //foreach ($newestContent->references as $reference) {
-if (!empty($newestContent->nodes)){
-    foreach ($newestContent->nodes as $reference) {
-
-        $prop = $reference->properties;
-
-        //check if deleted
-        if($reference->originalId == null){
-            continue;
-        }
-
-        $title = $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0];
-        foreach ($contentArray as $content) {
-            if ($content['title'] == $title) {
-                continue 2;
-            }
-        }
-
-        $oerLicenses = array('CC_0', 'CC_BY', 'CC_BY_SA', 'PDM');
-        $nodeLicense = !empty($prop->{'ccm:commonlicense_key'}[0]) ? $prop->{'ccm:commonlicense_key'}[0] : '';
-        $isOER = false;
-        foreach ($oerLicenses as $license){
-            if( $nodeLicense == $license){
-                $isOER = true;
-            }
-        }
-
-        $content_url = $reference->content->url;
-        $content_url = str_replace('https://redaktion.openeduhub.net/edu-sharing/', 'https://materialkiste.kita.bayern/edu-sharing/', $content_url);
-
-        $contentArray[] = array(
-            'id' => $reference->ref->id,
-            'image_url' => $reference->preview->url,
-            'mimetype' => $reference->mimetype,
-            //'content_url' => $prop->{'ccm:wwwurl'}[0] ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
-            'content_url' => $content_url,
-            'title' => $title,
-            'description' => !empty($prop->{'cclom:general_description'}) ? (implode("\n", $prop->{'cclom:general_description'})) : '',
-            //'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
-            'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
-            'subjects' => !empty($prop->{'ccm:taxonid_DISPLAYNAME'}) ? $prop->{'ccm:taxonid_DISPLAYNAME'} : [],
-            //'resourcetype' => !empty($prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'}) ? $prop->{'ccm:educationallearningresourcetype_DISPLAYNAME'} : [],
-            'resourcetype' => !empty($prop->{'ccm:oeh_lrt_DISPLAYNAME'}) ? $prop->{'ccm:oeh_lrt_DISPLAYNAME'} : [],
-            //'educationalcontext' => !empty($prop->{'ccm:educationalcontext_DISPLAYNAME'}) ? $prop->{'ccm:educationalcontext_DISPLAYNAME'} : [],
-            'author' => !empty($prop->{'ccm:lifecyclecontributer_author'}) ? $prop->{'ccm:lifecyclecontributer_author'} : [],
-            'oer' => $isOER,
-            'widget' =>  !empty($reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0]) ? $reference->properties->{'ccm:oeh_widgets_DISPLAYNAME'}[0] : ''
-        );
-    } //end foreach
-}
 $accordionID = uniqid();
-$sliderId = uniqid('slider-');
+$zmfContentID = uniqid('zmf-content-');
 $slidesToShow = 4;
 $slidesToScroll = 4;
 if (get_field('slidesToShow')) {
@@ -345,84 +248,52 @@ if (get_field('slidesToScroll')) {
                 <img class="fachportal-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg"  alt="Die neusten Inhalte ein odder ausklappen">
             </button>
 
-            <div class="content fachportal-accordion-content zmf-accordion-content" id="<?php echo $sliderId; ?>">
-                <?php
-                if (!empty($contentArray)){
-                    foreach (array_slice($contentArray, 0, get_field('content_count')) as $content) { ?>
-                        <div class="widget-content <?php if (!empty($content['resourcetype'])){ foreach ($content['resourcetype'] as $type){ echo $type.' '; } } ?>">
-
-
-                            <?php if (!empty($content['image_url'])) { ?>
-
-                                <img class="main-image <?php if($content['mimetype'] == 'video/mp4') {echo 'freezeframe';}?>" src="<?php echo $content['image_url']; ?>&crop=true&maxWidth=300&maxHeight=300" alt="Cover: <?php echo $content['title']; ?>">
-                            <?php } ?>
-                            <div class="content-info">
-                                <div class="content-header">
-                                    <?php if ($content['source']){ ?>
-                                        <p class="content-source"><?php echo $content['source']; ?></p>
-                                    <?php } ?>
-                                    <img class="badge" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/badge_green.svg"  alt="Auszeichnung: geprüfter Inhalt">
-                                    <?php if ($content['oer']){ ?>
-                                        <div class="badge ">OER</div>
-                                    <?php } ?>
-                                </div>
-                                <div class="content-title"><?php echo $content['title']; ?></div>
-                                <p class="content-description"><?php echo $content['description'] ?></p>
-                                <div class="content-meta">
-                                    <?php if (!empty($content['resourcetype'])){
-                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/img_icon.svg"  alt="Materialart">';
-                                        echo '<p>';
-                                        $i = 0;
-                                        foreach ($content['resourcetype'] as $type){
-                                            if(++$i === count($content['resourcetype'])) {
-                                                echo $type;
-                                            }else{
-                                                echo $type.', ';
-                                            }
-                                        }
-                                        echo '</p>';
-                                    } ?>
-                                </div>
-                                <div class="content-meta">
-                                    <?php if (!empty($content['subjects'])){
-                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/subject_icon.svg"  alt="Fächer">';
-                                        echo '<p>';
-                                        $i = 0;
-                                        foreach ($content['subjects'] as $subject) {
-                                            if(++$i === count($content['subjects'])) {
-                                                echo $subject;
-                                            }else{
-                                                echo $subject.', ';
-                                            }
-                                        }
-                                        echo '</p>';
-                                    } ?>
-                                </div>
-                                <div class="content-meta">
-                                    <?php if (!empty($content['author'])){
-                                        echo '<img src="'. get_template_directory_uri() .'/src/assets/img/class_icon.svg"  alt="Autoren">';
-                                        echo '<p>';
-                                        $i = 0;
-                                        foreach ($content['author'] as $vcard) {
-                                            if(++$i === count($content['author'])) {
-                                                echo wlo_parseVcard($vcard);
-                                            }else{
-                                                echo  wlo_parseVcard($vcard).', ';
-                                            }
-                                        }
-                                        echo '</p>';
-                                    } ?>
-                                </div>
-
-                                <a class="content-button" href="<?php echo $content['content_url']; ?>" target="_blank" aria-label="Zum-Inhalt: <?php echo $content['title']; ?>">Zum Inhalt</a>
-
-                            </div>
-
-
-                        </div>
-                    <?php }
-                } ?>
+            <div class="content fachportal-accordion-content zmf-accordion-content" id="<?php echo $zmfContentID; ?>">
+                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
             </div>
+
+            <script type="text/javascript" >
+                jQuery(document).ready(function($) {
+
+                    var data = {
+                        'action': 'zmf_content_block',
+                        'collectionID': '<?php echo $collectionID; ?>',
+                        'maxItems': '11',
+                        'skipCount': '0',
+                    };
+
+                    jQuery.post(ajaxurl, data, function(response) {
+                        jQuery('#<?php echo $zmfContentID; ?>').html(response);
+
+                        jQuery('#<?php echo $zmfContentID; ?>').append('<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+
+                        var data2 = {
+                            'action': 'zmf_content_block',
+                            'collectionID': '<?php echo $collectionID; ?>',
+                            'maxItems': '500',
+                            'skipCount': '11',
+                        };
+
+                        jQuery.post(ajaxurl, data2, function(response) {
+                            jQuery('.lds-ring').remove();
+                            jQuery('#<?php echo $zmfContentID; ?>').append(response);
+
+                            new Freezeframe({
+                                overlay: true,
+                                warnings: false
+                            });
+                        });
+
+                        new Freezeframe({
+                            overlay: true,
+                            warnings: false
+                        });
+                    });
+
+                });
+
+            </script>
+
         </div>
 
         <div class="header-bottom"></div>
@@ -478,7 +349,7 @@ if (get_field('slidesToScroll')) {
         // Handler for .ready() called. Put the Slick Slider etc. init code here.
         function loadSlider() {
             if (typeof jQuery().slick === "function") {
-                jQuery('#<?php echo $sliderId?>').not('.slick-initialized').slick({
+                jQuery('#<?php echo $zmfContentID?>').not('.slick-initialized').slick({
                     infinite: false,
                     slidesToShow: <?php echo $slidesToShow; ?>,
                     slidesToScroll: <?php echo $slidesToScroll; ?>,
@@ -515,7 +386,7 @@ if (get_field('slidesToScroll')) {
         //loadSlider();
 
         jQuery(window).on('resize', function(){
-            //jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+            //jQuery('#<?php echo $zmfContentID?>').slick( 'refresh' );
         });
     });
 
@@ -523,8 +394,8 @@ if (get_field('slidesToScroll')) {
 
     jQuery('#fachportal-accordion-<?php echo $accordionID; ?>').click(function(){
         jQuery(this).find("img").toggleClass("fachportal-accordion-icon-active");
-        jQuery('#<?php echo $sliderId; ?>').slideToggle('slow');
-        jQuery('#<?php echo $sliderId?>').slick( 'refresh' );
+        jQuery('#<?php echo $zmfContentID; ?>').slideToggle('slow');
+        jQuery('#<?php echo $zmfContentID?>').slick( 'refresh' );
     });
 
     jQuery( "#sub-subjects-button" ).click(function() {
@@ -539,10 +410,10 @@ if (get_field('slidesToScroll')) {
     jQuery( document ).ready(function() {
         //addData(contentChart, 'Tools', 25, 'rgba(255,255,255,0.8)');
         //addData(contentChart, 'Gut zu Wissen', 5, 'rgba(255,255,255,0.2)');
-        new Freezeframe({
+      /*  new Freezeframe({
             overlay: true,
             warnings: false
-        });
+        });*/
     });
 
 </script>

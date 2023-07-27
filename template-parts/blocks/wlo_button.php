@@ -21,7 +21,7 @@ if (get_field('buttonIconAlign') == 'right'){
     $buttonIconAlign = 'flex-direction: row-reverse;';
 }
 $linkUrl = get_field('url');
-if (strpos($linkUrl, 'redaktion.openeduhub.net') && is_user_logged_in() ){
+if (strpos($linkUrl, 'redaktion.openeduhub.net') && is_page_template( 'page-templates/template_redaktion.php' )  ){
     if (function_exists('get_repo_ticket')){
         $ticket = get_repo_ticket();
     }else{
@@ -50,7 +50,7 @@ if ( is_page_template( 'page-templates/template_redaktion.php' ) ) {
 ?>
 
 <a class="wlo-block-button <?php echo $yellowButton; ?>" href="<?php echo $linkUrl; ?>" <?php echo $externalLink; ?>
-   title="<?php the_field('tooltipText'); ?>" style="<?php echo $buttonAlign . $buttonIconAlign . $buttonMargin; ?>">
+   style="<?php echo $buttonAlign . $buttonIconAlign . $buttonMargin; ?>">
     <?php if (!empty(get_field('buttonIcon'))){ ?>
         <img src="<?php echo get_field('buttonIcon')['url']; ?>" alt="">
     <?php } ?>

@@ -3,9 +3,6 @@ get_header();
 ?>
 <?php
 
-error_log('HTTP_HOST');
-error_log(print_r(get_site_url(),true));
-
 $accordionID = uniqid();
 
 $current_query_args = array(
@@ -191,9 +188,9 @@ $subjects = callWloGraphApi($data)->data->facet->buckets;
                             </a>
                         </div>
                         <div class="wlo-portals-slider-tile">
-                            <a class="wlo-portals-tile" href="<?php echo get_page_link(55115); ?>" aria-label="Zu den Fachportalen">
+                            <a class="wlo-portals-tile" href="<?php echo get_page_link(9930); ?>" aria-label="Zu den Fachportalen">
                                 <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Fach-Icons/icon_portals.svg" alt="">
-                                <div class="wlo-portals-tile-title">Alle 28 Fachportale</div>
+                                <div class="wlo-portals-tile-title">Alle 20 Fachportale</div>
                             </a>
                         </div>
 

@@ -77,7 +77,7 @@ $addContentPageID = 9933; //pre
     </div>
 
     <a class="fachportal-add-content-button" href="<?php echo get_page_link($addContentPageID) . '?collectionID=' . $collectionID . '&headline=' . $pageTitle .'&pageDiscipline=' . $pageDiscipline; ?>" target="_blank">
-        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus_white.svg" alt="Icon: Plus"> Inhalte vorschlagen
+        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus.svg" alt="Icon: Plus"> Inhalte vorschlagen
     </a>
 
     <div class="fachportal-footer-team">
@@ -94,7 +94,7 @@ $addContentPageID = 9933; //pre
     </div>
 
     <a class="fachportal-add-content-button" href="<?php echo get_page_link(97); ?>">
-        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus_white.svg" alt="Icon: Plus"> Mitmachen
+        <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/plus.svg" alt="Icon: Plus"> Mitmachen
     </a>
 </div>
 
