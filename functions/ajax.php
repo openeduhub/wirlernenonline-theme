@@ -708,11 +708,6 @@ function zmf_content_block() {
 
             $prop = $reference->properties;
 
-            //check if deleted
-            if($reference->originalId == null){
-                continue;
-            }
-
             $title = $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0];
             foreach ($contentArray as $content) {
                 if ($content['title'] == $title) {
