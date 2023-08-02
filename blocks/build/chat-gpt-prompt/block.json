@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "wirlernenonline-theme/chat-gpt-prompt",
+  "version": "0.1.0",
+  "title": "Adaptive Themenseite: Chat GPT Prompt",
+  "category": "themenportal",
+  "icon": "format-status",
+  "description": "Anfragen an ChatGPT mit Kombinationen verschiedener Werte",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "chat-gpt-prompt",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "attributes": {
+    "id": {
+      "type": "string",
+      "source": "attribute",
+      "selector": "div",
+      "attribute": "id"
+    },
+    "headingText": {
+      "type": "string",
+      "source": "text",
+      "selector": "h2"
+    },
+    "enabledVariables": {
+      "type": "string",
+      "source": "attribute",
+      "selector": "div",
+      "attribute": "data-enabled-variables"
+    },
+    "promptText": {
+      "type": "string"
+    },
+    "promptTextWithCollectionValues": {
+      "type": "string"
+    },
+    "responseTexts": {
+      "type": "string",
+      "source": "attribute",
+      "selector": "div",
+      "attribute": "data-response-texts"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/chat-gpt-chat",
+  "version": "0.1.0",
+  "title": "Adaptive Themenseite: Chat GPT Chat",
+  "category": "themenportal",
+  "icon": "smiley",
+  "description": "Chatbot mit Chat GPT",
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "textdomain": "chat-gpt-chat",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "attributes": {
+    "id": {
+      "type": "string",
+      "source": "attribute",
+      "selector": "div",
+      "attribute": "id"
+    },
+    "systemPrompt": {
+      "type": "string",
+      "source": "attribute",
+      "selector": "div",
+      "attribute": "data-system-prompt"
+    },
+    "headingText": {
+      "type": "string",
+      "source": "text",
+      "selector": "h2"
+    }
+  }
+}

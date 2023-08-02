@@ -68,6 +68,16 @@ function register_acf_block_types()
         'enqueue_assets'    => 'wlo_themenseite_detail_view_assets',
     ]);
     acf_register_block_type([
+        'name'              => 'themenseite_themenbaum',
+        'title'             => __('Themenseite: Themenbaum'),
+        'description'       => __('Eine Spaltenansicht des Themenbaums'),
+        'render_template'   => 'template-parts/blocks/themenseite_themenbaum.php',
+        'category'          => 'themenportal',
+        'icon'              => 'columns',
+        'keywords'          => [],
+        'enqueue_assets'    => 'wlo_themenseite_ng_widgets_assets',
+    ]);
+    acf_register_block_type([
         'name'              => 'fachportal_blog_content_block',
         'title'             => __('Fachportal: Blogbeiträge'),
         'description'       => __('Zeigt Blog-Inhalte an.'),
@@ -342,6 +352,20 @@ function wlo_themenseite_detail_view_assets()
         wp_enqueue_script('main-detailView-js', get_template_directory_uri() . '/src/assets/js/angular/detail_view/main.js', array('jquery'), '', true);
         wp_enqueue_style('styles-detailView-css', get_template_directory_uri() . '/src/assets/js/angular/detail_view/styles.css', array(), '', 'all');
     }
+}
+
+function wlo_themenseite_ng_widgets_assets()
+{
+?>
+    <script>
+        window.EDU_SHARING_API_URL = '<?php echo WLO_REPO; ?>rest';
+        window.WORDPRESS_URL = '<?php echo get_site_url(); ?>';
+    </script>
+<?php
+    wp_enqueue_script('runtime-ngWidgets-js', get_template_directory_uri() . '/src/assets/js/angular/ng-widgets/runtime.js', array('jquery'), '', true);
+    wp_enqueue_script('polyfills-ngWidgets-js', get_template_directory_uri() . '/src/assets/js/angular/ng-widgets/polyfills.js', array('jquery'), '', true);
+    wp_enqueue_script('main-ngWidgets-js', get_template_directory_uri() . '/src/assets/js/angular/ng-widgets/main.js', array('jquery'), '', true);
+    wp_enqueue_style('styles-ngWidgets-css', get_template_directory_uri() . '/src/assets/js/angular/ng-widgets/styles.css', array(), '', 'all');
 }
 
 function register_edusharing_blocks()
