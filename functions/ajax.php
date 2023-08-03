@@ -527,6 +527,34 @@ function wloAiCareerAdvice()
     wp_die();
 }
 
+/**
+ * Sends an arbitrary ChatGPT prompt and returns the response.
+ *
+ * Note that we do not add the action `wp_ajax_nopriv_wloChatGptPrompt` to avoid exploitation.
+ */
+add_action('wp_ajax_wloChatGptPrompt', 'wloChatGptPrompt');
+function wloChatGptPrompt()
+{
+    $prompt = $_POST['prompt'];
+    $url = WLO_AI_PROMPT_SERVICE_URL . "/ai/prompt/text";
+    $headers = array(
+        'ai-prompt-token' => WLO_AI_PROMPT_SERVICE_TOKEN,
+        'Content-Type' => 'application/json',
+    );
+    $response = wp_remote_post($url, array(
+        'headers' => $headers,
+        'timeout' => 60,
+        'body' => $prompt,
+    ));
+    if (is_wp_error($response) || $response['response']['code'] != 200) {
+        error_log(print_r($response, true));
+        wp_send_json_error(null, 500);
+    }
+    header('Content-Type: application/json');
+    echo $response['body'];
+    wp_die();
+}
+
 add_action('wp_ajax_wloSubCareerPagesLinks', 'wloSubCareerPagesLinks');
 add_action('wp_ajax_nopriv_wloSubCareerPagesLinks', 'wloSubCareerPagesLinks');
 /** Prints HTML to render a link list of sub pages of a career page. */
