@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wirlernenonline-theme/chat-gpt-prompt",
+	"version": "0.1.0",
+	"title": "Chat GPT Prompt",
+	"category": "widgets",
+	"icon": "smiley",
+	"description": "Example block scaffolded with Create Block tool.",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "chat-gpt-prompt",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"attributes": {
+		"id": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "div",
+			"attribute": "id"
+		},
+		"promptText": {
+			"type": "string"
+		},
+		"responseTexts": {
+			"type": "object"
+		}
+	}
+}

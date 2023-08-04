@@ -1,0 +1,18 @@
+[
+    {
+        "key": "role",
+        "label": "Rolle",
+        "options": [
+            { "value": "student", "label": "Schüler" },
+            { "value": "teacher", "label": "Lehrer" }
+        ]
+    },
+    {
+        "key": "native-language",
+        "label": "Muttersprache",
+        "options": [
+            { "value": "german", "label": "Deutsch" },
+            { "value": "english", "label": "Englisch" }
+        ]
+    }
+]
