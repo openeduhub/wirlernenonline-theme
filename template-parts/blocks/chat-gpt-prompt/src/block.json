@@ -3,10 +3,10 @@
 	"apiVersion": 3,
 	"name": "wirlernenonline-theme/chat-gpt-prompt",
 	"version": "0.1.0",
-	"title": "Chat GPT Prompt",
-	"category": "widgets",
-	"icon": "smiley",
-	"description": "Example block scaffolded with Create Block tool.",
+	"title": "Adaptive Themenseite: Chat GPT Prompt",
+	"category": "themenportal",
+	"icon": "format-status",
+	"description": "Anfragen an ChatGPT mit Kombinationen verschiedener Werte",
 	"supports": {
 		"html": false
 	},
@@ -21,6 +21,11 @@
 			"source": "attribute",
 			"selector": "div",
 			"attribute": "id"
+		},
+		"headingText": {
+			"type": "string",
+			"source": "text",
+			"selector": "h2"
 		},
 		"promptText": {
 			"type": "string"
