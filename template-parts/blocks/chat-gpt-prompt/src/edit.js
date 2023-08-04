@@ -25,7 +25,7 @@ import VariableSelector from './components/variable-selector';
 import PromptTextarea from './components/prompt-textarea';
 import ResponseTextarea from './components/response-textarea';
 import { useState, useEffect } from '@wordpress/element';
-import variables from './variables.json';
+import variables from './data/variables';
 
 import { getChatGptResponseTexts } from './utils/chatGpt';
 import { getKey } from './utils/responseTexts';

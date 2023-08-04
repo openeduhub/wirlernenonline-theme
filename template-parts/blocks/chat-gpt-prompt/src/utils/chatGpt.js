@@ -1,4 +1,4 @@
-import variables from '../variables.json';
+import variables from '../data/variables';
 
 export function getChatGptResponseTexts(prompt) {
 	const promises = [];

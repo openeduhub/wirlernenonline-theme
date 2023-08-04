@@ -1,5 +1,5 @@
 import { SelectControl } from '@wordpress/components';
-import variables from '../variables.json';
+import variables from '../data/variables';
 
 export default function VariableSelector({ selectValues, setSelectValues }) {
 	const selects = variables.map((variable) => (
