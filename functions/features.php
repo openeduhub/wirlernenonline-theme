@@ -200,7 +200,7 @@ function themenportal_block_categories($categories, $post)
         )
     );
 }
-add_filter('block_categories', 'themenportal_block_categories', 10, 2);
+add_filter('block_categories_all', 'themenportal_block_categories', 10, 2);
 
 function acf_editor_post_id()
 {

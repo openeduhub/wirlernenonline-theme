@@ -13,7 +13,7 @@ function custom_block_category($categories, $post)
         )
     );
 }
-add_filter('block_categories', 'custom_block_category', 10, 2);
+add_filter('block_categories_all', 'custom_block_category', 10, 2);
 
 // Register Custom Blocks
 // For Icons go to: https://developer.wordpress.org/resource/dashicons/ – But leafe the "dashicons-" Prefix
