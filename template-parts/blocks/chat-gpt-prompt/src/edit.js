@@ -1,11 +1,4 @@
 /**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n';
-
-/**
  * React hook that is used to mark the block wrapper element.
  * It provides all the necessary props like the class name.
  *
@@ -21,10 +14,11 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 import './editor.scss';
 
-import VariableSelector from './components/variable-selector';
+import { useEffect, useState } from '@wordpress/element';
+import HeadingInput from './components/heading-input';
 import PromptTextarea from './components/prompt-textarea';
 import ResponseTextarea from './components/response-textarea';
-import { useState, useEffect } from '@wordpress/element';
+import VariableSelector from './components/variable-selector';
 import variables from './data/variables';
 
 import { getChatGptResponseTexts } from './utils/chatGpt';
@@ -44,13 +38,15 @@ const initialSelectValues = variables.reduce((acc, variable) => {
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes }) {
+	const [headingText, setHeadingText] = useState(attributes.headingText ?? 'Chat GPT');
 	const [promptText, setPromptText] = useState(attributes.promptText);
 	const [responseTexts, setResponseTexts] = useState(attributes.responseTexts ?? {});
 	const [selectValues, setSelectValues] = useState(initialSelectValues);
 	useEffect(() => {
+		attributes.headingText = headingText;
 		attributes.promptText = promptText;
 		attributes.responseTexts = responseTexts;
-	}, [promptText, responseTexts]);
+	}, [headingText, promptText, responseTexts]);
 
 	function sendChatGptRequests(currentPromptText) {
 		getChatGptResponseTexts(currentPromptText).then((responses) => {
@@ -65,6 +61,7 @@ export default function Edit({ attributes }) {
 
 	return (
 		<div {...useBlockProps()}>
+			<HeadingInput headingText={headingText} setHeadingText={setHeadingText} />
 			<PromptTextarea
 				promptText={promptText}
 				setPromptText={setPromptText}
