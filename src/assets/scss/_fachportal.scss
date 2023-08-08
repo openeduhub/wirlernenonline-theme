@@ -613,6 +613,9 @@ span.header-text {
 .fachportal-header-bar {
   position: sticky;
   top: -18px;
+  .admin-bar & {
+    top: calc(32px - 18px);
+  }
   background: $fachportal_primary;
   // Make room for the verified-flag. Compensate with negative `top` value.
   border-top: 18px solid white;
@@ -1156,6 +1159,9 @@ span.header-text {
 .fachportal-filterbar {
   position: sticky;
   top: 62px;
+  .admin-bar & {
+    top: calc(32px + 62px);
+  }
   background: #f5f5f5;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
   z-index: 55;
