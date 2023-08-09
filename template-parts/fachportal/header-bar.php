@@ -36,10 +36,12 @@ if (empty($author_ids)) {
         </div>
 
         <div class="wlo-tile-team">
-            <p>Redaktion <?php echo $portalTitle; ?>:</p>
-            <?php foreach ($author_ids as $author_id) {
-                echo $author_id['user_avatar'];
-            } ?>
+            <?php if (!empty($author_ids)) { ?>
+                <p>Redaktion <?php echo $portalTitle; ?>:</p>
+                <?php foreach ($author_ids as $author_id) {
+                    echo $author_id['user_avatar'];
+                } ?>
+            <?php } ?>
             <div class="wlo-verified-flag-container">
                 <img
                     class="wlo-verified-flag"
