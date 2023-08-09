@@ -1,13 +1,14 @@
 <?php
 
-require_once(get_template_directory().'/functions/wlo-config.php');
+require_once(get_template_directory() . '/functions/wlo-config.php');
 
-function url_valid(&$url) {
+function url_valid(&$url)
+{
     stream_context_set_default(
         array(
             'http' => array(
                 'method' => 'GET',
-                'header'=>"Content-type:application/json\r\n"
+                'header' => "Content-type:application/json\r\n"
                     . "Accept: application/json"
             )
         )
@@ -16,17 +17,18 @@ function url_valid(&$url) {
     $file_headers = @get_headers($url);
 
     if ($file_headers === false) return false; // when server not found
-    foreach($file_headers as $header) { // parse all headers:
+    foreach ($file_headers as $header) { // parse all headers:
         // corrects $url when 301/302 redirect(s) lead(s) to 200:
-        if(preg_match("/^Location: (http.+)$/",$header,$m)) $url=$m[1];
+        if (preg_match("/^Location: (http.+)$/", $header, $m)) $url = $m[1];
         // grabs the last $header $code, in case of redirect(s):
-        if(preg_match("/^HTTP.+\s(\d\d\d)\s/",$header,$m)) $code=$m[1];
+        if (preg_match("/^HTTP.+\s(\d\d\d)\s/", $header, $m)) $code = $m[1];
     } // End foreach...
-    if($code==200) return true; // $code 200 == all OK
+    if ($code == 200) return true; // $code 200 == all OK
     else return false; // All else has failed, so this must be a bad link
 } // End function url_exists
 
-function check_unique_collection_link($collection_url) {
+function check_unique_collection_link($collection_url)
+{
     $portal_args = array(
         'post_type' => 'portal',
         'posts_per_page' => 1, // only need to see if there is 1
@@ -40,7 +42,7 @@ function check_unique_collection_link($collection_url) {
     );
 
     $query_portal = new WP_Query($portal_args);
-    if (count($query_portal->posts)){
+    if (count($query_portal->posts)) {
         return false;
     }
     $query_portal->reset_postdata();
@@ -48,40 +50,41 @@ function check_unique_collection_link($collection_url) {
     return true;
 }
 
-function add_portal(WP_REST_Request $request) {
+function add_portal(WP_REST_Request $request)
+{
 
     error_log('###ADD-PORTAL####');
 
 
-    $collection_id = $request->get_param( 'collectionId' );
+    $collection_id = $request->get_param('collectionId');
 
     $type = 'wlo';
 
     //check for zmf
     $parents_url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $collection_id . '/parents?propertyFilter=-all-&fullPath=false';
     $parents = callWloRestApi($parents_url)->nodes;
-    $portal = $parents[count($parents)-2];
+    $portal = $parents[count($parents) - 2];
     error_log(print_r($portal, true));
-    if ($portal->title === 'Kita digital'){
+    if ($portal->title === 'Kita digital') {
         $type = 'zmf';
     }
 
-    $requestDisciplines = explode(",",urldecode($request->get_param( 'discipline' )));
+    $requestDisciplines = explode(",", urldecode($request->get_param('discipline')));
 
     $disciplines = getWloVocabs('discipline')->hasTopConcept;
     $disciplinesMapped = [];
-    foreach ($requestDisciplines as $currentDiscipline){
-        foreach ($disciplines as $discipline){
-            if ($discipline->id == $currentDiscipline){
+    foreach ($requestDisciplines as $currentDiscipline) {
+        foreach ($disciplines as $discipline) {
+            if ($discipline->id == $currentDiscipline) {
                 $disciplinesMapped[] = $discipline->prefLabel->de;
             }
         }
     }
 
-    $topic = urldecode($request->get_param( 'title' ));
+    $topic = urldecode($request->get_param('title'));
 
-    $edu_contexts = explode(",",urldecode($request->get_param( 'educationalContext')));
-    $intended_end_user_roles = explode(",",urldecode($request->get_param( 'intendedEndUserRole')));
+    $edu_contexts = explode(",", urldecode($request->get_param('educationalContext')));
+    $intended_end_user_roles = explode(",", urldecode($request->get_param('intendedEndUserRole')));
 
     $collection_url = WLO_REPO . "components/collections?id=" . $collection_id;
 
@@ -90,7 +93,7 @@ function add_portal(WP_REST_Request $request) {
 
     //Check if Collection was not already added, Check if Collection exists
     // if (check_unique_collection_link($collection_url) && url_valid($check_url)) {
-    if(true) {
+    if (true) {
 
         //Get Level of Collection
         $parents_api_url = WLO_REPO . '/rest/node/v1/nodes/-home-/' . $collection_id . '/parents?propertyFilter=-all-&fullPath=false';
@@ -99,7 +102,10 @@ function add_portal(WP_REST_Request $request) {
             $curl = curl_init($parents_api_url);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            curl_setopt(
+                $curl,
+                CURLOPT_HTTPHEADER,
+                array(
                     'Accept: application/json',
                     'Content-Type: application/json; charset=utf-8'
                 )
@@ -118,7 +124,7 @@ function add_portal(WP_REST_Request $request) {
         $response = json_decode($response);
 
 
-        $nodes = Array();
+        $nodes = array();
         foreach ($response->nodes as $node) {
             $nodes[] = [$node->title, $node->properties->{'cclom:location'}[0]];
         }
@@ -127,35 +133,35 @@ function add_portal(WP_REST_Request $request) {
         $nodes = array_reverse($nodes);
 
         $collection_level = sizeof($nodes) - 1;
-		// we only have templates until the first level is reached, then we'll use the same templates
-		if($collection_level > 1){
-			$collection_level = 1;
-		}
+        // we only have templates until the first level is reached, then we'll use the same templates
+        if ($collection_level > 1) {
+            $collection_level = 1;
+        }
 
         //Copy Themenportal-Vorlage Content
-        if ($template = get_page_by_path('themenportal-vorlage-'. $collection_level, OBJECT, 'portal')){
+        if ($template = get_page_by_path('themenportal-vorlage-' . $collection_level, OBJECT, 'portal')) {
             $template_id = $template->ID;
         }
-        if($type == 'zmf'){
+        if ($type == 'zmf') {
             $template_id = '64494';
         }
 
-        if ($template_id){
+        if ($template_id) {
             $content = get_post_field('post_content', $template_id);
         }
 
         $slug = '';
-        if($type == 'zmf'){
+        if ($type == 'zmf') {
             $slug = 'kita-' . $topic;
-        }else{
-            foreach ($disciplinesMapped as $discipline){
-                $slug .= $discipline.'-';
+        } else {
+            foreach ($disciplinesMapped as $discipline) {
+                $slug .= $discipline . '-';
             }
             $slug .= $topic;
         }
 
         $post_status = 'draft';
-        if ($collection_level == 1){
+        if ($collection_level == 1) {
             $post_status = 'publish';
         }
 
@@ -195,8 +201,9 @@ function add_portal(WP_REST_Request $request) {
             update_field('topic', $topic, $post_id);
 
             //Discipline
-            if(!function_exists("clean_discipline")){
-                function clean_discipline($n){
+            if (!function_exists("clean_discipline")) {
+                function clean_discipline($n)
+                {
                     $disciplineLastSlash = strrpos($n, "/");
                     $disciplineIdNr = substr($n, $disciplineLastSlash + 1);
                     return $disciplineIdNr;
@@ -206,8 +213,9 @@ function add_portal(WP_REST_Request $request) {
 
 
             //Edu Context
-            if(!function_exists("clean_edu_context")){
-                function clean_edu_context($n){
+            if (!function_exists("clean_edu_context")) {
+                function clean_edu_context($n)
+                {
                     $eduConLastSlash = strrpos($n, "/");
                     $eduConId = substr($n, $eduConLastSlash + 1);
                     return $eduConId;
@@ -216,8 +224,9 @@ function add_portal(WP_REST_Request $request) {
             update_field('educationalContext', array_map("clean_edu_context", $edu_contexts), $post_id);
 
             //Intended End User Role
-            if(!function_exists("clean_intended_end_user_role")){
-                function clean_intended_end_user_role($n){
+            if (!function_exists("clean_intended_end_user_role")) {
+                function clean_intended_end_user_role($n)
+                {
                     $euRoleLastSlash = strrpos($n, "/");
                     $euRoleId = substr($n, $euRoleLastSlash + 1);
                     return $euRoleId;
@@ -226,12 +235,12 @@ function add_portal(WP_REST_Request $request) {
 
             update_field('intendedEndUserRole', array_map("clean_intended_end_user_role", $intended_end_user_roles), $post_id);
 
-            if($type == 'zmf'){
+            if ($type == 'zmf') {
                 //set typ zmf for page
                 update_field('field_617963f992a7b', 2, $post_id);
             }
 
-          /*
+            /*
           //Copy Template Blog Posts
             $post_args = array(
                 'post_type' => 'post',
@@ -286,14 +295,14 @@ function add_portal(WP_REST_Request $request) {
           */
 
             require_once ABSPATH . '/wp-admin/includes/post.php';
-            $slug = get_post_field( 'post_name', $post_id );
+            $slug = get_post_field('post_name', $post_id);
 
             http_response_code(200);
 
-            if($type == 'zmf'){
-                print('https://medien.kita.bayern/portal/'.$slug);
-            }else{
-                print(get_site_url().'/portal/'.$slug);
+            if ($type == 'zmf') {
+                print('https://medien.kita.bayern/portal/' . $slug);
+            } else {
+                print(get_site_url() . '/portal/' . $slug);
             }
 
 
@@ -306,8 +315,6 @@ function add_portal(WP_REST_Request $request) {
             http_response_code(404);
             die();
         }
-
-
     } else {
         header("Content-Type: application/json");
         $rtn = array("Error", "Collection not available or already added.", $check_url_ret);
@@ -317,37 +324,37 @@ function add_portal(WP_REST_Request $request) {
     }
 }
 
-add_action( 'rest_api_init', function () {
-    register_rest_route( 'portal/v1', '/add/', array(
+add_action('rest_api_init', function () {
+    register_rest_route('portal/v1', '/add/', array(
         'methods' => 'GET',
         'callback' => 'add_portal',
         'permission_callback' => '__return_true',
         'args' => array(
             'collectionId' => array(
-                'validate_callback' => function($param, $request, $key) {
-                    return !empty( $param );
+                'validate_callback' => function ($param, $request, $key) {
+                    return !empty($param);
                 }
             ),
             'title' => array(
-                'validate_callback' => function($param, $request, $key) {
-                    return !empty( $param );
+                'validate_callback' => function ($param, $request, $key) {
+                    return !empty($param);
                 }
             ),
             'discipline' => array(
-                'validate_callback' => function($param, $request, $key) {
-                    return !empty( $param );
+                'validate_callback' => function ($param, $request, $key) {
+                    return !empty($param);
                 }
             ),
             'educationalContext' => array(
-                'validate_callback' => function($param, $request, $key) {
+                'validate_callback' => function ($param, $request, $key) {
                     return true;
                 }
             ),
             'intendedEndUserRole' => array(
-                'validate_callback' => function($param, $request, $key) {
+                'validate_callback' => function ($param, $request, $key) {
                     return true;
                 }
             ),
         ),
-    ) );
-} );
+    ));
+});
