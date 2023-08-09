@@ -4,7 +4,7 @@
 } ?>
 <?php
 
-require_once(get_template_directory().'/functions/wlo-config.php');
+require_once(get_template_directory() . '/functions/wlo-config.php');
 
 $postID = (!empty(get_the_id())) ? get_the_id() : acf_editor_post_id();
 $educational_filter_values = get_educational_filter_values($postID);
@@ -27,7 +27,7 @@ $fachportalContentId = uniqid('fachportalContentId-');
 $contentCount = get_field('content_count');
 $contentType = get_field('contentType');
 $blockIcon = '';
-if (isset(get_field('blockIcon')['url'])){
+if (isset(get_field('blockIcon')['url'])) {
     $blockIcon = get_field('blockIcon')['url'];
 }
 $softmatch = get_field('softmatch');
@@ -35,12 +35,12 @@ $sorting = get_field('sorting');
 $descrText = base64_encode(get_field('descrText'));
 
 $headline = '';
-if ($collectionLevel >= 1){
-    if (isset(get_field('contentType')['label'])){
+if ($collectionLevel >= 1) {
+    if (isset(get_field('contentType')['label'])) {
         $headline = get_field('contentType')['label'];
     }
 }
-if(!empty(get_field('headline'))){
+if (!empty(get_field('headline'))) {
     $headline = base64_encode(get_field('headline'));
 }
 
@@ -56,7 +56,10 @@ $showSliderDots = 'true';
 ?>
 
 <div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
-    <div class="lds-ring"><div></div><div></div></div>
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+    </div>
 </div>
 
 <script type="text/javascript" >
@@ -84,7 +87,6 @@ $showSliderDots = 'true';
         });
 
     });
-
 </script>
 
 <?php if (is_admin()) {
