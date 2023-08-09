@@ -294,10 +294,10 @@ function fachportal_content_block()
     $slidesToShow = $_POST['slidesToShow'];
     $slidesToScroll = $_POST['slidesToScroll'];
     $contentCount = $_POST['contentCount'];
-    $contentType = json_decode(html_entity_decode($_POST['contentType']), true);
-    $educational_filter_json = $_POST['educational_filter_values'];
+    $contentType = json_decode(urldecode($_POST['contentType']), true);
+    $educational_filter_json = urldecode($_POST['educational_filter_values']);
 
-    $educational_filter_values = json_decode(html_entity_decode($educational_filter_json), true);
+    $educational_filter_values = json_decode($educational_filter_json, true);
 
     $disciplines = $educational_filter_values["disciplines"];
     $educationalContexts = $educational_filter_values["educationalContexts"];

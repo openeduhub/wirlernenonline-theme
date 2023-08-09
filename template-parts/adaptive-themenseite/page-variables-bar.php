@@ -65,13 +65,14 @@ $variables = json_decode($variablesJsonString, true, flags: JSON_THROW_ON_ERROR)
                 const selectElement = jQuery(`#select-${variable.key}`);
                 selectElement.val(window.pageVariablesSubject.value[variable.key]);
                 selectElement.on('change', function() {
-                    updateGetParameter(variable.key, this.value);
+                    // TODO: update get parameters without page reload.
+                    // updateGetParameter(variable.key, this.value);
+
                     // Dynamic update
-                    //
-                    // window.pageVariablesSubject.next({
-                    //     ...window.pageVariablesSubject.value,
-                    //     [variable.key]: this.value
-                    // });
+                    window.pageVariablesSubject.next({
+                        ...window.pageVariablesSubject.value,
+                        [variable.key]: this.value
+                    });
                 });
             }
         })

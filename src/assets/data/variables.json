@@ -1,10 +1,11 @@
 [
     {
-        "key": "role",
-        "label": "Rolle",
+        "key": "intendedEndUserRole",
+        "label": "Zielgruppe",
+        "educationalFilterValuesKey": "intendedEndUserRoles",
         "options": [
-            { "value": "student", "label": "Schüler" },
-            { "value": "teacher", "label": "Lehrer" }
+            { "value": "learner", "label": "Lerner/in" },
+            { "value": "teacher", "label": "Lehrer/in" }
         ]
     },
     {

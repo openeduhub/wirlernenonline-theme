@@ -53,6 +53,8 @@ if (get_field('slidesToScroll')) {
     $slidesToScroll = get_field('slidesToScroll');
 }
 $showSliderDots = 'true';
+
+$pageVariablesDefinitions = file_get_contents(__DIR__ . '/../../src/assets/data/variables.json');
 ?>
 
 <div class="fachportal-content-block" id="<?php echo $fachportalContentId; ?>">
@@ -62,29 +64,58 @@ $showSliderDots = 'true';
     </div>
 </div>
 
-<script type="text/javascript" >
+<script type="text/javascript">
     jQuery(document).ready(function($) {
+        const educationalFilterValues = <?php echo json_encode($educational_filter_values); ?>;
+        const pageVariablesDefinitions = <?php echo $pageVariablesDefinitions; ?>;
 
-        var data = {
-            'action': 'fachportal_content_block',
-            'postID': '<?php echo $postID; ?>',
-            'collectionID': '<?php echo $collectionID; ?>',
-            'headline': '<?php echo $headline; ?>',
-            'descrText': '<?php echo $descrText; ?>',
-            'collectionLevel': '<?php echo $collectionLevel; ?>',
-            'blockIcon': '<?php echo $blockIcon; ?>',
-            'softmatch': '<?php echo $softmatch; ?>',
-            'sorting': '<?php echo $sorting; ?>',
-            'slidesToShow': '<?php echo $slidesToShow; ?>',
-            'slidesToScroll': '<?php echo $slidesToScroll; ?>',
-            'contentCount': '<?php echo $contentCount; ?>',
-            'contentType': '<?php echo htmlentities(json_encode($contentType)); ?>',
-            'educational_filter_values': '<?php echo htmlentities(json_encode($educational_filter_values)); ?>',
-        };
+        function addPageVariablesToFilterValues(pageVariables, filterValues) {
+            for (const [key, value] of Object.entries(pageVariables)) {
+                const variableDefinition = pageVariablesDefinitions.find(d => d.key === key);
+                if (variableDefinition.educationalFilterValuesKey) {
+                    filterValues[variableDefinition.educationalFilterValuesKey] = [value];
+                }
+            }
+        }
 
-        jQuery.post(ajaxurl, data, function(response) {
-            jQuery('#<?php echo $fachportalContentId; ?>').html(response);
-        });
+        function updateContentBlocks(filterValues) {
+            const data = {
+                'action': 'fachportal_content_block',
+                'postID': '<?php echo $postID; ?>',
+                'collectionID': '<?php echo $collectionID; ?>',
+                'headline': '<?php echo $headline; ?>',
+                'descrText': '<?php echo $descrText; ?>',
+                'collectionLevel': '<?php echo $collectionLevel; ?>',
+                'blockIcon': '<?php echo $blockIcon; ?>',
+                'softmatch': '<?php echo $softmatch; ?>',
+                'sorting': '<?php echo $sorting; ?>',
+                'slidesToShow': '<?php echo $slidesToShow; ?>',
+                'slidesToScroll': '<?php echo $slidesToScroll; ?>',
+                'contentCount': '<?php echo $contentCount; ?>',
+                'contentType': encodeURIComponent('<?php echo json_encode($contentType); ?>'),
+                'educational_filter_values': encodeURIComponent(JSON.stringify(filterValues)),
+            };
+
+            jQuery.post(ajaxurl, data, function(response) {
+                jQuery('#<?php echo $fachportalContentId; ?>').html(response);
+            });
+        }
+
+        if (window.pageVariablesSubject) {
+            let previousFilterValues = null;
+            window.pageVariablesSubject.subscribe(pageVariables => {
+                let filterValues = {
+                    ...educationalFilterValues
+                };
+                addPageVariablesToFilterValues(pageVariables, filterValues);
+                if (JSON.stringify(filterValues) !== JSON.stringify(previousFilterValues)) {
+                    previousFilterValues = filterValues;
+                    updateContentBlocks(filterValues);
+                }
+            })
+        } else {
+            updateContentBlocks(educationalFilterValues);
+        }
 
     });
 </script>
