@@ -11,15 +11,60 @@
 // parse_str($url_components['query'], $params);
 // $collectionID = $params['id'];
 
+$elementId = uniqid('swimlane-');
 $queryId = 'ngsearch';
 $criteria = get_field('criteria');
+
+$pageVariablesDefinitions = file_get_contents(__DIR__ . '/../../src/assets/data/variables.json');
 ?>
 
 
 <p>Swimlane works</p>
 
-<wlo-swimlane queryId="<?php echo $queryId; ?>" criteria='<?php echo $criteria; ?>'></wlo-swimlane>
+<wlo-swimlane
+    id="<?php echo $elementId; ?>"
+    queryId="<?php echo $queryId; ?>"
+    criteria='<?php echo $criteria; ?>'>
+</wlo-swimlane>
 
 <?php if (is_admin()) {
     echo '</div>';
 } ?>
+
+<script>
+    const pageVariablesDefinitions = <?php echo $pageVariablesDefinitions; ?>;
+    // FIXME: allows javascript injection.
+    const criteriaField = <?php echo $criteria; ?>;
+
+    function addPageVariablesToCriteria(criteria, pageVariables) {
+        const result = [
+            ...criteria
+        ];
+        for (const [key, value] of Object.entries(pageVariables)) {
+            const variableDefinition = pageVariablesDefinitions.find(d => d.key === key);
+            if (variableDefinition.eduSharingPropertyKey) {
+                criterionIndex = result.findIndex(c =>
+                    c.property === variableDefinition.eduSharingPropertyKey
+                );
+                if (criterionIndex === -1) {
+                    criterionIndex = result.length;
+                }
+                result[criterionIndex] = {
+                    property: variableDefinition.eduSharingPropertyKey,
+                    values: [variableDefinition.vocabsUrl + value],
+                }
+            }
+        }
+        return result;
+    }
+
+    jQuery(document).ready(() => {
+        if (window.pageVariablesSubject) {
+            const swimlaneElement = jQuery('#<?php echo $elementId; ?>');
+            window.pageVariablesSubject.subscribe(pageVariables => {
+                const criteria = addPageVariablesToCriteria(criteriaField, pageVariables);
+                swimlaneElement.attr('criteria', JSON.stringify(criteria));
+            });
+        }
+    })
+</script>

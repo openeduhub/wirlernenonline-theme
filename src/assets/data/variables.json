@@ -1,19 +1,21 @@
 [
-    {
-        "key": "intendedEndUserRole",
-        "label": "Zielgruppe",
-        "educationalFilterValuesKey": "intendedEndUserRoles",
-        "options": [
-            { "value": "learner", "label": "Lerner/in" },
-            { "value": "teacher", "label": "Lehrer/in" }
-        ]
-    },
-    {
-        "key": "native-language",
-        "label": "Muttersprache",
-        "options": [
-            { "value": "german", "label": "Deutsch" },
-            { "value": "english", "label": "Englisch" }
-        ]
-    }
+  {
+    "key": "intendedEndUserRole",
+    "label": "Zielgruppe",
+    "educationalFilterValuesKey": "intendedEndUserRoles",
+    "eduSharingPropertyKey": "ccm:educationalintendedenduserrole",
+    "vocabsUrl": "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/",
+    "options": [
+      { "value": "learner", "label": "Lerner/in" },
+      { "value": "teacher", "label": "Lehrer/in" }
+    ]
+  },
+  {
+    "key": "native-language",
+    "label": "Muttersprache",
+    "options": [
+      { "value": "german", "label": "Deutsch" },
+      { "value": "english", "label": "Englisch" }
+    ]
+  }
 ]
