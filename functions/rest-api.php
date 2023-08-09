@@ -324,6 +324,22 @@ function add_portal(WP_REST_Request $request)
     }
 }
 
+function restGetBreadcrumbs(WP_REST_Request $request): WP_REST_Response | WP_ERROR
+{
+    $collectionId = $request->get_param('collectionId');
+    $parents = getCollectionAncestors($collectionId);
+    if (empty($parents)) {
+        return new WP_REST_Response(
+            array(
+                'status' => 400,
+                'response' => 'Could not get collection ancestors for ' . $collectionId,
+            )
+        );
+    }
+    $breadcrumbs = getBreadcrumbs($parents);
+    return rest_ensure_response($breadcrumbs);
+}
+
 add_action('rest_api_init', function () {
     register_rest_route('portal/v1', '/add/', array(
         'methods' => 'GET',
@@ -357,4 +373,12 @@ add_action('rest_api_init', function () {
             ),
         ),
     ));
+    register_rest_route('portal/v1', '/breadcrumbs/', [
+        'methods' => 'GET',
+        'callback' => 'restGetBreadcrumbs',
+        'permission_callback' => '__return_true',
+        'args' => [
+            'collectionId' => ['required' => true]
+        ],
+    ]);
 });

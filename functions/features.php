@@ -351,6 +351,8 @@ function httpRequest($url, $method = 'GET', $body = null, $cacheTime = null, $he
  * Calls a generic REST API with optional JSON request data and expected JSON response.
  * 
  * Caches responses for one minute by default (even for "POST" requests!).
+ * 
+ * Returns `NULL` when didn't receive valid json response.
  */
 function callWloRestApi($url, $type = 'GET', $body = null, $cacheTime = 60)
 {
