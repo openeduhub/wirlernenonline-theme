@@ -79,6 +79,7 @@ export default function Edit({ attributes }) {
 				selectValues={selectValues}
 				responseTexts={responseTexts}
 				setResponseTexts={setResponseTexts}
+				promptText={promptText}
 			/>
 		</div>
 	);
