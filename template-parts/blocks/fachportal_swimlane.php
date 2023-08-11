@@ -18,9 +18,6 @@ $criteria = get_field('criteria');
 $pageVariablesDefinitions = file_get_contents(__DIR__ . '/../../src/assets/data/variables.json');
 ?>
 
-
-<p>Swimlane works</p>
-
 <wlo-swimlane
     id="<?php echo $elementId; ?>"
     queryId="<?php echo $queryId; ?>"
@@ -65,6 +62,9 @@ $pageVariablesDefinitions = file_get_contents(__DIR__ . '/../../src/assets/data/
                 const criteria = addPageVariablesToCriteria(criteriaField, pageVariables);
                 swimlaneElement.attr('criteria', JSON.stringify(criteria));
             });
+            swimlaneElement.on('itemClicked', function(event) {
+                showContentPopup(event.detail.ref.id);
+            })
         }
     })
 </script>
