@@ -19,6 +19,9 @@
 		.send-button {
 			margin-top: 22px;
 			height: 80px;
+			flex-shrink: 0;
+			width: 70px;
+			justify-content: center;
 		}
 	}
 }

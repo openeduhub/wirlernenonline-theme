@@ -42,6 +42,7 @@ export default function Edit({ attributes }) {
 	const [promptText, setPromptText] = useState(attributes.promptText);
 	const [responseTexts, setResponseTexts] = useState(attributes.responseTexts ?? {});
 	const [selectValues, setSelectValues] = useState(initialSelectValues);
+	const [isLoading, setIsLoading] = useState(false);
 	useEffect(() => {
 		attributes.headingText = headingText;
 		attributes.promptText = promptText;
@@ -49,14 +50,19 @@ export default function Edit({ attributes }) {
 	}, [headingText, promptText, responseTexts]);
 
 	function sendChatGptRequests(currentPromptText) {
-		getChatGptResponseTexts(currentPromptText).then((responses) => {
-			setResponseTexts(
-				responses.reduce((acc, response) => {
-					acc[getKey(response.combination)] = response.response;
-					return acc;
-				}, {}),
-			);
-		});
+		setIsLoading(true);
+		getChatGptResponseTexts(currentPromptText)
+			.then((responses) => {
+				setResponseTexts(
+					responses.reduce((acc, response) => {
+						acc[getKey(response.combination)] = response.response;
+						return acc;
+					}, {}),
+				);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	}
 
 	return (
@@ -66,6 +72,7 @@ export default function Edit({ attributes }) {
 				promptText={promptText}
 				setPromptText={setPromptText}
 				sendChatGptRequests={sendChatGptRequests}
+				isLoading={isLoading}
 			/>
 			<VariableSelector selectValues={selectValues} setSelectValues={setSelectValues} />
 			<ResponseTextarea

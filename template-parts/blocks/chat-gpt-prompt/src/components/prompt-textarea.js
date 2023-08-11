@@ -1,6 +1,6 @@
-import { TextareaControl, Button } from '@wordpress/components';
-import variables from '../data/variables';
+import { Button, Spinner, TextareaControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
+import variables from '../data/variables';
 
 const variableLabels = variables.map((variable) => variable.label);
 const helpText =
@@ -10,7 +10,12 @@ const helpText =
 		.join(', ')} werden automatisch durch die jeweiligen Werte ersetzt. ` +
 	'Wenn Sie "Senden" klicken, werden die Antworten von ChatGPT eingeholt und überschreiben die vorigen Antworten inklusive aller eigener Anpassungen.';
 
-export default function PromptTextarea({ promptText, setPromptText, sendChatGptRequests }) {
+export default function PromptTextarea({
+	promptText,
+	setPromptText,
+	sendChatGptRequests,
+	isLoading,
+}) {
 	const [currentPromptText, setCurrentPromptText] = useState(promptText);
 
 	function onClick() {
@@ -27,8 +32,8 @@ export default function PromptTextarea({ promptText, setPromptText, sendChatGptR
 				value={currentPromptText}
 				onChange={setCurrentPromptText}
 			/>
-			<Button className="send-button" variant="primary" onClick={onClick}>
-				Senden
+			<Button className="send-button" variant="primary" onClick={onClick} disabled={isLoading}>
+				{isLoading ? <Spinner /> : 'Senden'}
 			</Button>
 		</div>
 	);
