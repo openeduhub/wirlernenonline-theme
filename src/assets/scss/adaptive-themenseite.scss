@@ -12,5 +12,13 @@
     .portal-wrapper-left {
       padding-top: 1em;
     }
+    .portal-wrapper-right {
+      top: 175px;
+      max-height: calc(100vh - 175px);
+      @at-root .admin-bar#{&} {
+        top: 207px;
+        max-height: calc(100vh - 207px);
+      }
+    }
   }
 }
