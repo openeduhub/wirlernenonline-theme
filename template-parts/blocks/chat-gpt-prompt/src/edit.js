@@ -38,11 +38,30 @@ const initialSelectValues = variables.reduce((acc, variable) => {
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes }) {
-	const [headingText, setHeadingText] = useState(attributes.headingText ?? 'Chat GPT');
-	const [promptText, setPromptText] = useState(attributes.promptText);
-	const [responseTexts, setResponseTexts] = useState(attributes.responseTexts ?? {});
+	/** Text to be displayed as h2 heading on top of the block. */
+	const [headingText, setHeadingText] = useState(attributes.headingText || 'Chat GPT');
+	/**
+	 * Prompt text to be send to Chat GPT.
+	 *
+	 * Includes placeholders that will used to generate requests with different combinations.
+	 */
+	const [promptText, setPromptText] = useState(attributes.promptText ?? '');
+	/**
+	 * Response texts after requesting texts from ChatGPT or when loading the block editor,
+	 * whichever happens later.
+	 * 
+	 * Response texts are trimmed after requesting and when saving.
+	 */
+	const [originalResponseTexts, setOriginalResponseTexts] = useState(
+		attributes.responseTexts ?? {},
+	);
+	/** Response texts including custom edits done in the current editor session. */
+	const [responseTexts, setResponseTexts] = useState(originalResponseTexts);
+	/** Currently selected placeholder values, used for response review. */
 	const [selectValues, setSelectValues] = useState(initialSelectValues);
+	/** Whether a request to Chapt GPT is currently in flight. */
 	const [isLoading, setIsLoading] = useState(false);
+
 	useEffect(() => {
 		attributes.headingText = headingText;
 		attributes.promptText = promptText;
@@ -53,12 +72,12 @@ export default function Edit({ attributes }) {
 		setIsLoading(true);
 		getChatGptResponseTexts(currentPromptText)
 			.then((responses) => {
-				setResponseTexts(
-					responses.reduce((acc, response) => {
-						acc[getKey(response.combination)] = response.response;
-						return acc;
-					}, {}),
-				);
+				const responseTexts = responses.reduce((acc, response) => {
+					acc[getKey(response.combination)] = { text: response.response.trim() };
+					return acc;
+				}, {});
+				setOriginalResponseTexts(responseTexts);
+				setResponseTexts(responseTexts);
 			})
 			.finally(() => {
 				setIsLoading(false);
@@ -77,6 +96,7 @@ export default function Edit({ attributes }) {
 			<VariableSelector selectValues={selectValues} setSelectValues={setSelectValues} />
 			<ResponseTextarea
 				selectValues={selectValues}
+				originalResponseTexts={originalResponseTexts}
 				responseTexts={responseTexts}
 				setResponseTexts={setResponseTexts}
 				promptText={promptText}

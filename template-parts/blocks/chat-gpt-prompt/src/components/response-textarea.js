@@ -4,6 +4,7 @@ import { getKey } from '../utils/responseTexts';
 
 export default function ResponseTextarea({
 	selectValues,
+	originalResponseTexts,
 	responseTexts,
 	setResponseTexts,
 	promptText,
@@ -13,14 +14,23 @@ export default function ResponseTextarea({
 		selectValues,
 	)}"`;
 
+	function onChange(text) {
+		const key = getKey(selectValues);
+		const changed = originalResponseTexts[key].text !== text.trim();
+		setResponseTexts({
+			...responseTexts,
+			[key]: { text, changed, editedBy: responseTexts[key]?.editedBy },
+		});
+	}
+
 	return (
 		<div className="prompt-textarea">
 			<TextareaControl
 				className="textarea"
 				label={label}
 				help="Sie können die Antwort selbst anpassen"
-				value={responseTexts[getKey(selectValues)] ?? ''}
-				onChange={(text) => setResponseTexts({ ...responseTexts, [getKey(selectValues)]: text })}
+				value={responseTexts[getKey(selectValues)]?.text ?? ''}
+				onChange={onChange}
 			/>
 		</div>
 	);

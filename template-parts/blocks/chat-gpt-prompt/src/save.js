@@ -17,6 +17,28 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 export default function save({ attributes }) {
 	const id = attributes.id ?? Math.random().toString(36).replace('0.', 'chat-gpt-block-');
+	const currentUser = wp.data.select('core').getCurrentUser();
+
+	/**
+	 * Gets the response text to be saved from the attribute `responseTexts` populated by `Edit`.
+	 *
+	 * Looks for the property `changed` and adds the current user to the `editedBy` array if
+	 * `changed` is `true`.
+	 */
+	function getResponseTexts() {
+		const responseTexts = {};
+		for (const [key, value] of Object.entries(attributes.responseTexts)) {
+			let { text, changed, editedBy } = value;
+			if (changed && !editedBy?.includes(currentUser.name)) {
+				editedBy = [...(editedBy ?? []), currentUser.name];
+			}
+			responseTexts[key] = { text: text.trim(), editedBy };
+		}
+		return responseTexts;
+	}
+
+	attributes.responseTexts = getResponseTexts();
+	
 	return (
 		<div
 			{...useBlockProps.save()}
@@ -25,6 +47,7 @@ export default function save({ attributes }) {
 		>
 			<h2>{attributes.headingText}</h2>
 			<p className="response-text"></p>
+			<p className="edited-by"></p>
 			<script>{`jQuery(document).ready(() => registerChatGptBlock('${id}'))`}</script>
 		</div>
 	);
