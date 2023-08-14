@@ -16,7 +16,6 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {WPElement} Element to render.
  */
 export default function save({ attributes }) {
-	const id = attributes.id ?? Math.random().toString(36).replace('0.', 'chat-gpt-block-');
 	const currentUser = wp.data.select('core').getCurrentUser();
 
 	/**
@@ -54,13 +53,13 @@ export default function save({ attributes }) {
 	return (
 		<div
 			{...useBlockProps.save()}
-			id={id}
+			id={attributes.id}
 			data-response-texts={JSON.stringify(attributes.responseTexts)}
 		>
 			<h2>{attributes.headingText}</h2>
 			<p className="response-text"></p>
 			<p className="edited-by"></p>
-			<script>{`jQuery(document).ready(() => registerChatGptBlock('${id}'))`}</script>
+			<script>{`jQuery(document).ready(() => registerChatGptBlock('${attributes.id}'))`}</script>
 		</div>
 	);
 }

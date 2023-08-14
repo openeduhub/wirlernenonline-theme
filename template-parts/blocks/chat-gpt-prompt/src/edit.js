@@ -37,7 +37,7 @@ const initialSelectValues = variables.reduce((acc, variable) => {
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ attributes }) {
+export default function Edit({ attributes, setAttributes, clientId }) {
 	/** Text to be displayed as h2 heading on top of the block. */
 	const [headingText, setHeadingText] = useState(attributes.headingText || 'Chat GPT');
 	/**
@@ -49,7 +49,7 @@ export default function Edit({ attributes }) {
 	/**
 	 * Response texts after requesting texts from ChatGPT or when loading the block editor,
 	 * whichever happens later.
-	 * 
+	 *
 	 * Response texts are trimmed after requesting and when saving.
 	 */
 	const [originalResponseTexts, setOriginalResponseTexts] = useState(
@@ -63,10 +63,15 @@ export default function Edit({ attributes }) {
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		attributes.headingText = headingText;
-		attributes.promptText = promptText;
-		attributes.responseTexts = responseTexts;
+		setAttributes({ headingText, promptText, responseTexts });
 	}, [headingText, promptText, responseTexts]);
+
+	// Use the initial temporary block ID as permanent element ID.
+	useEffect(() => {
+		if (!attributes.id) {
+			setAttributes({ id: clientId });
+		}
+	});
 
 	function sendChatGptRequests(currentPromptText) {
 		setIsLoading(true);
