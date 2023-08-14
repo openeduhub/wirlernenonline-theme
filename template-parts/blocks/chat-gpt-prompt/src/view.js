@@ -8,13 +8,17 @@ window.registerChatGptBlock = (id) => {
 	window.pageVariablesSubject.subscribe((pageVariables) => {
 		const key = getKey(pageVariables);
 		const responseText = responseTexts[key];
-		responseTextElement.text(responseText.text);
-		if (responseText.editedBy?.length) {
-			editedByElement.text(
-				`generiert mit ChatGPT und bearbeitet von ${responseText.editedBy.join(', ')}`,
-			);
+		if (responseText) {
+			responseTextElement.text(responseText.text);
+			if (responseText.editedBy?.length) {
+				editedByElement.text(
+					`generiert mit ChatGPT und bearbeitet von ${responseText.editedBy.join(', ')}`,
+				);
+			} else {
+				editedByElement.text(`generiert mit ChatGPT`);
+			}
 		} else {
-			editedByElement.text(`generiert mit ChatGPT`);
+			responseTextElement.text("Hier gibt es noch keinen Text.")
 		}
 	});
 };
