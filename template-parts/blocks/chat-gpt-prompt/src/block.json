@@ -31,7 +31,10 @@
 			"type": "string"
 		},
 		"responseTexts": {
-			"type": "object"
+			"type": "string",
+			"source": "attribute",
+			"selector": "div",
+			"attribute": "data-response-texts"
 		}
 	}
 }

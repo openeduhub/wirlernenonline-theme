@@ -25,20 +25,32 @@ export default function save({ attributes }) {
 	 * Looks for the property `changed` and adds the current user to the `editedBy` array if
 	 * `changed` is `true`.
 	 */
-	function getResponseTexts() {
-		const responseTexts = {};
-		for (const [key, value] of Object.entries(attributes.responseTexts)) {
+	function getResponseTexts(responseTexts) {
+		const result = {};
+		for (const [key, value] of Object.entries(responseTexts)) {
 			let { text, changed, editedBy } = value;
 			if (changed && !editedBy?.includes(currentUser.name)) {
 				editedBy = [...(editedBy ?? []), currentUser.name];
 			}
-			responseTexts[key] = { text: text.trim(), editedBy };
+			result[key] = { text: text.trim(), editedBy };
 		}
-		return responseTexts;
+		return result;
 	}
 
-	attributes.responseTexts = getResponseTexts();
-	
+	// The save function is both the entry point to first see parsed attributes and the last
+	// function to modify attributes before they get written into page content.
+	//
+	// We use this position to...
+	if (typeof attributes.responseTexts === 'string') {
+		// ...parse a JSON string from an attribute when initially opening the editor and convert it
+		// to an object for further modification by the `Edit` function
+		attributes.responseTexts = JSON.parse(attributes.responseTexts);
+	} else if (typeof attributes.responseTexts === 'object') {
+		// ...and to to do final processing before saving after the `Edit` function has modified the
+		// object.
+		attributes.responseTexts = getResponseTexts(attributes.responseTexts);
+	}
+
 	return (
 		<div
 			{...useBlockProps.save()}
