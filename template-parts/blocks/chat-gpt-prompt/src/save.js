@@ -31,7 +31,7 @@ export default function save({ attributes }) {
 			if (changed && !editedBy?.includes(currentUser.name)) {
 				editedBy = [...(editedBy ?? []), currentUser.name];
 			}
-			result[key] = { text: text.trim(), editedBy };
+			result[key] = { text: text?.trim(), editedBy };
 		}
 		return result;
 	}
