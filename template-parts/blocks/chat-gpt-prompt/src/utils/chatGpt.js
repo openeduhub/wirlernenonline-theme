@@ -1,10 +1,11 @@
 import variables from '../data/variables';
+import placeholderService from '../services/placeholder-service';
 
 export function getChatGptResponseTexts(prompt) {
 	const promises = [];
 	const combinations = getOptionCombinations();
 	for (const combination of combinations) {
-		let combinationPrompt = replacePromptPlaceholders(prompt, combination);
+		const combinationPrompt = placeholderService.replaceVariablePlaceholders(prompt, combination);
 		promises.push(
 			getChatGptResponseText(combinationPrompt).then((response) => ({
 				combination,
@@ -13,23 +14,6 @@ export function getChatGptResponseTexts(prompt) {
 		);
 	}
 	return Promise.all(promises);
-}
-
-/**
- * Replaces placeholders of the form $VARIABLE$ within the `promptText` and returns the modified
- * text.
- *
- * @param {string} promptText
- * @param {{[key: string]: string;}} selectedVariables
- * @returns {string}
- */
-export function replacePromptPlaceholders(promptText, selectedVariables) {
-	let result = promptText;
-	for (const [key, value] of Object.entries(selectedVariables)) {
-		const { variableLabel, optionLabel } = getKeyValueLabels(key, value);
-		result = result.replace(`$${variableLabel.toLocaleUpperCase()}$`, optionLabel);
-	}
-	return result;
 }
 
 /**
@@ -58,12 +42,6 @@ function getOptionCombinations(vars = variables) {
 			[head.key]: option.value,
 		}));
 	});
-}
-
-function getKeyValueLabels(key, value) {
-	const variable = variables.find((v) => v.key === key);
-	const option = variable.options.find((o) => o.value === value);
-	return { variableLabel: variable.label, optionLabel: option.label };
 }
 
 async function getChatGptResponseText(prompt) {

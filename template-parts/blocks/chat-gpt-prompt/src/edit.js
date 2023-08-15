@@ -14,13 +14,17 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 import './editor.scss';
 
+import { Notice } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import HeadingInput from './components/heading-input';
+import PromptHeading from './components/prompt-heading';
 import PromptTextarea from './components/prompt-textarea';
+import ResponseHeading from './components/response-heading';
 import ResponseTextarea from './components/response-textarea';
 import VariableSelector from './components/variable-selector';
 import variables from './data/variables';
-
+import collectionService from './services/collection-service';
+import placeholderService from './services/placeholder-service';
 import { getChatGptResponseTexts } from './utils/chatGpt';
 import { getKey } from './utils/responseTexts';
 
@@ -47,6 +51,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	 */
 	const [promptText, setPromptText] = useState(attributes.promptText ?? '');
 	/**
+	 * The value of `promptText` with resolved placeholders for collection values.
+	 */
+	const [promptTextWithCollectionValues, setPromptTextWithCollectionValues] = useState(
+		attributes.promptTextWithCollectionValues ?? '',
+	);
+	/**
 	 * Response texts after requesting texts from ChatGPT or when loading the block editor,
 	 * whichever happens later.
 	 *
@@ -61,10 +71,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const [selectValues, setSelectValues] = useState(initialSelectValues);
 	/** Whether a request to Chapt GPT is currently in flight. */
 	const [isLoading, setIsLoading] = useState(false);
+	/** An error that occured when requesting data from Chat GPT. */
+	const [error, setError] = useState();
+	/** The collection id used for resolving collection placholders. */
+	const [collectionId, setCollectionId] = useState(collectionService.getCurrentCollectionId());
 
 	useEffect(() => {
-		setAttributes({ headingText, promptText, responseTexts });
-	}, [headingText, promptText, responseTexts]);
+		setAttributes({ headingText, promptText, promptTextWithCollectionValues, responseTexts });
+	}, [headingText, promptText, promptTextWithCollectionValues, responseTexts]);
 
 	// Use the initial temporary block ID as permanent element ID.
 	useEffect(() => {
@@ -73,38 +87,65 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 		}
 	});
 
-	function sendChatGptRequests(currentPromptText) {
+	function updateCollectionId() {
+		const currentCollectionId = collectionService.getCurrentCollectionId();
+		if (currentCollectionId !== collectionId) {
+			setCollectionId(currentCollectionId);
+		}
+	}
+
+	async function sendChatGptRequests(currentPromptText) {
+		setError(null);
 		setIsLoading(true);
-		getChatGptResponseTexts(currentPromptText)
-			.then((responses) => {
-				const responseTexts = responses.reduce((acc, response) => {
-					acc[getKey(response.combination)] = { text: response.response.trim() };
-					return acc;
-				}, {});
-				setOriginalResponseTexts(responseTexts);
-				setResponseTexts(responseTexts);
-			})
-			.finally(() => {
-				setIsLoading(false);
-			});
+		try {
+			const promptTextWithCollectionValues_ =
+				await placeholderService.replaceCollectionPlaceholders(currentPromptText, collectionId);
+			const responses = await getChatGptResponseTexts(promptTextWithCollectionValues_);
+			const responseTexts = responses.reduce((acc, response) => {
+				acc[getKey(response.combination)] = { text: response.response.trim() };
+				return acc;
+			}, {});
+			setOriginalResponseTexts(responseTexts);
+			setResponseTexts(responseTexts);
+			setPromptTextWithCollectionValues(promptTextWithCollectionValues_);
+		} catch (e) {
+			setError(e);
+		}
+		setIsLoading(false);
 	}
 
 	return (
 		<div {...useBlockProps()}>
+			{error && (
+				<Notice status="error" onRemove={() => setError(null)}>
+					<p>{error.toString() ?? 'Fehler beim Senden der Anfrage'}</p>
+				</Notice>
+			)}
 			<HeadingInput headingText={headingText} setHeadingText={setHeadingText} />
+			<PromptHeading 
+							collectionId={collectionId}
+							updateCollectionId={updateCollectionId}
+			/>
 			<PromptTextarea
 				promptText={promptText}
 				setPromptText={setPromptText}
 				sendChatGptRequests={sendChatGptRequests}
 				isLoading={isLoading}
+
 			/>
-			<VariableSelector selectValues={selectValues} setSelectValues={setSelectValues} />
+			<ResponseHeading />
+			<VariableSelector
+				selectValues={selectValues}
+				setSelectValues={setSelectValues}
+				isLoading={isLoading}
+			/>
 			<ResponseTextarea
 				selectValues={selectValues}
 				originalResponseTexts={originalResponseTexts}
 				responseTexts={responseTexts}
 				setResponseTexts={setResponseTexts}
-				promptText={promptText}
+				promptText={promptTextWithCollectionValues}
+				isLoading={isLoading}
 			/>
 		</div>
 	);

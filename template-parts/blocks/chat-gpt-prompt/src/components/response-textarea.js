@@ -1,5 +1,5 @@
 import { TextareaControl } from '@wordpress/components';
-import { replacePromptPlaceholders } from '../utils/chatGpt';
+import placeholderService from '../services/placeholder-service';
 import { getKey } from '../utils/responseTexts';
 
 export default function ResponseTextarea({
@@ -8,11 +8,11 @@ export default function ResponseTextarea({
 	responseTexts,
 	setResponseTexts,
 	promptText,
+	isLoading,
 }) {
-	const label = `Die Antwort von ChatGPT für die Anfrage "${replacePromptPlaceholders(
-		promptText,
-		selectValues,
-	)}"`;
+	const label =
+		'Die Antwort von ChatGPT für die Anfrage ' +
+		`"${placeholderService.replaceVariablePlaceholders(promptText, selectValues)}"`;
 
 	function onChange(text) {
 		const key = getKey(selectValues);
@@ -28,9 +28,10 @@ export default function ResponseTextarea({
 			<TextareaControl
 				className="textarea"
 				label={label}
-				help="Sie können die Antwort selbst anpassen"
+				help="Sie können die Antwort selbst anpassen."
 				value={responseTexts[getKey(selectValues)]?.text ?? ''}
 				onChange={onChange}
+				disabled={isLoading}
 			/>
 		</div>
 	);

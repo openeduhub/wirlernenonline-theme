@@ -30,6 +30,9 @@
 		"promptText": {
 			"type": "string"
 		},
+		"promptTextWithCollectionValues": {
+			"type": "string"
+		},
 		"responseTexts": {
 			"type": "string",
 			"source": "attribute",

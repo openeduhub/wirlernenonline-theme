@@ -308,7 +308,16 @@ function register_acf_block_types()
         ),
         'keywords'          => [],
     ]);
-    register_block_type( __DIR__ . '/../template-parts/blocks/chat-gpt-prompt/build' );
+    register_block_type(__DIR__ . '/../template-parts/blocks/chat-gpt-prompt/build');
+    add_action('admin_enqueue_scripts', function () {
+        wp_add_inline_script(
+            'wirlernenonline-theme-chat-gpt-prompt-editor-script',
+            'window.chatGptPromptConfig = ' . json_encode(array(
+                'eduSharingApiUrl' => WLO_REPO . 'rest',
+            )),
+            'before'
+        );
+    });
 }
 if (function_exists('acf_register_block_type')) {
     add_action('acf/init', 'register_acf_block_types');

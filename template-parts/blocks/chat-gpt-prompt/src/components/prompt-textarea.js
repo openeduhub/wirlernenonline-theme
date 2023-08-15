@@ -1,14 +1,5 @@
 import { Button, Spinner, TextareaControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-import variables from '../data/variables';
-
-const variableLabels = variables.map((variable) => variable.label);
-const helpText =
-	'Formulieren Sie eine Anfrage an ChatGPT. ' +
-	`Die Platzhalter ${variableLabels
-		.map((label) => `$${label.toLocaleUpperCase()}$`)
-		.join(', ')} werden automatisch durch die jeweiligen Werte ersetzt. ` +
-	'Wenn Sie "Senden" klicken, werden die Antworten von ChatGPT eingeholt und überschreiben die vorigen Antworten inklusive aller eigener Anpassungen.';
 
 export default function PromptTextarea({
 	promptText,
@@ -18,7 +9,7 @@ export default function PromptTextarea({
 }) {
 	const [currentPromptText, setCurrentPromptText] = useState(promptText);
 
-	function onClick() {
+	function send() {
 		setPromptText(currentPromptText);
 		sendChatGptRequests(currentPromptText);
 	}
@@ -28,11 +19,18 @@ export default function PromptTextarea({
 			<TextareaControl
 				className="textarea"
 				label="Prompt für ChatGPT"
-				help={helpText}
+				help={
+					<>
+						<p>
+							Wenn Sie "Senden" klicken, werden die Antworten von ChatGPT eingeholt und
+							überschreiben die vorigen Antworten inklusive aller eigener Anpassungen.
+						</p>
+					</>
+				}
 				value={currentPromptText}
 				onChange={setCurrentPromptText}
 			/>
-			<Button className="send-button" variant="primary" onClick={onClick} disabled={isLoading}>
+			<Button className="send-button" variant="primary" onClick={send} disabled={isLoading}>
 				{isLoading ? <Spinner /> : 'Senden'}
 			</Button>
 		</div>

@@ -9,6 +9,15 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 1em;
+		.components-select-control {
+			min-width: 120px;
+		}
+	}
+	.prompt-heading {
+		margin-bottom: 1em;
+		h3 {
+			margin-bottom: 0;
+		}
 	}
 	.prompt-textarea {
 		display: flex;
@@ -18,11 +27,26 @@
 			flex-grow: 1;
 		}
 		.send-button {
-			margin-top: 22px;
+			margin-top: 25px;
 			height: 80px;
 			flex-shrink: 0;
 			width: 70px;
 			justify-content: center;
+		}
+	}
+	.collection-placeholders {
+		table.placeholders-table {
+			td:not(:last-child) {
+				padding-right: 0.5em;
+			}
+		}
+	}
+	.response-heading {
+		h3 {
+			margin-bottom: 0;
+		}
+		p {
+			margin-bottom: 1em;
 		}
 	}
 }
