@@ -1,6 +1,6 @@
 <?php if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">WLO: Veranstaltungs-Karte</div>';
+    echo '<div class="backend_hint">Berufsseite: Veranstaltungs-Karte</div>';
 } ?>
 
 <?php $eventsMapContainerId = uniqid('wlo-events-map-container-'); ?>
