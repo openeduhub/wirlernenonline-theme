@@ -5,6 +5,10 @@
  */
 
 .wp-block-wirlernenonline-theme-chat-gpt-prompt {
+	p {
+		margin: 0;
+	}
+
 	.variable-selector {
 		display: flex;
 		flex-wrap: wrap;
