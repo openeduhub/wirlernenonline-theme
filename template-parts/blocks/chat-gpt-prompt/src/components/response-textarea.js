@@ -10,9 +10,11 @@ export default function ResponseTextarea({
 	promptText,
 	isLoading,
 }) {
-	const label =
-		'Die Antwort von ChatGPT für die Anfrage ' +
-		`"${placeholderService.replaceVariablePlaceholders(promptText, selectValues)}"`;
+	const prompt = placeholderService.replaceVariablePlaceholders(promptText, selectValues);
+	let label = 'Die Antwort von ChatGPT';
+	if (prompt) {
+		label += ' für die Anfrage ' + `"${prompt}"`;
+	}
 
 	function onChange(text) {
 		const key = getKey(selectValues);
@@ -30,6 +32,7 @@ export default function ResponseTextarea({
 				label={label}
 				help="Sie können die Antwort selbst anpassen."
 				value={responseTexts[getKey(selectValues)]?.text ?? ''}
+				rows={responseTexts[getKey(selectValues)]?.text ? 10 : 4}
 				onChange={onChange}
 				disabled={isLoading}
 			/>
