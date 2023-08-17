@@ -7,9 +7,10 @@
 
 .wp-block-wirlernenonline-theme-chat-gpt-prompt {
 	padding: 1em;
-
+	.response-text p {
+		margin-bottom: 1em;
+	}
 	.edited-by {
-		margin-top: 1em;
 		text-align: right;
 	}
 }

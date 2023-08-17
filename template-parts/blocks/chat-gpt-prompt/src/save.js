@@ -57,7 +57,7 @@ export default function save({ attributes }) {
 			data-response-texts={JSON.stringify(attributes.responseTexts)}
 		>
 			<h2>{attributes.headingText}</h2>
-			<p className="response-text"></p>
+			<div className="response-text"></div>
 			<p className="edited-by"></p>
 			<script>{`jQuery(document).ready(() => registerChatGptBlock('${attributes.id}'))`}</script>
 		</div>
