@@ -412,6 +412,9 @@ ul.no-bullet, ol.no-bullet {
   .block-editor-writing-flow .slick-slider {
     max-height: none;
     height: auto; }
+  .block-editor-writing-flow .slick-slider .slick-slide > div{
+    display: flex; }
+  
   .block-editor-writing-flow .portal_block_slider_content {
     display: block;
     padding: 0; }

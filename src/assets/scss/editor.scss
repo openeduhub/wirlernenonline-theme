@@ -20,6 +20,12 @@
   .slick-slider {
     max-height: none;
     height: auto;
+    // For some reason, slick decides to wrap elements in two additional div containers when in
+    // editor context. The second one being `display: block` doesn't respect the margin of its
+    // child.
+    slick-slide > div {
+      display: flex;
+    }
   }
 
   .portal_block_slider_content {
