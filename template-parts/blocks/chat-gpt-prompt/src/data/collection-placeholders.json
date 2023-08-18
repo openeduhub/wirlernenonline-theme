@@ -1,0 +1,71 @@
+[
+	{
+		"label": "Titel",
+		"property": "cm:title"
+	},
+	{
+		"label": "Hierarchie",
+		"computeKey": "hierarchy",
+		"multiple": true
+	},
+	{
+		"label": "Beschreibung",
+		"property": "cm:description"
+	},
+	{
+		"label": "Schlagwort",
+		"multipleLabel": "Schlagwörter",
+		"property": "cclom:general_keyword",
+		"multiple": true
+	},
+	{
+		"label": "Wordpress-Link",
+		"property": "cclom:location"
+	},
+	{
+		"label": "Sammlungs-Link",
+		"computeKey": "collectionUrl"
+	},
+	{
+		"label": "Kurzer Titel",
+		"property": "ccm:collectionshorttitle"
+	},
+	{
+		"label": "Sammlungstyp",
+		"property": "ccm:collectiontype"
+	},
+	{
+		"label": "Zuletzt geändert",
+		"property": "cm:modifiedISO8601"
+	},
+	{
+		"label": "Fach",
+		"multipleLabel": "Fächer",
+		"property": "ccm:taxonid_DISPLAYNAME",
+		"multiple": true
+	},
+	{
+		"label": "Aufrufe",
+		"property": "ccm:tracking_views"
+	},
+	{
+		"label": "Erstellt",
+		"property": "cm:createdISO8601"
+	},
+	{
+		"label": "Ersteller*in",
+		"property": "cm:creator"
+	},
+	{
+		"label": "Eigentümer*in",
+		"property": "cm:owner"
+	},
+	{
+		"label": "Version",
+		"property": "cm:versionLabel"
+	},
+	{
+		"label": "UUID",
+		"property": "sys:node-uuid"
+	}
+]

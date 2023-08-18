@@ -122,16 +122,15 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				</Notice>
 			)}
 			<HeadingInput headingText={headingText} setHeadingText={setHeadingText} />
-			<PromptHeading 
-							collectionId={collectionId}
-							updateCollectionId={updateCollectionId}
+			<PromptHeading
+				collectionId={collectionId}
+				updateCollectionId={updateCollectionId}
 			/>
 			<PromptTextarea
 				promptText={promptText}
 				setPromptText={setPromptText}
 				sendChatGptRequests={sendChatGptRequests}
 				isLoading={isLoading}
-
 			/>
 			<ResponseHeading />
 			<VariableSelector

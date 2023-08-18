@@ -28,6 +28,10 @@ class CollectionService {
 	 * @type {Promise}
 	 */
 	_collectionData;
+	/**
+	 * @type {Promise}
+	 */
+	_collectionsHierarchy;
 
 	/**
 	 * Returns the ID of the collection given by the ACF field 'collection_url'.
@@ -54,19 +58,29 @@ class CollectionService {
 	 * @returns {Promise}
 	 */
 	getCollectionData(collectionId) {
-		if (!collectionId) {
-			return null;
-		} else if (collectionId !== this._collectionId) {
-			this._collectionId = collectionId;
-			this._collectionData = this._fetchCollectionData(collectionId);
-		}
+		this._updateCollectionId(collectionId);
+		this._collectionData ??= this._fetchCollectionData(collectionId);
 		return this._collectionData;
+	}
+
+	getCollectionHierarchy(collectionId) {
+		this._updateCollectionId(collectionId);
+		this._collectionsHierarchy ??= this._fetchCollectionHierarchy(collectionId);
+		return this._collectionsHierarchy;
+	}
+
+	async _updateCollectionId(collectionId) {
+		if (!collectionId || collectionId !== this._collectionId) {
+			this._collectionId = collectionId;
+			this._collectionData = null;
+			this._collectionsHierarchy = null;
+		}
 	}
 
 	async _fetchCollectionData(collectionId) {
 		const response = await fetch(
-			window.chatGptPromptConfig.eduSharingApiUrl +
-				'/collection/v1/collections/-home-/' +
+			window.chatGptPromptConfig.eduSharingUrl +
+				'rest/collection/v1/collections/-home-/' +
 				collectionId,
 		);
 		if (response.ok) {
@@ -74,6 +88,21 @@ class CollectionService {
 			return data.collection;
 		} else {
 			throw new Error(`Failed to fetch collection data for id ${collectionId}`);
+		}
+	}
+
+	async _fetchCollectionHierarchy(collectionId) {
+		const response = await fetch(
+			window.chatGptPromptConfig.eduSharingUrl +
+				'rest/node/v1/nodes/-home-/' +
+				collectionId +
+				'/parents',
+		);
+		if (response.ok) {
+			const data = await response.json();
+			return data.nodes.reverse();
+		} else {
+			throw new Error(`Failed to fetch collection hierarchy for id ${collectionId}`);
 		}
 	}
 }

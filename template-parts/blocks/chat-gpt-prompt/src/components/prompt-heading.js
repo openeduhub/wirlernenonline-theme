@@ -1,10 +1,10 @@
-import { Button } from '@wordpress/components';
+import { Panel, PanelBody, PanelRow } from '@wordpress/components';
 import variables from '../data/variables';
 import CollectionPlaceholders from './collection-placeholders';
 
 const variableLabels = variables.map((variable) => variable.label);
 
-export default function PromptTextarea({ collectionId, updateCollectionId }) {
+export default function PromptHeading({ collectionId, updateCollectionId }) {
 	return (
 		<div className="prompt-heading">
 			<h3>Anfrage</h3>
@@ -19,16 +19,24 @@ export default function PromptTextarea({ collectionId, updateCollectionId }) {
 				))}
 				werden automatisch durch die jeweils auf der Seite eingestellten Werte ersetzt.
 			</p>
-
-			<p>
-				{collectionId
-					? 'Weitere Platzhalter mit Werten aus der angegebenen Sammlung.'
-					: 'Weitere Platzhalter können durch Angeben einer Sammlungs-URL aus den Sammlungsdaten genutzt werden.'}
-				<Button variant="link" onClick={updateCollectionId}>
-					Aktualisiere Sammlungswerte
-				</Button>
-			</p>
-			{collectionId && <CollectionPlaceholders collectionId={collectionId} />}
+			<Panel>
+				<PanelBody
+					title="Platzhalter aus Sammlungswerten"
+					initialOpen={false}
+					onToggle={updateCollectionId}
+				>
+					<PanelRow>
+						{collectionId ? (
+							<CollectionPlaceholders
+								collectionId={collectionId}
+								updateCollectionId={updateCollectionId}
+							/>
+						) : (
+							<p>Geben Sie eine Sammlungs-URL an, um weitere Platzhalter zu nutzen.</p>
+						)}
+					</PanelRow>
+				</PanelBody>
+			</Panel>
 		</div>
 	);
 }

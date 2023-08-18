@@ -1,13 +1,19 @@
-import { Notice, Spinner } from '@wordpress/components';
+import { Notice, Spinner, Button } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import placeholderService from '../services/placeholder-service';
 
-export default function CollectionPlaceholders({ collectionId }) {
+export default function CollectionPlaceholders({ collectionId, updateCollectionId }) {
 	const [placeholders, setPlaceholders] = useState();
 	const [loadingState, setLoadingState] = useState();
 	const [error, setError] = useState();
 
 	useEffect(() => {
+		setError(null);
+		if (!collectionId) {
+			setLoadingState(null);
+			setPlaceholders(null);
+			return;
+		}
 		setLoadingState('loading');
 		placeholderService
 			.getCollectionPlaceholders(collectionId)
@@ -27,7 +33,7 @@ export default function CollectionPlaceholders({ collectionId }) {
 				{placeholders.map(([placeholder, value]) => (
 					<tr>
 						<td>
-							<code>${placeholder.toUpperCase()}$</code>
+							<code>{placeholderService.getPlaceholderKey(placeholder)}</code>
 						</td>
 						<td>{value}</td>
 					</tr>
@@ -39,7 +45,7 @@ export default function CollectionPlaceholders({ collectionId }) {
 	function getContent() {
 		switch (loadingState) {
 			case 'loading':
-				return <Spinner />;
+				return <Spinner className="collection-placeholders-spinner" />;
 			case 'success':
 				return getPlaceholdersList();
 			case 'error':
@@ -53,5 +59,12 @@ export default function CollectionPlaceholders({ collectionId }) {
 		}
 	}
 
-	return <div className="collection-placeholders">{getContent()}</div>;
+	return (
+		<div className="collection-placeholders">
+			{getContent()}
+			<Button variant="link" onClick={updateCollectionId} disabled={loadingState === 'loading'}>
+				Aktualisiere Sammlungswerte
+			</Button>
+		</div>
+	);
 }

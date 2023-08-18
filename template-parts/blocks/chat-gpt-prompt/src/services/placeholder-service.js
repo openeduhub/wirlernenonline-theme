@@ -1,16 +1,6 @@
 import variables from '../data/variables';
 import collectionService from '../services/collection-service';
-
-const collectionProperties = [
-	{
-		label: 'Titel',
-		key: 'title',
-	},
-	{
-		label: 'URL',
-		key: 'properties.cclom:location',
-	},
-];
+import collectionPlaceholders from '../data/collection-placeholders.json';
 
 class PlaceholderService {
 	/**
@@ -30,10 +20,16 @@ class PlaceholderService {
 		return this._replacePlaceholders(promptText, placeholders);
 	}
 
+	getPlaceholderKey(label) {
+		label = label.replace(/[\s-\*]/, '_');
+		label = label.toUpperCase();
+		return '$' + label + '$';
+	}
+
 	async replaceCollectionPlaceholders(promptText, collectionId) {
 		try {
-			const placeholders = await this.getCollectionPlaceholders(collectionId);
-			return this._replacePlaceholders(promptText, placeholders);
+			const placeholderValues = await this.getCollectionPlaceholders(collectionId);
+			return this._replacePlaceholders(promptText, placeholderValues);
 		} catch (e) {
 			return promptText;
 		}
@@ -41,12 +37,15 @@ class PlaceholderService {
 
 	async getCollectionPlaceholders(collectionId) {
 		const collectionData = await collectionService.getCollectionData(collectionId);
-		const result = [];
-		for (const property of collectionProperties) {
-			const value = this._getCollectionValue(property.key, collectionData);
-			if (value) {
-				result.push([property.label, value]);
-			}
+		const collectionHierarchy = await collectionService.getCollectionHierarchy(collectionId);
+		let result = [];
+		for (const placeholder of collectionPlaceholders) {
+			const values = this._getCollectionPlaceholderValues(
+				placeholder,
+				collectionData,
+				collectionHierarchy,
+			);
+			result = [...result, ...values];
 		}
 		return result;
 	}
@@ -54,7 +53,7 @@ class PlaceholderService {
 	_replacePlaceholders(text, placeholders) {
 		let result = text;
 		for (const [variableLabel, optionLabel] of placeholders) {
-			result = result.replace(`$${variableLabel.toUpperCase()}$`, optionLabel);
+			result = result.replace(this.getPlaceholderKey(variableLabel), optionLabel);
 		}
 		return result;
 	}
@@ -68,12 +67,44 @@ class PlaceholderService {
 		return [variable.label, option.label];
 	}
 
-	_getCollectionValue(key, collectionData) {
-		let data = collectionData;
-		for (const fragment of key.split('.')) {
-			data = data?.[fragment];
+	/**
+	 * @returns {[label: string, value: string][]}
+	 */
+	_getCollectionPlaceholderValues(placeholder, collectionData, collectionHierarchy) {
+		let values;
+		if (placeholder.property) {
+			values = collectionData.properties[placeholder.property];
+		} else if (placeholder.computeKey) {
+			values = this._getComputedPlaceholderValues(placeholder, collectionData, collectionHierarchy);
 		}
-		return data;
+		if (values?.[0]?.trim()) {
+			if (placeholder.multiple) {
+				return [
+					[placeholder.multipleLabel ?? placeholder.label, values.join(', ')],
+					...values.map((value, index) => [`${placeholder.label}_${index}`, value]),
+				];
+			} else {
+				return [[placeholder.label, values[0]]];
+			}
+		} else {
+			return [];
+		}
+	}
+
+	_getComputedPlaceholderValues(placeholder, collectionData, collectionHierarchy) {
+		switch (placeholder.computeKey) {
+			case 'collectionUrl':
+				return [
+					window.chatGptPromptConfig.eduSharingUrl +
+						'components/collections?id=' +
+						collectionData.ref.id,
+				];
+			case 'hierarchy':
+				const [portal, ...parents] = collectionHierarchy;
+				return parents.map((node) => node.title);
+			default:
+				return [];
+		}
 	}
 }
 

@@ -313,7 +313,7 @@ function register_acf_block_types()
         wp_add_inline_script(
             'wirlernenonline-theme-chat-gpt-prompt-editor-script',
             'window.chatGptPromptConfig = ' . json_encode(array(
-                'eduSharingApiUrl' => WLO_REPO . 'rest',
+                'eduSharingUrl' => WLO_REPO,
             )),
             'before'
         );
