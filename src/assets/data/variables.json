@@ -14,10 +14,18 @@
     "key": "native-language",
     "label": "Muttersprache",
     "options": [
-      { "value": "english", "label": "Englisch" },
-      { "value": "french", "label": "Französisch" },
-      { "value": "turkish", "label": "Türkisch" },
-      { "value": "spanish", "label": "Spanisch" }
+      { "value": "english", "label": "English" },
+      { "value": "french", "label": "Français" },
+      { "value": "turkish", "label": "Türkçe" }
+    ]
+  },
+  {
+    "key": "profession",
+    "label": "Beruf",
+    "options": [
+      { "value": "catering", "label": "Gastronomie" },
+      { "value": "cleaner", "label": "Reinigungsfachkraft" },
+      { "value": "gardener", "label": "Gärtner/in" }
     ]
   }
 ]
