@@ -3,6 +3,10 @@ import collectionService from '../services/collection-service';
 import collectionPlaceholders from '../data/collection-placeholders.json';
 
 class PlaceholderService {
+	getEnabledVariables(promptText) {
+		return variables.filter(({ label }) => promptText.includes(this.getPlaceholderKey(label)));
+	}
+
 	/**
 	 * Replaces placeholders of the form $VARIABLE$ within the `promptText` and returns the modified
 	 * text.
@@ -12,11 +16,10 @@ class PlaceholderService {
 	 * @returns {string}
 	 */
 	replaceVariablePlaceholders(promptText, selectedVariables) {
-		const placeholders = [
-			...Object.entries(selectedVariables).map(([key, value]) =>
-				this._getKeyValueLabels(key, value),
-			),
-		];
+		const enabledVariables = this.getEnabledVariables(promptText);
+		const placeholders = enabledVariables.map(({ key }) =>
+			this._getKeyValueLabels(key, selectedVariables[key]),
+		);
 		return this._replacePlaceholders(promptText, placeholders);
 	}
 

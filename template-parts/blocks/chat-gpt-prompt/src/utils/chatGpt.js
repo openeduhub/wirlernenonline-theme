@@ -1,9 +1,9 @@
-import variables from '../data/variables';
 import placeholderService from '../services/placeholder-service';
 
 export function getChatGptResponseTexts(prompt) {
 	const promises = [];
-	const combinations = getOptionCombinations();
+	const enabledVariables = placeholderService.getEnabledVariables(prompt);
+	const combinations = getOptionCombinations(enabledVariables);
 	for (const combination of combinations) {
 		const combinationPrompt = placeholderService.replaceVariablePlaceholders(prompt, combination);
 		promises.push(
@@ -30,7 +30,7 @@ export function getChatGptResponseTexts(prompt) {
  *
  * @returns {{[key: string]: string}[]}
  */
-function getOptionCombinations(vars = variables) {
+function getOptionCombinations(vars) {
 	if (vars.length === 0) {
 		return [{}];
 	}

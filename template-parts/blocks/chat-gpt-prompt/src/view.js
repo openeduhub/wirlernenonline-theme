@@ -14,10 +14,11 @@ window.registerChatGptBlock = (id) => {
 
 	const blockElement = jQuery(`#${id}`);
 	const responseTexts = JSON.parse(blockElement.attr('data-response-texts'));
+	const enabledVariables = JSON.parse(blockElement.attr('data-enabled-variables'));
 	const responseTextElement = blockElement.find('.response-text');
 	const editedByElement = blockElement.find('.edited-by');
 	window.pageVariablesSubject.subscribe((pageVariables) => {
-		const key = getKey(pageVariables);
+		const key = getKey(pageVariables, enabledVariables);
 		const responseText = responseTexts[key];
 		if (responseText) {
 			responseTextElement.empty();

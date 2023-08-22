@@ -22,6 +22,7 @@ export default function CollectionPlaceholders({ collectionId, updateCollectionI
 				setPlaceholders(placeholders);
 			})
 			.catch((e) => {
+				console.error(e);
 				setError(e);
 				setLoadingState('error');
 			});

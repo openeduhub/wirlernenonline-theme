@@ -27,6 +27,12 @@
 			"source": "text",
 			"selector": "h2"
 		},
+		"enabledVariables": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "div",
+			"attribute": "data-enabled-variables"
+		},
 		"promptText": {
 			"type": "string"
 		},

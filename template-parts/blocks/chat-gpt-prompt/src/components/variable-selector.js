@@ -1,7 +1,6 @@
 import { SelectControl } from '@wordpress/components';
-import variables from '../data/variables';
 
-export default function VariableSelector({ selectValues, setSelectValues, isLoading }) {
+export default function VariableSelector({ selectValues, setSelectValues, isLoading, variables }) {
 	const selects = variables.map((variable) => (
 		<SelectControl
 			label={variable.label}

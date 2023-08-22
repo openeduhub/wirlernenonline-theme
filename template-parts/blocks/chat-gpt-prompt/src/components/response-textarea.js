@@ -15,9 +15,10 @@ export default function ResponseTextarea({
 	if (prompt) {
 		label += ' für die Anfrage ' + `"${prompt}"`;
 	}
+	const enabledVariables = placeholderService.getEnabledVariables(promptText);
 
 	function onChange(text) {
-		const key = getKey(selectValues);
+		const key = getKey(selectValues, enabledVariables);
 		const changed = originalResponseTexts[key].text !== text.trim();
 		setResponseTexts({
 			...responseTexts,
@@ -31,8 +32,8 @@ export default function ResponseTextarea({
 				className="textarea"
 				label={label}
 				help="Sie können die Antwort selbst anpassen."
-				value={responseTexts[getKey(selectValues)]?.text ?? ''}
-				rows={responseTexts[getKey(selectValues)]?.text ? 10 : 4}
+				value={responseTexts[getKey(selectValues, enabledVariables)]?.text ?? ''}
+				rows={responseTexts[getKey(selectValues, enabledVariables)]?.text ? 10 : 4}
 				onChange={onChange}
 				disabled={isLoading}
 			/>

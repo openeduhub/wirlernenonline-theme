@@ -50,11 +50,16 @@ export default function save({ attributes }) {
 		attributes.responseTexts = getResponseTexts(attributes.responseTexts);
 	}
 
+	if (typeof attributes.enabledVariables === 'string') {
+		attributes.enabledVariables = JSON.parse(attributes.enabledVariables);
+	}
+
 	return (
 		<div
 			{...useBlockProps.save()}
 			id={attributes.id}
 			data-response-texts={JSON.stringify(attributes.responseTexts)}
+			data-enabled-variables={JSON.stringify(attributes.enabledVariables)}
 		>
 			<h2>{attributes.headingText}</h2>
 			<div className="response-text"></div>

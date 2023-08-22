@@ -44,6 +44,7 @@ const initialSelectValues = variables.reduce((acc, variable) => {
 export default function Edit({ attributes, setAttributes, clientId }) {
 	/** Text to be displayed as h2 heading on top of the block. */
 	const [headingText, setHeadingText] = useState(attributes.headingText || 'Chat GPT');
+	const [enabledVariables, setEnabledVariables] = useState(attributes.enabledVariables || []);
 	/**
 	 * Prompt text to be send to Chat GPT.
 	 *
@@ -77,8 +78,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	const [collectionId, setCollectionId] = useState(collectionService.getCurrentCollectionId());
 
 	useEffect(() => {
-		setAttributes({ headingText, promptText, promptTextWithCollectionValues, responseTexts });
-	}, [headingText, promptText, promptTextWithCollectionValues, responseTexts]);
+		setAttributes({
+			headingText,
+			enabledVariables,
+			promptText,
+			promptTextWithCollectionValues,
+			responseTexts,
+		});
+	}, [headingText, enabledVariables, promptText, promptTextWithCollectionValues, responseTexts]);
 
 	// Use the initial temporary block ID as permanent element ID.
 	useEffect(() => {
@@ -86,6 +93,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			setAttributes({ id: clientId });
 		}
 	});
+
+	useEffect(() => {
+		setEnabledVariables(placeholderService.getEnabledVariables(promptText));
+	}, [promptText]);
 
 	function updateCollectionId() {
 		const currentCollectionId = collectionService.getCurrentCollectionId();
@@ -101,14 +112,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			const promptTextWithCollectionValues_ =
 				await placeholderService.replaceCollectionPlaceholders(currentPromptText, collectionId);
 			const responses = await getChatGptResponseTexts(promptTextWithCollectionValues_);
+			const currentEnabledVariables = placeholderService.getEnabledVariables(currentPromptText);
 			const responseTexts = responses.reduce((acc, response) => {
-				acc[getKey(response.combination)] = { text: response.response.trim() };
+				acc[getKey(response.combination, currentEnabledVariables)] = { text: response.response.trim() };
 				return acc;
 			}, {});
 			setOriginalResponseTexts(responseTexts);
 			setResponseTexts(responseTexts);
 			setPromptTextWithCollectionValues(promptTextWithCollectionValues_);
 		} catch (e) {
+			console.error(e);
 			setError(e);
 		}
 		setIsLoading(false);
@@ -122,10 +135,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				</Notice>
 			)}
 			<HeadingInput headingText={headingText} setHeadingText={setHeadingText} />
-			<PromptHeading
-				collectionId={collectionId}
-				updateCollectionId={updateCollectionId}
-			/>
+			<PromptHeading collectionId={collectionId} updateCollectionId={updateCollectionId} />
 			<PromptTextarea
 				promptText={promptText}
 				setPromptText={setPromptText}
@@ -137,6 +147,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 				selectValues={selectValues}
 				setSelectValues={setSelectValues}
 				isLoading={isLoading}
+				variables={enabledVariables}
 			/>
 			<ResponseTextarea
 				selectValues={selectValues}

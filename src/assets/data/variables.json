@@ -14,8 +14,10 @@
     "key": "native-language",
     "label": "Muttersprache",
     "options": [
-      { "value": "german", "label": "Deutsch" },
-      { "value": "english", "label": "Englisch" }
+      { "value": "english", "label": "Englisch" },
+      { "value": "french", "label": "Französisch" },
+      { "value": "turkish", "label": "Türkisch" },
+      { "value": "spanish", "label": "Spanisch" }
     ]
   }
 ]
