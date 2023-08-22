@@ -340,6 +340,30 @@ function restGetBreadcrumbs(WP_REST_Request $request): WP_REST_Response | WP_ERR
     return rest_ensure_response($breadcrumbs);
 }
 
+function restChatGptAudio(WP_REST_Request $request): WP_REST_Response | WP_ERROR
+{
+    $url = WLO_AI_PROMPT_SERVICE_URL . "/ai/prompt/?????";
+    $headers = array(
+        'ai-prompt-token' => WLO_AI_PROMPT_SERVICE_TOKEN,
+        'Content-Type' => 'application/json',
+    );
+    $response = wp_remote_post($url, array(
+        'headers' => $headers,
+        'timeout' => 60,
+        'body' => $request->get_body()
+    ));
+    if (is_wp_error($response) || $response['response']['code'] != 200) {
+        error_log(print_r($response, true));
+        return new WP_REST_Response(
+            array(
+                'status' => 400,
+                'response' => 'Failed to handle request',
+            )
+        );
+    }
+    return rest_ensure_response($response['body']);
+}
+
 add_action('rest_api_init', function () {
     register_rest_route('portal/v1', '/add/', array(
         'methods' => 'GET',
@@ -379,6 +403,15 @@ add_action('rest_api_init', function () {
         'permission_callback' => '__return_true',
         'args' => [
             'collectionId' => ['required' => true]
+        ],
+    ]);
+    register_rest_route('portal/v1', '/chat-gpt-audio/', [
+        'methods' => 'POST',
+        'callback' => 'restChatGptAudio',
+        'permission_callback' => '__return_true',
+        'args' => [
+            'promptText' => ['required' => false],
+            'promptAudio' => ['required' => true]
         ],
     ]);
 });
