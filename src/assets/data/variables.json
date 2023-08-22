@@ -1,5 +1,17 @@
 [
   {
+    "key": "educationalContext",
+    "label": "Bildungsstufe",
+    "educationalFilterValuesKey": "educationalContexts",
+    "eduSharingPropertyKey": "ccm:educationalcontext",
+    "vocabsUrl": "http://w3id.org/openeduhub/vocabs/educationalContext/",
+    "options": [
+      { "value": "grundschule", "label": "Primarstufe" },
+      { "value": "sekundarstufe_1", "label": "Sekundarstufe I" },
+      { "value": "sekundarstufe_2", "label": "Sekundarstufe II" }
+    ]
+  },
+  {
     "key": "intendedEndUserRole",
     "label": "Zielgruppe",
     "educationalFilterValuesKey": "intendedEndUserRoles",
@@ -8,6 +20,15 @@
     "options": [
       { "value": "learner", "label": "Lerner/in" },
       { "value": "teacher", "label": "Lehrer/in" }
+    ]
+  },
+  {
+    "key": "oer",
+    "label": "OER",
+    "educationalFilterValuesKey": "oer",
+    "options": [
+      { "value": "oer", "label": "OER" },
+      { "value": "no-oer", "label": "Kein OER" }
     ]
   },
   {
