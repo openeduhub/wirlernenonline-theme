@@ -340,6 +340,31 @@ function restGetBreadcrumbs(WP_REST_Request $request): WP_REST_Response | WP_ERR
     return rest_ensure_response($breadcrumbs);
 }
 
+function restChat(WP_REST_Request $request): WP_REST_Response | WP_ERROR
+{
+    $body = $request->get_body();
+    $url = WLO_AI_PROMPT_SERVICE_URL . "/chat";
+    $headers = array(
+        'ai-prompt-token' => WLO_AI_PROMPT_SERVICE_TOKEN,
+        'Content-Type' => 'application/json',
+    );
+    $response = wp_remote_post($url, array(
+        'headers' => $headers,
+        'timeout' => 60,
+        'body' => $body,
+    ));
+    if (is_wp_error($response) || $response['response']['code'] != 200) {
+        return new WP_REST_Response(
+            array(
+                'status' => 500,
+                'response' => 'Failed to get response from ChatGPT',
+            )
+        );
+    }
+    $apiBody = json_decode(wp_remote_retrieve_body($response));
+    return rest_ensure_response($apiBody);
+}
+
 add_action('rest_api_init', function () {
     register_rest_route('portal/v1', '/add/', array(
         'methods' => 'GET',
@@ -380,5 +405,10 @@ add_action('rest_api_init', function () {
         'args' => [
             'collectionId' => ['required' => true]
         ],
+    ]);
+    register_rest_route('portal/v1', '/chat/', [
+        'methods' => 'POST',
+        'callback' => 'restChat',
+        'permission_callback' => '__return_true',
     ]);
 });
