@@ -543,12 +543,12 @@ function wloChatGptPrompt()
     );
     $response = wp_remote_post($url, array(
         'headers' => $headers,
-        'timeout' => 60,
+        'timeout' => 300,
         'body' => $prompt,
     ));
     if (is_wp_error($response) || $response['response']['code'] != 200) {
         error_log(print_r($response, true));
-        wp_send_json_error(null, 500);
+        wp_send_json_error(json_encode($response), 500);
     }
     header('Content-Type: application/json');
     echo $response['body'];
