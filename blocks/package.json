@@ -1,10 +1,9 @@
 {
-	"name": "chat-gpt-prompt",
+	"name": "blocks",
 	"version": "0.1.0",
-	"description": "Anfragen an ChatGPT mit Kombinationen verschiedener Werte",
-	"author": "The WordPress Contributors",
+	"description": "React blocks",
+	"author": "metaVentis GmbH",
 	"license": "GPL-2.0-or-later",
-	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build",
 		"format": "wp-scripts format",
@@ -12,7 +11,9 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start"
+		"start": "wp-scripts start",
+		"start:chat-gpt-chat": "wp-scripts start --webpack-src-dir=src/chat-gpt-chat --output-path=build/chat-gpt-chat",
+		"start:chat-gpt-prompt": "wp-scripts start --webpack-src-dir=src/chat-gpt-prompt --output-path=build/chat-gpt-prompt"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^26.9.0"

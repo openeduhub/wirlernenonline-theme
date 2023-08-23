@@ -308,7 +308,7 @@ function register_acf_block_types()
         ),
         'keywords'          => [],
     ]);
-    register_block_type(__DIR__ . '/../template-parts/blocks/chat-gpt-prompt/build');
+    register_block_type(__DIR__ . '/../blocks/build/chat-gpt-prompt');
     add_action('admin_enqueue_scripts', function () {
         wp_add_inline_script(
             'wirlernenonline-theme-chat-gpt-prompt-editor-script',
@@ -318,6 +318,7 @@ function register_acf_block_types()
             'before'
         );
     });
+    register_block_type(__DIR__ . '/../blocks/build/chat-gpt-chat');
 }
 if (function_exists('acf_register_block_type')) {
     add_action('acf/init', 'register_acf_block_types');

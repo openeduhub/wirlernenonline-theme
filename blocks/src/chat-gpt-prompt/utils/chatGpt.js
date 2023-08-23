@@ -52,8 +52,13 @@ async function getChatGptResponseText(prompt) {
 			prompt,
 		}),
 	});
-	const json = await response.json();
-	return json.responses[0];
+	if (response.ok) {
+		const json = await response.json();
+		return json.responses[0];
+	} else {
+		console.error(response);
+		throw new Error('Fehler bei Chat-GPT-Anfrage: ' + response.status);
+	}
 }
 
 function getFormData(data) {
