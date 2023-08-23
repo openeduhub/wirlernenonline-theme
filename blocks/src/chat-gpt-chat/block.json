@@ -28,6 +28,11 @@
 			"source": "attribute",
 			"selector": "div",
 			"attribute": "data-system-prompt"
+		},
+		"headingText": {
+			"type": "string",
+			"source": "text",
+			"selector": "h2"
 		}
 	}
 }

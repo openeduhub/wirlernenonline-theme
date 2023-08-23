@@ -6,7 +6,68 @@
  */
 
 .wp-block-create-block-chat-gpt-chat {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+	padding: 1em;
+
+	.bubble-container {
+		margin: 0;
+		max-height: 100vh;
+		height: 300px;
+		display: grid;
+		gap: 20px;
+		overflow: auto;
+		padding: 1em;
+
+		.single-bubble-container {
+			display: flex;
+			align-items: flex-end;
+		}
+
+		.bubble {
+			--r: 25px; /* the radius */
+			--t: 30px; /* the size of the tail */
+
+			-webkit-mask:
+				radial-gradient(var(--t) at var(--_d) 0,#0000 98%,#000 102%)
+				var(--_d) 100%/calc(100% - var(--r)) var(--t) no-repeat,
+				conic-gradient(at var(--r) var(--r),#000 75%,#0000 0)
+				calc(var(--r)/-2) calc(var(--r)/-2) padding-box,
+				radial-gradient(50% 50%,#000 98%,#0000 101%)
+				0 0/var(--r) var(--r) space padding-box;
+
+			max-width: 80%;
+			padding: calc(2*var(--r)/3);
+		}
+		.left {
+			--_d: 0%;
+			border-left: var(--t) solid #0000;
+			margin-right: var(--t);
+			place-self: start;
+			background-color: lightgray;
+		}
+		.right {
+			--_d: 100%;
+			border-right: var(--t) solid #0000;
+			margin-left: var(--t);
+			place-self: end;
+			background-color: lightblue;
+		}
+	}
+
+	.chatbot-input-container {
+		display: flex;
+		align-items: center;
+		gap: 1em;
+
+		input {
+			margin: 0;
+		}
+
+		button {
+			border: 1px solid black;
+			padding: .5em;
+			cursor: pointer;
+		}
+	}
 }
+
+

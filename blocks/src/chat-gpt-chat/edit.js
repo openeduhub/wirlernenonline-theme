@@ -20,7 +20,8 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import './editor.scss';
-import {useEffect} from "@wordpress/element";
+import {useEffect, useState} from "@wordpress/element";
+import {TextareaControl, TextControl} from "@wordpress/components";
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -28,7 +29,6 @@ import {useEffect} from "@wordpress/element";
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @return {WPElement} Element to render.
  */
 export default function Edit({attributes, setAttributes, clientId}) {
 
@@ -37,10 +37,33 @@ export default function Edit({attributes, setAttributes, clientId}) {
 			setAttributes({id: clientId});
 		}
 	})
+	const [systemPrompt, setSystemPrompt] = useState(attributes.systemPrompt || '');
+	const [headingText, setHeadingText] = useState(attributes.headingText || 'Chatbot');
+
+	useEffect(() => {
+		setAttributes({
+			systemPrompt,
+			headingText
+		});
+	}, [systemPrompt, headingText]);
 
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Chat Gpt Chat – hello from the editor!', 'chat-gpt-chat' ) }
-		</p>
+		<div { ...useBlockProps() }>
+			<div className="heading-input">
+				<TextControl label="Überschrift" value={headingText} onChange={setHeadingText} />
+			</div>
+			<TextareaControl
+				label="Initialer Prompt"
+				help={
+					<>
+						<p>
+							Hier können Sie einen initialen Prompt eingeben, der für ChatGPT einen Gesprächskontext mitliefert.
+						</p>
+					</>
+				}
+			 	onChange={setSystemPrompt}
+				value={systemPrompt}
+			/>
+		</div>
 	);
 }
