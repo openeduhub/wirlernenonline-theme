@@ -5,8 +5,7 @@
         <div class="footer-main">
             <div class="footer-buttons">
                 <a class="footer-btn" href="<?php echo get_page_link(5807); ?>">Anmelden</a>
-                <a href="https://facebook.com/wirlernenonline.oer" target="_blank" aria-label="Link zu Facebook"><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/facebook.svg" alt="Icon: Facebook"></a>
-                <a href="https://twitter.com/wirlernenonline" target="_blank" aria-label="Link zu Twitter"><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/twitter_alt.svg" alt="Icon: Twitter"></a>
+                <a href="https://twitter.com/wirlernenonline" target="_blank" aria-label="Link zu X"><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/x.svg" alt="Icon: X"></a>
                 <a href="https://www.youtube.com/channel/UCPs3ndK7W1JDMHz02_AwdBg" target="_blank" aria-label="Link zu youtube"><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/icon_youtube.svg" alt="Icon: youtube"></a>
             </div>
 
