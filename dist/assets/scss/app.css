@@ -7968,7 +7968,8 @@ html {
     margin: 0 auto;
     padding-bottom: 2em; }
     .site-footer .footer-wrapper .footer-main {
-      width: 70%;
+      flex-basis: 0;
+      flex-grow: 3;
       margin-top: 3em; }
       .site-footer .footer-wrapper .footer-main .footer-buttons {
         display: flex;
@@ -7997,16 +7998,25 @@ html {
     .site-footer .footer-wrapper .footer-right {
       display: flex;
       justify-content: flex-end;
-      width: 30%; }
+      flex-basis: 0;
+      flex-grow: 2;
+    }
+    .site-footer .footer-wrapper .footer-right .footer-eu {
+      padding: 0 1em;
+      display: flex;
+      align-items: center;
+      width: 30%;
+    }
       .site-footer .footer-wrapper .footer-right .footer-bmbf {
         display: flex;
         align-items: center;
-        width: 40%;
+        width: 30%;
         background: white; }
       .site-footer .footer-wrapper .footer-right .footer-license {
         display: flex;
+        flex-basis: 0;
+        flex-grow: 1;
         align-items: center;
-        width: 52%;
         padding: 1em;
         font-size: 14px; }
         .site-footer .footer-wrapper .footer-right .footer-license p {

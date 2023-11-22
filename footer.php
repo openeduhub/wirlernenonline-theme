@@ -12,6 +12,9 @@
             <?php wp_nav_menu( array( 'theme_location' => 'footer', 'container' => false, 'depth' => 0, 'items_wrap' => '<ul class="dropdown menu footer-menu" data-dropdown-menu>%3$s</ul>', 'walker' => new insertcart_walker( array( 'in_top_bar' => true, 'item_type' => 'li', 'menu_type' => 'main-menu' ) ), ) ); ?>
         </div>
         <div class="footer-right">
+            <div class="footer-eu">
+                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/DE_fundedbyEU_VERTICAL_RGB_NEG.png" alt="Finanziert von der Europäischen Union">
+            </div>
             <div class="footer-bmbf">
                 <a href="https://www.bmbf.de/" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/BMBF.png" alt="Gefördert vom Bundesministerium für Bildung und Forschung"></a>
             </div>
