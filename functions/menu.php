@@ -39,6 +39,10 @@ class editorial_walker_nav_menu extends Walker_Nav_Menu {
                 $output .= '</a>';
             }else{
                 $linkUrl = $item->url;
+                if (str_contains($linkUrl, '--username--')) {
+                    $user    = wp_get_current_user();
+                    $linkUrl = str_replace('--username--', $user->user_login, $linkUrl);
+                }
                 if (strpos($linkUrl, WLO_REPO) !== false && is_user_logged_in() ){
                     if (function_exists('get_repo_ticket')){
                         $ticket = get_repo_ticket();
