@@ -41,4 +41,6 @@ require_once(get_template_directory().'/functions/ajax.php');
 require_once(get_template_directory().'/functions/users-inbox.php');
 
 // Handle User Regristration / LDAP
-require_once(get_template_directory().'/functions/users.php');
+if (defined('LDAP_SERVER')) {
+    require_once(get_template_directory().'/functions/users.php');
+}
