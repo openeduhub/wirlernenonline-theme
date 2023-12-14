@@ -12,9 +12,21 @@ npm run build
 npm start
 ```
 
+### React Blocks
+
+In folder `blocks`:
+```sh
+# Install dependencies
+npm install
+# Compile all blocks
+npm run build
+# Compile all blocks (watch)
+npm start
+```
+
 ## Deploy
 
-- Compile styles (see above)
+- Compile styles and blocks (see above)
 
 ```sh
 # Deploy on https://wordpress.staging.openeduhub.net/
