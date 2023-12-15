@@ -374,7 +374,7 @@ if (isset($_GET['type'])) {
                 style="opacity:0"
                 src="<?php echo WLO_REPO; ?>components/embed/mds?set=mds_oeh&group=<?php echo $mdsGroup;?>&data=<?php
                 echo urlencode(json_encode([
-                    "ccm:curriculum" => (isset($collectionID) ? ['http://w3id.org/openeduhub/vocabs/oehTopics/' . $collectionID] : []),
+                    "ccm:curriculum" => (isset($collectionID) ? ['http://w3id.org/openeduhub/vocabs/oeh-topics/' . $collectionID] : []),
                     "ccm:oeh_lrt" => (isset($lrtID) ? $lrtID : []),
                 ]));
                 ?>
