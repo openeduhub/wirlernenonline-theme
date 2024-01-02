@@ -221,7 +221,7 @@ if (isset($_GET['type'])) {
                             $workflowComment .= implode(',', $mdsData['ccm:curriculum']);
                             foreach ($mdsData['ccm:curriculum'] as $node) {
                                 if(trim($node)) {
-                                    $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode($node) . '/references/' . $nodeID . '?asProposal=true';
+                                    $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode(basename($node)) . '/references/' . $nodeID . '?asProposal=true';
                                     callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
                                 }
                             }
