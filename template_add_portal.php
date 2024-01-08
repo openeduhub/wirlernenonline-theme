@@ -221,7 +221,7 @@ if (isset($_GET['type'])) {
                             $workflowComment .= implode(',', $mdsData['ccm:curriculum']);
                             foreach ($mdsData['ccm:curriculum'] as $node) {
                                 if(trim($node)) {
-                                    $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode($node) . '/references/' . $nodeID . '?asProposal=true';
+                                    $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode(basename($node)) . '/references/' . $nodeID . '?asProposal=true';
                                     callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
                                 }
                             }
@@ -374,7 +374,7 @@ if (isset($_GET['type'])) {
                 style="opacity:0"
                 src="<?php echo WLO_REPO; ?>components/embed/mds?set=mds_oeh&group=<?php echo $mdsGroup;?>&data=<?php
                 echo urlencode(json_encode([
-                    "ccm:curriculum" => (isset($collectionID) ? ['http://w3id.org/openeduhub/vocabs/oehTopics/' . $collectionID] : []),
+                    "ccm:curriculum" => (isset($collectionID) ? ['http://w3id.org/openeduhub/vocabs/oeh-topics/' . $collectionID] : []),
                     "ccm:oeh_lrt" => (isset($lrtID) ? $lrtID : []),
                 ]));
                 ?>
