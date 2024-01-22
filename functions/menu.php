@@ -160,9 +160,15 @@ function nav_items( $items, $menu, $args )
 
 add_action('admin_bar_menu', 'add_toolbar_items', 100);
 function add_toolbar_items($admin_bar){
+    // TODO: refactor this and the same code in login-redirect.php into the edu-sharing plugin
+    if (function_exists('get_repo_ticket')) {
+        $ticket = get_repo_ticket();
+    } else {
+        $ticket = '';
+    }
     $admin_bar->add_menu( array(
         'id'    => 'redaktion',
         'title' => 'Redaktionsumgebung',
-        'href'  => get_page_link( 67871 ),
+        'href'  => WLO_REPO . "/components/start?ticket=" . $ticket,
     ));
 }
