@@ -73,17 +73,21 @@ $fachportal_bright: $wlo-primary;
 
   .portal-wrapper-left {
     width: 1200px;
+    min-width: 620px;
     max-width: 100%;
     background: #f4f4f4;
   }
 
   .portal-wrapper-right {
-    display: none;
+    display: flex;
     position: sticky;
     top: 170px;
     bottom: 0;
     height: 100%;
     max-width: 1200px;
+    flex-direction: column;
+    align-items: flex-start;
+    max-height: calc(100vh - 170px);
   }
 }
 
@@ -106,6 +110,7 @@ $fachportal_bright: $wlo-primary;
   position: relative;
   width: 500px;
   height: fit-content;
+  min-height: 200px;
   margin: 48px 1.5em 1.5em;
   background: white;
   border-radius: 24px;
@@ -118,6 +123,9 @@ $fachportal_bright: $wlo-primary;
   }
 
   oeh-details-embedded {
+    min-height: 200px;
+    display: flex;
+
     app-details {
       border-radius: 24px;
     }
@@ -1730,11 +1738,11 @@ app-report-problem {
     margin-right: calc(50% - 49vw);
   }
 }
-@media (max-width: 1750px) {
+@media (max-width: 1200px) {
   .portal-wrapper {
     .portal-wrapper-right {
       position: fixed;
-      top: 25px;
+      top: 0;
       z-index: 999; // Above the menu bar, but below Angular's dialog overlays
     }
 
