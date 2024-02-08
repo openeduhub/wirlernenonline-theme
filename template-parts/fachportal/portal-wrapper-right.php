@@ -53,4 +53,7 @@
         jQuery(".portal-wrapper-right").hide('slow');
         jQuery(".no-content-popup").hide('slow');
     });
+
+    // BUGFIX: portal-wrapper-right is empty but shown on windows <= 1200px
+    jQuery(".portal-wrapper-right").hide();
 </script>

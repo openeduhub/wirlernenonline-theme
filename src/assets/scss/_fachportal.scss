@@ -81,13 +81,20 @@ $fachportal_bright: $wlo-primary;
   .portal-wrapper-right {
     display: flex;
     position: sticky;
-    top: 170px;
+    top: 144px;
     bottom: 0;
     height: 100%;
-    max-width: 1200px;
     flex-direction: column;
     align-items: flex-start;
-    max-height: calc(100vh - 170px);
+    max-height: calc(100vh - 145px);
+  }
+}
+
+.portal-wrapper-fachseite.portal-wrapper {
+  // fachseite has no filterbar, so start higher
+  .portal-wrapper-right {
+    top: 50px;
+    max-height: calc(100vh - 50px);
   }
 }
 
@@ -116,6 +123,7 @@ $fachportal_bright: $wlo-primary;
   border-radius: 24px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
   cursor: auto;
+  overflow: hidden;
 
   img {
     width: 100%;
@@ -729,7 +737,7 @@ app-report-problem {
 
 .fachportal-header-block {
   margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 49.56vw);
+  margin-right: calc(50% - 50vw);
 
   .fachportal-header-wrapper {
     display: flex;
@@ -1044,12 +1052,17 @@ app-report-problem {
   margin: 0 auto;
 }
 
+/** simply here to create a block to which the portal-wrapper-right can stick **/
+.portal-plus-filterbar-wrapper {
+  display: block;
+}
+
 .fachportal-filterbar {
   position: sticky;
   top: 62px;
   background: white;
   margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 49.6vw);
+  margin-right: calc(50% - 50vw);
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
   z-index: 55;
 
@@ -1058,7 +1071,7 @@ app-report-problem {
     justify-content: space-evenly;
     flex-direction: column;
     max-width: 1200px;
-    padding: 1em;
+    padding: 0.6em;
     margin: 0 auto;
 
     .fachportal-filterbar-dropdowns {
@@ -1122,7 +1135,7 @@ app-report-problem {
 .fachportal-header-accordion {
   background: white;
   width: 100%;
-  padding-top: 48px;
+  padding-top: 42px;
 }
 
 .fachportal-new-content {
@@ -1733,17 +1746,15 @@ app-report-problem {
   }
 }
 
-@media (max-width: 1850px) {
-  .fachportal-header-block {
-    margin-right: calc(50% - 49vw);
-  }
-}
 @media (max-width: 1200px) {
   .portal-wrapper {
     .portal-wrapper-right {
       position: fixed;
-      top: 0;
+      width: 100vw;
+      top: 0 !important;
       z-index: 999; // Above the menu bar, but below Angular's dialog overlays
+      max-height: unset !important;
+      padding: 0 40px;
     }
 
     .portal-wrapper-right:before {
@@ -1761,6 +1772,7 @@ app-report-problem {
 
   .detail-view-popup {
     width: auto;
+    margin: auto;
 
     .app-preview-panel-content-wrapper {
       max-height: 90vh;
