@@ -408,7 +408,8 @@ while (have_posts()) : the_post(); ?>
             </div>
         </div>
 
-        <div class="fachportal-filterbar" <?php if (is_admin_bar_showing()) {
+        <div class="portal-plus-filterbar-wrapper">
+            <div class="fachportal-filterbar" <?php if (is_admin_bar_showing()) {
                                                 echo 'style="top:80px"';
                                             } ?>>
             <div class="fachportal-filterbar-content">
@@ -418,70 +419,70 @@ while (have_posts()) : the_post(); ?>
                         <?php echo count($themenseiten_contentArray); ?>
                         qualitätsgesicherte Inhalte
                     </p>
-                    <div class="fachportal-filterbar-dropdowns">
-                        <select name="educationalcontext" id="educationalcontext" onchange="filterContentTiles(this, 'educationalcontext', this.value)">
-                            <option value="label" selected disabled>Bildungsstufe</option>
-                            <option disabled>──────────</option>
-                            <?php foreach ($educationalcontextArray as $key => $value) { ?>
-                                <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
-                                    <?php echo $key . ' (' . $value . ')'; ?>
-                                </option>
-                            <?php } ?>
-                        </select>
+                        <div class="fachportal-filterbar-dropdowns">
+                            <select name="educationalcontext" id="educationalcontext" onchange="filterContentTiles(this, 'educationalcontext', this.value)">
+                                <option value="label" selected disabled>Bildungsstufe</option>
+                                <option disabled>──────────</option>
+                                <?php foreach ($educationalcontextArray as $key => $value) { ?>
+                                    <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
+                                        <?php echo $key . ' (' . $value . ')'; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
 
-                        <select name="enduserrole" id="enduserrole" onchange="filterContentTiles(this, 'enduserrole', this.value)">
-                            <option value="label" selected disabled>Zielgruppe</option>
-                            <option disabled>──────────</option>
-                            <?php foreach ($enduserroleArray as $key => $value) { ?>
-                                <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
-                                    <?php echo $key . ' (' . $value . ')'; ?>
-                                </option>
-                            <?php } ?>
-                        </select>
+                            <select name="enduserrole" id="enduserrole" onchange="filterContentTiles(this, 'enduserrole', this.value)">
+                                <option value="label" selected disabled>Zielgruppe</option>
+                                <option disabled>──────────</option>
+                                <?php foreach ($enduserroleArray as $key => $value) { ?>
+                                    <option value="<?php echo preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key)); ?>">
+                                        <?php echo $key . ' (' . $value . ')'; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
 
-                        <select name="oer" id="oer" onchange="filterContentTiles(this, 'oer', this.value)">
-                            <option value="label" selected disabled>OER</option>
-                            <option disabled>──────────</option>
-                            <option value="oer">
-                                OER (<?php echo $oerCount; ?>)
-                            </option>
-                            <option value="no-oer">
-                                Kein OER (<?php echo $noOerCount; ?>)
-                            </option>
-                        </select>
-                    </div>
+                            <select name="oer" id="oer" onchange="filterContentTiles(this, 'oer', this.value)">
+                                <option value="label" selected disabled>OER</option>
+                                <option disabled>──────────</option>
+                                <option value="oer">
+                                    OER (<?php echo $oerCount; ?>)
+                                </option>
+                                <option value="no-oer">
+                                    Kein OER (<?php echo $noOerCount; ?>)
+                                </option>
+                            </select>
+                        </div>
                 </div>
 
                 <div class="filter-chips-container">
-                    <?php foreach ($educationalcontextArray as $key => $value) {
-                        $id = preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key));
-                    ?>
-                        <button id="filter-tag-<?php echo $id; ?>" onclick="filterContentTiles(this, 'educationalcontext', '<?php echo $id; ?>')">
+                        <?php foreach ($educationalcontextArray as $key => $value) {
+                            $id = preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key));
+                        ?>
+                            <button id="filter-tag-<?php echo $id; ?>" onclick="filterContentTiles(this, 'educationalcontext', '<?php echo $id; ?>')">
+                                <div class="fachportal-filterbar-tag">
+                                    <?php echo $key; ?>
+                                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
+                                </div>
+                            </button>
+                        <?php } ?>
+
+                        <?php foreach ($enduserroleArray as $key => $value) {
+                            $id = preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key));
+                        ?>
+                            <button id="filter-tag-<?php echo $id; ?>" onclick="filterContentTiles(this, 'enduserrole', '<?php echo $id; ?>')">
+                                <div class="fachportal-filterbar-tag">
+                                    <?php echo $key; ?>
+                                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
+                                </div>
+                            </button>
+                        <?php } ?>
+
+
+                        <button id="filter-tag-oer" onclick="filterContentTiles(this, 'oer', 'oer')">
                             <div class="fachportal-filterbar-tag">
-                                <?php echo $key; ?>
+                                OER
                                 <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
                             </div>
                         </button>
-                    <?php } ?>
-
-                    <?php foreach ($enduserroleArray as $key => $value) {
-                        $id = preg_replace('/[^a-zA-Z0-9-_]/', '-', urlencode($key));
-                    ?>
-                        <button id="filter-tag-<?php echo $id; ?>" onclick="filterContentTiles(this, 'enduserrole', '<?php echo $id; ?>')">
-                            <div class="fachportal-filterbar-tag">
-                                <?php echo $key; ?>
-                                <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
-                            </div>
-                        </button>
-                    <?php } ?>
-
-
-                    <button id="filter-tag-oer" onclick="filterContentTiles(this, 'oer', 'oer')">
-                        <div class="fachportal-filterbar-tag">
-                            OER
-                            <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/close.svg" alt="">
-                        </div>
-                    </button>
 
                     <button id="filter-tag-no-oer" onclick="filterContentTiles(this, 'oer', 'no-oer')">
                         <div class="fachportal-filterbar-tag">
@@ -493,100 +494,45 @@ while (have_posts()) : the_post(); ?>
             </div>
         </div>
 
-        <div class="portal-wrapper portal-wrapper-themenseite">
-            <div class="portal-wrapper-left">
-                <div class="fachportal-header-accordion">
+            <div class="portal-wrapper portal-wrapper-themenseite">
+                <div class="portal-wrapper-left">
+                    <div class="fachportal-header-accordion">
 
-                    <div class="wlo-accordion-wrapper" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 0.2);">
-                        <button class="wlo-accordion" id="fachportal-accordion-<?php echo $accordionID; ?>">
-                            <h2>Die neusten geprüften Inhalte im gesamten Themenbereich <?php echo get_the_title($postID); ?></h2>
-                            <img class="wlo-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg" alt="Inhalte ein odder ausklappen">
-                        </button>
+                        <div class="wlo-accordion-wrapper" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 0.2);">
+                            <button class="wlo-accordion" id="fachportal-accordion-<?php echo $accordionID; ?>">
+                                <h2>Die neusten geprüften Inhalte im gesamten Themenbereich <?php echo get_the_title($postID); ?></h2>
+                                <img class="wlo-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg" alt="Inhalte ein odder ausklappen">
+                            </button>
 
-                        <div class="wlo-accordion-content" id="<?php echo $sliderId; ?>">
+                            <div class="wlo-accordion-content" id="<?php echo $sliderId; ?>">
 
                             <?php
                             if (!empty($contentArray)) {
                                 foreach (array_slice($contentArray, 0, get_field('content_count')) as $content) {
-                                    printWloCard($content);
+                                        printWloCard($content);
                                 }
                             } ?>
                         </div>
 
-                        <div class="wlo-accordion-bottom"></div>
+                            <div class="wlo-accordion-bottom"></div>
 
+                        </div>
                     </div>
-                </div>
 
-                <?php the_content(); ?>
+                    <?php the_content(); ?>
 
-            </div>
-            <div class="portal-wrapper-right">
-                <div class="detail-view-popup">
-                    <script>
-                        window.__env = {
-                            EDU_SHARING_API_URL: '<?php echo WLO_REPO; ?>rest',
-                        };
-                    </script>
-                    <oeh-details-embedded></oeh-details-embedded>
-                    <script>
-                        document.getElementsByTagName('oeh-details-embedded')[0].addEventListener('closed', () => {
-                            //console.log('received closed event');
-                            jQuery(".portal-wrapper-right").hide('slow');
-                            jQuery(".detail-view-popup").hide('slow');
-                        });
-                    </script>
                 </div>
-
-                <div class="no-content-popup">
-                    <div class="close-no-content-popup">X</div>
-                    <h3>Mitmachen!</h3>
-                    <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/mitmachen-popup.png">
-                    <p>
-                        Das Projekt funktioniert ähnlich wie Wikipedia: Alle können beitragen und alle profitieren davon!
-                        Mitmach-Aktivitäten sind zum Beispiel die Verbesserung der Suche, die Ergänzung von Links, die Bewertung
-                        von Materialien, das Melden von Fehlern oder auch tatkräftig die Fachredaktionen zu unterstützen.
-                    </p>
-                    <a class="content-button no-content-button" href="<?php echo $addContentUrl; ?>" target="_blank">
-                        Neuen Inhalt hinzufügen
-                    </a>
-                </div>
+                <?php get_template_part('template-parts/fachportal/portal-wrapper-right'); ?>
 
             </div>
         </div>
+    </div>
 
     </div>
 
     <?php initSlick($sliderId, $slidesToShow, $slidesToScroll,  count($contentArray) + 1) ?>
 
     <script>
-        function showContentPopup(nodeID) {
-            document.getElementsByTagName("oeh-details-embedded")[0].setAttribute("node-id", nodeID);
-            jQuery(".no-content-popup").hide();
-            jQuery(".detail-view-popup").css('display', 'flex');
-            jQuery(".portal-wrapper-right").show('slow');
-        }
-
-        jQuery(".fachportal-content-popup").click(function(e) {
-            // Do something
-            e.stopPropagation();
-        });
-
-        jQuery(".fachportal-content-popup").click(function() {
-            //jQuery(".portal-wrapper-right").hide();
-        });
-
-        function showNoContentPopup() {
-            jQuery(".detail-view-popup").hide();
-            jQuery(".no-content-popup").css('display', 'flex');;
-            jQuery(".portal-wrapper-right").show('slow');
-        }
-
-        jQuery(".close-no-content-popup").click(function() {
-            jQuery(".portal-wrapper-right").hide('slow');
-            jQuery(".no-content-popup").hide('slow');
-        });
-
         jQuery("#sub-subjects-button").click(function() {
             jQuery('#hidden-sub-subjects-container').slideToggle('medium', function() {
                 if (jQuery(this).is(':visible')) {
@@ -623,16 +569,16 @@ while (have_posts()) : the_post(); ?>
              * @type {{[type in FilterType]: string[]}}
              */
             let activeFilters = {};
-            /** 
+            /**
              * Maps slick-slider IDs to all of its tiles when no filters are active.
-             * 
+             *
              * @type {{[id: string]: HTMLDivElement[]}}
              */
             let tilesMap = null;
 
             /**
              * Gets all currently displayed tiles of all slick sliders.
-             * 
+             *
              * @returns {{[id: string]: HTMLDivElement[]}}
              */
             function getTilesMap() {
@@ -695,7 +641,7 @@ while (have_posts()) : the_post(); ?>
 
             /**
              * Updates the heading of a slick slide to print the correct number of tiles, if any.
-             * 
+             *
              * E.g. "Medien (23)"
              */
             function updateHeadingCount(slickSlide, count) {
@@ -726,7 +672,7 @@ while (have_posts()) : the_post(); ?>
 
             /**
              * Activates / deactivates the filter given by `type` and `value` depending on its
-             * current state. 
+             * current state.
              */
             function toggleFilter(button, type, value) {
                 activeFilters[type] ??= [];

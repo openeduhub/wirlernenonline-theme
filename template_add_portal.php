@@ -245,8 +245,8 @@ if (isset($_GET['type'])) {
                             });
                             $workflowComment .= implode(',', $mdsData['ccm:curriculum']);
                             foreach ($mdsData['ccm:curriculum'] as $node) {
-                                if (trim($node)) {
-                                    $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode($node) . '/references/' . $nodeID . '?asProposal=true';
+                                if(trim($node)) {
+                                    $apiUrl = 'rest/collection/v1/collections/-home-/' . rawurlencode(basename($node)) . '/references/' . $nodeID . '?asProposal=true';
                                     callRepoApi($apiUrl, null, 'Content-Type: application/json', 'PUT');
                                 }
                             }
@@ -411,7 +411,7 @@ if (isset($_GET['type'])) {
             frameborder=0>
         </iframe>
         <!--
-            We listen for a message from the embedded edu-sharing page that indicates that the 
+            We listen for a message from the embedded edu-sharing page that indicates that the
             "post" button has been pressed and submit this form after validating the filled-in data.
         -->
         <form

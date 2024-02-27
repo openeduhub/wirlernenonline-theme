@@ -34,3 +34,12 @@ npm run deploy-staging
 # Deploy on https://wirlernenonline.de/
 npm run deploy-prod
 ```
+
+## Troubleshooting
+
+### `sass: Permission denied`
+
+```sh
+rm -r node_modules
+npm install
+```

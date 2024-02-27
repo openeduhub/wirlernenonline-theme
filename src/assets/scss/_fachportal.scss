@@ -73,30 +73,36 @@ $fachportal_bright: $wlo-primary;
 
   .portal-wrapper-left {
     width: 1200px;
-    min-width: 0;
+    min-width: 620px;
     max-width: 100%;
     background: #f4f4f4;
     border-radius: 24px 24px 0 0;
   }
 
   .portal-wrapper-right {
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     position: sticky;
-    top: 143px;
+    top: 144px;
     bottom: 0;
     height: 100%;
-    max-width: 1200px;
-    max-height: calc(100vh - 143px);
+    max-height: calc(100vh - 145px);
     &[style*='display: block'] {
       display: flex !important;
     }
   }
 }
 
-.portal-wrapper-fachseite,
-.portal-wrapper-themenseite {
+.portal-wrapper-fachseite.portal-wrapper {
+  // fachseite has no filterbar, so start higher
+  .portal-wrapper-right {
+    top: 50px;
+    max-height: calc(100vh - 50px);
+  }
+}
+
+.portal-wrapper-fachseite, .portal-wrapper-themenseite {
   display: flex;
   justify-content: center;
   max-width: initial;
@@ -115,15 +121,17 @@ $fachportal_bright: $wlo-primary;
   width: 500px;
   min-height: 0;
   height: fit-content;
-  margin: 1.5em;
+  min-height: 200px;
+  margin: 48px 1.5em 1.5em;
   background: white;
   border-radius: 24px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
   cursor: auto;
+  overflow: hidden;
 
   oeh-details-embedded {
+    min-height: 200px;
     display: flex;
-    min-height: 0;
 
     app-details {
       overflow: hidden; // don't let scroll bars overflow rounded corners
@@ -717,6 +725,9 @@ span.header-text {
 }
 
 .fachportal-header-block {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+
   .fachportal-header-wrapper {
     display: flex;
     justify-content: flex-start;
@@ -1157,9 +1168,16 @@ span.header-text {
   margin: 0 auto;
 }
 
+/** simply here to create a block to which the portal-wrapper-right can stick **/
+.portal-plus-filterbar-wrapper {
+  display: block;
+}
+
 .fachportal-filterbar {
   position: sticky;
   top: 62px;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   .admin-bar & {
     top: calc(32px + 62px);
   }
@@ -1173,7 +1191,7 @@ span.header-text {
     flex-direction: column;
     overflow: auto;
     max-width: 1200px;
-    padding: 20px 0;
+    padding: 0.6em;
     margin: 0 auto;
 
     .fachportal-filterbar-header-row {
@@ -1261,7 +1279,7 @@ span.header-text {
 .fachportal-header-accordion {
   background: white;
   width: 100%;
-  padding-top: 48px;
+  padding-top: 42px;
   border-radius: 24px 24px 0 0;
 }
 
@@ -1855,14 +1873,16 @@ span.header-text {
   }
 }
 
-@media (max-width: 1750px) {
+@media (max-width: 1200px) {
   .portal-wrapper {
     .portal-wrapper-right {
       position: fixed;
-      max-height: unset;
-      top: 0;
-      right: 0;
+      width: 100vw;
+      top: 0 !important;
       z-index: 999; // Above the menu bar, but below Angular's dialog overlays
+      max-height: unset !important;
+      padding: 0 40px;
+      right: 0;
     }
 
     .portal-wrapper-right:before {
@@ -1881,6 +1901,11 @@ span.header-text {
   .detail-view-popup,
   .no-content-popup {
     width: auto;
+    margin: auto;
+
+    .app-preview-panel-content-wrapper {
+      max-height: 90vh;
+    }
     max-width: 500px;
   }
 

@@ -44,3 +44,6 @@ require_once(get_template_directory().'/functions/users-inbox.php');
 if (defined('LDAP_SERVER')) {
     require_once(get_template_directory().'/functions/users.php');
 }
+
+// redirect logged in users to the editorial desk
+require_once(get_template_directory().'/functions/login-redirect.php');

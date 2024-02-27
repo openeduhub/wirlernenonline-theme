@@ -17,7 +17,7 @@ while (have_posts()) : the_post(); ?>
                 <div class="wlo-header-content">
                     <h1><?php the_title(); ?></h1>
                     <?php the_excerpt(); ?>
-                    <a class="wlo-button wlo-button-right" href="<?php echo get_page_link(8); ?>?anliegen=Kooperation-Partner">Sprecht uns an</a>
+                    <a class="wlo-button wlo-button-right" href="<?php echo get_page_link(8); ?>?anliegen=Kooperations-Partner%20werden">Sprecht uns an</a>
                 </div>
                 <div class="wlo-header-bottom"></div>
             </div>
