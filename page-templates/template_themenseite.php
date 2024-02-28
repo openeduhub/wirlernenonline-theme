@@ -499,6 +499,8 @@ while (have_posts()) : the_post(); ?>
                     <div class="fachportal-header-accordion">
 
                         <div class="wlo-accordion-wrapper" style="background-color:rgba(<?php echo $rgbBackgroundColor; ?>, 0.2);">
+                            <?php
+                            if (!empty($contentArray)) { ?>
                             <button class="wlo-accordion" id="fachportal-accordion-<?php echo $accordionID; ?>">
                                 <h2>Die neusten geprüften Inhalte im gesamten Themenbereich <?php echo get_the_title($postID); ?></h2>
                                 <img class="wlo-accordion-icon" src="<?php echo get_template_directory_uri(); ?>/src/assets/img/arrow_down.svg" alt="Inhalte ein odder ausklappen">
@@ -507,12 +509,12 @@ while (have_posts()) : the_post(); ?>
                             <div class="wlo-accordion-content" id="<?php echo $sliderId; ?>">
 
                             <?php
-                            if (!empty($contentArray)) {
                                 foreach (array_slice($contentArray, 0, get_field('content_count')) as $content) {
                                         printWloCard($content);
                                 }
-                            } ?>
-                        </div>
+                            ?>
+                            </div>
+                            <?php } ?>
 
                             <div class="wlo-accordion-bottom"></div>
 
