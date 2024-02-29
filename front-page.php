@@ -229,7 +229,7 @@ if ( get_field('maintenance') ) { ?>
                         <div class="wlo-portals-slider-tile">
                             <a class="wlo-portals-tile" href="<?php echo get_page_link(9930); ?>" aria-label="Zu den Fachportalen">
                                 <img src="<?php echo get_template_directory_uri(); ?>/src/assets/img/Fach-Icons/icon_portals.svg" alt="">
-                                <div class="wlo-portals-tile-title">Alle 28 Fachportale</div>
+                                <div class="wlo-portals-tile-title">Alle 27 Fachportale</div>
                             </a>
                         </div>
 
