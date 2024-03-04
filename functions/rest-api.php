@@ -66,22 +66,25 @@ function add_portal(WP_REST_Request $request) {
         $type = 'zmf';
     }
 
-    $requestDiciplines = explode(",",urldecode($request->get_param( 'discipline' )));
+    $requestDisciplines = explode(",", urldecode($request->get_param('discipline')));
 
-    $diciplines = getWloVocaps('discipline')->hasTopConcept;
+    $disciplines = getWloVocabs('discipline')->hasTopConcept;
     $disciplinesMapped = [];
-    foreach ($requestDiciplines as $currentDicipline){
-        foreach ($diciplines as $dicipline){
-            if ($dicipline->id == $currentDicipline){
-                $disciplinesMapped[] = $dicipline->prefLabel->de;
+    foreach ($requestDisciplines as $currentDiscipline) {
+        foreach ($disciplines as $discipline) {
+            if ($discipline->id == $currentDiscipline) {
+                $disciplinesMapped[] = $discipline->prefLabel->de;
             }
         }
     }
 
     $topic = urldecode($request->get_param( 'title' ));
 
-    $edu_contexts = explode(",",urldecode($request->get_param( 'educationalContext')));
-    $intended_end_user_roles = explode(",",urldecode($request->get_param( 'intendedEndUserRole')));
+    $edu_contexts = explode(",", urldecode($request->get_param('educationalContext')));
+    if(!$edu_contexts) {
+        $edu_contexts = [];
+    }
+    $intended_end_user_roles = explode(",", urldecode($request->get_param('intendedEndUserRole')));
 
     $collection_url = WLO_REPO . "components/collections?id=" . $collection_id;
 
@@ -118,7 +121,7 @@ function add_portal(WP_REST_Request $request) {
         $response = json_decode($response);
 
 
-        $nodes = Array();
+        $nodes = array();
         foreach ($response->nodes as $node) {
             $nodes[] = [$node->title, $node->properties->{'cclom:location'}[0]];
         }
@@ -202,7 +205,7 @@ function add_portal(WP_REST_Request $request) {
                     return $disciplineIdNr;
                 }
             }
-            update_field('discipline', array_map("clean_discipline", $requestDiciplines), $post_id);
+            update_field('discipline', array_map("clean_discipline", $requestDisciplines), $post_id);
 
 
             //Edu Context
