@@ -148,9 +148,10 @@ if (!empty($newestContent->nodes)) {
         $prop = $reference->properties;
 
         //check if deleted
-        if ($reference->originalId == null) {
-            continue;
-        }
+        //TODO: is this still relevant?
+        //if ($reference->originalId == null) {
+        //    continue;
+        //}
 
         $title = $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0];
         foreach ($contentArray as $content) {
