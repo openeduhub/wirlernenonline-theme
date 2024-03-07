@@ -114,9 +114,10 @@ if (!empty($subCollectionsElements->nodes)) {
         $prop = $reference->properties;
 
         //check if deleted
-        if (empty($reference->originalId)) {
-            continue;
-        }
+        //TODO: is this still relevant?
+        //if (empty($reference->originalId)) {
+        //    continue;
+        //}
 
         $title = $prop->{'cclom:title'}[0] ? $prop->{'cclom:title'}[0] : $prop->{'cm:name'}[0];
         foreach ($contentArray as $content) {

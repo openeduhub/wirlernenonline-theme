@@ -84,6 +84,9 @@ function add_portal(WP_REST_Request $request)
     $topic = urldecode($request->get_param('title'));
 
     $edu_contexts = explode(",", urldecode($request->get_param('educationalContext')));
+    if(!$edu_contexts) {
+        $edu_contexts = [];
+    }
     $intended_end_user_roles = explode(",", urldecode($request->get_param('intendedEndUserRole')));
 
     $collection_url = WLO_REPO . "components/collections?id=" . $collection_id;
@@ -209,7 +212,7 @@ function add_portal(WP_REST_Request $request)
                     return $disciplineIdNr;
                 }
             }
-            update_field('discipline', array_map("clean_discipline", $requestDiciplines), $post_id);
+            update_field('discipline', array_map("clean_discipline", $requestDisciplines), $post_id);
 
 
             //Edu Context
