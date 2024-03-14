@@ -830,6 +830,7 @@ endif;
  */
 function updateCCMlocation($post_ID, $post_after, $post_before)
 {
+    // @TODO: check if the post is https://developer.wordpress.org/reference/functions/is_archived/ and do not trigger this event since it will break collection uris if multiple pages exist
     $template = get_page_template_slug($post_ID);
     if (
         'portal' == get_post_type($post_ID)
