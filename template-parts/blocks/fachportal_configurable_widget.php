@@ -13,10 +13,11 @@
 
 //$elementId = uniqid('configurable-');
 $widgetId = get_field('widget-id');
+$eduTicket = get_repo_ticket();
 
 ?>
 
-<wlo-user-configurable id="the-content"></wlo-user-configurable>
+<wlo-user-configurable edu-ticket="'<?php echo $eduTicket ?>'" id="the-content"></wlo-user-configurable>
 
 <?php if (is_admin()) {
     echo '</div>';
