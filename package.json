@@ -4,8 +4,8 @@
   "description": "**Please open all issues with this template on the main [Foundation for Sites](https://github.com/zurb/foundation-sites/issues) repo.**",
   "main": "index.js",
   "scripts": {
-    "start": "sass --watch src/assets/scss/wlo.scss dist/assets/scss/wlo.css",
-    "build": "sass src/assets/scss/wlo.scss dist/assets/scss/wlo.css",
+    "start": "sass --watch src/assets/scss/wlo.scss:dist/assets/scss/wlo.css src/assets/scss/portal.scss:dist/assets/scss/portal.css",
+    "build": "sass src/assets/scss/wlo.scss:dist/assets/scss/wlo.css src/assets/scss/portal.scss:dist/assets/scss/portal.css",
     "deploy-staging": "rsync -ave ssh --delete --exclude=wlo-config.php --exclude=node_modules --exclude=.git ./ cloud@141.5.100.13:/var/www/prod.210317/wp-content/themes/wir-lernen-online/",
     "deploy-prod": "read -r -n 1 -p 'Deploy to production server? [y/N]'; echo; [[ $REPLY =~ ^[Yy]$ ]] && rsync -ave ssh --delete --exclude=wlo-config.php --exclude=node_modules --exclude=.git ./ cloud@141.5.104.88:/var/www/prod.210317/wp-content/themes/wir-lernen-online/"
   },

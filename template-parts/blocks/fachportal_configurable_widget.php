@@ -17,7 +17,7 @@ $eduTicket = get_repo_ticket();
 
 ?>
 
-<wlo-user-configurable edu-ticket="'<?php echo $eduTicket ?>'" id="the-content"></wlo-user-configurable>
+<wlo-user-configurable node-id="<?php echo $widgetId ?>" edu-ticket="'<?php echo $eduTicket ?>'" id="the-content"></wlo-user-configurable>
 
 <?php if (is_admin()) {
     echo '</div>';
@@ -25,17 +25,10 @@ $eduTicket = get_repo_ticket();
 
 <script>
     jQuery(document).ready(() => {
+        //console.log("widgetId: ", <?php echo $widgetId ?>);
         const content = document.getElementById('the-content')
-        content.addEventListener("persistConfig", ($event) => {
+        content.addEventListener("persistConfigEvent", ($event) => {
             console.log('received event ', $event);
-            console.log('THE ACF ', acf);
-            console.log('has AFC-field: ', acf.getField('widget-id'));
-            console.log('available AFC-fields: ', acf.findFields());
-            console.log('AFC-field: ', acf.get('Widget-ID'));
-            console.log('ACF-Field by key: ', acf.get('field_65eaeb33ec0d4'));
-            if (acf.has('widget-id')) {
-                acf.set('widget-id', $event.detail.value);
-            }
         });
     })
 </script>
