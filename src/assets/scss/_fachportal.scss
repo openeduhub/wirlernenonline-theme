@@ -628,7 +628,7 @@ span.header-text {
   background: $fachportal_primary;
   // Make room for the verified-flag. Compensate with negative `top` value.
   border-top: 18px solid white;
-  z-index: 55;
+  z-index: 56; // one more than the filter bar, so the flag is rendered on top of it
 
   .fachportal-header-bar-wrapper {
     display: flex;
