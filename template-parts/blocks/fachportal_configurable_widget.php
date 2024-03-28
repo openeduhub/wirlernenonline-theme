@@ -17,7 +17,7 @@ $eduTicket = get_repo_ticket();
 
 ?>
 
-<wlo-user-configurable node-id="<?php echo $widgetId ?>" edu-ticket="'<?php echo $eduTicket ?>'" id="the-content"></wlo-user-configurable>
+<wlo-user-configurable node-id="<?php echo $widgetId ?>" edu-ticket="<?php echo $eduTicket ?>" id="the-content"></wlo-user-configurable>
 
 <?php if (is_admin()) {
     echo '</div>';
