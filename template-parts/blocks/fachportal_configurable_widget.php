@@ -11,7 +11,6 @@
 // parse_str($url_components['query'], $params);
 // $collectionID = $params['id'];
 
-//$elementId = uniqid('configurable-');
 $widgetId = get_field('widget-id');
 $eduTicket = get_repo_ticket();
 
@@ -25,10 +24,12 @@ $eduTicket = get_repo_ticket();
 
 <script>
     jQuery(document).ready(() => {
-        //console.log("widgetId: ", <?php echo $widgetId ?>);
         const content = document.getElementById('the-content')
         content.addEventListener("persistConfigEvent", ($event) => {
             console.log('received event ', $event);
+        });
+        content.addEventListener("itemClickedEvent", ($event) => {
+            showContentPopup($event.detail.ref.id);
         });
     })
 </script>
