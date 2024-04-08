@@ -165,6 +165,22 @@ function register_acf_block_types()
         },
     ]);
     acf_register_block_type([
+        'name'              => 'themenseite_chips',
+        'title'             => __('Themeinseite: Chips'),
+        'description'       => __('Unterseiten der Sammlung als Chips/Badges'),
+        'render_template'   => 'template-parts/blocks/themenseite_chips.php',
+        'category'          => 'themenportal',
+        'icon'              => 'slides',
+        'keywords'          => [],
+        'enqueue_assets' => function () {
+            wp_enqueue_style('wlo-pages', get_template_directory_uri() . '/vendor/wlo-pages/styles.css', array(), '');
+            wp_enqueue_script('wlo-pages-polyfills', get_template_directory_uri() . '/vendor/wlo-pages/polyfills.js', array(), '', true);
+            wp_enqueue_script('wlo-pages-runtime', get_template_directory_uri() . '/vendor/wlo-pages/runtime.js', array(), '', true);
+            wp_enqueue_script('wlo-pages-main', get_template_directory_uri() . '/vendor/wlo-pages/main.js', array(), '', true);
+            wp_enqueue_script('wlo-pages-vendor', get_template_directory_uri() . '/vendor/wlo-pages/vendor.js', array(), '', true);
+        },
+    ]);
+    acf_register_block_type([
         'name'              => 'fachportal_configurable_widget',
         'title'             => __('Fachportal: Inhalte-Widget'),
         'description'       => __('Widget für gefilterte Sammlungsinhalte aus der Redaktionsumgebung'),
