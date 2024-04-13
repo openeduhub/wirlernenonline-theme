@@ -72,9 +72,9 @@ $fachportal_bright: $wlo-primary;
   transition: 0.3s;
 
   .portal-wrapper-left {
-    width: 1200px;
-    min-width: 620px;
-    max-width: 100%;
+    width: 0;
+    flex-grow: 1;
+    max-width: 1200px;
     background: #f4f4f4;
   }
 
