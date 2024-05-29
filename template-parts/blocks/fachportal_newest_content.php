@@ -1,6 +1,6 @@
 <?php if (is_admin()) {
     echo '<div class="backend_border">';
-    echo '<div class="backend_hint">Fachseite: Neueste Inhalte</div>';
+    echo '<div class="backend_hint">Fachportal: Neueste Inhalte</div>';
 } ?>
 
 <?php
@@ -119,11 +119,7 @@ if (!empty($subCollectionsElements->nodes)) {
 
             <?php
             foreach (array_slice($contentArray, 0, get_field('content_count')) as $content) { ?>
-                <div class="widget-content<?php if (!empty($content['resourcetype'])) {
-                    foreach ($content['resourcetype'] as $type) {
-                        echo $type . ' ';
-                    }
-                } ?>">
+                <div class="widget-content">
 
                     <button onclick="showContentPopup('<?php echo $content['id']; ?>')">
 
