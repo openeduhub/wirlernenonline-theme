@@ -18,9 +18,12 @@ die();
 function getTableData($maxItems, $skipCount){
     $url = WLO_REPO . 'rest/search/v1/queries/-home-/mds_oeh/ngsearch/?maxItems='.$maxItems.'&skipCount='.$skipCount.'&propertyFilter=-all-';
     //$search_criterias = '{"criteria":[{"property":"ccm:objecttype","values":["SOURCE"]}],"facets":[]}';
-    $search_criterias = '{"criteria":[{"property":"ccm:oeh_lrt_aggregated","values":["http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/2e678af3-1026-4171-b88e-3b3a915d1673"]}],"facets":[]}';
-    $response = callWloRestApi($url, 'POST', $search_criterias, 86400);
+    $search_criterias = '{"criteria":[
+        {"property":"ccm:oeh_lrt_aggregated","values":["http://w3id.org/openeduhub/vocabs/new_lrt_aggregated/2e678af3-1026-4171-b88e-3b3a915d1673"]},
+        {"property":"ccm:general_identifier","values":["spider"]}
 
+    ],"facets":[]}';
+    $response = callWloRestApi($url, 'POST', $search_criterias);
     $tableData = array('data');
 
     if($response) {
