@@ -28,7 +28,7 @@ function processEduSharingNode(mixed $reference): array
         'oer' => isOer($prop),
 
         // 'replicationsource' => !empty($prop->{'ccm:replicationsource_DISPLAYNAME'}) ? $prop->{'ccm:replicationsource_DISPLAYNAME'} : [],
-        // 'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
+        'content_url' => !empty($prop->{'ccm:wwwurl'}[0]) ? $prop->{'ccm:wwwurl'}[0] : $reference->content->url,
 
         // 'source' => !empty($prop->{'ccm:author_freetext'}[0]) ? $prop->{'ccm:author_freetext'}[0] : '',
         // 'source' => !empty($prop->{'ccm:metadatacontributer_creatorFN'}[0]) ? $prop->{'ccm:metadatacontributer_creatorFN'}[0] : '',
