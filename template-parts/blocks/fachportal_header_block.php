@@ -20,7 +20,9 @@ $response = callWloRestApi($url);
 
 $url = WLO_REPO . 'rest/node/v1/nodes/-home-/' . $collectionID . '/parents?propertyFilter=-all-&fullPath=false';
 $parents = callWloRestApi($url)->nodes;
-$portal = $parents[count($parents)-2];
+if($parents) {
+    $portal = $parents[count($parents)-2];
+}
 $portalTitle = '';
 if (!empty($portal->title)){
     $portalTitle = $portal->title;
