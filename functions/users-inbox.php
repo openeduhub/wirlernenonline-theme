@@ -12,7 +12,7 @@ function setWLOInbox(){
         'GROUP_ORG_Seitenstark' => '06fd787f-7fe5-4e16-bff6-591a71b2631f',// Seitenstark
         'GROUP_ORG_Demo-Redaktion' =>'090a8fdd-e3ec-4b2a-9e51-35de533010d8',//demo Readaktion
         'GROUP_ORG_EbM - evidenzbasierte Medizin' => '272b5022-3d4b-46b1-8adf-a2dcdb82b2a3', //EbM - evidenzbasierte Medizin
-         null => '3f8cb71e-f508-434c-99f9-098bd7164305', // others or unknown
+        null => '3f8cb71e-f508-434c-99f9-098bd7164305', // others or unknown
     ];
 
     $ticket = '';
@@ -35,11 +35,12 @@ function setWLOInbox(){
         //error_log('default inbox: ' . $inboxId);
         try {
             $apiUrl = 'rest/iam/v1/people/-home-/-me-/memberships?maxItems=100&skipCount=0';
+            $groups = callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET', $ticket)["groups"];
             foreach($MAPPINGS as $groupName => $folder) {
                 if($groupName == null) {
                     continue;
                 }
-                foreach (callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET', $ticket)["groups"] as $group) {
+                foreach ($groups as $group) {
                     if($groupName == $group["authorityName"]) {
                         //error_log('user is in group ' . $group["profile"]["displayName"] . ' -> set home folder to ' . $folder);
                         if($folder == null) {
