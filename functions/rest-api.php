@@ -71,7 +71,8 @@ function add_portal(WP_REST_Request $request)
 
     $requestDisciplines = explode(",", urldecode($request->get_param('discipline')));
 
-    $disciplines = getWloVocabs('discipline')->hasTopConcept;
+    $disciplines = getWloVocaps('discipline')->hasTopConcept;
+
     $disciplinesMapped = [];
     foreach ($requestDisciplines as $currentDiscipline) {
         foreach ($disciplines as $discipline) {
