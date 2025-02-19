@@ -9,7 +9,10 @@ function setWLOInbox(){
         'GROUP_cf7c3cf8-41c5-103b-88aa-2b6a146a3545' => '627d249d-61e4-4860-b739-bb3c8b21946e', // rpi virtuell
         'GROUP_513e4a78-4a56-103a-84e4-2b017690ecd2' => 'f036ab86-7089-4130-8d4e-c89d5bb169f0', // WLO-Redaktion
         'GROUP_ORG_Projektmanagement (GPM)' => 'c99b5081-0c3e-4ad4-b5ef-fcf8d8ef40f9', // GPM
-        null => '3f8cb71e-f508-434c-99f9-098bd7164305', // others or unknown
+        'GROUP_ORG_Seitenstark' => '06fd787f-7fe5-4e16-bff6-591a71b2631f',// Seitenstark
+        'GROUP_ORG_Demo-Redaktion' =>'090a8fdd-e3ec-4b2a-9e51-35de533010d8',//demo Readaktion
+        'GROUP_ORG_EbM - evidenzbasierte Medizin' => '272b5022-3d4b-46b1-8adf-a2dcdb82b2a3', //EbM - evidenzbasierte Medizin
+         null => '3f8cb71e-f508-434c-99f9-098bd7164305', // others or unknown
     ];
 
     $ticket = '';

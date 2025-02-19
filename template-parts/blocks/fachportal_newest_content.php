@@ -252,7 +252,7 @@ if(!function_exists('initSlick')) {
             });
         });
     </script>
-<?php
+<?php 
     }
 }
 ?>

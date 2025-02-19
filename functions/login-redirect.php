@@ -14,10 +14,9 @@ function wlo_login_redirect($user_login,$user) {
             }
             // the first matching group the person is member of will map to the URL!
             $MAPPINGS = [
-//                'GROUP_7ea16e92-eadc-103a-81f6-9d9aea029be1' => '80151374-f53a-49f2-8516-0a6ae41d7a05', // Schule im Aufbruch
-//                'GROUP_cf7c3cf8-41c5-103b-88aa-2b6a146a3545' => '627d249d-61e4-4860-b739-bb3c8b21946e', // rpi virtuell
-//                'GROUP_513e4a78-4a56-103a-84e4-2b017690ecd2' => 'f036ab86-7089-4130-8d4e-c89d5bb169f0', // WLO-Redaktion
                 'GROUP_ORG_Projektmanagement (GPM)' => 'https://redaktion.projektmanagement.wirlernenonline.de/edu-sharing/', // GPM
+                'GROUP_ORG_Demo-Redaktion'=> 'https://redaktion.demo-redaktion.wirlernenonline.de/edu-sharing/',
+                'GROUP_ORG_EbM - evidenzbasierte Medizin' => "https://ebm.wirlernenonline.de/edu-sharing/",
                 null => WLO_REPO, // others or unknown
             ];
             $user = wp_get_current_user();
