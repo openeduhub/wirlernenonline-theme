@@ -24,11 +24,12 @@ function wlo_login_redirect($user_login,$user) {
 
             try {
                 $apiUrl = 'rest/iam/v1/people/-home-/-me-/memberships?maxItems=100&skipCount=0';
+                $groups = callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET', $ticket)["groups"];
                 foreach($MAPPINGS as $groupName => $repoContext) {
                     if($groupName == null) {
                         continue;
                     }
-                    foreach (callRepoApi($apiUrl, null, 'Content-Type: application/json', 'GET', $ticket)["groups"] as $group) {
+                    foreach ($groups as $group) {
                         if($groupName == $group["authorityName"]) {
                             $redirectURL = $repoContext;
                             //error_log('user is in group ' . $group["profile"]["displayName"] . ' -> set home folder to ' . $folder);
