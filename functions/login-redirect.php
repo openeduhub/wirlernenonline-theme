@@ -8,7 +8,7 @@ function wlo_login_redirect($user_login,$user) {
             return $user_login;
         } else {
             if (function_exists('get_repo_ticket')) {
-                $ticket = get_repo_ticket();
+                $ticket = get_repo_ticket($user);
             } else {
                 $ticket = '';
             }

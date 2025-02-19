@@ -20,7 +20,7 @@ get_header();?>
 
     if (is_user_logged_in()) { ?>
         <div class="wp-block-buttons aligncenter wlo-redaktion-btn">
-            <div class="wp-block-button"><a class="wp-block-button__link has-text-color has-very-light-gray-color has-background has-very-dark-gray-background-color" href="https://redaktion.openeduhub.net/edu-sharing/components/start?ticket=<?php echo $ticket; ?>">Zur Redaktionsumgebung</a></div>
+            <div class="wp-block-button"><a class="wp-block-button__link has-text-color has-very-light-gray-color has-background has-very-dark-gray-background-color" href="<?php echo WLO_REPO; ?>components/start?ticket=<?php echo $ticket; ?>">Zur Redaktionsumgebung</a></div>
         </div>
     <?php };
     ?>
