@@ -816,7 +816,7 @@ function emptySwimlaneContent()
         </div>
     <?php
     } else {
-        $searchUrl = 'https://suche.wirlernenonline.de/de/search?q=' . $pageTitle . '&filters={"oehLrtAggregated":[';
+        $searchUrl = WLO_SEARCH . 'de/search?q=' . $pageTitle . '&filters={"oehLrtAggregated":[';
         $numItems = count($searchLrtID);
         $i = 0;
         foreach ($searchLrtID as $id) {
