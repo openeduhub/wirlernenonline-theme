@@ -47,9 +47,23 @@ if (!empty($subjects->facets[0])){
     $subjects = array();
 }
 
-$subjects_vocab = getWloVocaps('discipline')->hasTopConcept;
+function flattenVocab(array $vocab): array {
+    $result = [];
+    foreach ($vocab as $item) {
+        $result[] = $item;
+        if (isset($item->narrower)) {
+            // Recurse into 'hasTopConcept'
+            $nested = flattenVocab($item->narrower);
+            $result = array_merge($result, $nested);
+        }
+    }
+    return $result;
+}
+$subjects_vocab = getWloVocabs('discipline')->hasTopConcept;
+$hochschulfaechersystematik_vocab = getWloVocabs('hochschulfaechersystematik')->hasTopConcept;
 $subjects_mapped = array();
-foreach ($subjects_vocab as $subject){
+$all_subjects = flattenVocab(array_merge($subjects_vocab, $hochschulfaechersystematik_vocab));
+foreach ($all_subjects as $subject){
     $subjects_mapped[$subject->id] = $subject->prefLabel->de;
 }
 
@@ -169,11 +183,11 @@ if ( get_field('maintenance') ) { ?>
 
                         <!--
                         <?php
-/*                        if ($current_query->have_posts()) : */?>
+                        /*                        if ($current_query->have_posts()) : */?>
 
                             <?php
-/*                            while ($current_query->have_posts()) :
-                                $current_query->the_post(); */?>
+                        /*                            while ($current_query->have_posts()) :
+                                                        $current_query->the_post(); */?>
 
                                 <div class="wlo-portals-slider-tile">
                                     <a class="wlo-portals-tile" href="<?php /*the_permalink(); */?>" aria-label="Zum-Fachportal: <?php /*echo get_the_title(); */?>">
