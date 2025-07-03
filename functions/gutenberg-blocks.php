@@ -75,6 +75,7 @@ function register_acf_block_types() {
         'category'			=> 'themenportal',
         'icon'				=> 'format-image',
         'keywords'			=> [ ],
+        'enqueue_assets'    => 'wlo_themenseite_detail_view_assets',
     ]);
     acf_register_block_type(['name' => 'fachportal_footer_block',
         'title'				=> __('Themenseite: Footer'),
@@ -99,14 +100,6 @@ function register_acf_block_types() {
         'category'			=> 'themenportal',
         'icon'				=> 'format-image',
         'keywords'			=> [ ],
-    ]);
-    acf_register_block_type(['name' => 'fachportal_newest_content',
-        'title'             => __('Fachportal: Neueste Inhalte'),
-        'description'       => __('Featured die neuesten geprüften Inhalte'),
-        'render_template'   => 'template-parts/blocks/fachportal_newest_content.php',
-        'category'          => 'themenportal',
-        'icon'              => 'slides',
-        'keywords'          => [ ],
     ]);
     acf_register_block_type(['name' => 'fachportal_team_block',
         'title'				=> __('Fachseite: Redaktion'),
