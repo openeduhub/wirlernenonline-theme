@@ -164,6 +164,7 @@ function register_acf_block_types() {
         'category'			=> 'wlo',
         'icon'				=> 'format-image',
         'keywords'			=> [ ],
+        'enqueue_assets'    => 'wlo_themenseite_detail_view_assets',
     ]);
     acf_register_block_type(['name' => 'wlo_basic_tile',
         'title'				=> __('WLO einfache Kachel'),
