@@ -101,6 +101,14 @@ function register_acf_block_types() {
         'icon'				=> 'format-image',
         'keywords'			=> [ ],
     ]);
+    acf_register_block_type(['name' => 'fachportal_newest_content',
+        'title'             => __('Fachportal: Neueste Inhalte'),
+        'description'       => __('Featured die neuesten geprüften Inhalte'),
+        'render_template'   => 'template-parts/blocks/fachportal_newest_content.php',
+        'category'          => 'themenportal',
+        'icon'              => 'slides',
+        'keywords'          => [ ],
+    ]);
     acf_register_block_type(['name' => 'fachportal_team_block',
         'title'				=> __('Fachseite: Redaktion'),
         'description'		=> __('Zeigt das Redaktions-Team'),
