@@ -1,4 +1,13 @@
 <?php
+if (defined('PORTAL_REDIRECT_URL') && !empty(PORTAL_REDIRECT_URL)) {
+    $collection_url = get_field('collection_url');
+    $url_components = parse_url($collection_url);
+    parse_str($url_components['query'], $params);
+    $collectionID = $params['id'];
+    $new_themenseite_url = 'https://repository.staging.openeduhub.net/search/de/template?collectionId=' . $collectionID;
+    wp_redirect($new_themenseite_url);
+    exit;
+}
 get_header();
 ?>
 

@@ -32,3 +32,7 @@ define("KEYCLOAK_URL", "https://login.oer-contentbuffet.info/auth/realms/master/
 // MAILCOW
 define("MAILCOW_URL", "https://mail.metaventis.de/api/");
 define("MAILCOW_APIKEY", "XXXXXX-XXXXXX-XXXXXX-XXXXXX-XXXXXX");
+
+// Redirect to new portals, collection id is added at the end
+// example: https://repository.staging.openeduhub.net/search/de/template?collectionId=
+define("PORTAL_REDIRECT_URL", "");

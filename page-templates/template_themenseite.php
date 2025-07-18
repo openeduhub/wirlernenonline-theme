@@ -16,6 +16,11 @@ $collectionUrl = $educational_filter_values["collectionUrl"];
 $url_components = parse_url($collectionUrl);
 parse_str($url_components['query'], $params);
 $collectionID = $params['id'];
+if (defined('PORTAL_REDIRECT_URL') && !empty(PORTAL_REDIRECT_URL)) {
+    $new_themenseite_url = PORTAL_REDIRECT_URL . $collectionID;
+    wp_redirect($new_themenseite_url);
+    exit;
+}
 
 # Get collection from edu-sharing. Used to display description.
 $url = WLO_REPO . 'rest/collection/v1/collections/-home-/' . $collectionID;
