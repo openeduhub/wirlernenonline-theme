@@ -354,7 +354,7 @@ function isOer(mixed $prop): bool
 function getDurationString(int | string $duration): string
 {
     if (is_numeric($duration)) {
-        $seconds = $duration;
+        $seconds = $duration / 1000;
     } else {
         $seconds = getDurationSeconds($duration);
     }
@@ -382,7 +382,7 @@ function getDurationSeconds(string $duration): int
     $b = new \DateTime();
     $delta = new \DateInterval($duration);
     $b->add($delta);
-    return $b->getTimestamp() - $a->getTimestamp();
+    return ($b->getTimestamp() - $a->getTimestamp();
 }
 
 function initSlick(string $sliderId, int $slidesToShow, int $slidesToScroll, int $contentCount)
