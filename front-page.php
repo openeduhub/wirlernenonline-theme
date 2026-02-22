@@ -26,7 +26,7 @@ $showSliderDots = 'false';
 $url = WLO_REPO . 'rest/search/v1/queries/local/mds_oeh/ngsearch/';
 $body = '{
           "facets": [
-            "ccm:taxonid"
+            {"property": "ccm:taxonid"}
           ],
           "facetMinCount": 1,
           "facetLimit": 10000,
