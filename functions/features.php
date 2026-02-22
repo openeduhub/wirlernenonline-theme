@@ -385,7 +385,10 @@ function getWloVocabs($type)
         // Get Select-Field Options from Vocab Scheme
         $json = file_get_contents('https://vocabs.openeduhub.de/w3id.org/openeduhub/vocabs/' . $type . '/index.json');
         $vocab_json = json_decode($json);
-        set_transient($transient, $vocab_json, 60 * 60 * 12);
+        $vocab_json = json_decode($json);
+        if($vocab_json) {
+            set_transient($transient, $vocab_json, 60 * 60 * 1);
+        }
     } else {
         $vocab_json = get_transient($transient);
     }
