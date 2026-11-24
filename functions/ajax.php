@@ -30,9 +30,9 @@ function wlo_submenu()
 
     if (!empty($response->collections)) {
         foreach ($response->collections as $collection) {
-            if ($collection->properties->{'ccm:editorial_state'}[0] == 'activated') {
+            if (($collection->properties->{'ccm:editorial_state'}[0] ?? null) == 'activated') {
                 $prop = $collection->properties;
-                $ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0]);
+                $ccm_location = str_replace('dev.wirlernenonline.de', 'wirlernenonline.de', $collection->properties->{'cclom:location'}[0] ?? '');
 
                 // Filter Disciplines
                 if (!empty($prop->{'ccm:taxonid'})) {

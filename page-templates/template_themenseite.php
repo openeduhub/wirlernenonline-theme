@@ -45,7 +45,15 @@ if (!empty($portal->properties->{'cclom:location'}[0])) {
 }
 $pageDiscipline = get_field('discipline', $postID)[0]['label'];
 
-$portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID;
+$portalID = get_page_by_title($portalTitle, OBJECT, 'portal')->ID ?? null;
+// Collection and page titles can differ (e.g. "Projektmanagement" vs. "Projektmanagement (PM)"),
+// so fall back to the portal page the root collection links to.
+if (empty($portalID) && $portalUrl !== '#') {
+    $portalID = url_to_postid(wlo_convert_dev_url($portalUrl));
+    if (!$portalID || get_post_type($portalID) !== 'portal') {
+        $portalID = null;
+    }
+}
 switch ($portalID) {
     case 62890:
         $portalID = 54293; // Musik
@@ -61,8 +69,10 @@ switch ($portalID) {
         break;
 }
 // Get authors field from root subject page
-$authors = get_field('authors', $portalID);
-update_field('authors', $authors, $postID);
+if (!empty($portalID)) {
+    $authors = get_field('authors', $portalID);
+    update_field('authors', $authors, $postID);
+}
 
 $author_ids = get_field('authors', $postID);
 if (empty($author_ids)) {
@@ -81,7 +91,7 @@ if (!empty($parents)) {
                 if (!empty($node->properties->{'ccm:collectionshorttitle'}[0])) {
                     $title = $node->properties->{'ccm:collectionshorttitle'}[0];
                 }
-                $breadcrumbs[] = [$title, wlo_convert_dev_url($node->properties->{'cclom:location'}[0])];
+                $breadcrumbs[] = [$title, wlo_convert_dev_url($node->properties->{'cclom:location'}[0] ?? null)];
             }
         }
     }
@@ -385,13 +395,11 @@ while (have_posts()) : the_post(); ?>
                                     </div>
                                     <div class="sub-subjects-container">
                                         <?php foreach (array_slice($filteredSubCollections, 0, $maxSubCollections) as $collection) {
-                                            $ccm_location = $collection->properties->{'cclom:location'}[0];
-
                                             $title = $collection->title;
                                             if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])) {
                                                 $title = $collection->properties->{'ccm:collectionshorttitle'}[0];
                                             }
-                                            $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
+                                            $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0] ?? null);
                                             //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
                                             //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
                                         ?>
@@ -414,7 +422,7 @@ while (have_posts()) : the_post(); ?>
                                     </div>
                                     <div id="hidden-sub-subjects-container" class="sub-subjects-container">
                                         <?php foreach (array_slice($filteredSubCollections, $maxSubCollections) as $collection) {
-                                            $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
+                                            $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0] ?? null);
                                             $title = $collection->title;
                                             if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])) {
                                                 $title = $collection->properties->{'ccm:collectionshorttitle'}[0];

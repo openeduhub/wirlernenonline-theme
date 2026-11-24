@@ -134,13 +134,13 @@ while (have_posts()) : the_post(); ?>
                                 <div class="sub-subjects">
                                     <div class="sub-subjects-container">
                                         <?php foreach ($subCollections->collections as $collection) {
-                                            $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
+                                            $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0] ?? null);
 
                                             //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://dev.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
                                             //$ccm_location = str_replace('https://wirlernenonline.de/', 'https://pre.wirlernenonline.de/', $collection->properties->{'cclom:location'}[0]);
 
-                                            // Filter hidden collections
-                                            if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated' ) {
+                                            // Filter hidden collections and collections without a page
+                                            if (($collection->properties->{'ccm:editorial_state'}[0] ?? null) !== 'activated' || empty($collection->properties->{'cclom:location'}[0])) {
                                                 continue;
                                             }
 

@@ -155,8 +155,8 @@ if (get_field('slidesToScroll')) {
             if (!empty($subCollections->collections)){
                 foreach ($subCollections->collections as $collection){
 
-                    // Filter hidden collections
-                    if ($collection->properties->{'ccm:editorial_state'}[0] !== 'activated' ) {
+                    // Filter hidden collections and collections without a page
+                    if (($collection->properties->{'ccm:editorial_state'}[0] ?? null) !== 'activated' || empty($collection->properties->{'cclom:location'}[0])) {
                         continue;
                     }
 
@@ -189,7 +189,7 @@ if (get_field('slidesToScroll')) {
                         </div>
                         <div class="sub-subjects-container">
                             <?php foreach (array_slice($filteredSubCollections, 0, $maxSubCollections) as $collection) {
-                                $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
+                                $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0] ?? null);
 
                                 $title = $collection->title;
                                 if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
@@ -216,7 +216,7 @@ if (get_field('slidesToScroll')) {
                         </div>
                         <div id="hidden-sub-subjects-container" class="sub-subjects-container">
                             <?php foreach (array_slice($filteredSubCollections, $maxSubCollections) as $collection) {
-                                $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0]);
+                                $ccm_location = wlo_convert_dev_url($collection->properties->{'cclom:location'}[0] ?? null);
                                 $title = $collection->title;
                                 if (!empty($collection->properties->{'ccm:collectionshorttitle'}[0])){
                                     $title = $collection->properties->{'ccm:collectionshorttitle'}[0];

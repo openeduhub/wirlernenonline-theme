@@ -124,7 +124,7 @@ function add_portal(WP_REST_Request $request) {
 
         $nodes = array();
         foreach ($response->nodes as $node) {
-            $nodes[] = [$node->title, $node->properties->{'cclom:location'}[0]];
+            $nodes[] = [$node->title, $node->properties->{'cclom:location'}[0] ?? null];
         }
         //Delete highest Level
         array_pop($nodes);
